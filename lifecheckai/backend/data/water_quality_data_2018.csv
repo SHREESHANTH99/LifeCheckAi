@@ -1,0 +1,2241 @@
+# -------------------------------------------------------
+# ---- CSV created by:  mightymerge.io                   
+# -------------------------------------------------------
+
+,,TABLE - 1: WATER QUALITY OF GROUND WATER IN ANDHRA PRADESH - 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,"WELL AT GRAM PANCHAYAT OFFICE, KAANURU,",,,,,,,,,,,,,,,
+"26 ",,"ANDHRA PRADESH ","25 ","25 ","7.4 ","7.8 ","1440 ","1808 ","1.0 ","1.2 ","3.6 ","3.7 ","2 ","2 ","400 ",400
+,"VIJAYWADA ",,,,,,,,,,,,,,,
+,"BOREWELL KRISHNA MURTHY, D.NO. 48-16-43",,,,,,,,,,,,,,,
+"1513 ",,"ANDHRA PRADESH ","26 ","26 ","7.6 ","8.1 ","1614 ","1751 ","1.0 ","1.2 ","2.7 ","3.6 ","2 ","2 ","400 ",800
+,"AUTONAGAR VIJJAYAWADA ",,,,,,,,,,,,,,,
+,BOREWELL VIJAY KUMAR AUTONAGAR,,,,,,,,,,,,,,,
+"1514 ",,"ANDHRA PRADESH ","25 ","25 ","7.3 ","7.5 ","1685 ","2039 ","1.0 ","1.6 ","0.9 ","3.9 ","2 ","2 ","400 ",400
+,"VIJAYAWADA ",,,,,,,,,,,,,,,
+"1516 ","BOREWELL OF NAVLOK GARDENS, NELLORE ","ANDHRA PRADESH ","25 ","25 ","7.6 ","8.7 ","845 ","2160 ","1.0 ","1.2 ","2.2 ","30.0 ","2 ","2 ","400 ",800
+"1517 ","BOREWELL NEAR TUNGBHADRA KURNOOL ","ANDHRA PRADESH ","22 ","26 ","7.4 ","7.4 ","4340 ","5500 ","0.5 ","2.0 ","3.7 ","15.2 ","2 ","2 ","2 ",2
+"1518 ","BOREWELL AT NANDYAL (KUNDU) ","ANDHRA PRADESH ","22 ","27 ","7.1 ","7.5 ","6140 ","6180 ","0.8 ","2.0 ","3.0 ","34.2 ","2 ","2 ","2 ",2
+"1519 ","BOREWELL AT NAGIRI ","ANDHRA PRADESH ","28 ","29 ","7.3 ","7.6 ","2120 ","2180 ","0.5 ","2.0 ","4.7 ","24.8 ","2 ","2 ","2 ",2
+,BOREWELL NEAR SWARNAMUKHI AT,,,,,,,,,,,,,,,
+"1520 ",,"ANDHRA PRADESH ","28 ","28 ","7.3 ","7.6 ","762 ","928 ","0.5 ","2.0 ","2.4 ","19.0 ","2 ","2 ","2 ",2
+,"SRIKALAHASTI ",,,,,,,,,,,,,,,
+,"OPEN WELL NEAR RAMA TEMPLE , WARD NO.2 ,",,,,,,,,,,,,,,,
+"1521 ",,"ANDHRA PRADESH ","25 ","28 ","7.0 ","8.0 ","1938 ","2355 ","1.2 ","1.4 ","6.5 ","10.6 ","15 ","21 ","460 ",460
+,"MINDI , VISAKHAPATNAM ",,,,,,,,,,,,,,,
+"1522 ","OPEN WELL PEDDANUVVI - VIZIANAGARAM ","ANDHRA PRADESH ","27 ","27 ","7.0 ","8.0 ","529 ","560 ","1.4 ","1.7 ","0.6 ","0.7 ","9 ","15 ","150 ",210
+,"BOREWELL NEAR M/S ANDHRA SUGARS LTD. ,",,,,,,,,,,,,,,,
+"1523 ",,"ANDHRA PRADESH ","25 ","27 ","7.0 ","8.0 ","391 ","434 ","1.2 ","1.4 ","0.6 ","3.4 ","7 ","11 ","75 ",150
+,"KOVVUR ",,,,,,,,,,,,,,,
+,OPEN WELL NEAR PARTAP NAGAR BRIDGE -,,,,,,,,,,,,,,,
+"1524 ",,"ANDHRA PRADESH ","27 ","29 ","7.0 ","8.0 ","1057 ","1817 ","1.3 ","1.4 ","2.3 ","3.6 ","9 ","11 ","110 ",150
+,"KAKINADA ",,,,,,,,,,,,,,,
+,"BORE WELL NEAR VILLAGE SECRETARIAT,",,,,,,,,,,,,,,,
+"3087 ",,"ANDHRA PRADESH ","26 ","26 ","7.6 ","7.9 ","1360 ","2164 ","1.0 ","1.8 ","3.0 ","8.1 ","2 ","2 ","800 ",800
+,"PATHAPADU (V) ",,,,,,,,,,,,,,,
+,"HAND PUMP AT TANAM VILL.,",,,,,,,,,,,,,,,
+"3089 ",,"ANDHRA PRADESH ","27 ","30 ","7.8 ","8.0 ","2238 ","2431 ","1.0 ","1.3 ","10.7 ","12.2 ","15 ","21 ","240 ",460
+,"VISHAKHAPATNAM ",,,,,,,,,,,,,,,
+,"HAND PUMP AT PITTAVANIPALEM,",,,,,,,,,,,,,,,
+"3090 ",,"ANDHRA PRADESH ","28 ","29 ","7.0 ","7.2 ","2277 ","2710 ","1.2 ","2.0 ","4.8 ","17.3 ","11 ","15 ","110 ",210
+,"VISHAKHAPATNAM ",,,,,,,,,,,,,,,
+,"BORE WELL AT KAPULUPPADA DUMPSITE,",,,,,,,,,,,,,,,
+"3091 ",,"ANDHRA PRADESH ","28 ","29 ","7.0 ","8.0 ","3100 ","4369 ","1.4 ","2.2 ","2.9 ","11.2 ","9 ","11 ","350 ",350
+,"VISHAKHAPATNAM ",,,,,,,,,,,,,,,
+,"BORE WELL AT ARINAMA AKKIVALASA,",,,,,,,,,,,,,,,
+"3092 ",,"ANDHRA PRADESH ","28 ","28 ","7.0 ","8.0 ","862 ","1191 ","1.3 ","1.7 ","5.7 ","7.3 ","11 ","15 ","150 ",150
+,"SRIKAKULAM ",,,,,,,,,,,,,,,
+,"BORE WELL AT ALLADAPALEM VILLAGE,",,,,,,,,,,,,,,,
+"3093 ",,"ANDHRA PRADESH ","30 ","30 ","7.0 ","7.0 ","1710 ","1935 ","0.8 ","1.4 ","7.2 ","12.1 ","9 ","11 ","75 ",210
+,"PYDIBHIMAVARAM ",,,,,,,,,,,,,,,
+
+,,TABLE - 2: WATER QUALITY OF GROUND WATER IN ASSAM - 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,(μmhos/cm),,,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"1533 ","DIGBOI, TINSUKIA DISTT., ASSAM ","ASSAM ","18 ","22 ","6.0 ","6.1 ","45 ","448 ","1.1 ","2.5 ","0.3 ","0.4 ","2 ","2 ","2 ",2
+"1534 ","KARBI ANGLONG DISTT., ASSAM ","ASSAM ","26 ","26 ","5.4 ","6.4 ","105 ","1240 ","1.9 ","2.5 ","0.4 ","0.4 ","2 ","2 ","2 ",2
+,"SIBSAGAR GOVT ME SCHOOL WARD 6, RED",,,,,,,,,,,,,,,
+"1535 ",,"ASSAM ","24 ","25 ","6.7 ","7.5 ","212 ","217 ","1.1 ","1.6 ","0.1 ",2.4,,,,
+,"CROSS ROAD , ASSAM ",,,,,,,,,,,,,,,
+,NEAR BPMS H.S. SCHOOL SONARI TOWN DIST,,,,,,,,,,,,,,,
+"1536 ",,"ASSAM ","22 ","25 ","6.7 ","7.0 ","217 ","228 ","1.5 ","1.6 ","0.1 ","0.6 ","2 ","2 ","2 ",2
+,"CHARAIDEO ",,,,,,,,,,,,,,,
+"1537 ","*(JORHAT, ASSAM ","ASSAM ","27 ","29 ","6.7 ","7.7 ","225 ","416 ","1.5 ","2.6 ","0.2 ","1.6 ","2 ","2 ","2 ",2
+"1538 ","*SILCHAR, ASSAM ","ASSAM ","24 ","24 ","5.5 ","6.5 ","95 ","120 ","0.7 ","1.8 ","2.4 ","3.7 ","2 ","2 ","2 ",2
+"1539 ","*BARPETA, ASSAM ","ASSAM ","28 ","28 ","6.9 ","7.4 ","222 ","580 ","1.0 ","1.5 ","0.2 ","0.7 ","2 ","2 ","2 ",2
+"1540 ","*BONAIGAON, ASSAM ","ASSAM ","27 ","27 ","7.0 ","7.4 ","96 ","139 ","1.1 ","1.2 ","0.1 ","5.0 ","2 ","2 ","2 ",2
+"1541 ","NOONMATI GUWAHATI, ASSAM ","ASSAM ","26 ","29 ","6.4 ","6.8 ","238 ","265 ","1.5 ","1.5 ","0.7 ","1.1 ","2 ","2 ","2 ",2
+"1542 ","NEAR SIJUBARI MAZAR, NATBOMA HATIGAON ","ASSAM ","26 ","30 ","6.6 ","7.9 ","256 ","565 ","1.2 ","1.6 ","0.2 ","0.4 ","2 ","2 ","2 ",2
+,"GROUND WATER FROM LEDO, MARGHERITA,",,,,,,,,,,,,,,,
+"2243 ",,"ASSAM ","18 ","22 ","5.2 ","5.7 ","153 ","227 ","1.0 ","2.0 ","0.4 ","0.5 ","2 ","2 ","2 ",2
+,"ASSAM ",,,,,,,,,,,,,,,
+"2244 ","GROUND WATER FROM NAZIRA, ASSAM ","ASSAM ","22 ","25 ","6.7 ","7.8 ","246 ","254 ","0.9 ","1.5 ","0.2 ","2.1 ","2 ","2 ","2 ",2
+,GROUND WATER FROM NUMALIGARH (NEAR,,,,,,,,,,,,,,,
+"2245 ",,"ASSAM ","27 ","28 ","5.6 ","5.7 ","72 ","198 ","1.7 ","2.2 ","0.2 ","0.4 ","2 ","2 ","2 ",2
+,"NRL TE LABOR COLONY), ASSAM ",,,,,,,,,,,,,,,
+"2246 ","GROUND WATER FROM SEMENCHAPARI, ASSAM ","ASSAM ","15 ","22 ","6.9 ","7.0 ","110 ","152 ","1.0 ","1.3 ","0.3 ","0.7 ","2 ","2 ","2 ",2
+"2247 ","GROUND WATER FROM SILAPATHAR, ASSAM ","ASSAM ","15 ","24 ","6.3 ","6.4 ","234 ","250 ","4.6 ","4.8 ","0.6 ","1.9 ","2 ","2 ","2 ",2
+,"GROUND WATER FROM LAKHIMPUR TOWN,",,,,,,,,,,,,,,,
+"2248 ",,"ASSAM ","26 ","26 ","5.8 ","6.1 ","124 ","242 ","1.6 ","3.4 ","0.6 ","9.2 ","2 ","2 ","2 ",2
+,"ASSAM ",,,,,,,,,,,,,,,
+,GROUND WATER FROM TEZPUR (MISSION,,,,,,,,,,,,,,,
+"2249 ",,"ASSAM ","25 ","25 ","6.6 ","6.7 ","179 ","208 ","1.0 ","1.8 ","0.7 ","1.3 ","2 ","2 ","2 ",2
+,"CHARIALI), ASSAM ",,,,,,,,,,,,,,,
+,"GROUND WATER FROM NAGAON (PANIGAON),",,,,,,,,,,,,,,,
+"2250 ",,"ASSAM ","26 ","28 ","6.3 ","7.1 ","256 ","287 ","1.4 ","2.0 ","0.6 ","0.7 ","2 ","2 ","2 ",2
+,"ASSAM ",,,,,,,,,,,,,,,
+,GROUND WATER FROM JAGIROAD NEAR HPC,,,,,,,,,,,,,,,
+"2251 ",,"ASSAM ","26 ","30 ","5.7 ","5.8 ","271 ","685 ","2.7 ","4.0 ","0.6 ","5.8 ","2 ","2 ","2 ",2
+,"EFFLUENT DISCHARGE POINT, ASSAM ",,,,,,,,,,,,,,,
+,GROUND WATER NEAR MSW DUMPING SITE AT,,,,,,,,,,,,,,,
+"2252 ",,"ASSAM ","26 ","29 ","6.6 ","7.0 ","169 ","170 ","1.4 ","1.9 ","0.2 ","0.4 ","2 ","2 ","2 ",2
+,"GARCHUK-GUWAHATI, ASSAM ",,,,,,,,,,,,,,,
+"2253 ","GROUND WATER FROM NALBARI, ASSAM ","ASSAM ","29 ","30 ","6.3 ","6.8 ","188 ","195 ","1.0 ","1.5 ","0.2 ","2.3 ","2 ","2 ","2 ",2
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,(μmhos/cm),,,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,GROUND WATER FROM BARPETA ROAD(RLY,,,,,,,,,,,,,,,
+"2254 ",,"ASSAM ","29 ","29 ","7.4 ","7.8 ","362 ","480 ","1.1 ","1.4 ","0.6 ","0.7 ","2 ","2 ","2 ",2
+,"STATION), ASSAM ",,,,,,,,,,,,,,,
+,"GROUND WATER NEAR BPRL, DHALIGAON,",,,,,,,,,,,,,,,
+"2255 ",,"ASSAM ","25 ","30 ","7.2 ","7.5 ","80 ","140 ","1.2 ","1.2 ","0.2 ","4.1 ","2 ","2 ","2 ",2
+,"ASSAM ",,,,,,,,,,,,,,,
+,GROUND WATER FROM KOKRAJHAR DISTRICT,,,,,,,,,,,,,,,
+"2256 ",,"ASSAM ","29 ","29 ","6.1 ","6.8 ","101 ","336 ","1.2 ","1.2 ","0.1 ","0.6 ","2 ","2 ","2 ",2
+,"(HS SCHOOL ), ASSAM ",,,,,,,,,,,,,,,
+,GROUND WATER FROM DHUBRI DISTRICT,,,,,,,,,,,,,,,
+"2257 ",,"ASSAM ","30 ","32 ","6.7 ","6.8 ","330 ","422 ","1.3 ","1.6 ","0.3 ","0.5 ","2 ","2 ","2 ",2
+,"(COLLEGE NAGAR ), ASSAM ",,,,,,,,,,,,,,,
+,GROUND WATER FROM GOALPARA DIST.,,,,,,,,,,,,,,,
+"2258 ",,"ASSAM ","28 ","29 ","6.6 ","7.2 ","324 ","333 ","1.3 ","1.8 ","0.3 ","3.3 ","2 ","2 ","2 ",2
+,"(GOALPARA COLLEGE ), ASSAM ",,,,,,,,,,,,,,,
+,"GROUND WATER FROM DIPHU (GOVT. COLLEGE),",,,,,,,,,,,,,,,
+"2259 ",,"ASSAM ","27 ","27 ","6.9 ","7.0 ","716 ","785 ","2.0 ","2.0 ","0.3 ","0.5 ","2 ","2 ","2 ",2
+,"ASSAM ",,,,,,,,,,,,,,,
+"2260 ","GROUND WATER FROM HAMREN, ASSAM ","ASSAM ","28 ","28 ","6.8 ","6.9 ","33 ","265 ","1.5 ","2.1 ","0.2 ","0.7 ","2 ","2 ","2 ",2
+"2261 ","GROUND WATER FROM HAFLONG, ASSAM ","ASSAM ","21 ","23 ","5.7 ","7.3 ","120 ","120 ","1.0 ","1.4 ","0.1 ","0.1 ","2 ","2 ","2 ",2
+,"GROUND WATER FROM KARIMGANJ (COLLEGE),",,,,,,,,,,,,,,,
+"2262 ",,"ASSAM ","24 ","24 ","5.7 ","6.8 ","120 ","138 ","1.0 ","1.0 ","0.3 ","0.6 ","2 ","2 ","2 ",2
+,"ASSAM ",,,,,,,,,,,,,,,
+,GROUND WATER FROM HIALAKANDI (NEAR ASTC,,,,,,,,,,,,,,,
+"2263 ",,"ASSAM ","24 ","25 ","6.6 ","7.3 ","192 ","192 ","1.0 ","1.2 ","0.3 ","0.4 ","2 ","2 ","2 ",2
+,"BUS STAND ), ASSAM ",,,,,,,,,,,,,,,
+,GROUND WATER IN PANCHGRAM MARKET NEAR,,,,,,,,,,,,,,,
+"2264 ",,"ASSAM ","24 ","25 ","6.6 ","7.2 ","142 ","162 ","4.0 ","4.8 ","0.3 ","1.7 ","2 ","2 ","2 ",2
+,"CACHAR PAPER MILL, ASSAM ",,,,,,,,,,,,,,,
+"3761 ","BISWANATH CHARIALI TOWN ","ASSAM ","25 ","25 ","6.4 ","7.2 ","181 ","258 ","1.1 ","2.4 ","0.1 ","0.5 ","2 ","2 ","2 ",2
+,"MUNICIPAL WASTE PROCESSING FACILITY,",,,,,,,,,,,,,,,
+"3762 ",,"ASSAM ","26 ","26 ","6.5 ","6.7 ","260 ","370 ","1.4 ","1.6 ","0.6 ","2.3 ","2 ","2 ","2 ",2
+,"MORABHARLI, TEZPUR ",,,,,,,,,,,,,,,
+"3766 ","MANGALDOI TOWN ","ASSAM ","24 ","30 ","6.3 ","7.3 ","113 ","159 ","1.5 ","2.1 ","0.8 ","1.0 ","2 ","2 ","2 ",2
+,GROUND WATER NEAR GARMUR RECREATION,,,,,,,,,,,,,,,
+"3770 ",,"ASSAM ","27 ","29 ","6.8 ","7.6 ","226 ","227 ","1.7 ","2.5 ","0.1 ","4.7 ","2 ","2 ","2 ",2
+,"GROUND, JORHAT ",,,,,,,,,,,,,,,
+,GROUND WATER FROM TITABAR URBAN WATER,,,,,,,,,,,,,,,
+"3771 ",,"ASSAM ","26 ","28 ","7.2 ","7.6 ","316 ","316 ","1.8 ","2.3 ","0.3 ","2.1 ","2 ","2 ","2 ",2
+,"SUPPLY, TITABAR ",,,,,,,,,,,,,,,
+"3779 ","GROUND WATER FROM GARMUR, MAJULI ","ASSAM ","24 ","28 ","5.7 ","7.5 ","165 ","297 ","1.6 ","1.8 ","0.4 ","2.4 ","2 ","2 ","2 ",2
+,"GOGAMUKH PUBLIC WATER SUPPLY SCHEME,",,,,,,,,,,,,,,,
+"3790 ",,"ASSAM ","15 ","23 ","5.9 ","6.7 ","151 ","265 ","1.1 ","1.8 ","0.8 ","1.0 ","2 ","2 ","2 ",2
+,"GOGAMUKH, DHEMAJI ",,,,,,,,,,,,,,,
+,"TUBE WELL AT R/O SRI TANKESWAR DAS,",,,,,,,,,,,,,,,
+3793,RUPJYOTI COLONY (NAGABALI) MUNICIPALITY,"ASSAM ","27 ","27 ","5.6 ","7.1 ","157 ","458 ","2.4 ","5.9 ","0.5 ","0.5 ","2 ","2 ","2 ",2
+,"DUMPING SITE, GOLAGHAT",,,,,,,,,,,,,,,
+,TUBE WELL AT R/O SRI ANIL BAORA AT,,,,,,,,,,,,,,,
+3794,"BOSAGAON NEAR BY THE ATHKHALIA,","ASSAM ","27 ","27 ","6.9 ","7.2 ","456 ","478 ","2.0 ","14.0 ","0.4 ","0.4 ","2 ","2 ","2 ",2
+,"NAMGHAR, PO: PULIKAITONI",,,,,,,,,,,,,,,
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,TUBE WELL OF WOKHA GORONGA GIRLS ME,,,,,,,,,,,,,,,
+"3795 ",,"ASSAM ","27 ","27 ","7.3 ","7.6 ","346 ","357 ","1.7 ","1.9 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+,"SCHOOL, GOROUNGA TINIALI, FURKATING ",,,,,,,,,,,,,,,
+,GROUND WATER FROM MEHEPUR TRENCHING,,,,,,,,,,,,,,,
+"3801 ",,"ASSAM ","24 ","25 ","6.7 ","7.4 ","336 ","450 ","4.2 ","4.4 ","0.4 ","1.0 ","2 ","2 ","2 ",2
+,"GROUND, MEHERPUR, CACHAR ",,,,,,,,,,,,,,,
+,GROUND WATER FROM MEHEPUR NEAR A,,,,,,,,,,,,,,,
+3802,CLUSTER OF NURSING HOME & DIAGNOSTIC,"ASSAM ","24 ","25 ","7.1 ","7.2 ","321 ","336 ","2.2 ","2.6 ","0.2 ","1.3 ","2 ","2 ","2 ",2
+,"CENTRE, MEHERPUR, CACHAR",,,,,,,,,,,,,,,
+,GROUND WATER NEAR BADARPUR INDUSTRIAL,,,,,,,,,,,,,,,
+"3805 ",,"ASSAM ","24 ","25 ","6.5 ","6.7 ","164 ","168 ","2.2 ","3.2 ","0.4 ","1.3 ","2 ","2 ","2 ",2
+,"AREA AT BADARPUR GHAT, KARIMGANJ ",,,,,,,,,,,,,,,
+"3813 ","GROUND WATER FROM BONDA, GUWAHATI ","ASSAM ","26 ","28 ","6.2 ","6.3 ","266 ","273 ","1.4 ","2.1 ","0.8 ","1.1 ","2 ","2 ","2 ",2
+,"GROUND WATER FROM KHANAPARA,",,,,,,,,,,,,,,,
+"3815 ",,"ASSAM ","27 ","28 ","6.8 ","6.9 ","220 ","606 ","1.5 ","1.6 ","0.8 ","3.5 ","2 ","2 ","2 ",2
+,"GUWAHATI ",,,,,,,,,,,,,,,
+"3816 ","GROUND WATER FROM BASISTHA, GUWAHATI ","ASSAM ","26 ","27 ","6.2 ","6.7 ","196 ","256 ","1.4 ","1.8 ","1.0 ","2.8 ","2 ","2 ","2 ",2
+"3817 ","GROUND WATER FROM KAHILIPARA, GUWAHATI ","ASSAM ","25 ","27 ","6.4 ","6.8 ","266 ","391 ","0.8 ","1.3 ","0.3 ","1.1 ","2 ","2 ","2 ",2
+"3818 ","GROUND WATER FROM MALIGAON, GUWAHATI ","ASSAM ","25 ","25 ","6.9 ","7.2 ","281 ","290 ","1.7 ","1.8 ","0.1 ","0.8 ","2 ","2 ","2 ",2
+"4001 ","GROUND WATER FROM PANJABARI ","ASSAM ","21 ","27 ","6.6 ","6.9 ","341 ","362 ","1.0 ","1.3 ","0.4 ","3.0 ","2 ","2 ","2 ",2
+"4002 ","GROUND WATER FROM SANTIPUR ","ASSAM ","25 ","28 ","6.7 ","6.9 ","207 ","253 ","1.0 ","1.0 ","0.5 ","0.7 ","2 ","2 ","2 ",2
+,GROUND WATER FROM TEZPUR COLLEGIATE,,,,,,,,,,,,,,,
+"4003 ",,"ASSAM ","23 ","30 ","7.4 ","7.5 ","131 ","131 ","1.0 ","1.7 ","0.3 ","1.0 ","2 ","2 ","2 ",2
+,"HIGH SCHOOL ",,,,,,,,,,,,,,,
+"4007 ","GROUND WATER FROM LAKWAH ","ASSAM ","23 ","25 ","6.5 ","7.4 ","166 ","323 ","1.5 ","2.7 ","0.3 ","0.8 ","2 ","2 ","2 ",2
+"4008 ","GROUND WATER FROM GELEKY ","ASSAM ","23 ","27 ","7.2 ","7.3 ","249 ","272 ","1.1 ","1.8 ","0.3 ","3.1 ","2 ","2 ","2 ",2
+"4303 ","GROUND WATER FROM SATGAON ","ASSAM ","26 ","26 ","6.2 ","7.2 ","103 ","322 ","1.0 ","1.8 ","0.7 ","2.1 ","2 ","2 ","2 ",2
+
+,,TABLE - 3: WATER QUALITY OF GROUND WATER IN BIHAR - 2018,,,,,,,,,,,,,,
+,,,,,,,,,,Nitrate-N +,,,,,,
+,,,Temperature,,,,Conductivity,B.O.D.,,,Faecal Coli form,,Total Coli form,,,
+,,,,,,"pH ",,,,Nitrite-N,,,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm)(mg/l),,,(MPN/100ml),,(MPN/100ml),,,
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,(mg/l),,,,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max Min Max ","Min ","Max ","Min ","Max ","Min ",Max,,
+,BORE WELL WATER AT KATRA BAZAR WATER,,,,,,,,,,,,,,,
+"1825 ",,"BIHAR ","24 ","26 ","7.3 ","7.8 ","487 ","519 ","0.1 ","0.4 ","2 ","2 ","2 ",2,,
+,"TANK, MALSALAMI, PATNA ",,,,,,,,,,,,,,,
+,BORE WELL WATER AT BHUT NATH ROAD WATER,,,,,,,,,,,,,,,
+"1826 ",,"BIHAR ","23 ","24 ","7.4 ","7.6 ","463 ","516 ","0.0 ","0.1 ","2 ","2 ","2 ",2,,
+,"TANK SEC-3, KANKARBAGH,PATNA ",,,,,,,,,,,,,,,
+,TAP WATER COMING FROM OVER HEAD TANK,,,,,,,,,,,,,,,
+"1827 ",,"BIHAR ","24 ","24 ","7.4 ","7.4 ","465 ","539 ","0.0 ","0.2 ","2 ","2 ","2 ",2,,
+,"PMCH CAMPUS, PATNA ",,,,,,,,,,,,,,,
+,BORE WELL WATER IN CAMPUS OF PATNA,,,,,,,,,,,,,,,
+1828,"WATER BOARD HEAD OFFICE, NEAR HIGH COURT,","BIHAR ","23 ","26 ","7.3 ","7.5 ","514 ","570 ","0.0 ","0.3 ","2 ","2 ","2 ",2,,
+,PATNA,,,,,,,,,,,,,,,
+,"BORE WELL WATER FROM IGIMS CAMPUS,",,,,,,,,,,,,,,,
+"1829 ",,"BIHAR ","22 ","24 ","7.0 ","7.2 ","477 ","555 ","0.0 ","0.1 ","2 ","2 ","2 ",2,,
+,"PATNA ",,,,,,,,,,,,,,,
+,BORE WELL WATER (PHED PUMP HOUSE) SADAR,,,,,,,,,,,,,,,
+"1830 ",,"BIHAR ","21 ","22 ","7.0 ","7.1 ","868 ","1190 ","0.0 ","0.1 ","2 ","2 ","2 ",2,,
+,"HOSPITAL CAMPUS, MUZAFFARPUR ",,,,,,,,,,,,,,,
+,BORE WELL WATER MMC PUMP HOUSE,,,,,,,,,,,,,,,
+"1831 ",,"BIHAR ","22 ","22 ","7.4 ","7.4 ","682 ","682 ",,,"2 ","2 ","2 ",2,,
+,"BRAHMPURA NAKA, MUZAFFARPUR ",,,,,,,,,,,,,,,
+,"TAP WATER IN CAMPUS OF KALI ASTHAN,",,,,,,,,,,,,,,,
+"1832 ",,"BIHAR ","25 ","29 ","7.1 ","7.7 ","683 ","928 ",,,"2 ","2 ","2 ",2,,
+,"BEGUSARAI ",,,,,,,,,,,,,,,
+,"TAP WATER IN CAMPUS OF S.P OOFICE,",,,,,,,,,,,,,,,
+"1833 ",,"BIHAR ","27 ","29 ","7.0 ","7.1 ","797 ","810 ",,,"2 ","2 ","2 ",2,,
+,"POKHARIA, BEGUSARAI ",,,,,,,,,,,,,,,
+,"HAND PUMP WATER NEAR GOVT. HOSPITAL,",,,,,,,,,,,,,,,
+"1834 ",,"BIHAR ","27 ","28 ","6.9 ","7.8 ","246 ","306 ","0.0 ","0.2 ","2 ","2 ","2 ",2,,
+,"PURNEA ",,,,,,,,,,,,,,,
+,HAND PUMP WATER NEAR COURT LOWER,,,,,,,,,,,,,,,
+"1835 ",,"BIHAR ","27 ","27 ","6.7 ","7.6 ","283 ","798 ","0.0 ","7.3 ","2 ","2 ","2 ",2,,
+,"COURT, PURNEA ",,,,,,,,,,,,,,,
+,HAND PUMP WATER NEAR BUS STAND TILKS,,,,,,,,,,,,,,,
+"1836 ",,"BIHAR ","27 ","30 ","6.9 ","7.1 ","886 ","952 ","0.1 ","0.9 ","2 ","2 ","2 ",2,,
+,"MANJHI CHOWK, BEGUSARAI ",,,,,,,,,,,,,,,
+,BHAGALPUR TAP WATER NEAR RAILWAY,,,,,,,,,,,,,,,
+"1837 ",,"BIHAR ","27 ","31 ","7.2 ","7.7 ","667 ","706 ","0.1 ","0.6 ","2 ","2 ","2 ",2,,
+,"STATION ",,,,,,,,,,,,,,,
+,"TAP WATER NEAR VEER KUWAR SINGH CHOWK,",,,,,,,,,,,,,,,
+"1838 ",,"BIHAR ","26 ","26 ","6.9 ","6.9 ","907 ","907 ","0.1 ",0.1,,,,,,
+,"MUNGER ",,,,,,,,,,,,,,,
+,HAND PUMP WATER IN CAMPUS OF KASTURBA,,,,,,,,,,,,,,,
+"1839 ",,"BIHAR ","26 ","28 ","7.4 ","8.0 ","338 ","338 ","0.0 ","0.2 ","2 ","2 ","2 ",2,,
+,"WATER WORKS, MUNGER ",,,,,,,,,,,,,,,
+,"TAP WATER PHED PUMP HOUSE MAIN ROAD,",,,,,,,,,,,,,,,
+"1840 ",,"BIHAR ","24 ","27 ","8.0 ","8.1 ","418 ","727 ",,,"2 ","2 ","2 ",2,,
+,"MOTIHARI ",,,,,,,,,,,,,,,
+,TAP WELL WATER FROM T. MODAL INTER,,,,,,,,,,,,,,,
+"1841 ",,"BIHAR ","28 ","28 ","7.0 ","7.2 ","461 ","716 ","0.1 ","0.2 ","2 ","2 ","2 ",2,,
+,"SCHOOL, G.B ROAD, GAYA ",,,,,,,,,,,,,,,
+"1842 ","TAP WATER SAMPLE AT RAMKUND, GAYA ","BIHAR ","27 ","27 ","7.0 ","7.0 ","478 ","710 ","0.1 ","0.3 ","2 ","2 ","2 ",2,,
+"1843 ","PHED WATER SUPPLY NEAR BUS STAND, RAJGIR ","BIHAR ","23 ","28 ","6.9 ","7.0 ","510 ","911 ","0.5 ","0.5 ","2 ","2 ","2 ",2,,
+
+,,,,,,,,,,Nitrate-N +,,,,,,
+,,,Temperature,,,,,ConductivityB.O.D.,,,Faecal Coli form,,Total Coli form,,,
+,,,,,,"pH ",,,,Nitrite-N,,,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm)(mg/l),,,(MPN/100ml),,(MPN/100ml),,,
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,(mg/l),,,,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max Min Max ","Min ","Max ","Min ","Max ","Min ",Max,,
+,BORE WELL WATER NEAR COMMISSIONARY,,,,,,,,,,,,,,,
+"1844 ",,"BIHAR ","23 ","25 ","6.6 ","7.0 ","1350 ","1460 ","6.7 ","9.8 ","2 ","2 ","2 ",2,,
+,"OFFICE, CHAPRA ",,,,,,,,,,,,,,,
+,"HAND PUMP WATER AT CIVIL COURT,",,,,,,,,,,,,,,,
+"2576 ",,"BIHAR ","25 ","28 ","7.0 ","7.0 ","610 ","906 ","0.1 ","0.3 ","2 ","2 ","2 ",2,,
+,"AURANGABAD ",,,,,,,,,,,,,,,
+,"HAND PUMP WATER AT COURT CAMPOUND,",,,,,,,,,,,,,,,
+"2577 ",,"BIHAR ","27 ","30 ","6.7 ","8.2 ","189 ","198 ","0.1 ","0.2 ","2 ","2 ","2 ",2,,
+,"ARARIA ",,,,,,,,,,,,,,,
+,HAND PUMP WATER AT SARDAR PATEL BUS,,,,,,,,,,,,,,,
+"2578 ",,"BIHAR ","20 ","24 ","7.2 ","7.3 ","518 ","725 ","0.1 ","3.2 ","2 ","2 ","2 ",2,,
+,"STAND, BHOJPUR ",,,,,,,,,,,,,,,
+,"TUBE WELL WATER AT COLLECTRIATE CAMPUS,",,,,,,,,,,,,,,,
+"2579 ",,"BIHAR ","24 ","28 ","7.1 ","7.2 ","512 ","745 ","0.1 ","1.8 ","2 ","2 ","2 ",2,,
+,"BUXAR ",,,,,,,,,,,,,,,
+,"HAND PUMP WATER FROM NAGAR PARISHAD,",,,,,,,,,,,,,,,
+"2580 ",,"BIHAR ","27 ","30 ","7.1 ","7.1 ","498 ","889 ",,,"2 ","2 ","2 ",2,,
+,"BHABHUA ",,,,,,,,,,,,,,,
+,HAND PUMP WATER AT KILA GATE NEAR,,,,,,,,,,,,,,,
+"2581 ",,"BIHAR ","28 ","28 ","7.4 ","7.4 ","186 ","186 ","0.0 ",0.0,,,,,,
+,"RAMBAGH MITHILA UNIVERSITY, DARBHANGA ",,,,,,,,,,,,,,,
+,HAND PUMP WATER AT DARBHANGA BUS,,,,,,,,,,,,,,,
+"2582 ",,"BIHAR ","29 ","29 ","7.5 ","7.5 ","401 ",401,,,,,,,,
+,"STAND, DARBHANGA ",,,,,,,,,,,,,,,
+"2583 ","HAND PUMP WATER AT BUS STAND, GOPALGANJ ","BIHAR ","22 ","25 ","6.7 ","6.8 ","1430 ","1680 ","0.0 ","0.2 ","2 ","2 ","2 ",2,,
+,HAND PUMP WATER AT THAWAY MANDIR,,,,,,,,,,,,,,,
+"2584 ",,"BIHAR ","24 ","25 ","7.1 ","7.3 ","577 ","1000 ","0.0 ","0.4 ","2 ","2 ","2 ",2,,
+,"CAMPUS, GOPALGANJ ",,,,,,,,,,,,,,,
+,TAP WATER NEAR PANI TANKI AT JAHANABAD,,,,,,,,,,,,,,,
+"2585 ",,"BIHAR ","22 ","28 ","6.9 ","7.4 ","432 ","891 ","0.0 ","0.4 ","2 ","2 ","2 ",2,,
+,"COURT, JAHANABAD ",,,,,,,,,,,,,,,
+"2586 ","HAND PUMP WATER AT BUS STAND, KATIHAR ","BIHAR ","27 ","29 ","6.9 ","7.3 ","278 ","402 ","0.1 ","1.1 ","2 ","2 ","2 ",2,,
+,"HAND PUMP WATER NEAR SADAR HOSPITAL,",,,,,,,,,,,,,,,
+"2587 ",,"BIHAR ","29 ","29 ","6.7 ","6.7 ","867 ","867 ","0.5 ",0.5,,,,,,
+,"KHAGARIA ",,,,,,,,,,,,,,,
+,"HAND PUMP WATER AT D.M OFFICE,",,,,,,,,,,,,,,,
+"2588 ",,"BIHAR ","27 ","31 ","6.7 ","7.5 ","204 ","336 ","0.0 ","0.3 ","2 ","2 ","2 ",2,,
+,"KISHANGANJ ",,,,,,,,,,,,,,,
+,"HAND PUMP WATER NEAR D.M OFFICE,",,,,,,,,,,,,,,,
+"2589 ",,"BIHAR ","27 ","28 ","6.7 ","7.3 ","209 ","914 ","0.0 ","10.3 ","2 ","2 ","2 ",2,,
+,"MADHEPURA ",,,,,,,,,,,,,,,
+,"HAND PUMP WATER AT COLLECTRIATE OFFICE,",,,,,,,,,,,,,,,
+"2590 ",,"BIHAR ","29 ","29 ","7.1 ","7.1 ","545 ","545 ","0.2 ",0.2,,,,,,
+,"MADHUBANI ",,,,,,,,,,,,,,,
+,TAP WATER INSIDE THE CAMPUS OF TOURIST,,,,,,,,,,,,,,,
+"2591 ",,"BIHAR ","24 ","27 ","6.9 ","7.1 ","448 ","891 ","1.6 ","2.1 ","2 ","2 ","2 ",2,,
+,"CAFETERIA, NALANDA ",,,,,,,,,,,,,,,
+,NALANDA -HAND PUMP WATER AT CIVIL COURT,,,,,,,,,,,,,,,
+"2592 ",,"BIHAR ","25 ","27 ","6.8 ","6.9 ","501 ","917 ","0.1 ","0.3 ","2 ","2 ","2 ",2,,
+,"BIHAR SARIF ",,,,,,,,,,,,,,,
+,NAWADAH- HAND PUMP WATER AT,,,,,,,,,,,,,,,
+"2593 ",,"BIHAR ","25 ","27 ","7.0 ","7.0 ","445 ","926 ","0.1 ","0.2 ","2 ","2 ","2 ",2,,
+,"COLLECTRIATE CAMPUS. ",,,,,,,,,,,,,,,
+,SAHARSA HAND PUMP WATER NEAR SADAR,,,,,,,,,,,,,,,
+"2594 ",,"BIHAR ","28 ","28 ","7.1 ","7.2 ","207 ","278 ","0.0 ","0.4 ","2 ","2 ","2 ",2,,
+,"HOSPITAL ",,,,,,,,,,,,,,,
+
+,,,,,,,,,,Nitrate-N +,,,,,,
+,,,Temperature,,,,Conductivity,B.O.D.,,,Faecal Coli form,,Total Coli form,,,
+,,,,,,"pH ",,,,Nitrite-N,,,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm)(mg/l),,,(MPN/100ml),,(MPN/100ml),,,
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,(mg/l),,,,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max Min Max ","Min ","Max ","Min ","Max ","Min ",Max,,
+,SAMASTIPUR HAND PUMP WATER AT,,,,,,,,,,,,,,,
+"2595 ",,"BIHAR ","30 ","30 ","7.2 ","7.2 ","821 ","821 ","0.0 ",0.0,,,,,,
+,"COLLECTRIATE CAMPUS ",,,,,,,,,,,,,,,
+,SITAMARHI HAND PUMP WATER AT SRI JANKI,,,,,,,,,,,,,,,
+"2596 ",,"BIHAR ","22 ","25 ","7.5 ","8.1 ","318 ","697 ",,,"2 ","2 ","2 ",2,,
+,"MANDIR ",,,,,,,,,,,,,,,
+,SIWAN BORE WELL WATER AT COLLECTRIATE,,,,,,,,,,,,,,,
+"2597 ",,"BIHAR ","24 ","26 ","6.9 ","7.1 ","660 ","1560 ","0.1 ","0.3 ","2 ","2 ","2 ",2,,
+,"CAMPUS ",,,,,,,,,,,,,,,
+,ROHTAS BORE WELL WATER FROM WATER TANK,,,,,,,,,,,,,,,
+"2598 ",,"BIHAR ","27 ","29 ","7.0 ","7.3 ","521 ","843 ","0.0 ","1.3 ","2 ","2 ","2 ",2,,
+,"NEAR DHARMA SHALA SASARAM. ",,,,,,,,,,,,,,,
+,ROHTAS HAND PUMP WATER AT BUS STAND,,,,,,,,,,,,,,,
+"2599 ",,"BIHAR ","27 ","29 ","7.0 ","7.5 ","465 ","854 ","0.0 ","2.1 ","2 ","2 ","2 ",2,,
+,"SASARAM ",,,,,,,,,,,,,,,
+,VAISHALI TAP WATER AT RAILWAY STATION,,,,,,,,,,,,,,,
+"2600 ",,"BIHAR ","21 ","24 ","7.0 ","7.9 ","986 ","1200 ","5.9 ","9.2 ","2 ","2 ","2 ",2,,
+,"CAMPUS HAZIPUR ",,,,,,,,,,,,,,,
+,ARA (BHOJPUR) BORE WELL WATER AT STATION,,,,,,,,,,,,,,,
+"3138 ",,"BIHAR ","21 ","24 ","7.1 ","7.1 ","576 ","1160 ","0.1 ","8.7 ","2 ","2 ","2 ",2,,
+,"ROAD NEAR RLY STATION ",,,,,,,,,,,,,,,
+"3139 ","ARARIA HAND PUMP WATER AT BUS STAND ","BIHAR ","28 ","30 ","6.8 ","7.8 ","140 ","212 ","0.1 ","0.1 ","2 ","2 ","2 ",2,,
+,BETTIAH HAND PUMP WATER AT RAILWAY,,,,,,,,,,,,,,,
+"3140 ",,"BIHAR ","24 ","26 ","7.1 ","7.2 ","604 ","890 ","0.0 ","0.6 ","2 ","2 ","2 ",2,,
+,"STATION ",,,,,,,,,,,,,,,
+,BODH GAYA HAND PUMP WATER NEAR LONG,,,,,,,,,,,,,,,
+"3141 ",,"BIHAR ","26 ","27 ","6.8 ","7.2 ","605 ","702 ",,,"2 ","2 ","2 ",2,,
+,"LORD BUDHA TAMPLE ",,,,,,,,,,,,,,,
+,BIKRAMGANJ HAND PUMP WATER AT BUS,,,,,,,,,,,,,,,
+"3142 ",,"BIHAR ","28 ","29 ","7.0 ","7.4 ","520 ","544 ","0.0 ","2.6 ","2 ","2 ","2 ",2,,
+,"STAND CHAWK ",,,,,,,,,,,,,,,
+"3143 ","BAGAHA HAND PUMP WATER AT BAGAHA BAZAR ","BIHAR ","22 ","24 ","7.2 ","7.4 ","410 ","573 ","0.0 ","0.3 ","2 ","2 ","2 ",2,,
+,BARH HAND PUMP WATER NEAR A.N.S. COLLEGE,,,,,,,,,,,,,,,
+"3144 ",,"BIHAR ","26 ","32 ","6.9 ","7.4 ","780 ","1007 ",,,"2 ","2 ","2 ",2,,
+,"BARH ",,,,,,,,,,,,,,,
+,DEHRI ON SONE HAND PUMP WATER NEAR,,,,,,,,,,,,,,,
+"3145 ",,"BIHAR ","25 ","28 ","7.0 ","7.1 ","256 ","502 ","0.1 ","0.5 ","2 ","2 ","2 ",2,,
+,"MUFFASIL THANA MORE ",,,,,,,,,,,,,,,
+"3146 ","DUMRAON BORE WELL WATER AT PANI ","BIHAR ","25 ","26 ","7.2 ","7.4 ","540 ","844 ","0.1 ","0.5 ","2 ","2 ","2 ",2,,
+,JAYNAGAR HAND PUMP WATER AT RAILWAY,,,,,,,,,,,,,,,
+"3147 ",,"BIHAR ","30 ","30 ","7.7 ","7.7 ","323 ","323 ","0.3 ",0.3,,,,,,
+,"STATION ",,,,,,,,,,,,,,,
+,JAMALPUR HAND PUMP WATER POLICE STATION,,,,,,,,,,,,,,,
+"3148 ",,"BIHAR ","29 ","29 ","8.6 ","8.6 ","1190 ","1190 ",,,"2 ","2 ","2 ",2,,
+,"JAMALPUR ",,,,,,,,,,,,,,,
+,KUDRA HAND PUMP WATER AT RAILWAY,,,,,,,,,,,,,,,
+"3149 ",,"BIHAR ","26 ","30 ","7.0 ","7.0 ","505 ","766 ","0.0 ","0.2 ","2 ","2 ","2 ",2,,
+,"STATION ",,,,,,,,,,,,,,,
+,MANER HAND PUMP WATER AT MAIN ROAD,,,,,,,,,,,,,,,
+"3150 ",,"BIHAR ","23 ","24 ","7.2 ","7.8 ","559 ","600 ","0.1 ","3.7 ","2 ","2 ","2 ",2,,
+,"NEAR KALI MANDIR ",,,,,,,,,,,,,,,
+,MOHANIA HAND PUMP WATER AT MOHANIA,,,,,,,,,,,,,,,
+"3151 ",,"BIHAR ","23 ","29 ","7.0 ","7.5 ","464 ","511 ","0.1 ","0.2 ","2 ","2 ","2 ",2,,
+,"GUEST HOUSE ",,,,,,,,,,,,,,,
+
+,,,,,,,,,,Nitrate-N +,,,,,,
+,,,Temperature,,,,Conductivity,B.O.D.,,,Faecal Coli form,,Total Coli form,,,
+,,,,,,"pH ",,,,Nitrite-N,,,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm)(mg/l),,,(MPN/100ml),,(MPN/100ml),,,
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,(mg/l),,,,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max Min Max ","Min ","Max ","Min ","Max ","Min ",Max,,
+,NARKATIAGANJ HAND PUMP WATER AT BUS,,,,,,,,,,,,,,,
+"3152 ",,"BIHAR ","23 ","28 ","7.4 ","7.5 ","464 ","480 ","0.0 ","0.2 ","2 ","2 ","2 ",2,,
+,"STAND ",,,,,,,,,,,,,,,
+,PIRO HAND PUMP WATER AT CHURCH HIGH,,,,,,,,,,,,,,,
+"3153 ",,"BIHAR ","27 ","28 ","7.0 ","7.2 ","478 ","601 ","0.0 ","0.5 ","2 ","2 ","2 ",2,,
+,"SCHOOL PIRO ",,,,,,,,,,,,,,,
+"3154 ","GAYA TAP WATER SAMPLE AT RAMKUND, GAYA ","BIHAR ","26 ","27 ","7.0 ","7.0 ","504 ","841 ","0.1 ","0.3 ","2 ","2 ","2 ",2,,
+"3155 ","SUPUAL HAND PUMP WATER AT BUS STAND ","BIHAR ","29 ","29 ","7.0 ","7.2 ","198 ","303 ","0.0 ","1.0 ","2 ","2 ","2 ",2,,
+"3156 ","SAMASTIPUR HAND PUMP WATER AT BUS STAND ","BIHAR ","30 ","30 ","7.2 ","7.2 ","736 ",736,,,,,,,,
+,SULTANGANJ HAND PUMP WATER AT,,,,,,,,,,,,,,,
+"3157 ",,"BIHAR ","28 ","29 ","7.0 ","7.1 ","717 ","872 ","0.0 ","6.3 ","2 ","2 ","2 ",2,,
+,"SULTANGANJ CHAWK ",,,,,,,,,,,,,,,
+"3158 ","SHERGHATI BORE WELL WATER AT BUS STAND ","BIHAR ","26 ","29 ","7.0 ","7.0 ","598 ","889 ","0.1 ","0.2 ","2 ","2 ","2 ",2,,
+,SHAHPUR HAND PUMP WATER AT SHAHPUR,,,,,,,,,,,,,,,
+"3159 ",,"BIHAR ","22 ","23 ","7.2 ","7.2 ","780 ","1460 ","0.1 ","8.6 ","2 ","2 ","2 ",2,,
+,"HIGH SCHOOL ",,,,,,,,,,,,,,,
+"3161 ","KATIHAR HAND PUMP WATER AT BUS STAND ","BIHAR ","28 ","28 ","6.9 ","7.5 ","256 ","264 ","0.0 ","2.7 ","2 ","2 ","2 ",2,,
+,VAISHALI HAND PUMP WATER AT VAISHALI,,,,,,,,,,,,,,,
+"3162 ",,"BIHAR ","21 ","22 ","7.1 ","7.2 ","804 ","822 ","0.0 ","0.2 ","2 ","2 ","2 ",2,,
+,"BLOCK ",,,,,,,,,,,,,,,
+
+,,TABLE - 4: WATER QUALITY OF GROUND WATER IN CHANDIGARH - 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"2039 ","SECTOR 15, CHANDIGARH ","CHANDIGARH ","22 ","25 ","7.0 ","7.6 ","878 ","938 ","1.0 ","1.0 ","1.7 ","5.9 ","2 ","2 ","7 ",7
+"2040 ","SECTOR 22, CHANDIGARH ","CHANDIGARH ","22 ","22 ","7.0 ","7.0 ","853 ","853 ","1.0 ","1.0 ","1.6 ","1.6 ","22 ","22 ","26 ",26
+"2041 ","SECTOR 34, CHANDIGARH ","CHANDIGARH ","22 ","24 ","7.0 ","7.3 ","863 ","905 ","1.0 ","1.0 ","4.7 ","5.2 ","2 ","2 ","2 ",2
+"2042 ","SECTOR 47, CHANDIGARH ","CHANDIGARH ","21 ","24 ","7.2 ","7.4 ","662 ","721 ","1.0 ","1.0 ","4.6 ","4.9 ","2 ","2 ","2 ",2
+"2043 ","PALSORA VILLAGE, CHANDIGARH ","CHANDIGARH ","22 ","24 ","7.0 ","7.2 ","1181 ","1210 ","1.0 ","2.0 ","0.4 ","1.0 ","11 ","11 ","32 ",32
+"2044 ","DHANAS VILLAGE, CHANDIGARH ","CHANDIGARH ","23 ","24 ","7.2 ","7.3 ","664 ","1210 ","1.0 ","2.0 ","1.0 ","2.6 ","11 ","84 ","32 ",94
+"2045 ","DADU MAJRA, CHANDIGARH ","CHANDIGARH ","22 ","24 ","7.6 ","7.6 ","746 ","753 ","1.0 ","1.0 ","2.5 ","2.8 ","2 ","34 ","2 ",39
+
+,,TABLE - 5: WATER QUALITY OF GROUND WATER IN CHHATTISGARH - 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,Faecal Coli form,Total Coli form,,,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,(MPN/100ml),(MPN/100ml),,,
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max Min Max ","Min ",Max,,
+"1620 ","AT RAIPUR REGION, CHHATISGARH. ","CHHATTISGARH ","24 ","30 ","7.4 ","7.5 ","446 ","456 ",,,,,"2 ",2,,
+"1621 ","AT RAIPUR REGION, CHHATISGARH. ","CHHATTISGARH ","25 ","28 ","7.3 ","7.4 ","436 ","458 ",,,,,"2 ",2,,
+"1622 ","AT BILASPUR REGION, CHHATISGARH. ","CHHATTISGARH ","30 ","33 ","7.5 ","7.5 ","412 ","430 ","0.1 ","0.1 ","0.3 ","0.5 ","2 ",2,,
+"1623 ","AT BILASPUR REGION, CHHATISGARH. ","CHHATTISGARH ","27 ","30 ","7.5 ","7.5 ","432 ","451 ","0.1 ","0.2 ","0.3 ","0.3 ","2 ",2,,
+,"HAND PUMP WATER 17/10 NEPALI MOHLLA,",,,,,,,,,,,,,,,
+3171,"SHANKAR NAGAR, HEAVY INDUSTRIAL AREA,","CHHATTISGARH ","23 ","23 ","7.2 ",7.4,,,,,,,,,,
+,"BHILAI, CHHATISGARH.",,,,,,,,,,,,,,,
+,"BOREWELL/ HANDPUMP IN ROGBAHRI VILLAGE,",,,,,,,,,,,,,,,
+"3172 ",,"CHHATTISGARH ","7 ","27 ","7.1 ","7.2 ","0 ","0 ","0.4 ",0.6,,,,,,
+,"KORBA, CHHATISGARH. ",,,,,,,,,,,,,,,
+,"BOREWELL/ HANDPUMP IN PARSABHATA,",,,,,,,,,,,,,,,
+"3173 ",,"CHHATTISGARH ","26 ","27 ","7.2 ","7.2 ",,,"0.4 ","0.4 ","0.0 ",1.0,,,,
+,"BALCO, KORBA, CHHATISGARH. ",,,,,,,,,,,,,,,
+,"BOREWELL/ HANDPUMP IN DHANRAS, NTPC,",,,,,,,,,,,,,,,
+"3174 ",,"CHHATTISGARH ","26 ","27 ","7.2 ","26.2 ",,,"0.2 ",0.4,,,,,,
+,"KORBA, CHHATISGARH. ",,,,,,,,,,,,,,,
+
+,,"TABLE - 6: WATER QUALITY OF GROUND WATER IN DAMAN, DIU, DADRA NAGAR HAVELI – 2018",,,,,,,,,,,,,,
+,,,,,,,,,,,Nitrate-N +,,,,,
+,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,,
+,,,,,"pH ",,,,,,Nitrite-N,,,,,
+Station,,,,,,,,,,,,,,,,
+,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,,(MPN/100ml),(MPN/100ml),,
+,Station Name State Name,,,,,,,,,,,,,,,
+,,,,,,,,,,,(mg/l),,,,,
+"Code ",,,,,,,,,,,,,,,,
+,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,
+,"DAMAN & DIU, DADRA &",,,,,,,,,,,,,,,
+"1440 ","WELL AT SOMNATH INDUSTRIAL ESTATE, DAMAN ","30 ","31 ","7.2 ","7.5 ","430 ","434 ","2.0 ","2.0 ","2.4 ","6.0 ","12 ","33 ","15 ",84,
+,"NAGAR HAVELI ",,,,,,,,,,,,,,,
+,"DAMAN & DIU, DADRA &",,,,,,,,,,,,,,,
+"2448 ","VILLAGE BHIMPORE, DAMAN ","31 ","31 ","7.2 ","7.2 ","437 ","468 ","1.0 ","3.0 ","5.8 ","7.4 ","22 ","70 ","94 ",280,
+,"NAGAR HAVELI ",,,,,,,,,,,,,,,
+,"DAMAN & DIU, DADRA &",,,,,,,,,,,,,,,
+"2449 ","VILLAGE RINGANWADA, DAMAN ","30 ","30 ","7.2 ","7.4 ","590 ","604 ","3.0 ","3.0 ","1.4 ","1.8 ","94 ","220 ","170 ",540,
+,"NAGAR HAVELI ",,,,,,,,,,,,,,,
+,"DAMAN & DIU, DADRA &",,,,,,,,,,,,,,,
+"2450 ","VILLAGE DUNETHA, DAMAN ","31 ","31 ","7.0 ","7.4 ","576 ","586 ","1.0 ","2.0 ","1.4 ","2.6 ","130 ","350 ","430 ",920,
+,"NAGAR HAVELI ",,,,,,,,,,,,,,,
+,"DAMAN & DIU, DADRA &",,,,,,,,,,,,,,,
+"2451 ","VILLAGE DABHEL, DAMAN ","30 ","30 ","7.3 ","7.4 ","1092 ","1128 ","1.0 ","5.0 ","2.1 ","6.1 ","9 ","22 ","26 ",94,
+,"NAGAR HAVELI ",,,,,,,,,,,,,,,
+,"DAMAN & DIU, DADRA &",,,,,,,,,,,,,,,
+"2452 ","VILLAGE KACHIGAM, DAMAN ","30 ","31 ","7.3 ","7.3 ","955 ","974 ","2.0 ","4.0 ","1.2 ","5.8 ","130 ","220 ","350 ",540,
+,"NAGAR HAVELI ",,,,,,,,,,,,,,,
+,"DAMAN & DIU, DADRA &",,,,,,,,,,,,,,,
+"2453 ","VILLAGE KHANVEL, DADRA ","30 ","31 ","7.5 ","7.6 ","641 ","662 ","1.0 ","4.0 ","0.9 ","1.0 ","70 ","540 ","350 ",1600,
+,"NAGAR HAVELI ",,,,,,,,,,,,,,,
+,"DAMAN & DIU, DADRA &",,,,,,,,,,,,,,,
+"2454 ","VILLAGE ATHAL, DADRA ","30 ","31 ","7.2 ","7.4 ","398 ","428 ","1.0 ","3.0 ","0.6 ","0.8 ","280 ","350 ","920 ",920,
+,"NAGAR HAVELI ",,,,,,,,,,,,,,,
+,"DAMAN & DIU, DADRA &",,,,,,,,,,,,,,,
+"2455 ","VILLAGE MASAT, DADRA ","30 ","31 ","7.3 ","7.5 ","1098 ","1128 ","1.0 ","3.0 ","0.7 ","0.7 ","79 ","540 ","240 ",1600,
+,"NAGAR HAVELI ",,,,,,,,,,,,,,,
+,"DAMAN & DIU, DADRA &",,,,,,,,,,,,,,,
+"2456 ","VILLAGE PIPERIA, DADRA ","30 ","30 ","7.3 ","7.4 ","1064 ","1157 ","1.0 ","3.0 ","1.4 ","2.1 ","120 ","220 ","350 ",540,
+,"NAGAR HAVELI ",,,,,,,,,,,,,,,
+,"DAMAN & DIU, DADRA &",,,,,,,,,,,,,,,
+"2457 ","VILLAGE GALONDA, DADRA ","30 ","30 ","7.0 ","7.2 ","760 ","792 ","1.0 ","4.0 ","0.6 ","0.8 ","8 ","17 ","39 ",42,
+,"NAGAR HAVELI ",,,,,,,,,,,,,,,
+,"DAMAN & DIU, DADRA &",,,,,,,,,,,,,,,
+"2458 ","VILLAGE, DADRA ","30 ","31 ","7.5 ","7.7 ","1210 ","1385 ","2.0 ","4.0 ","0.8 ","1.3 ","80 ","94 ","170 ",240,
+,"NAGAR HAVELI ",,,,,,,,,,,,,,,
+
+,,TABLE - 7: WATER QUALITY OF GROUND WATER IN DELHI – 2018,,,,,,,,,,,,,,
+,,,,,,,,,,Nitrate-N +,,,,,,
+,,Temperature,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,,,
+,,,,"pH ",,,,,,Nitrite-N,,,,,,
+Station,,,,,,,,,,,,,,,,
+,,"⁰C ",,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),,,
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,(mg/l),,,,,,
+"Code ",,,,,,,,,,,,,,,,
+,,"Min Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,,
+"3477 ","WELL AT ALIPUR, DELHI ","DELHI ","7.8 ","7.8 ","2870 ","2870 ",,,,,"2 ","2 ","2 ",2,,
+"3479 ","WELL AT AURBINDO MARG, DELHI ","DELHI ","7.6 ","7.8 ","1717 ","2730 ",,,"37.0 ","551.3 ","23 ","46 ","46 ",110,,
+"3480 ","WELL AT BAWANA, DELHI ","DELHI ","8.0 ","8.0 ","3390 ","3390 ",,,,,"2 ","2 ","11 ",11,,
+"3483 ","WELL AT BURARI, DELHI ","DELHI ","7.6 ","7.6 ","2040 ","2040 ",,,"2.4 ","2.4 ","2 ","2 ","2 ",2,,
+"3485 ","WELL AT DEFENCE COLONY, DELHI ","DELHI ","7.9 ","7.9 ","1350 ","1350 ",,,"24.8 ","24.8 ","2 ","2 ","4 ",4,,
+"3488 ","WELL AT DILSHAD GARDEN, DELHI ","DELHI ","7.1 ","7.7 ","1220 ","1260 ",,,"58.0 ","78.0 ","2 ","49 ","33 ",49,,
+"3489 ","WELL AT DWARKA, DELHI ","DELHI ",,,"6230 ","6230 ",,,"3.3 ","3.3 ","2 ","2 ","510 ",510,,
+"3490 ","WELL AT FATEH PUR BERI, DELHI ","DELHI ","7.2 ","7.5 ","473 ","724 ",,,"38.4 ","67.5 ","2 ","5 ","5 ",17,,
+"3492 ","WELL AT GAJIPUR, DELHI ","DELHI ",,,"6150 ","6150 ",,,,,"2 ","2 ","2 ",2,,
+"3493 ","WELL AT GANDHI NAGAR, DELHI ","DELHI ",,,"1608 ","1608 ",,,,,"2 ","2 ","2 ",2,,
+"3494 ","WELL AT HAIDERPUR, DELHI ","DELHI ","7.7 ","7.7 ","787 ","816 ",,,"0.0 ","6.1 ","130 ","200 ","240 ",330,,
+"3496 ","WELL AT ISBT, DELHI ","DELHI ","7.5 ","7.5 ","1200 ","1200 ",,,"7.8 ","7.8 ","2 ","2 ","6 ",6,,
+"3498 ","WELL AT KALKA JI, DELHI ","DELHI ","7.5 ","7.5 ","936 ","936 ","1.0 ","1.0 ","27.8 ","27.8 ","2 ","2 ","130 ",130,,
+"3500 ","WELL AT KAMLA NAGAR, DELHI ","DELHI ","7.8 ","7.8 ","1140 ","1140 ",,,,,"4900 ","4900 ","17000 ",17000,,
+"3503 ","WELL AT KAROL BAGH, DELHI ","DELHI ","7.4 ","7.4 ","792 ","792 ",,,"3.8 ","3.8 ","4 ","4 ","13 ",13,,
+"3514 ","WELL AT MATIALA, DELHI ","DELHI ",,,"1150 ","1150 ",,,"21.8 ","21.8 ","27 ","27 ","170 ",170,,
+"3515 ","WELL AT MAYA PURI, DELHI ","DELHI ","7.6 ","7.6 ","2530 ","2530 ",,,"38.6 ","38.6 ","9 ","9 ","79 ",79,,
+"3516 ","WELL AT MAYUR VIHAR, DELHI ","DELHI ",,,"1825 ","1825 ",,,,,"920 ","920 ","1600 ",1600,,
+"3517 ","WELL AT NAJAFGARH, DELHI ","DELHI ",,,"2890 ","2890 ",,,"258.9 ","258.9 ","39 ","39 ","920 ",920,,
+"3518 ","WELL AT NARAINA INDL AREA, DELHI ","DELHI ","7.7 ","7.7 ","1375 ","1375 ",,,"73.0 ","73.0 ","2 ","2 ","2 ",2,,
+"3520 ","WELL AT OKHLA, DELHI ","DELHI ","6.8 ","6.8 ","1450 ","1450 ",,,"51.1 ","51.1 ","2 ","2 ","2 ",2,,
+"3523 ","WELL AT PARIVESH BHAWAN, DELHI ","DELHI ","7.1 ","7.9 ","2900 ","3060 ",,,"6.0 ","7.0 ","2 ","2 ","2 ",2,,
+"3525 ","WELL AT PATEL NAGAR, DELHI ","DELHI ","7.4 ","7.4 ","3690 ","3690 ",,,"67.6 ","67.6 ","2 ","2 ","5 ",5,,
+"3526 ","WELL AT PATPAR GANJ, DELHI ","DELHI ",,,"1141 ","1141 ",,,,,"2 ","2 ","2 ",2,,
+
+,,,,,,,,,Nitrate-N +,,,,,,,
+Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,,,,
+,,,"pH ",,,,,,Nitrite-N,,,,,,,
+Station,,,,,,,,,,,,,,,,
+,"⁰C ",,,,(μmhos/cm),,(mg/l),,,,(MPN/100ml),(MPN/100ml),,,,
+Station Name State Name,,,,,,,,,,,,,,,,
+,,,,,,,,,(mg/l),,,,,,,
+"Code ",,,,,,,,,,,,,,,,
+"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,,,
+"3528 WELL AT PEERAGARHI, DELHI DELHI ",,"7.6 ","7.6 ","5950 ","5950 ",,,"11.9 ","11.9 ","4 ","4 ","43 ",43,,,
+"3531 WELL AT QUTAB GARH, DELHI DELHI ",,"7.6 ","7.9 ","86 ","3130 ",,,"0.0 ","24.7 ","2 ","2 ","2 ",200,,,
+"3534 WELL AT RASHTRAPATI BHAWAN, DELHI DELHI ",,"7.9 ","7.9 ","1635 ","1635 ",,,"92.0 ","92.0 ","170 ","170 ","920 ",920,,,
+"3535 WELL AT ROHINI, DELHI DELHI ",,"7.3 ","7.4 ","415 ","559 ",,,"0.0 ","4.6 ","2 ","450 ","2 ",4000,,,
+"3536 WELL AT SAKET, DELHI DELHI ",,"7.4 ","7.7 ","1286 ","1320 ",,,"53.8 ","70.0 ","2 ","7 ","33 ",49,,,
+"3537 WELL AT SHAHDARA, DELHI DELHI ",,"7.2 ","7.8 ","2170 ","2210 ",,,"6.7 ","15.0 ","2 ","2 ","2 ",2,,,
+"3543 WELL AT TRILOKPURI, DELHI DELHI ",,,,"1380 ","1380 ",,,,,"79 ","79 ","79 ",79,,,
+"3546 WELL AT VASANT VIHAR DELHI ",,"7.8 ","7.8 ","1680 ","1680 ",,,"91.0 ","91.0 ","11 ","11 ","33 ",33,,,
+
+,,TABLE - 8: WATER QUALITY OF GROUND WATER IN GOA – 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,(μmhos/cm),,,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,WELL AT VERNA INDI.ESTATE.(M/S CIPLA,,,,,,,,,,,,,,,
+"2277 ",,"GOA ","29 ","30 ","6.7 ","6.8 ","292 ","522 ","0.5 ","2.6 ","0.5 ","1.7 ","2 ","2 ","2 ",2
+,"LIMITED) ",,,,,,,,,,,,,,,
+"2278 ","WELL AT SANCOALE INDL.ESTATE ","GOA ","29 ","29 ","6.5 ","7.1 ","84 ","106 ","1.4 ","2.0 ","1.3 ","1.4 ","2 ","2 ","2 ",2
+,WELL AT KUDAI INDL. ESTATE(M/S CADILA,,,,,,,,,,,,,,,
+"2280 ",,"GOA ","29 ","31 ","6.7 ","6.7 ","279 ","290 ","0.1 ","0.6 ","0.1 ","0.3 ",,,"2 ",2
+,"HEALTHCARE LIMITED) ",,,,,,,,,,,,,,,
+"2281 ","WELL AT CORLIM INDL. ESTATE ","GOA ","30 ","30 ","5.5 ","6.0 ","69 ","119 ","0.4 ","0.8 ","0.1 ","1.2 ","13 ","790 ","23 ",2400
+,WELL AT PILERNE INDUSTRIAL ESTATE(M/S,,,,,,,,,,,,,,,
+"2282 ",,"GOA ","28 ","32 ","6.6 ","8.3 ","247 ","363 ","1.1 ","2.0 ","0.0 ","0.1 ","5 ","5 ","2 ",13
+,"UNICHEM ) ",,,,,,,,,,,,,,,
+"3192 ","BORE WELL AT PILERNE INDUSTRIAL ESTATE ","GOA ","32 ","32 ","6.6 ","6.6 ","247 ","247 ","2.0 ","2.0 ","0.1 ","0.1 ",,,"2 ",2
+"3193 ","BORE WELL AT CUNCOLIM INDUSTRIAL ESTATE ","GOA ","28 ","32 ","6.8 ","7.0 ","419 ","436 ","0.6 ","5.4 ","0.0 ","0.6 ","2 ","2 ","2 ",2
+"3194 ","BORE WELL AT BETHORA INDUSTRIAL ESTATE ","GOA ","30 ","31 ","5.9 ","6.6 ","97 ","179 ","0.7 ","2.7 ","1.8 ","2.1 ","2 ","130 ","4 ",220
+"3195 ","BORE WELL AT MADKAIM INDUSTRIAL ESTATE ","GOA ","29 ","30 ","6.2 ","6.4 ","70 ","95 ","0.9 ","1.7 ","0.7 ","0.9 ","2 ","2 ","2 ",2
+
+,,TABLE - 9: WATER QUALITY OF GROUND WATER IN GUJARAT – 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"3 ","WELL AT AHMEDABAD ","GUJARAT ","18 ","30 ","7.7 ","8.0 ","1330 ","1336 ","1.3 ","1.8 ","1.4 ","2.3 ","2 ","2 ","2 ",2
+"6 ","WELL AT BARODA ","GUJARAT ","0 ","29 ","8.2 ","8.5 ","471 ","484 ","0.0 ","0.3 ","0.5 ","0.6 ","2 ","2 ","2 ",2
+"1226 ","WELL AT NAROL, AHMEDABAD, ","GUJARAT ","33 ","33 ","8.1 ","8.6 ","320 ","390 ","1.3 ","1.5 ","0.4 ","0.6 ","2 ","2 ","2 ",2
+"1948 ","BHAVNAGAR ","GUJARAT ","28 ","30 ","8.0 ","8.1 ","1460 ","1650 ","1.6 ","1.6 ","0.2 ","0.2 ","2 ","2 ","2 ",2
+"1949 ","AMRELI ","GUJARAT ","28 ","31 ","8.0 ","8.1 ","1200 ","1320 ","1.4 ","1.8 ","0.2 ","0.4 ","2 ","2 ","2 ",2
+"1950 ","JUNAGADH ","GUJARAT ","23 ","26 ","7.6 ","8.0 ","1190 ","1530 ","0.4 ","0.4 ","0.9 ","1.6 ","2 ","2 ","2 ",2
+"1951 ","RAJKOT ","GUJARAT ","28 ","28 ","7.9 ","7.9 ","1210 ","1210 ","0.5 ","0.5 ","0.0 ","1.8 ","2 ","2 ","2 ",2
+"1953 ","JAMNAGAR ","GUJARAT ","26 ","26 ","7.8 ","7.8 ","1020 ","1020 ","0.4 ","0.4 ","0.0 ","0.3 ","2 ","2 ","2 ",2
+"1954 ","BHUJ ","GUJARAT ","29 ","29 ","7.6 ","7.6 ","3740 ","3740 ","1.3 ","1.3 ","3.1 ","3.1 ","2 ","2 ","2 ",2
+"1955 ","PALANPUR ","GUJARAT ","30 ","30 ","7.4 ","7.7 ","1365 ","1395 ","1.4 ","1.6 ","1.4 ","2.0 ","2 ","2 ","2 ",2
+"1956 ","MEHASANA ","GUJARAT ","28 ","30 ","7.4 ","8.0 ","605 ","2873 ","1.2 ","1.6 ","1.0 ","4.2 ","2 ","2 ","2 ",2
+"1957 ","SIDDHPUR (DIST.PATAN) ","GUJARAT ","27 ","27 ","7.5 ","8.6 ","1628 ","1818 ","1.6 ","1.7 ","0.5 ","1.3 ","2 ","2 ","2 ",2
+"1958 ","HIMATNAGAR ","GUJARAT ","28 ","28 ","8.1 ","8.1 ","814 ","814 ","1.4 ","1.4 ","2.2 ","2.2 ","2 ","2 ","2 ",2
+"1959 ","NADIAD ","GUJARAT ","25 ","25 ","7.8 ","8.2 ","1728 ","1768 ","0.3 ","0.4 ","0.4 ","0.7 ","2 ","2 ","2 ",2
+"1960 ","DAHOD ","GUJARAT ","30 ","30 ","8.0 ","8.4 ","817 ","977 ","0.3 ","0.4 ","0.4 ","0.7 ","2 ","2 ","2 ",2
+"1961 ","GODHARA ","GUJARAT ","30 ","30 ","7.2 ","8.1 ","1051 ","1098 ","0.4 ","0.4 ","0.5 ","0.6 ","2 ","2 ","2 ",2
+"1962 ","VADODARA (INDUSTRIAL-NANDESARI) ","GUJARAT ","28 ","29 ","7.1 ","7.3 ","3520 ","3760 ","0.9 ","5.0 ","0.1 ","0.7 ","2 ","2 ","2 ",2
+"1963 ","ANKLESHWAR (INDUSTRIAL AREA) ","GUJARAT ","31 ","32 ","7.3 ","7.5 ","3890 ","4230 ","0.4 ","5.0 ","0.3 ","0.5 ","2 ","2 ","2 ",2
+"1965 ","MORA-HAJIRA (INDUSTRIAL), HAJIRA ","GUJARAT ","32 ","32 ","8.1 ","8.5 ","1377 ","2328 ","0.8 ","1.2 ","0.0 ","0.1 ","2 ","9 ","8 ",45
+"1966 ","GABHENI VILLAGE, SURAT (INDUSTRIAL) ","GUJARAT ","32 ","32 ","7.3 ","8.2 ","835 ","2178 ","0.8 ","1.4 ","0.1 ","0.1 ","3 ","120 ","42 ",348
+"1967 ","ATUL, VILLAGE G.W, (VALSAD) ","GUJARAT ","26 ","27 ","7.1 ","7.2 ","335 ","1636 ","2.3 ","2.3 ","0.3 ","0.5 ","2 ","2 ","2 ",2
+"1968 ","VAPI INDUSTRIAL AREA IN D/S, VAPI ","GUJARAT ","26 ","27 ","7.3 ","7.8 ","671 ","1593 ","1.9 ","2.9 ","0.1 ","0.4 ","2 ","2 ","2 ",2
+,"SARIGAM VILLAGE (D/S OF INDUSTRIALAREA),",,,,,,,,,,,,,,,
+"1969 ",,"GUJARAT ","28 ","29 ","7.2 ","7.6 ","772 ","907 ","2.0 ","2.7 ","0.5 ","1.0 ","2 ","2 ","2 ",2
+,"VAPI ",,,,,,,,,,,,,,,
+,"BOREWELL D/S TSDF SITE, GIDC INDUSTRIAL",,,,,,,,,,,,,,,
+"1970 ",,"GUJARAT ","27 ","27 ","7.4 ","7.8 ","620 ","754 ","2.0 ","2.3 ","0.2 ","0.3 ","2 ","2 ","2 ",2
+,"AREA, VAPI ",,,,,,,,,,,,,,,
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"2083 ","BORE WELL OF CHHATRAL GIDC. ","GUJARAT ","26 ","30 ","7.1 ","8.9 ","2417 ","3026 ","1.1 ","1.9 ","0.2 ","8.4 ","2 ","2 ","2 ",2
+"2084 ","BORE WELL OF PALSANA VILLAGE. ","GUJARAT ","28 ","32 ","8.1 ","8.3 ","1187 ","2858 ","1.2 ","2.1 ","0.0 ","0.7 ","2 ","12 ","2 ",22
+"2085 ","BORE WELL OF SANTEJ VILLAGE. ","GUJARAT ","28 ","28 ","7.7 ","7.7 ","1987 ","1987 ","1.5 ","1.5 ","0.0 ","1.1 ","2 ","2 ","2 ",2
+,B/W- HAZARDOUS W. DISPOSAL SITE (GUJ.,,,,,,,,,,,,,,,
+"2087 ",,"GUJARAT ","32 ","32 ","7.5 ","8.1 ","508 ","4555 ","0.9 ","2.2 ","0.0 ","0.2 ","8 ","9 ","2 ",64
+,"ENVIRO P.& I. LTD. ) ",,,,,,,,,,,,,,,
+"2088 ","BORE WELL OF SACHIN GIDC. ","GUJARAT ","32 ","32 ","7.4 ","7.5 ","8571 ","9018 ","0.9 ","2.2 ","0.1 ","0.1 ","2 ","13 ","8 ",83
+,"B/W NEAR INDL. AREA BORASARA & NAVAPURA,",,,,,,,,,,,,,,,
+"2089 ",,"GUJARAT ","30 ","30 ","8.1 ","8.1 ","2780 ","2780 ","1.5 ","1.5 ","0.1 ","0.1 ","9 ","9 ","34 ",34
+,"DIST. SURAT. ",,,,,,,,,,,,,,,
+"2090 ","WELL AT OLPAD. ","GUJARAT ","31 ","32 ","7.3 ","7.5 ","10580 ","15260 ","0.9 ","2.2 ","0.1 ","0.2 ","9 ","14 ","48 ",66
+,BORE WELL OF NAVSARI GIDC INDUSTRIES,,,,,,,,,,,,,,,
+"2091 ",,"GUJARAT ","30 ","31 ","8.1 ","8.1 ","607 ","1792 ","0.9 ","1.2 ","0.1 ","0.1 ","2 ","9 ","2 ",63
+,"ASSOCIATION OFFICE. ",,,,,,,,,,,,,,,
+"2093 ","WELL OF BARDOLI AT REST HOUSE. ","GUJARAT ","32 ","32 ","7.6 ","8.1 ","1619 ","1668 ","0.8 ","2.0 ","0.1 ","0.1 ","6 ","120 ","42 ",346
+,WELL AT ANKLESHWAR INDUSTRIAL AREA (BORE,,,,,,,,,,,,,,,
+2094,WELL OF M/S INDUSTRIAL CARBON AT,"GUJARAT ","32 ","32 ","7.2 ","7.4 ","4360 ","6420 ","0.3 ","0.9 ","0.2 ","0.5 ","2 ","2 ","2 ",2
+,ANKLESHWAR- RAJPIPLA ROAD.,,,,,,,,,,,,,,,
+"2095 ","BORE WELL AT STP MADHAPAR, DIST. RAJKOT. ","GUJARAT ","27 ","28 ","7.1 ","7.3 ","1900 ","2067 ","0.2 ","0.5 ","1.1 ","1.5 ","2 ","2 ","2 ",2
+,"BORE WELL, SNR. VINAYAK JAL SUDDHIKARAN",,,,,,,,,,,,,,,
+2096,"SAHAKARI MANDALI LTD. (CETP ), VILL. BAVLA,","GUJARAT ","28 ","29 ","7.3 ","7.5 ","4563 ","4572 ","1.2 ","1.5 ","0.7 ","2.4 ","2 ","2 ","2 ",2
+,DIST. AHMEDABAD.,,,,,,,,,,,,,,,
+,"BORE WELL OF SOMESHWAR RICE MILL, NR.",,,,,,,,,,,,,,,
+2097,"BAVLA ECO PROJECT, (CETP ), VILL. BAVLA, DIST.","GUJARAT ","28 ","29 ","7.8 ","7.9 ","3990 ","4634 ","1.1 ","1.4 ","1.2 ","2.3 ","2 ","2 ","2 ",2
+,AHMEDABAD.,,,,,,,,,,,,,,,
+,BORE WELL OF PIRANA TERMINAL PUMPING,,,,,,,,,,,,,,,
+2098,"STATION, PIRANA, NR. V. N. BRIDGE,","GUJARAT ","18 ","30 ","7.3 ","7.7 ","2889 ","3123 ","1.2 ","1.5 ","1.5 ","2.1 ","2 ","2 ","2 ",2
+,AHMEDABAD.,,,,,,,,,,,,,,,
+"3207 ","BOREWELL OF GIDC, JHAGADIA ","GUJARAT ","33 ","33 ","7.2 ","7.8 ","1610 ","1610 ","0.2 ","0.3 ","0.4 ","0.4 ","2 ","2 ","2 ",2
+,"JILLA PANCHAYAT SCHOOL, NEAR GRAM",,,,,,,,,,,,,,,
+3208,"PANCHAYAT KATA FALIA, VILLAGE NAMDHA,","GUJARAT ","26 ","26 ","7.2 ","7.4 ","7 ","634 ","2.3 ","2.3 ","0.3 ","0.5 ","2 ","2 ","2 ",2
+,VALSAD,,,,,,,,,,,,,,,
+,"BOREWELL OF GAYATRI PRAGNA SCHOOL,",,,,,,,,,,,,,,,
+3209,"BHADARWAD ROAD, BAZAR FALIA, SARIGAM,","GUJARAT ","28 ","29 ","7.3 ","7.4 ","971 ","1378 ","1.9 ","2.6 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+,VALSAD,,,,,,,,,,,,,,,
+,"BOREWELL AT PIRAMAL GLASS, VILLAGE TARSADI",,,,,,,,,,,,,,,
+"3210 ",,"GUJARAT ","32 ","33 ","7.6 ","7.7 ","3366 ","3532 ","1.1 ","1.8 ","0.1 ","0.2 ","2 ","9 ","6 ",84
+,"AT KOSAMBA INDUSTRIAL AREA, SURAT ",,,,,,,,,,,,,,,
+,"BOREWELL AT PRIMARY HEALTH CENTER,",,,,,,,,,,,,,,,
+"3211 ",,"GUJARAT ","32 ","32 ","8.1 ","8.3 ","1599 ","1672 ","0.9 ","1.2 ","0.1 ","0.2 ","2 ","3 ","11 ",64
+,"KADODARA, SURAT ",,,,,,,,,,,,,,,
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,BOREWELL NEAR CENTER OF EXCELLENCE,,,,,,,,,,,,,,,
+"3212 ",,"GUJARAT ","33 ","33 ","7.4 ","7.7 ","2432 ","3267 ","1.1 ","1.6 ","1.3 ","2.3 ","2 ","2 ","2 ",2
+,"BUILDING, GIDC, VATVA, AHMEDABAD ",,,,,,,,,,,,,,,
+,"BOREWELL, CETP-NARODA, GIDC, NARODA-",,,,,,,,,,,,,,,
+"3213 ",,"GUJARAT ","34 ","34 ","7.5 ","7.8 ","1525 ","1554 ","1.2 ","1.4 ","1.3 ","1.8 ","2 ","2 ","2 ",2
+,"AHMEDABAD ",,,,,,,,,,,,,,,
+,BOREWELL NEAR GIDC ODHAV INDUSTRIAL,,,,,,,,,,,,,,,
+3214,"ASSOCIATION BUILDING, GIDC, ODHAV,","GUJARAT ","33 ","33 ","7.5 ","7.5 ","1674 ","1735 ","1.3 ","1.8 ","0.6 ","1.9 ","2 ","2 ","2 ",2
+,AHMEDABAD,,,,,,,,,,,,,,,
+,BOREWELL NEAR MUNICIPAL SOLID WASTE SITE-,,,,,,,,,,,,,,,
+"3215 ",,"GUJARAT ","18 ","32 ","7.3 ","8.7 ","5267 ","6251 ","1.1 ","1.6 ","0.0 ","2.7 ","2 ","2 ","2 ",2
+,"GYASPUR, NAROL, AHMEDABAD ",,,,,,,,,,,,,,,
+,BOREWELL NEAR TSDF SITE OF GREEN,,,,,,,,,,,,,,,
+3216,"ENVIRONMNET SERVICES CO. OP.LTD, VATVA,","GUJARAT ","33 ","34 ","7.3 ","7.4 ","2521 ","2883 ","1.6 ","1.7 ","1.2 ","2.1 ","2 ","2 ","2 ",2
+,AHMEDABAD,,,,,,,,,,,,,,,
+,BOREWELL NEAR TSDF SITE OF NARODA ENVIRO,,,,,,,,,,,,,,,
+"3217 ",,"GUJARAT ","33 ","33 ","7.5 ","7.9 ","1930 ","2011 ","1.3 ","1.4 ","1.6 ","2.1 ","2 ","2 ","2 ",2
+,"PROJECT.LTD, ODHAVE, AHMEDABAD ",,,,,,,,,,,,,,,
+,"WELL OF MODASA, NAGAR PALIKA, VARIGRUH,",,,,,,,,,,,,,,,
+"3218 ",,"GUJARAT ","28 ","28 ","7.6 ","7.6 ","1508 ","1508 ","1.3 ","1.3 ","3.1 ","3.1 ","2 ","2 ","2 ",2
+,"MODASA ",,,,,,,,,,,,,,,
+"3219 ","WELL OF IDAR, NAGAR PALIKA, SAKARIA, IDAR ","GUJARAT ","27 ","27 ","7.3 ","7.3 ","1768 ","1768 ","1.2 ","1.2 ","2.9 ","2.9 ","2 ","2 ","2 ",2
+,"BOREWELL OF GIDC-NADIAD AT GIDC OFFICE,",,,,,,,,,,,,,,,
+"3220 ",,"GUJARAT ","25 ","25 ","7.6 ","8.4 ","2880 ","2880 ","0.3 ","0.4 ","0.5 ","0.8 ","2 ","2 ","2 ",2
+,"GIDC NADIAD, KHEDA ",,,,,,,,,,,,,,,
+"3221 ","BOREWELL OF TOWN RAJPIPLA, DIST.NARMADA ","GUJARAT ","31 ","32 ","7.7 ","7.7 ","814 ","844 ","0.3 ","0.9 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+"3222 ","BOREWELL OF GIDC, PANOLI ","GUJARAT ","31 ","32 ","7.6 ","7.6 ","4340 ","4660 ","0.3 ","0.4 ","0.2 ","0.5 ","2 ","2 ","2 ",2
+"3223 ","BOREWELL KADI INDUSTRIAL AREA ","GUJARAT ","27 ","30 ","7.8 ","8.1 ","1667 ","1840 ","1.0 ","1.7 ","0.8 ","3.4 ","2 ","2 ","2 ",2
+"3224 ","DEESA BOREWELL ","GUJARAT ","32 ","32 ","7.6 ","7.8 ","781 ","985 ","1.5 ","1.8 ","1.3 ","1.8 ","2 ","2 ","2 ",2
+"3225 ","VISNAGAR BOREWELL ","GUJARAT ","28 ","30 ","7.1 ","8.1 ","1786 ","1890 ","1.4 ","1.5 ","0.7 ","2.4 ","2 ","2 ","2 ",2
+"3226 ","PATAN BOREWELL ","GUJARAT ","27 ","27 ","7.6 ","8.6 ","1628 ","1882 ","1.0 ","1.3 ","1.9 ","2.3 ","2 ","2 ","2 ",2
+"3227 ","VIJAPUR (RANASAN) BOREWELL ","GUJARAT ","28 ","30 ","6.9 ","8.0 ","1755 ","2037 ","1.2 ","1.4 ","0.7 ","1.5 ","2 ","2 ","2 ",2
+"3228 ","GIDC, HALOL, PANCHMAHAL ","GUJARAT ","30 ","30 ","7.6 ","8.0 ","983 ","2870 ","0.3 ","0.3 ","0.7 ","0.7 ","2 ","2 ","2 ",2
+"3229 ","GIDC, DAHOD, DAHOD ","GUJARAT ","30 ","30 ","7.1 ","8.0 ","1027 ","1450 ","0.3 ","0.3 ","0.6 ","0.7 ","2 ","2 ","2 ",2
+"3230 ","BOREWELL OF GIDC, JUNAGADH ","GUJARAT ","26 ","26 ","7.1 ","7.5 ","4750 ","5569 ","0.3 ","0.4 ","0.9 ","1.6 ","2 ","2 ","2 ",2
+,BOREWELL NEAR TSDF SITE OF SAURASHTRA,,,,,,,,,,,,,,,
+3231,"ENVIRO PROJECT LTD., JUNA KATARIYA,","GUJARAT ","30 ","32 ","7.3 ","8.3 ","2310 ","3690 ","3.4 ","3.7 ","2.8 ","2.9 ","2 ","2 ","2 ",2
+,BHACHAU,,,,,,,,,,,,,,,
+,"BOREWELL OF GIDC, ANTALIA WATER SUPPLY,",,,,,,,,,,,,,,,
+"3232 ",,"GUJARAT ","31 ","33 ","7.9 ","8.1 ","1794 ","2513 ","0.8 ","1.2 ","0.1 ","0.1 ","4 ","6 ","6 ",42
+,"BILLIMORA, GANDEVI ",,,,,,,,,,,,,,,
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"3233 ","BOREWELL OF KALIAWADI GRID ROAD, NAVSARI ","GUJARAT ","30 ","31 ","8.1 ","8.3 ","2046 ","2649 ","0.8 ","1.2 ","0.1 ","0.1 ","2 ","21 ","4 ",102
+,BOREWELL NERA TSDF OF NANDESARI ENVIRO,,,,,,,,,,,,,,,
+"3234 ",,"GUJARAT ","29 ","29 ","7.0 ","7.1 ","8980 ","11360 ","14.0 ","45.0 ","0.8 ","1.0 ","2 ","2 ","2 ",2
+,"CONTROL LIMITED, NADESARI, VADODARA ",,,,,,,,,,,,,,,
+,"BOREWELL OF GIDC KALOL, B/H GIDC OFFICE,",,,,,,,,,,,,,,,
+"3235 ",,"GUJARAT ","29 ","29 ","7.1 ","7.8 ","2814 ","3238 ","1.3 ","1.3 ","0.0 ","2.0 ","2 ","2 ","2 ",2
+,"GIDC, KALOL, GANDHINAGAR ",,,,,,,,,,,,,,,
+,"BOREWELL OF M/S ALFA ECA (I) LTD., UNIT-1,",,,,,,,,,,,,,,,
+3236,"SR.NO. 249, UMA IND. ESTATE, VASNA , IYAVA,","GUJARAT ","28 ","29 ","7.4 ","7.6 ","2015 ","2319 ","1.1 ","1.2 ","1.1 ","2.2 ","2 ","2 ","2 ",2
+,"SANAND, AHMEDABAD",,,,,,,,,,,,,,,
+,"BOREWELL OF L & T LTD., PLOT NO. 144/146,",,,,,,,,,,,,,,,
+"3237 ",,"GUJARAT ","28 ","29 ","7.1 ","7.3 ","5777 ","6412 ","1.6 ","2.2 ","0.1 ","2.7 ","2 ","2 ","12 ",12
+,"SARKHEJ-BAVLA ROAD, SANAND, AHMEDABAD ",,,,,,,,,,,,,,,
+"3238 ","BOREWELL OF GIDC KANSARI ","GUJARAT ","30 ","30 ","7.8 ","8.4 ","4290 ","4490 ","0.3 ","0.5 ","0.5 ","0.5 ","2 ","2 ","2 ",2
+"3239 ","BOREWELL OF GIDC, SOJITRA ","GUJARAT ","29 ","31 ","8.0 ","8.1 ","3090 ","3150 ","0.0 ","0.4 ","0.5 ","0.6 ","2 ","2 ","2 ",2
+"3240 ","BOREWELL OF AJI GIDC, RAJKOT ","GUJARAT ","28 ","28 ","7.3 ","8.1 ","2205 ","2540 ","0.1 ","0.3 ","1.0 ","1.7 ","2 ","2 ","2 ",2
+,BOREWELL NEAR TSDF OF GUJARAT MARITIME,,,,,,,,,,,,,,,
+"3242 ",,"GUJARAT ","28 ","29 ","7.7 ","8.0 ","1790 ","1980 ","1.6 ","2.2 ","0.2 ","0.3 ","2 ","2 ","2 ",2
+,"BOARD, ALANG, BHAVNAGAR ",,,,,,,,,,,,,,,
+"3243 ","BOREWELL OF GIDC, VARTEJ, BHAVNAGAR ","GUJARAT ","28 ","30 ","8.1 ","8.2 ","2740 ","3120 ","2.2 ","2.2 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+,BOREWELL NEAR TSDF OF BHARUCH ENVIRO,,,,,,,,,,,,,,,
+3244,"INFRASTRUCTURE LIMITED, ANKLESHWAR,","GUJARAT ","30 ","33 ","7.0 ","7.1 ","3750 ","4510 ","0.8 ","5.0 ","0.1 ","0.6 ","2 ","2 ","2 ",2
+,BHARUCH,,,,,,,,,,,,,,,
+,"BOREWELL OF GIDC OFFICE, SHANKAR TEKRI,",,,,,,,,,,,,,,,
+"3246 ",,"GUJARAT ","27 ","29 ","7.5 ","7.9 ","1850 ","1850 ","0.4 ","0.4 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+,"UDHYOGNAGAR, JAMNANGAR ",,,,,,,,,,,,,,,
+,BOREWELL OF SHRI MAHAVIR METAL CRAFT PVT.,,,,,,,,,,,,,,,
+3247,"LTD., PLOT NO. 3059, ROAD NO.6, NR. MAHAVIR","GUJARAT ","27 ","28 ","7.3 ","8.3 ","1700 ","2410 ","0.4 ","0.4 ","0.2 ","0.3 ","2 ","2 ","2 ",2
+,"CIRCLE, PHASE-III, GIDC, DARED, JAMNAGAR",,,,,,,,,,,,,,,
+
+,,TABLE - 10: WATER QUALITY OF GROUND WATER IN HIMACHAL PRADESH – 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"1555 ","AT KALA AMB, ","HIMACHAL PRADESH ",,,"8.3 ","8.3 ","535 ","669 ","0.1 ","0.2 ","1.1 ","2.5 ","2 ","2 ","2 ",2
+"1556 ","AT PAONTA SAHIB ","HIMACHAL PRADESH ",,,"7.8 ","8.1 ","543 ","562 ","0.1 ","0.2 ","1.9 ","2.8 ","2 ","2 ","2 ",2
+"1557 ","AT PARWANOO ","HIMACHAL PRADESH ",,,"7.3 ","7.3 ","707 ","707 ","0.2 ","0.2 ","0.0 ","0.8 ","2 ","2 ","2 ",2
+"1558 ","AT BADDI ","HIMACHAL PRADESH ","21 ","21 ","7.5 ","7.5 ","1262 ","1262 ","0.5 ","0.5 ","0.0 ","0.1 ","2 ","2 ","2 ",2
+"1559 ","AT BAROTIWALA ","HIMACHAL PRADESH ","21 ","21 ","7.6 ","7.6 ","454 ","454 ","0.6 ","0.6 ","0.0 ","0.1 ","2 ","2 ","2 ",2
+"1560 ","AT NALAGARH ","HIMACHAL PRADESH ","23 ","23 ","7.4 ","8.0 ","540 ","718 ","0.2 ","0.4 ","0.5 ","0.5 ","2 ","2 ","2 ",2
+"1561 ","AT DAMTAL ","HIMACHAL PRADESH ","16 ","17 ","7.1 ","7.8 ","188 ","626 ","0.1 ","0.1 ","0.2 ",0.5,,,,
+"1562 ","AT UNA ","HIMACHAL PRADESH ","14 ","18 ","7.1 ","8.2 ","328 ","768 ","0.1 ","0.2 ","0.3 ","2.9 ","2 ","2 ","49 ",49
+"1872 ","SHIMLA D/S OF MSW DUMPING SITE ","HIMACHAL PRADESH ","10 ","19 ","6.8 ","8.5 ","98 ","1137 ","1.0 ","15.0 ","0.8 ","30.9 ","22 ","170 ","70 ",540
+,DHARAMSHALA KANGRA D/S OF MSW DUMPING,,,,,,,,,,,,,,,
+"1873 ",,"HIMACHAL PRADESH ","16 ","17 ","6.6 ","6.8 ","319 ","324 ","0.1 ","0.2 ","1.4 ","2.5 ","4 ","4 ","94 ",94
+,"SITE ",,,,,,,,,,,,,,,
+"1874 ","SOLAN-D/S OF MSW DUMPING SITE SALOGRA ","HIMACHAL PRADESH ",,,"7.7 ","8.3 ","264 ","537 ","0.4 ","6.4 ","0.3 ","8.5 ","2 ","17 ","2 ",43
+"1875 ","MANDI-D/S OF MSW DUMPING SITE ","HIMACHAL PRADESH ","22 ","22 ","8.1 ","8.5 ","270 ","323 ","1.8 ","6.0 ","0.7 ","0.7 ","2 ","120 ","5 ",920
+"1877 ","BADDI INDUSTRIAL AREA ","HIMACHAL PRADESH ","22 ","22 ","7.4 ","8.2 ","664 ","952 ","0.2 ","0.4 ","0.3 ","0.5 ","2 ","2 ","2 ",2
+"1878 ","BAROTIWALA INDUSTRIAL AREA ","HIMACHAL PRADESH ","22 ","22 ","7.4 ","8.0 ","557 ","628 ","0.2 ","0.5 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+"1879 ","NALAGARH INDUSTRIAL AREA ","HIMACHAL PRADESH ","23 ","23 ","7.6 ","8.3 ","967 ","994 ","0.2 ","0.5 ","0.2 ","0.2 ","2 ","2 ","2 ",2
+"1880 ","KALA AMB INDUSTRIAL AREA ","HIMACHAL PRADESH ",,,"7.7 ","8.3 ","505 ","639 ","0.1 ","0.2 ","1.2 ","2.2 ","2 ","2 ","2 ",3
+"1881 ","PAONTA SAHIB INDUSTRIAL AREA ","HIMACHAL PRADESH ",,,"7.9 ","8.0 ","657 ","686 ","0.2 ","0.2 ","1.9 ","2.2 ","2 ","2 ","2 ",4
+"1882 ","MEHATPUR INDUSTRIAL AREA ","HIMACHAL PRADESH ","14 ","14 ","7.4 ","8.3 ","304 ","796 ","0.1 ","0.2 ","0.2 ","0.4 ","2 ","2 ","70 ",70
+"1883 ","UNA INDUSTRIAL AREA ","HIMACHAL PRADESH ","13 ","13 ","8.2 ","8.2 ","533 ","690 ","0.1 ","0.1 ","0.3 ",0.5,,,,
+"2628 ","HAND PUMP AT SHAMSHI ","HIMACHAL PRADESH ","15 ","19 ","7.8 ","8.5 ","432 ","626 ","0.0 ","0.1 ","0.0 ","2.1 ","2 ","2 ","2 ",2
+"2629 ","HAND PUMP AT MANDI TOWN ","HIMACHAL PRADESH ","24 ","25 ","8.2 ","8.2 ","362 ","456 ","0.0 ","0.1 ",,,"2 ","2 ","2 ",2
+"2630 ","HAND PUMP AT HAMIRPUR TOWN ","HIMACHAL PRADESH ","13 ","18 ","7.1 ","8.2 ","306 ","796 ","0.1 ","0.1 ","0.3 ","2.3 ","2 ","2 ","46 ",46
+"2631 ","HAND PUMP AT NADAUN TOWN ","HIMACHAL PRADESH ","13 ","17 ","7.2 ","8.1 ","284 ","788 ","0.1 ","1.0 ","0.4 ","2.7 ","2 ","2 ","63 ",63
+"2632 ","HAND PUMP AT BILASPUR TOWN ","HIMACHAL PRADESH ","17 ","24 ","8.0 ","8.4 ","77 ","908 ","0.0 ","0.1 ","0.0 ","0.4 ","2 ","13 ","2 ",79
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,(μmhos/cm),,,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"2633 ","HAND PUMP AT RECONGPEO ","HIMACHAL PRADESH ",,,"7.3 ","8.1 ","100 ","342 ","0.1 ","1.0 ","0.0 ",1.0,,,,
+"2634 ","HAND PUMP AT SHIMLA ","HIMACHAL PRADESH ","13 ","14 ","7.4 ","8.0 ","99 ","326 ","0.5 ","0.5 ","0.2 ","0.6 ","2 ","2 ","2 ",2
+"2635 ","HAND PUMP AT RAMPUR ","HIMACHAL PRADESH ",,,"7.5 ","7.7 ","97 ","101 ","0.3 ","0.6 ","0.5 ",1.0,,,,
+"2636 ","HAND PUMP AT KANGRA TEMPLE/ TOWN ","HIMACHAL PRADESH ","15 ","16 ","8.1 ","8.2 ","484 ","780 ","0.1 ","0.2 ","0.2 ",0.5,,,,
+"2637 ","HAND PUMP AT JWALAJI TEMPLE ","HIMACHAL PRADESH ","13 ","13 ","7.1 ","7.1 ","1125 ","1125 ","0.1 ","0.1 ","2.0 ",2.0,,,,
+"2638 ","HAND PUMP AT CHINTPURNI TEMPLE/ TOWN ","HIMACHAL PRADESH ",,,"7.4 ","7.4 ","151 ","151 ","0.1 ","0.1 ","0.4 ","0.4 ","2 ","2 ","70 ",70
+,HAND PUMP AT CHAMUNDA DEVI TEMPLE/,,,,,,,,,,,,,,,
+"2639 ",,"HIMACHAL PRADESH ","14 ","14 ","7.2 ","7.8 ","94 ","134 ","0.1 ","0.1 ","0.3 ","0.3 ","2 ","2 ","63 ",63
+,"TOWN ",,,,,,,,,,,,,,,
+"2640 ","HAND PUMP AT SANSARPUR TERRACE IA ","HIMACHAL PRADESH ","15 ","15 ","7.5 ","8.0 ","369 ","617 ","0.1 ","0.1 ","0.4 ","0.5 ","4 ","4 ","70 ",70
+"2645 ","HAND PUMP AT NAHAN ","HIMACHAL PRADESH ",,,"7.7 ","7.9 ","582 ","1240 ","0.1 ","0.1 ","2.2 ","7.1 ","2 ","2 ","2 ",2
+"2646 ","HAND PUMP AT KALA AMB ","HIMACHAL PRADESH ",,,"7.5 ","7.8 ","853 ","1373 ","0.2 ","0.2 ","2.2 ","5.2 ","2 ","2 ","2 ",4
+"2647 ","HAND PUMP AT TAHLIWAL IA ","HIMACHAL PRADESH ","13 ","14 ","8.2 ","8.4 ","639 ","643 ","0.1 ","0.1 ","0.2 ","0.5 ","2 ","2 ","63 ",63
+"2648 ","HAND PUMP AT KEYLONG ","HIMACHAL PRADESH ","15 ","15 ","8.3 ","8.3 ","383 ","383 ","0.0 ","0.0 ",,,"2 ","2 ","2 ",2
+
+TABLE - 11: WATER QUALITY OF GROUND WATER IN JAMMU & KASHMIR – 2018,,,,,,,,,,,,,,,,
+,,,,,,,,,Nitrate-N +,,,,,,,
+Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,,,,
+,,,"pH ",,,,,,Nitrite-N,,,,,,,
+Station,,,,,,,,,,,,,,,,
+,"⁰C ",,,,(μmhos/cm),,(mg/l),,,,(MPN/100ml),(MPN/100ml),,,,
+Station Name State Name,,,,,,,,,,,,,,,,
+,,,,,,,,,(mg/l),,,,,,,
+"Code ",,,,,,,,,,,,,,,,
+"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,,,
+"2759 DUGWELL AT GAGHWAL(KATHUA DISTT) JAMMU & KASHMIR 16 ","16 ","7.3 ","7.8 ","440 ","480 ",,,"0.0 ",0.2,,,,,,,
+"2760 MALADHAR TALAB(POND)HATLI (KATHUA) JAMMU & KASHMIR 17 ","21 ","7.3 ","9.0 ","280 ","315 ","2.4 ","2.7 ","0.0 ",0.0,,,,,,,
+TUBE WELL KATHUA SICOP INDUSTRIAL AREA,,,,,,,,,,,,,,,,
+"2761 JAMMU & KASHMIR 15 ","16 ","7.2 ","7.2 ","220 ","385 ","36.0 ","36.0 ","0.0 ",0.0,,,,,,,
+"KATHUA ",,,,,,,,,,,,,,,,
+"2762 R.S. PURA TEHSIL, JAMMU JAMMU & KASHMIR 16 ","21 ","7.8 ","8.4 ","1210 ","1506 ","20.0 ","20.0 ","0.3 ",0.6,,,,,,,
+"3288 GROUND WATER AT IQBAL PARK JAMMU & KASHMIR 19 ","19 ","7.6 ","7.6 ","902 ","902 ","6.1 ",6.1,,,,,,,,,
+"3290 GROUND WATER AT ZANAKOT (I) JAMMU & KASHMIR 18 ","18 ","7.6 ","7.6 ","966 ","966 ","1.6 ",1.6,,,,,,,,,
+"3291 GROUND WATER AT ZANAKOT (II) JAMMU & KASHMIR 17 ","17 ","7.6 ","7.6 ","969 ","969 ","1.4 ",1.4,,,,,,,,,
+"3292 GROUND WATER AT SADAKADAL JAMMU & KASHMIR 13 ","13 ","7.7 ","7.7 ","1000 ","1000 ","2.7 ",2.7,,,,,,,,,
+
+,TABLE - 12: WATER QUALITY OF GROUND WATER IN KARNATAKA – 2018,,,,,,,,,,,,,,,
+,,,,,,,,,,,Nitrate-N +,,,,,
+,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,,
+,,,,,"pH ",,,,,,Nitrite-N,,,,,
+Station,,,,,,,,,,,,,,,,
+,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),,
+"Station Name ",State Name,,,,,,,,,,,,,,,
+,,,,,,,,,,,(mg/l),,,,,
+"Code ",,,,,,,,,,,,,,,,
+,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,
+BOREWELL WATER NEAR MANGALIJYOTHI,,,,,,,,,,,,,,,,
+"3564 ","KARNATAKA ","27 ","29 ","6.9 ","7.2 ","146 ","182 ","2.0 ","3.0 ","0.6 ","1.6 ","2 ","14 ","2 ",300,
+"SCHOOL MSW SITE VAMMANJOOR ",,,,,,,,,,,,,,,,
+"M/S SUGURESHWARA IND, 196 (P), KIADB IND",,,,,,,,,,,,,,,,
+"4093 ","KARNATAKA ","28 ","35 ","6.9 ","7.3 ","5053 ","5053 ","7.0 ","18.0 ","0.0 ","0.5 ","2 ","2 ","30 ",70,
+"GROWTH CENTRE, CHIKA SUGAR, RAICHUR ",,,,,,,,,,,,,,,,
+
+,,TABLE - 13: WATER QUALITY OF GROUND WATER IN KERALA – 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"19 ","WELL AT ALWAYE, KERALA ","KERALA ","27 ","28 ","5.6 ","5.8 ","142 ","181 ","0.9 ","1.6 ","0.0 ","4.1 ","2 ","400 ","2 ",1200
+"22 ","WELL AT CHUNGAPALLY, KERALA ","KERALA ","25 ","28 ","6.5 ","7.3 ","74 ","120 ","0.5 ","1.0 ","0.4 ","0.7 ","40 ","310 ","130 ",490
+"35 ","WELL AT PUNALUR, KERALA ","KERALA ","24 ","25 ","6.1 ","6.7 ","190 ","228 ","1.1 ","1.2 ","0.7 ","0.8 ","20 ","31 ","120 ",140
+,"PAPPANAMKODE, THIRUVANANTHAPURAM,",,,,,,,,,,,,,,,
+"1581 ",,"KERALA ","31 ","32 ","6.2 ","6.9 ","140 ","180 ","0.7 ","1.8 ","0.0 ","10.0 ","10 ","13 ","34 ",40
+,"KERALA ",,,,,,,,,,,,,,,
+,"NEDUMANGAD, THIRUVANANTHAPURAM,",,,,,,,,,,,,,,,
+"1582 ",,"KERALA ","31 ","31 ","6.7 ","7.1 ","170 ","300 ","0.6 ","1.1 ","0.0 ","15.0 ","10 ","12 ","35 ",40
+,"KERALA ",,,,,,,,,,,,,,,
+"1583 ","KUNDARA, KOLLAM DISTT. , KERALA ","KERALA ","26 ","27 ","6.6 ","6.9 ","148 ","160 ","1.0 ","1.1 ","0.6 ","0.6 ","10 ","20 ","58 ",79
+"1584 ","CHERTHALA, ALLEPPY, KERALA ","KERALA ","28 ","29 ","7.5 ","8.2 ","259 ","350 ","0.5 ","1.3 ","0.0 ","0.1 ","2 ","200 ","10 ",310
+"1585 ","VYTTILA, ERNAKULAM DISTT. , KERALA ","KERALA ","28 ","30 ","6.9 ","7.0 ","250 ","420 ","2.0 ","2.4 ","4.4 ","10.1 ","200 ","1100 ","1200 ",2000
+"1586 ","EDAYAR ERNAKULAM DISTT., KERALA ","KERALA ","28 ","28 ","5.6 ","5.6 ","197 ","197 ","3.0 ","3.0 ","0.8 ","0.8 ","2 ","2 ","20 ",20
+"1587 ","KALAMASSERY ERNAKULAM DISTT. , KERALA ","KERALA ","26 ","28 ","6.3 ","7.0 ","334 ","354 ","0.5 ","0.6 ","6.1 ","7.4 ","2 ","2100 ","4 ",5400
+"1588 ","PUNKUNNAM TRISSUR DISTT. , KERALA ","KERALA ","26 ","29 ","6.2 ","6.4 ","210 ","302 ","0.6 ","0.8 ","0.3 ","2.6 ","250 ","1700 ","490 ",2000
+"1589 ","MALAPURAM , KERALA ","KERALA ","30 ","32 ","6.2 ","6.3 ","270 ","398 ","1.2 ","3.0 ","0.8 ","11.0 ","15 ","23 ","46 ",60
+"1590 ","MAVOOR, KOZHIKKODE DISTT. , KERALA ","KERALA ","27 ","27 ","6.3 ","7.7 ","75 ","92 ","0.5 ","0.5 ","0.1 ","2.0 ","70 ","140 ","120 ",220
+,"KANNUR (MUNICIPALITY) KANNUR DISTTM ,",,,,,,,,,,,,,,,
+"1591 ",,"KERALA ","27 ","30 ","5.1 ","6.7 ","90 ","100 ","0.5 ","2.1 ","0.7 ","4.9 ","84 ","310 ","100 ",490
+,"KERALA ",,,,,,,,,,,,,,,
+"1592 ","PAYYANNUR, KANNUR DISTT. , KERALA ","KERALA ","28 ","28 ","6.8 ","7.9 ","200 ","320 ","0.5 ","0.5 ","1.1 ","4.0 ","120 ","1300 ","150 ",1500
+"2308 ","FATHIMAPURAM (CHANGANASSERY) ","KERALA ","27 ","28 ","6.8 ","7.0 ","174 ","199 ","0.5 ","0.5 ","2.4 ","5.0 ","2 ","810 ","2 ",1600
+"2309 ","KAROOR (PALA) ","KERALA ","27 ","28 ","6.3 ","7.5 ","73 ","87 ","0.5 ","0.5 ","0.0 ","3.2 ","1000 ","1700 ","2000 ",2600
+"2310 ","VAIKOM ","KERALA ","28 ","28 ","6.7 ","7.5 ","146 ","184 ","0.5 ","0.5 ","0.0 ","3.5 ","2 ","2 ","2 ",2
+"2311 ","VADAVATHOOR (KOTTAYAM) ","KERALA ","27 ","29 ","6.5 ","7.1 ","80 ","126 ","0.5 ","0.5 ","2.0 ","3.1 ","400 ","1200 ","790 ",2000
+"2313 ","SARVODAPURAM, ALAPPUZHA ","KERALA ","29 ","29 ","7.4 ","8.3 ","199 ","311 ","2.6 ","3.0 ","0.0 ","0.1 ","2 ","170 ","20 ",320
+"2314 ","KUREEPUZHA (KOLLAM) ","KERALA ","23 ","28 ","6.4 ","6.6 ","168 ","185 ","1.2 ","1.3 ","0.8 ","1.0 ","100 ","100 ","280 ",350
+"2315 ","K.M.M.L. (KOLLAM) ","KERALA ","22 ","28 ","7.6 ","7.8 ","250 ","262 ","0.0 ","1.0 ","0.8 ","0.9 ","110 ","120 ","320 ",400
+"2316 ","CHELLORA TRENCHING GROUND (KANNUR) ","KERALA ","26 ","28 ","6.7 ","7.5 ","40 ","306 ","0.5 ","0.6 ","0.0 ","8.7 ","400 ","1200 ","430 ",1400
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,PUNNALPETTIPPALAM (TELLICHERRY,,,,,,,,,,,,,,,
+"2317 ",,"KERALA ","28 ","28 ","6.1 ","7.4 ","132 ","330 ","0.5 ","0.5 ","1.9 ","2.0 ","480 ","1100 ","1200 ",1300
+,"MUNICIPALITY ",,,,,,,,,,,,,,,
+"2320 ","MANJERI ","KERALA ","30 ","31 ","6.0 ","6.4 ","200 ","269 ","0.8 ","1.2 ","0.8 ","11.0 ","4 ","31 ","20 ",60
+"2321 ","LALOOR (THRISSUR) ","KERALA ","27 ","30 ","4.7 ","5.8 ","200 ","250 ","0.5 ","0.5 ","0.4 ","1.8 ","310 ","600 ","790 ",920
+"2322 ","OLLUR (THRISSUR) ","KERALA ","29 ","30 ","4.6 ","5.0 ","187 ","200 ","0.7 ","1.6 ","4.9 ","11.5 ","2 ","250 ","2 ",460
+,BRAHMAPURAM M.S.W. DUMPARK,,,,,,,,,,,,,,,
+"2323 ",,"KERALA ","26 ","30 ","6.5 ","6.5 ","224 ","335 ","0.9 ","1.2 ","1.4 ","3.5 ","30 ","250 ","790 ",1100
+,"(ERNAKULAM) ",,,,,,,,,,,,,,,
+"2324 ","HAZARDOUS WASTE DUMP (AMBALAMUGHAL) ","KERALA ","28 ","30 ","5.4 ","6.0 ","125 ","142 ","2.1 ","4.8 ","2.4 ","5.0 ","2 ","8 ","4 ",12
+"2327 ","KARUKAMANI ","KERALA ","28 ","33 ","6.2 ","7.5 ","420 ","670 ","0.5 ","1.6 ","0.8 ","2.8 ","2 ","20 ","40 ",100
+"3463 ","WELL AT VELLIPARAMBA, KOZHEKODE ","KERALA ","27 ","29 ","6.4 ","7.0 ","76 ","81 ","0.5 ","0.6 ","1.3 ","1.4 ","60 ","250 ","150 ",350
+"3472 ","WELL OF TEMPLE PARASSINIKADAVU, KANNUR ","KERALA ","26 ","28 ","7.4 ","8.0 ","800 ","1000 ","0.5 ","2.5 ","1.0 ","1.2 ","200 ","280 ","310 ",310
+"3474 ","WELL AT PAYANOOR, KANNUR ","KERALA ","27 ","28 ","7.3 ","7.8 ","90 ","200 ","1.0 ","1.3 ","0.7 ","3.5 ","100 ","140 ","170 ",200
+"3475 ","WELL AT KARIMBAM, KANNUR ","KERALA ","24 ","27 ","5.8 ","7.4 ","97 ","110 ","1.5 ","1.8 ","1.0 ","3.1 ","100 ","140 ","170 ",200
+
+TABLE - 14: WATER QUALITY OF GROUND WATER IN LAKSHADWEEP – 2018,,,,,,,,,,,,,,,,
+,,,,,,,,,Nitrate-N +,,,,,,,
+Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,,,,
+,,,"pH ",,,,,,Nitrite-N,,,,,,,
+Station,,,,,,,,,,,,,,,,
+,"⁰C ",,,,(μmhos/cm),,(mg/l),,,,(MPN/100ml),(MPN/100ml),,,,
+Station Name State Name,,,,,,,,,,,,,,,,
+,,,,,,,,,(mg/l),,,,,,,
+"Code ",,,,,,,,,,,,,,,,
+"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,,,
+WELL NEAR PWD ADJACENT TO CHAKIKILUM IN,,,,,,,,,,,,,,,,
+"1402 LAKSHADWEEP 29 ","30 ","6.5 ","6.9 ","979 ",1319,,,,,,,,,,,
+"KAVARATTI ",,,,,,,,,,,,,,,,
+"1593 WELL NEAR J.B SCHOOL LAKSHADWEEP 29 ","30 ","7.3 ","7.7 ","1218 ",1619,,,,,,,,,,,
+"1594 WELL NEAR OTTAVATHIL PALLI LAKSHADWEEP 30 ","30 ","6.7 ","7.6 ","2050 ",2190,,,,,,,,,,,
+"1595 WELL NEAR CHEKKILLAM HOUSE LAKSHADWEEP 30 ","30 ","6.6 ","7.5 ","1042 ",1206,,,,,,,,,,,
+"1596 WELL C/O KADAT PALLI LAKSHADWEEP 30 ","30 ","6.7 ","7.7 ","1606 ",1810,,,,,,,,,,,
+"1597 WELL NEAR BADER PALLI LAKSHADWEEP 30 ","30 ","7.1 ","8.1 ","832 ",833,,,,,,,,,,,
+"1598 WELL C/O PUTHIYA PALLI LAKSHADWEEP 30 ","30 ","6.7 ","7.7 ","792 ",836,,,,,,,,,,,
+"1599 WELL C/O PURATHA PALLI LAKSHADWEEP 29 ","30 ","6.3 ","6.6 ","1038 ",1078,,,,,,,,,,,
+"1600 WELL C/O ANDAM PALLI LAKSHADWEEP 30 ","30 ","6.2 ","6.5 ","1170 ",1250,,,,,,,,,,,
+"1601 WELL C/O CIRCUIT HOUSE LAKSHADWEEP 30 ","31 ","6.9 ","7.4 ","1474 ",2420,,,,,,,,,,,
+"1602 WELL C/O GOVT. PRESS, LAKSHADWEEP 30 ","30 ","6.8 ","7.5 ","1106 ",1220,,,,,,,,,,,
+"1603 WELL C/O OLD POLICE BARRACKS, LAKSHADWEEP 30 ","31 ","6.6 ","7.2 ","3100 ",5030,,,,,,,,,,,
+"1604 WELL C/O MPSAF QUARTER LAKSHADWEEP 30 ","31 ","6.7 ","6.9 ","6000 ",7460,,,,,,,,,,,
+"1605 WELL NEAR HALIPAD LAKSHADWEEP 29 ","31 ","6.8 ","7.3 ","1701 ",2370,,,,,,,,,,,
+"1606 WELL (PUBLIC )OPPOSITE S.B.SCHOOL LAKSHADWEEP 30 ","31 ","6.9 ","7.7 ","945 ",1080,,,,,,,,,,,
+
+,,TABLE - 15: WATER QUALITY OF GROUND WATER IN MADHYA PRADESH – 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,"WELL, SHRI RAO PRAJAPATI WELL , M. P.(T/W OF",,,,,,,,,,,,,,,
+52,"HANIF KHAN S/O JABBAR KHAN, AMRAWATI","MADHYA PRADESH ","25 ","27 ","7.9 ","8.3 ","1156 ","1447 ","0.6 ","0.9 ","2.2 ","4.9 ","2 ","2 ","7 ",10
+,"ROAD, BURHANPUR )",,,,,,,,,,,,,,,
+,"OPEN WELL/TUBE WELL INDUSTRIAL AREA,",,,,,,,,,,,,,,,
+"1616 ",,"MADHYA PRADESH ","29 ","30 ","7.2 ","7.8 ","625 ","2500 ","0.9 ","1.0 ","1.6 ","46.9 ","2 ","2 ","34 ",43
+,"GOVINDPURA, BHOPAL, M.P ",,,,,,,,,,,,,,,
+,OPEN WELL/TUBE WELL INDUSTRIAL AREA,,,,,,,,,,,,,,,
+"1617 ",,"MADHYA PRADESH ","25 ","26 ","7.7 ","8.1 ","286 ","1201 ","0.5 ","0.9 ","1.1 ","1.3 ","2 ","2 ","39 ",43
+,"MANDIDEEP, DISTT. RAISEN, M.P ",,,,,,,,,,,,,,,
+,GROUND WATER SAMPLING AT TWO POINTS IN,,,,,,,,,,,,,,,
+"1618 ",,"MADHYA PRADESH ","26 ","27 ","7.5 ","8.1 ","830 ","1203 ","1.3 ","1.6 ","0.8 ","1.3 ","2 ","2 ","14 ",15
+,"INDUSTRIAL AREA MALANPUR, M.P ",,,,,,,,,,,,,,,
+,GROUND WATER SAMPLING AT TWO POINTS IN,,,,,,,,,,,,,,,
+"1619 ",,"MADHYA PRADESH ","26 ","26 ","7.5 ","8.1 ","716 ","1280 ","1.2 ","1.7 ","0.8 ","1.0 ","2 ","2 ","15 ",17
+,"INDUSTRIAL AREA MALANPUR, M.P ",,,,,,,,,,,,,,,
+,"TUBE WELL AT JAINABAD, NEAR TAPTI RIVER",,,,,,,,,,,,,,,
+"1897 ",,"MADHYA PRADESH ","25 ","28 ","7.8 ","7.9 ","1083 ","1230 ","0.8 ","0.8 ","1.1 ","3.1 ","2 ","2 ","7 ",8
+,"BRIDGE, PUMPING STN. BURHANPUR, M.P. ",,,,,,,,,,,,,,,
+"2143 ","KATHODA, JABALPUR ","MADHYA PRADESH ","21 ","21 ","7.5 ","7.6 ","360 ","440 ","0.2 ","0.4 ","0.3 ","0.6 ","2 ","18 ","2 ",18
+"2144 ","MADAI GRAM, JABALPUR ","MADHYA PRADESH ","22 ","22 ","7.2 ","7.6 ","368 ","460 ","0.2 ","0.3 ","0.3 ","1.1 ","2 ","18 ","2 ",18
+"2145 ","MEHATWAS, NAGDA ","MADHYA PRADESH ","26 ","26 ","7.9 ","7.9 ","1516 ","1516 ","1.0 ","1.0 ","4.1 ",4.1,,,,
+"2146 ","BHAGATPURI VILLAGE, NAGDA ","MADHYA PRADESH ","26 ","26 ","7.4 ","7.8 ","1733 ","1812 ","1.6 ","2.0 ","3.2 ",4.9,,,,
+"2147 ","PRATAL NAGAR, DEWAS ","MADHYA PRADESH ","21 ","21 ","7.7 ","7.9 ","2662 ","2662 ","1.2 ","2.0 ","0.5 ",4.9,,,,
+"2148 ","DOSIGAON, RATLAM ","MADHYA PRADESH ","27 ","27 ","7.0 ","7.0 ","1860 ","1860 ","1.8 ","1.8 ","5.0 ","5.0 ","2 ","2 ","25 ",25
+"2149 ","CULVERT ON A.B. ROAD, MAKSI ","MADHYA PRADESH ",,,"7.9 ","7.9 ","1530 ","1530 ","2.0 ","2.0 ","2.6 ",2.6,,,,
+,"TRENCHING GROUND, NEAR GARDEN, DEV",,,,,,,,,,,,,,,
+"2150 ",,"MADHYA PRADESH ","25 ","30 ","7.8 ","7.8 ","1444 ","1669 ","0.5 ","0.6 ","0.8 ","4.5 ","2 ","2 ","6 ",7
+,"GURADIYA ROAD, INDORE ",,,,,,,,,,,,,,,
+,TRENCHING GROUND IN THE PREMISES OF M/S,,,,,,,,,,,,,,,
+"2151 ",,"MADHYA PRADESH ","25 ","30 ","7.4 ","7.8 ","1760 ","3118 ","0.9 ","1.2 ","8.3 ","8.4 ","2 ","2 ","7 ",17
+,"RISHABH MASALA UDYOG, INDORE ",,,,,,,,,,,,,,,
+,TRENCHING GROUND IN THE PREMISES OF M/S,,,,,,,,,,,,,,,
+"2152 ",,"MADHYA PRADESH ","25 ","29 ","7.6 ","7.9 ","1655 ","2419 ","0.9 ","1.4 ","4.4 ","9.0 ","2 ","2 ","6 ",7
+,"LAKHANI FOOT WEAR, INDORE ",,,,,,,,,,,,,,,
+"2153 ","IBRAHIMGANJ NEAR BUS STAND, BHOPAL ","MADHYA PRADESH ","25 ","28 ","7.2 ","8.1 ","510 ","547 ","0.7 ","0.8 ","3.1 ","5.7 ","2 ","2 ","26 ",70
+"2154 ","NEAR PRIMARY SCHOOL, PILUKHEDI, RAJGARH. ","MADHYA PRADESH ","22 ","29 ","7.6 ","8.7 ","291 ","2100 ","1.4 ","2.2 ","0.0 ",3.2,,,,
+,"TUBE WELL/ HAND PUMP AT INDUSTRIAL AREA,",,,,,,,,,,,,,,,
+"3332 ",,"MADHYA PRADESH ",,,"7.8 ","7.8 ","2495 ","2495 ","1.0 ","1.0 ","5.1 ",5.1,,,,
+,"DEWAS ",,,,,,,,,,,,,,,
+"3333 ","HAND PUMP WATER AT BANSKHEDI, BHOPAL ","MADHYA PRADESH ","25 ","29 ","7.3 ","7.8 ","434 ","497 ","0.7 ","0.9 ","2.0 ","4.2 ","2 ","2 ","34 ",40
+"3334 ","TUBE WELL NEAR BUS STAND AT BETUL ","MADHYA PRADESH ","29 ","29 ","7.4 ","7.7 ","326 ","330 ","1.0 ","1.0 ","1.0 ","1.3 ","2 ","2 ","130 ",220
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,TUBE WELL/ HAND PUMP AT INDUSTRIAL AREA,,,,,,,,,,,,,,,
+"3335 ",,"MADHYA PRADESH ","21 ","21 ","7.3 ","7.5 ","430 ","680 ","0.2 ","0.4 ","0.2 ","0.3 ","2 ","18 ","2 ",18
+,"RECHHAI, JABALPUR ",,,,,,,,,,,,,,,
+,"TUBE WELL/ HAND PUMP AT INDUSTRIAL AREA,",,,,,,,,,,,,,,,
+"3336 ",,"MADHYA PRADESH ","24 ","28 ","8.1 ","8.4 ","830 ","830 ","1.2 ","1.6 ","0.0 ","2.6 ","3 ","3 ","11 ",11
+,"CHHINDWARA ",,,,,,,,,,,,,,,
+,TUBE WELL/ HAND PUMP AT INDL AREA SEONI,,,,,,,,,,,,,,,
+"3337 ",,"MADHYA PRADESH ","24 ","24 ","7.5 ","8.0 ","360 ","830 ","0.2 ","0.2 ","0.2 ","1.1 ","2 ","18 ","2 ",18
+,"NEAR BARAPATTHAR ",,,,,,,,,,,,,,,
+,"HAND PUMP NEAR PANCHAYAT BHAWAN,",,,,,,,,,,,,,,,
+"3338 ",,"MADHYA PRADESH ","26 ","26 ","7.3 ","7.6 ","567 ","738 ","1.4 ","1.8 ","0.8 ","1.1 ","2 ","2 ","17 ",18
+,"VILLAGE TINAWALI RAIRU ",,,,,,,,,,,,,,,
+,TUBE WELL/ HAND PUMP NEAR MANGLIA,,,,,,,,,,,,,,,
+"3339 ",,"MADHYA PRADESH ","25 ","29 ","7.1 ","7.6 ","1335 ","2263 ","1.0 ","1.8 ","4.3 ","8.3 ","2 ","2 ","12 ",34
+,"INDUSTRIAL AREA , INDORE ",,,,,,,,,,,,,,,
+,"TUBE WELL AT NEAR TRENCHING GROUND,",,,,,,,,,,,,,,,
+"3340 ",,"MADHYA PRADESH ","25 ","30 ","7.6 ","7.9 ","2239 ","2500 ","0.7 ","1.0 ","10.3 ","110.3 ","2 ","2 ","5 ",6
+,"INDORE ",,,,,,,,,,,,,,,
+,"TUBE WELL AT SECTOR-III, PITHAMPUR",,,,,,,,,,,,,,,
+"3341 ",,"MADHYA PRADESH ","25 ","30 ","7.6 ","7.8 ","1565 ","3289 ","0.4 ","1.2 ","4.3 ","5.1 ","2 ","2 ","6 ",7
+,"INDUSTRIAL AREA ",,,,,,,,,,,,,,,
+,"BOREWELL WATER AT VILLAGE TARPUR, SECTOR-",,,,,,,,,,,,,,,
+"3342 ",,"MADHYA PRADESH ","25 ","30 ","7.9 ","8.3 ","610 ","620 ","0.8 ","1.2 ","1.9 ","2.2 ","2 ","2 ","3 ",12
+,"II, PITHAMPUR, INDUSTRIAL AREA ",,,,,,,,,,,,,,,
+,TUBE WELL NEAR INDUSTRIAL AREA UDYOG,,,,,,,,,,,,,,,
+"3343 ",,"MADHYA PRADESH ","26 ","30 ","7.0 ","7.3 ","1 ","3 ","0.8 ","1.0 ","3.4 ","5.2 ","2 ","2 ","6 ",14
+,"VIHAR , CHURAT, REWA ",,,,,,,,,,,,,,,
+,"TUBEWELL AT INDL AREA, SHAHDOLU/G WATER",,,,,,,,,,,,,,,
+3344,SAMPLE FROM INDUSTRIAL,"MADHYA PRADESH ","25 ","30 ","7.4 ","7.9 ","786 ","826 ","0.2 ","0.3 ","0.8 ","1.2 ",,,"2 ",2
+,"AREA,NARSARHA,DISTT. SHAHDOL(M.P.)",,,,,,,,,,,,,,,
+"3345 ","TUBEWELL AT INDL AREA, ANUPPUR ","MADHYA PRADESH ","28 ","30 ","7.0 ","8.0 ","526 ","683 ","0.1 ","0.2 ","0.8 ","1.2 ",,,"2 ",2
+,"GROUND WATER NEAR BUS STAND, DIST",,,,,,,,,,,,,,,
+"3822 ",,"MADHYA PRADESH ","20 ","20 ","7.3 ","8.4 ","380 ","567 ","0.2 ","0.2 ","1.0 ","2.5 ","2 ","2 ","2 ",2
+,"NARSINGPUR ",,,,,,,,,,,,,,,
+,"GROUND WATER NEAR BUS STAND, DIST",,,,,,,,,,,,,,,
+"3823 ",,"MADHYA PRADESH ","24 ","24 ","7.4 ","7.5 ","369 ","450 ","0.2 ","0.2 ","0.2 ","2.0 ","2 ","2 ","2 ",2
+,"BALAGHAT ",,,,,,,,,,,,,,,
+,"GROUND WATER VILL BHEEMJORI, MALAJKH,",,,,,,,,,,,,,,,
+"3824 ",,"MADHYA PRADESH ","24 ","24 ","7.4 ","7.6 ","380 ","450 ","0.2 ","0.3 ","0.2 ","0.3 ","2 ","2 ","2 ",2
+,"DIST BALAGHAT ",,,,,,,,,,,,,,,
+,"GROUND WATER NEAR BUS STAND, DIST",,,,,,,,,,,,,,,
+"3825 ",,"MADHYA PRADESH ","21 ","21 ","6.9 ","7.1 ","372 ","410 ","0.2 ","0.2 ","0.5 ","0.6 ","2 ","2 ","2 ",2
+,"MANDLA ",,,,,,,,,,,,,,,
+"3826 ","GROUND WATER NEAR BUS STAND, DIST SEONI ","MADHYA PRADESH ","24 ","24 ","6.4 ","7.5 ","360 ","411 ","0.2 ","0.2 ","0.2 ","0.8 ","2 ","2 ","2 ",2
+"3827 ","GROUND WATER VILL IMALIA, DIST JABALPUR ","MADHYA PRADESH ","22 ","22 ","7.2 ","7.6 ","450 ","460 ","0.3 ","0.4 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+,"GROUND WATER PRIMARY SCHOOL DHOBI GHAT,",,,,,,,,,,,,,,,
+"3837 ",,"MADHYA PRADESH ","21 ","21 ","7.5 ","7.5 ","280 ",290,,,,,,,,
+,"DIST SINGROULI ",,,,,,,,,,,,,,,
+,"GROUND WATER NCL, JINGURDHA, QSHF-176",,,,,,,,,,,,,,,
+"3838 ",,"MADHYA PRADESH ","21 ","21 ","7.5 ","7.5 ","270 ",300,,,,,,,,
+,"METENCE OFF, DIST SINGROULI ",,,,,,,,,,,,,,,
+,"GROUND WATER NEAR SHIV MANDIR, AMLORI",,,,,,,,,,,,,,,
+"3839 ",,"MADHYA PRADESH ","21 ","23 ","7.4 ","7.6 ","270 ",310,,,,,,,,
+,"NCL, PROJECT SINGROULI ",,,,,,,,,,,,,,,
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,(μmhos/cm),,,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,GROUND WATER NEAR SUBJEE MANDI NCL,,,,,,,,,,,,,,,
+"3840 ",,"MADHYA PRADESH ","21 ","23 ","7.3 ","7.5 ","280 ",320,,,,,,,,
+,"JAYANT (BESIDE POLICE STATION), SINGROULI ",,,,,,,,,,,,,,,
+,GROUND WATER SARVESWAR RAJA COLONY,,,,,,,,,,,,,,,
+"3841 ",,"MADHYA PRADESH ","21 ","21 ","7.3 ","7.5 ","280 ",320,,,,,,,,
+,"JAYANT, SINGROULI ",,,,,,,,,,,,,,,
+,"GROUND WATER NEAR SUB STATION SECTOR-B,",,,,,,,,,,,,,,,
+"3842 ",,"MADHYA PRADESH ","21 ","22 ","7.3 ","7.5 ","310 ",470,,,,,,,,
+,"DUDHICHUA NCL PROJECT, SINGROULI ",,,,,,,,,,,,,,,
+,GROUND WATER NEAR ENTRANCE GAGE OF,,,,,,,,,,,,,,,
+"3843 ",,"MADHYA PRADESH ","21 ","22 ","7.3 ","7.6 ","310 ",320,,,,,,,,
+,"VIVEKANANAD STATUE, NIGAHI, SINGROULI ",,,,,,,,,,,,,,,
+,GROUND WATER NEAR COMMERCIAL AUTO,,,,,,,,,,,,,,,
+3844,"MOBILE NEAR BHARAT PETROL PUMP, VINDHYA","MADHYA PRADESH ","21 ","23 ","7.3 ","7.5 ","280 ",330,,,,,,,,
+,"NAGAR, SINGROULI",,,,,,,,,,,,,,,
+"3854 ","TUBE WELL WATER SAMPLE OF SIDHI CITY ","MADHYA PRADESH ","26 ","30 ","7.0 ","7.8 ","1 ","1 ","0.9 ","1.1 ","2.2 ","3.9 ","2 ","2 ","7 ",12
+
+,,TABLE - 16: WATER QUALITY OF GROUND WATER IN MAHARASHTRA – 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"1985 ","KASHIMIRA,BHAYANDER, THANE ","MAHARASHTRA ","30 ","30 ","8.0 ","8.1 ","3138 ","3213 ","3.0 ","3.8 ","1.0 ","1.0 ","2 ","2 ","5 ",17
+"1986 ","MOTAPADA,DAHANU, THANE ","MAHARASHTRA ","28 ","30 ","7.8 ","8.4 ","149 ","541 ","3.0 ","3.2 ","0.2 ","1.5 ","4 ","8 ","21 ",94
+"1987 ","GOKHIWARE,VASAI, THANE ","MAHARASHTRA ","30 ","30 ","7.4 ","7.5 ","1974 ","2322 ","3.0 ","3.6 ","0.7 ","1.1 ","8 ","13 ","13 ",130
+"1988 ","GHARATWADI,ALIYALI,PALGHAR, THANE ","MAHARASHTRA ","28 ","30 ","7.4 ","7.8 ","1613 ","2187 ","3.4 ","7.0 ","1.5 ","1.6 ","7 ","21 ","48 ",110
+"1989 ","MSW SITE, KARAWALA,TALOJA,PANVEL, RAIGAD ","MAHARASHTRA ","28 ","29 ","7.4 ","7.8 ","287 ","1529 ","3.0 ","5.0 ","0.8 ","1.9 ","4 ","26 ","40 ",170
+"1991 ","MSW SITE, PATHARDI, NASIK ","MAHARASHTRA ","34 ","34 ","8.3 ","8.3 ","462 ","462 ","4.0 ","4.0 ","0.0 ","0.5 ","2 ","2 ","140 ",140
+,"MSW SITE, MOSHI,PIMPRI-CHINCHWAD,",,,,,,,,,,,,,,,
+"1992 ",,"MAHARASHTRA ","26 ","30 ","7.9 ","8.4 ","88 ","838 ","2.6 ","8.5 ","0.1 ","5.4 ","35 ","55 ","425 ",550
+,"HAWELI,PUNE ",,,,,,,,,,,,,,,
+"1994 ","TPS-DURGAPUR, CHANDRAPUR ","MAHARASHTRA ","21 ","26 ","7.2 ","7.8 ","934 ","1145 ","4.2 ","5.3 ","0.1 ","3.6 ","2 ","26 ","26 ",140
+"1995 ","KHAPERKHEDA, SAONER,NAGPUR ","MAHARASHTRA ","30 ","32 ","7.2 ","7.7 ","1012 ","1212 ","3.6 ","6.0 ","1.0 ","4.9 ","4 ","21 ","39 ",94
+"1996 ","KORADI, KAMPTEE,NAGPUR ","MAHARASHTRA ","30 ","30 ","7.3 ","7.3 ","1254 ","1254 ","5.9 ","5.9 ","0.0 ","9.4 ","4 ","4 ","40 ",40
+"1997 ","RAIPUR,HINGNA NAGPUR ","MAHARASHTRA ","27 ","27 ","8.0 ","8.0 ","992 ","992 ","3.4 ","3.4 ","0.0 ",0.7,,,,
+"1998 ","BRHAMNI, KALMESHWAR, NAGPUR ","MAHARASHTRA ","30 ","30 ","7.5 ","7.9 ","846 ","890 ","4.8 ","10.0 ","0.4 ","3.7 ","2 ","2 ","38 ",38
+"1999 ","CHANGERA, GONDIA ","MAHARASHTRA ",,,"7.8 ","8.2 ","880 ","1030 ","3.1 ","10.0 ","0.3 ",0.5,,,,
+"2001 ","PARATWADA, ACHALPUR, AMRAVATI ","MAHARASHTRA ","23 ","23 ","7.6 ","7.6 ","960 ","960 ","5.4 ","5.4 ","0.0 ","10.3 ","2 ","2 ","8 ",8
+"2002 ","ANJANGAON,AKOT, AKOLA ","MAHARASHTRA ","25 ","27 ","7.5 ","8.1 ","686 ","865 ","3.0 ","5.1 ","0.5 ","0.9 ","4 ","13 ","26 ",50
+"2003 ","SAWARGAON, YAVATMAL ","MAHARASHTRA ","22 ","24 ","7.4 ","7.6 ","916 ","1790 ","5.4 ","56.4 ","6.8 ","7.9 ","21 ","46 ","170 ",220
+,"PARVATI INDL. ESTATE, YADRAV, SHIROL,",,,,,,,,,,,,,,,
+"2004 ",,"MAHARASHTRA ",,,"7.3 ","7.4 ","1680 ","2623 ","2.2 ","2.4 ","0.6 ","1.3 ","9 ","9 ","120 ",120
+,"KOLHAPUR ",,,,,,,,,,,,,,,
+"2005 ","KHANJIRENAGAR, HATKANANGALE, KOLHAPUR ","MAHARASHTRA ",,,"7.5 ","7.6 ","1091 ","2040 ","2.0 ","2.2 ","0.5 ","1.2 ","13 ","13 ","210 ",210
+"2006 ","MIDC, SHINOLI, CHANDGAD, KOLHAPUR ","MAHARASHTRA ",,,"7.2 ","7.9 ","335 ","552 ","2.2 ","2.2 ","0.4 ","0.8 ","7 ","7 ","49 ",49
+"2007 ","SAVALI, MIRAJ, SANGLI ","MAHARASHTRA ","22 ","23 ","7.7 ","7.7 ","701 ","5826 ","2.0 ","2.4 ","0.8 ","0.9 ","5 ","14 ","49 ",120
+"2008 ","RASULWADI-SAMBARWADI, MIRAJSANGLI ","MAHARASHTRA ","20 ","22 ","7.6 ","7.8 ","958 ","2036 ","2.2 ","2.6 ","0.4 ","0.8 ","6 ","12 ","48 ",84
+,"DUG WELL AT GHANE KUNT, NEAR AWASTHI,",,,,,,,,,,,,,,,
+2202,"OWNED BY SHRI RAJENDRA AMRE , KHED,","MAHARASHTRA ","23 ","28 ","6.3 ","7.5 ","106 ","542 ","2.0 ","2.6 ","0.4 ","0.4 ","4 ","9 ","22 ",34
+,RATNAGIRI,,,,,,,,,,,,,,,
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,,(MPN/100ml),(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,HAND PUMP IN THE PREMISES OF ZILLA,,,,,,,,,,,,,,,
+2203,"PARISHAD PRIMARY SCHOOL, BHUGAON,","MAHARASHTRA ","26 ","26 ","7.6 ","7.6 ","962 ","962 ","3.2 ","3.2 ","0.0 ",0.5,,,,
+,WARDHA,,,,,,,,,,,,,,,
+,"DUG WELL OWNED BY SHRI DESHMUKH,",,,,,,,,,,,,,,,
+"2819 ",,"MAHARASHTRA ","29 ","30 ","8.1 ","8.2 ","2084 ","2592 ","3.4 ","8.5 ","2.5 ","9.2 ","30 ","200 ","350 ",1800
+,"MALEGAON, BARAMATI, PUNE ",,,,,,,,,,,,,,,
+,DUG WELL OWNED BY SHRI SHIVAJI BABAN,,,,,,,,,,,,,,,
+"2820 ",,"MAHARASHTRA ","26 ","30 ","8.2 ","8.5 ","452 ","1690 ","2.8 ","3.6 ","1.9 ","2.9 ","8 ","25 ","25 ",350
+,"DAREKAR, SANASWADI, SHIRUR, PUNE ",,,,,,,,,,,,,,,
+,BORE WELL AT BALE RAILWAY STATION,,,,,,,,,,,,,,,
+2821,"PREMISES OWNED BY SHRI DIGAMBAR JOSHI,","MAHARASHTRA ","35 ","35 ","8.1 ","8.1 ","658 ","658 ","6.4 ","6.4 ","0.0 ","1.7 ","30 ","30 ","550 ",550
+,"DAHEGAON, NORTH SOLAPUR",,,,,,,,,,,,,,,
+"2822 ","BORE WELL NEAR CHINCHOLI, MOHOL, SOLAPUR ","MAHARASHTRA ","27 ","27 ","8.1 ","8.1 ","1545 ","1545 ","3.8 ","3.8 ","0.0 ","3.4 ","40 ","40 ","425 ",425
+,BORE WELL AT SHETE VASTI NEAR OLD TULJAPUR,,,,,,,,,,,,,,,
+"2823 ",,"MAHARASHTRA ","28 ","28 ","8.5 ","8.5 ","985 ","985 ","3.2 ","3.2 ","0.0 ","2.9 ","40 ","40 ","425 ",425
+,"ROAD, TULJAPUR NAKA, SOLAPUR ",,,,,,,,,,,,,,,
+,"DUG WELL NEAR RAILWAY STATION, COTTON",,,,,,,,,,,,,,,
+"2826 ",,"MAHARASHTRA ","26 ","31 ","7.8 ","7.8 ","858 ","989 ","5.7 ","6.0 ","0.7 ",4.2,,,,
+,"MARKET, WARDHA ",,,,,,,,,,,,,,,
+,DUG WELL NEAR JILLA PARISHAD PRIMARY,,,,,,,,,,,,,,,
+"2828 ",,"MAHARASHTRA ","20 ","27 ","7.4 ","7.5 ","976 ","990 ","4.0 ","5.8 ","0.1 ","2.9 ","6 ","25 ","40 ",150
+,"SCHOOL, VISAPUR, BALLARPUR, CHANDRAPUR ",,,,,,,,,,,,,,,
+,BORE WELL AT MIDC SHIROLI NEAR M/S,,,,,,,,,,,,,,,
+2829,"PRATIBHA ENTERPRISES, HATKANANGALE,","MAHARASHTRA ",,,"7.6 ","8.0 ","694 ","2718 ","2.0 ","2.4 ","0.6 ","0.9 ","14 ","14 ","170 ",170
+,KOLHAPUR,,,,,,,,,,,,,,,
+,"BORE WELL AT MIDC GOKUL-SHIRGAON, KARVIR,",,,,,,,,,,,,,,,
+"2830 ",,"MAHARASHTRA ",,,"7.3 ","7.5 ","834 ","1140 ","2.0 ","2.6 ","0.4 ","1.1 ","8 ","8 ","84 ",84
+,"KOLHAPUR ",,,,,,,,,,,,,,,
+,DUG WELL AT SAKHARALI NEAR MIDC ISLAMPUR,,,,,,,,,,,,,,,
+2831,"NEAR KRISHNA MILK INDUSTRY, WALWA,","MAHARASHTRA ","20 ","24 ","7.5 ","7.7 ","2177 ","2330 ","2.0 ","2.2 ","0.7 ","1.0 ","6 ","14 ","47 ",110
+,SANGALI,,,,,,,,,,,,,,,
+,DUG WELL NO-1 AT BRAHMANWADI ANJANWEL,,,,,,,,,,,,,,,
+"2832 ",,"MAHARASHTRA ","23 ","28 ","7.2 ","7.4 ","98 ","321 ","2.2 ","2.6 ","0.3 ","0.3 ","4 ","11 ","31 ",58
+,"OWNED BY SHRI VAIDYA, GUHAGAR, RATNAGIRI ",,,,,,,,,,,,,,,
+,DUG WELL NO-1 AT GROUP GRAM PANCHAYAT,,,,,,,,,,,,,,,
+"2833 ",,"MAHARASHTRA ","23 ","28 ","6.3 ","7.6 ","184 ","4526 ","2.6 ","6.0 ","0.4 ","0.6 ","5 ","12 ","26 ",41
+,"AT ARKETWADI NEAR MASJID, KHED, RATNAGIRI ",,,,,,,,,,,,,,,
+,"DUG WELL NO-2 AT ARKETWADI, KHED,",,,,,,,,,,,,,,,
+"2834 ",,"MAHARASHTRA ","23 ","28 ","6.6 ","7.3 ","383 ","4667 ","2.4 ","2.6 ","0.8 ","0.9 ","6 ","12 ","39 ",48
+,"RATNAGIRI ",,,,,,,,,,,,,,,
+,DUG WELL NO-2 OWNED BY GROUP GRAM,,,,,,,,,,,,,,,
+2835,"PANCHAYAT BRAHMANWADI, ANJANWEL,","MAHARASHTRA ","23 ","28 ","7.2 ","7.6 ","225 ","276 ","2.0 ","2.4 ","0.5 ","0.6 ","4 ","11 ","33 ",33
+,"GUHAGAR, RATNAGIRI",,,,,,,,,,,,,,,
+
+TABLE - 17: WATER QUALITY OF GROUND WATER IN MANIPUR – 2018,,,,,,,,,,,,,,,,
+,,,,,,,,,Nitrate-N +,,,,,,,
+Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,,,,
+,,,"pH ",,,,,,Nitrite-N,,,,,,,
+Station,"⁰C ",,,,(μmhos/cm),,(mg/l),,,,(MPN/100ml),(MPN/100ml),,,,
+Station Name State Name,,,,,,,,,(mg/l),,,,,,,
+"Code ",,,,,,,,,,,,,,,,
+"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,,,
+"1920 KAKCHING MANIPUR 27 ","27 ","7.4 ","7.4 ","755 ","755 ",,,,,,,"15 ",15,,,
+"1921 HEIROK MANIPUR 25 ","25 ","7.5 ","7.5 ","885 ","885 ",,,,,,,"5 ",5,,,
+"1922 LAMKA MANIPUR 25 ","25 ","6.3 ","6.3 ","651 ","651 ",,,,,,,"10 ",10,,,
+"1923 MOREH MANIPUR 28 ","28 ","7.5 ","7.5 ","8731 ","8731 ",,,,,,,"35 ",35,,,
+"1924 PALLEL MANIPUR 25 ","25 ","6.3 ",6.3,,,,,,,,,,,,,
+"2882 HAND PUMP AT KANGPOKPI, SENAPATI MANIPUR 26 ","26 ","7.3 ","7.3 ","581 ",581,,,,,,,,,,,
+
+,,TABLE - 18: WATER QUALITY OF GROUND WATER IN MEGHALAYA – 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,"POLICE BAZAR, SHILLONG (POLICE BAZAAR",,,,,,,,,,,,,,,
+"1634 ",,"MEGHALAYA ","17 ","17 ","5.4 ","6.0 ","250 ","260 ","1.0 ","1.6 ","19.0 ","43.9 ","8 ","14 ","70 ",94
+,"SPRING) ",,,,,,,,,,,,,,,
+"1635 ","MAWLAI, SHILLONG (MAWPDANG SPRING) ","MEGHALAYA ","18 ","18 ","5.7 ","5.7 ","288 ","288 ","1.9 ","1.9 ","27.6 ","27.6 ","6 ","6 ","44 ",44
+,"INDUSTRIAL ESTATE, BYRNIHAT (NARBONG WELL",,,,,,,,,,,,,,,
+"1636 ",,"MEGHALAYA ","20 ","23 ","6.1 ","6.1 ","99 ","120 ","1.6 ","2.1 ","0.3 ","0.4 ","2 ","6 ","33 ",34
+,"- SPRING) ",,,,,,,,,,,,,,,
+,"SOHRA, CHERRAPUNJEE (WAH U DKHAR -",,,,,,,,,,,,,,,
+"1637 ",,"MEGHALAYA ","14 ","17 ","6.2 ","6.3 ","107 ","112 ","1.0 ","6.8 ","2.5 ","3.1 ","2 ","2 ","4 ",11
+,"SPRING) ",,,,,,,,,,,,,,,
+"1638 ","SHANGPUNG (UMSAHEP SPRING) ","MEGHALAYA ","18 ","19 ","5.0 ","5.2 ","145 ","155 ","1.0 ","1.5 ","0.3 ","9.4 ","2 ","2 ","2 ",18
+"3385 ","MAWTHADRISHAN WELL AT MARKASA ","MEGHALAYA ","19 ","22 ","6.6 ","6.7 ","48 ","55 ","1.5 ","1.5 ","0.4 ","0.4 ","2 ","4 ","20 ",21
+"3386 ","JAKREM HOT SPRING AT JAKREM ","MEGHALAYA ","40 ","45 ","9.2 ","9.5 ","350 ","365 ","0.0 ","1.2 ","0.8 ","0.9 ","2 ","2 ","11 ",18
+
+,,TABLE - 19: WATER QUALITY OF GROUND WATER IN MIZORAM – 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"2054 ","RAMHLUM (NORTHERN PART) ","MIZORAM ","18 ","23 ","5.7 ","7.2 ","102 ","181 ","0.4 ","1.4 ","0.0 ","0.2 ","2 ","2 ","53 ",53
+"2055 ","MISSION VENGTHLANG (SOUTHERN PART) ","MIZORAM ","14 ","21 ","6.7 ","7.9 ","118 ","713 ","0.4 ","2.9 ","0.0 ","0.2 ","2 ","2 ","2400 ",2400
+,"BAWNGKAWN HAND PUMP,NEAR HB PETROL",,,,,,,,,,,,,,,
+"3729 ",,"MIZORAM ","18 ","22 ","5.8 ","7.2 ","114 ","739 ","0.5 ","1.8 ","0.0 ",0.3,,,,
+,"PUMP ",,,,,,,,,,,,,,,
+"3730 ","SELESIH HAND PUMP ","MIZORAM ","17 ","23 ","5.8 ","7.9 ","113 ","745 ","0.5 ","1.7 ","0.0 ",0.2,,,,
+"3731 ","TUIKUAL HAND PUMP ","MIZORAM ","19 ","23 ","6.2 ","7.8 ","105 ","721 ","0.4 ","0.9 ","0.0 ",0.2,,,,
+,"CHALTLANG HAND PUMP, NEAR REMI TYRE",,,,,,,,,,,,,,,
+"3732 ",,"MIZORAM ","18 ","22 ","5.8 ","7.5 ","123 ","741 ","0.2 ","1.8 ","0.0 ",0.4,,,,
+,"WORKS ",,,,,,,,,,,,,,,
+"3733 ","S HLIMEN HAND PUMP ","MIZORAM ","17 ","22 ","6.2 ","7.4 ","118 ","854 ","0.4 ","1.5 ","0.0 ",0.3,,,,
+"3734 ","TLAWNG RIVER,UPSTREAM ZOBAWK,LUNGLEI ","MIZORAM ","18 ","26 ","6.2 ","7.4 ","102 ","786 ","0.2 ","1.6 ","0.0 ",0.1,,,,
+"3735 ","MAT RIVER ","MIZORAM ","17 ","27 ","6.7 ","7.2 ","103 ","524 ","0.6 ","1.4 ","0.0 ",0.1,,,,
+"3736 ","TLAWNG RIVER,PIALTHLENG ZOTLANG, LUNGLEI ","MIZORAM ","18 ","26 ","7.2 ","8.0 ","113 ","570 ","1.1 ","1.5 ","0.0 ",0.1,,,,
+"3737 ","VAITUI TUIKHUR,THEIRIAT, LUNGLEI ","MIZORAM ","9 ","25 ","7.0 ","7.4 ","111 ","1258 ","0.8 ","1.4 ","0.0 ",0.2,,,,
+"3738 ","SAP TUIKHUR, SERKAWN NEARBY ","MIZORAM ","8 ","24 ","6.8 ","7.2 ","114 ","505 ","0.9 ","1.6 ","0.0 ",0.1,,,,
+"3739 ","ZOBAWK VENG HAND PUMP, LUNGLEI ","MIZORAM ","17 ","25 ","7.0 ","7.4 ","107 ","471 ","0.5 ","2.1 ","0.0 ",0.3,,,,
+"3742 ","CHANMARI HAND PUMP, LAWNGTLAI ","MIZORAM ","17 ","26 ","6.2 ","7.6 ","108 ","731 ","0.4 ","1.5 ","0.0 ",0.1,,,,
+"4128 ","HAND PUMP, NEW SAIHA BAZAR ","MIZORAM ","16 ","23 ","6.7 ","7.4 ","127 ","171 ","0.9 ","1.9 ","0.0 ",0.1,,,,
+
+TABLE - 20: WATER QUALITY OF GROUND WATER IN NAGALAND – 2018,,,,,,,,,,,,,,,,
+,,,,,,,,,Nitrate-N +,,,,,,,
+Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,,,,
+,,,"pH ",,,,,,Nitrite-N,,,,,,,
+Station,,,,,,,,,,,,,,,,
+,"⁰C ",,,,(μmhos/cm),,(mg/l),,,,(MPN/100ml),(MPN/100ml),,,,
+Station Name State Name,,,,,,,,,,,,,,,,
+,,,,,,,,,(mg/l),,,,,,,
+"Code ",,,,,,,,,,,,,,,,
+"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,,,
+"2896 BOREWELL AT KOHIMA VILLAGE IN KOHIMA NAGALAND 18 ","19 ","6.7 ","7.5 ","641 ","784 ",,,"0.8 ",9.7,,,,,,,
+"2897 BOREWELL AT KAMDI BAZAR, PEREN NAGALAND 27 ","28 ","6.4 ","6.5 ","212 ","288 ",,,"0.1 ",0.6,,,,,,,
+"OPENWELL AT DOYAPUR DHANSIRIPAR DIVISION,",,,,,,,,,,,,,,,,
+"2898 NAGALAND 25 ","27 ","5.5 ","6.0 ","140 ","174 ",,,"2.6 ",2.9,,,,,,,
+"DIMAPUR ",,,,,,,,,,,,,,,,
+"BOREWELL AT DHANSIRIPAR, DHANSIRIPAR",,,,,,,,,,,,,,,,
+"2899 NAGALAND 26 ","26 ","7.0 ","7.1 ","246 ","256 ",,,"0.1 ",0.5,,,,,,,
+"DIVISION, DIMAPUR ",,,,,,,,,,,,,,,,
+"2900 OPENWELL AT TOULAZOUMA VILLAGE, DIMAPUR NAGALAND 27 ","28 ","6.9 ","7.0 ","176 ","227 ",,,"1.1 ",1.9,,,,,,,
+"2901 OPENWELL AT LUNGWIRAM VILLAGE, DIMAPUR NAGALAND 31 ","33 ","6.5 ","6.5 ","212 ","221 ",,,"7.7 ",12.2,,,,,,,
+"2902 BOREWELL AT THAHEKHU VILLAGE, DIMAPUR NAGALAND 25 ","27 ","7.5 ","8.5 ","371 ","377 ",,,"0.1 ",0.4,,,,,,,
+"OPENWELL AT SIGNAL ANGAMI VILLAGE,",,,,,,,,,,,,,,,,
+"2903 NAGALAND 25 ","27 ","7.1 ","7.2 ","512 ","1050 ",,,"0.1 ",0.6,,,,,,,
+"DIMAPUR ",,,,,,,,,,,,,,,,
+"2904 OPENWELL AT NAGA CEMETERY, DIMAPUR NAGALAND 26 ","26 ","6.5 ","6.8 ","620 ","827 ",,,"3.2 ",8.6,,,,,,,
+"2905 BOREWELL AT SIGNAL POINT, DIMAPUR NAGALAND 27 ","27 ","6.7 ","6.7 ","778 ","811 ",,,"0.1 ",0.7,,,,,,,
+
+,,TABLE - 21: WATER QUALITY OF GROUND WATER IN ODISHA– 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"1644 ","JAGATPUR INDUSTRIAL AREA, CUTTACK ","ODISHA ","25 ","28 ","8.0 ","8.2 ","689 ","819 ","0.2 ","0.3 ","8.1 ","8.3 ","2 ","2 ","2 ",2
+"1645 ","MADHUPATNA- KALYAN NAGAR AREA, CUTTACK ","ODISHA ","25 ","28 ","8.0 ","8.2 ","382 ","435 ","0.3 ","0.4 ","0.2 ","1.3 ","2 ","2 ","2 ",2
+"1646 ","BIDANASHI - TULASIPUR AREA, CUTTACK ","ODISHA ","25 ","27 ","7.9 ","8.0 ","153 ","175 ","0.4 ","0.6 ","0.2 ","1.4 ","2 ","2 ","2 ",2
+"1647 ","BADAMBARI AREA, CUTTACK ","ODISHA ","24 ","28 ","7.7 ","8.4 ","218 ","403 ","0.6 ","0.7 ","0.6 ","1.2 ","2 ","2 ","2 ",2
+"1648 ","RANIHAT- MANGALABAGH AREA, CUTTACK ","ODISHA ","25 ","28 ","7.8 ","8.4 ","217 ","324 ","0.3 ","0.6 ","0.2 ","1.9 ","2 ","7 ","5 ",33
+"1649 ","KHANDAGIRI AREA, BHUBANESWAR ","ODISHA ","26 ","28 ","5.4 ","7.4 ","382 ","624 ","0.4 ","0.6 ","1.6 ","4.8 ","2 ","2 ","2 ",2
+"1650 ","CAPITAL HOSPITAL AREA, BHUBANESWAR ","ODISHA ","26 ","30 ","6.2 ","6.7 ","91 ","263 ","0.3 ","0.7 ","0.7 ","2.7 ","2 ","130 ","2 ",350
+,"OLD TOWN- SAMANTARAAIPUR AREA,",,,,,,,,,,,,,,,
+"1651 ",,"ODISHA ","26 ","27 ","6.8 ","7.3 ","658 ","762 ","0.4 ","0.5 ","3.3 ","4.6 ","2 ","2 ","2 ",2
+,"BHUBANESWAR ",,,,,,,,,,,,,,,
+"1652 ","KALPNA - LAXMINAGAR AREA, BHUBANESWAR ","ODISHA ","27 ","27 ","5.8 ","6.8 ","276 ","624 ","0.4 ","0.5 ","3.5 ","4.6 ","2 ","2 ","2 ",2
+,"MANCHESWAR INDUSTRIAL AREA,",,,,,,,,,,,,,,,
+"1653 ",,"ODISHA ","25 ","27 ","6.6 ","6.8 ","84 ","197 ","0.3 ","0.6 ","0.9 ","1.0 ","2 ","2 ","2 ",2
+,"BHUBANESWAR / CHANDRASHEKHARPUR ",,,,,,,,,,,,,,,
+,SECRETARIAT- GOVERNOR HOUSE- OLDBUS,,,,,,,,,,,,,,,
+"1654 ",,"ODISHA ","26 ","26 ","6.7 ","7.2 ","302 ","329 ","0.6 ","0.6 ","1.2 ","2.0 ","2 ","540 ","2 ",920
+,"STAND AREA, BHUBANESWAR ",,,,,,,,,,,,,,,
+"1655 ","NEAR SEA BEACH, PURI ","ODISHA ","22 ","27 ","8.1 ","8.2 ","2480 ","18510 ","0.2 ","0.5 ","3.3 ","5.3 ","2 ","2 ","2 ",13
+"1656 ","NEAR JAGANNATH TEMPLE, PURI ","ODISHA ","23 ","27 ","8.0 ","8.3 ","1013 ","1051 ","0.2 ","0.4 ","0.7 ","11.2 ","2 ","2 ","2 ",2
+,HOSPITAL - BUS STAND- MAUSHIMA TEMPLE,,,,,,,,,,,,,,,
+"1657 ",,"ODISHA ","24 ","27 ","7.6 ","8.5 ","398 ","1122 ","0.2 ","0.8 ","0.5 ","3.2 ","2 ","2 ","2 ",2
+,"AREA, PURI ",,,,,,,,,,,,,,,
+"1658 ","NEAR RIVER KUSHABHADRA, PURI ","ODISHA ","23 ","27 ","7.0 ","8.4 ","335 ","594 ","0.6 ","0.7 ","0.4 ","1.5 ","2 ","2 ","2 ",2
+"3964 ","NEAR MKCG MEDICAL COLLEGE, BERHAMPUR ","ODISHA ","22 ","26 ","7.8 ","8.1 ","264 ","854 ","0.3 ","0.7 ","0.1 ","1.3 ","2 ","940 ","2 ",2200
+"3965 ","NEAR BUS STAND, BERHAMPUR ","ODISHA ","22 ","22 ","7.7 ","7.7 ","1083 ","1232 ","0.4 ","0.6 ","0.1 ","1.8 ","2 ","2 ","2 ",2
+"3966 ","NEAR BADABAZAR, BERHAMPUR ","ODISHA ","18 ","20 ","7.4 ","7.9 ","904 ","1439 ","0.5 ","0.5 ","0.2 ","20.7 ","2 ","2 ","2 ",2
+"3967 ","NEAR RAILWAY STATION STAND, BERHAMPUR ","ODISHA ","20 ","26 ","7.4 ","7.9 ","973 ","1545 ","0.4 ","0.8 ","0.4 ","7.6 ","2 ","2 ","2 ",2
+,"NEAR VSS MEDICAL COLLEGE, BURLA,",,,,,,,,,,,,,,,
+"3968 ",,"ODISHA ","26 ","28 ","7.8 ","8.3 ","688 ","724 ","0.4 ","1.3 ","0.5 ","3.9 ","2 ","2 ","2 ",23
+,"SAMBALPUR ",,,,,,,,,,,,,,,
+"3969 ","NEAR RAILWAY STATION, SAMBALPUR ","ODISHA ","27 ","28 ","7.5 ","8.1 ","1164 ","1268 ","0.2 ","0.4 ","5.8 ","7.1 ","2 ","2 ","2 ",2
+"3970 ","NEAR PANTHANIVAS, SAMBALPUR ","ODISHA ","26 ","28 ","6.8 ","8.0 ","375 ","466 ","0.4 ","0.6 ","4.8 ","7.1 ","2 ","2 ","2 ",2
+"3971 ","ANGUL TOWNSHIP ","ODISHA ","26 ","27 ","7.3 ","7.8 ","1120 ","1136 ","0.3 ","0.6 ","2.4 ","7.8 ","2 ","5 ","2 ",23
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"3972 ","NALCO TOWNSHIP, TALCHER ","ODISHA ","25 ","27 ","7.9 ","8.1 ","519 ","703 ","0.5 ","0.5 ","0.9 ","1.7 ","2 ","5 ","2 ",5
+"3973 ","MAHANADI COAL FIELD AREA, TALCHER ","ODISHA ","24 ","26 ","7.3 ","8.0 ","395 ","571 ","0.2 ","0.4 ","1.0 ","1.5 ","2 ","2 ","2 ",2
+"3974 ","KANIHA, TALCHER ","ODISHA ","26 ","27 ","7.6 ","8.5 ","515 ","538 ","0.2 ","0.4 ","0.8 ","1.1 ","2 ","2 ","2 ",2
+"3975 ","TALCHER TOWN ","ODISHA ","26 ","27 ","7.0 ","8.4 ","927 ","989 ","0.2 ","0.5 ","4.5 ","9.7 ","2 ","2 ","2 ",2
+"3976 ","MERAMUNDALI AREA, TALCHER ","ODISHA ","26 ","26 ","7.8 ","8.1 ","920 ","1037 ","0.3 ","0.7 ","2.0 ","4.5 ","2 ","2 ","2 ",2
+"3977 ","TALCHER THERMAL AREA ","ODISHA ","26 ","26 ","7.3 ","7.9 ","1383 ","1646 ","0.2 ","0.4 ","0.6 ","1.2 ","2 ","2 ","2 ",2
+"3978 ","BANARPAL, TALCHER ","ODISHA ","23 ","26 ","7.4 ","7.9 ","901 ","993 ","0.2 ","0.4 ","0.1 ","5.1 ","2 ","2 ","2 ",2
+"3979 ","KULAD, TALCHER ","ODISHA ","26 ","26 ","7.9 ","8.5 ","611 ","736 ","0.3 ","0.3 ","0.5 ","9.4 ","2 ","2 ","2 ",2
+"3980 ","THELKOI, JHARSUGUDA ","ODISHA ","18 ","22 ","6.5 ","7.6 ","145 ","515 ","0.3 ","0.3 ","0.5 ","7.8 ","2 ","2 ","2 ",2
+"3981 ","BURKHAMUNDA, JHARSUGUDA ","ODISHA ","18 ","23 ","6.1 ","8.1 ","198 ","314 ","0.2 ","0.3 ","0.5 ","3.4 ","2 ","2 ","2 ",2
+"3982 ","BADAMANI INDUSTRIAL ESTATE, JHARSUGUDA ","ODISHA ","18 ","22 ","6.1 ","8.0 ","12 ","189 ","0.3 ","0.5 ","3.4 ","3.9 ","2 ","2 ","2 ",2
+"3983 ","BUDHIPADAR, JHARSUGUDA ","ODISHA ","17 ","21 ","5.9 ","7.8 ","157 ","176 ","0.1 ","0.4 ","3.7 ","6.5 ","2 ","2 ","2 ",2
+"3984 ","BRAJARAJ NAGAR MINING BELT, JHARSUGUDA ","ODISHA ","17 ","24 ","6.5 ","7.9 ","138 ","325 ","0.2 ","0.4 ","0.5 ","3.7 ","2 ","22 ","2 ",79
+"3985 ","RAMPUR AREA (WATER TANK), JHARSUGUDA ","ODISHA ","17 ","26 ","6.6 ","8.1 ","187 ","329 ","0.5 ","1.8 ","0.2 ","0.6 ","2 ","2 ","2 ",2
+"3986 ","IB THERMAL POWER STATION, JHARSUGUDA ","ODISHA ","17 ","24 ","6.7 ","8.2 ","294 ","333 ","0.4 ","0.6 ","0.2 ","0.6 ","2 ","240 ","2 ",540
+"3987 ","BELPAHAR AREA, JHARSUGUDA ","ODISHA ","17 ","25 ","6.9 ","7.9 ","177 ","705 ","0.4 ","0.6 ","0.4 ","0.6 ","2 ","540 ","2 ",920
+"3988 ","BADAPADIA MARKET COMPLEX, PARADEEP ","ODISHA ","26 ","30 ","7.8 ","7.9 ","1937 ","1939 ","0.4 ","1.3 ","0.6 ","2.1 ","2 ","2 ","2 ",13
+"3989 ","MUSADIHA, PARADEEP ","ODISHA ","26 ","29 ","7.7 ","7.8 ","1365 ","2960 ","1.6 ","1.7 ","2.3 ","4.1 ","2 ","2 ","2 ",2
+"3990 ","TISCO, SUKINDA ","ODISHA ","23 ","24 ","7.8 ","8.3 ","285 ","312 ","0.3 ","0.7 ","3.5 ","3.7 ","2 ","540 ","5 ",1600
+"3991 ","SARUABIL, SUKINDA ","ODISHA ","22 ","24 ","7.0 ","7.0 ","257 ","298 ","0.2 ","0.8 ","2.3 ","4.0 ","2 ","2 ","2 ",2
+"3992 ","KALIAPANI, SUKINDA ","ODISHA ","23 ","23 ","7.5 ","7.7 ","234 ","234 ","0.2 ","0.4 ","0.3 ","1.1 ","2 ","2 ","2 ",8
+"3993 ","KAMARDA, SUKINDA ","ODISHA ","21 ","22 ","7.5 ","8.1 ","142 ","491 ","0.3 ","14.6 ","0.3 ","1.4 ","2 ","5 ","2 ",79
+"3994 ","CHAKULIA, BALASORE ","ODISHA ","24 ","26 ","6.8 ","8.1 ","339 ","459 ","0.3 ","1.3 ","1.5 ","1.6 ","2 ","2 ","2 ",13
+"3995 ","KUANRPUR, BALASORE ","ODISHA ","24 ","26 ","7.6 ","8.6 ","253 ","344 ","0.5 ","0.5 ","0.3 ","0.5 ","2 ","2 ","5 ",23
+"3996 ","NAIGOPALPUR, BALASORE ","ODISHA ","24 ","26 ","7.0 ","8.1 ","131 ","182 ","0.2 ","0.8 ","0.0 ","1.6 ","2 ","2 ","2 ",33
+
+,,TABLE - 22: WATER QUALITY OF GROUND WATER IN PUDUCHERRY – 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,WELL AT MUTHIALPET AREA(I) RAMAKRISHNA,,,,,,,,,,,,,,,
+"1397 ",,"PUDUCHERRY ","30 ","32 ","6.3 ","7.0 ","376 ","458 ","0.0 ","0.0 ","5.4 ","9.2 ","2 ","2 ","2 ",2
+,"NAGAR/ KRISHNA NAGAR ",,,,,,,,,,,,,,,
+"1398 ","WELL AT THENGAITHITTU AREA, (II) ","PUDUCHERRY ","31 ","33 ","6.7 ","7.6 ","1361 ","1438 ","0.0 ","0.0 ","0.0 ","0.3 ","2 ","2 ","2 ",2
+"1453 ","WELL AT MUTHIRAPPALAYAM (PWD) ","PUDUCHERRY ","30 ","31 ","6.6 ","7.6 ","625 ","695 ","0.0 ","0.0 ","2.5 ","2.7 ","2 ","2 ","50 ",50
+,"WELL AT KALAPET, PONDI. UNIVERSITY ADMN.",,,,,,,,,,,,,,,
+"1454 ",,"PUDUCHERRY ","30 ","31 ","6.9 ","7.3 ","302 ","349 ","0.0 ","0.0 ","0.8 ","1.3 ","2 ","2 ","2 ",280
+,"BLOCK ",,,,,,,,,,,,,,,
+,WELL AT NEHRU STATUE MISSION ST. - CHETTY,,,,,,,,,,,,,,,
+"1687 ",,"PUDUCHERRY ","30 ","30 ","7.3 ","7.4 ","1901 ","2120 ","0.0 ","0.0 ","1.8 ","2.5 ","33 ","33 ","280 ",280
+,"KOIL ",,,,,,,,,,,,,,,
+"1688 ","WELL AT KATTERIKUPPAM ","PUDUCHERRY ","30 ","30 ","7.3 ","7.5 ","602 ","677 ","0.0 ","0.0 ","0.0 ","0.6 ","2 ","2 ","2 ",300
+"2009 ","WELL AT KURUMBAPET ","PUDUCHERRY ","31 ","31 ","6.5 ","7.7 ","560 ","574 ","0.0 ","0.0 ","2.9 ","6.0 ","2 ","2 ","130 ",170
+"2010 ","WELL AT METTUPALAYAM ","PUDUCHERRY ","31 ","32 ","6.5 ","7.6 ","1184 ","1200 ","0.0 ","0.0 ","0.6 ","0.6 ","2 ","2 ","2 ",300
+"2011 ","WELL AT URUVAIYAR ","PUDUCHERRY ","31 ","32 ","7.6 ","8.1 ","5600 ","5710 ","0.0 ","0.0 ","0.0 ","0.0 ","2 ","2 ","110 ",300
+"2012 ","WELL AT MARUTHI SCHOOL, KARUVADIKUPPAM ","PUDUCHERRY ","30 ","31 ","7.0 ","7.7 ","1200 ","2600 ","0.0 ","0.0 ","0.6 ","0.7 ","13 ","13 ","500 ",500
+"2013 ","WELL AT T.R.PATTINAM, KARAIKAL ","PUDUCHERRY ","29 ","35 ","8.3 ","8.4 ","1826 ","1920 ","0.0 ","0.0 ","0.7 ",1.5,,,,
+"2014 ","WELL AT VADAMATTAM, KARAIKAL ","PUDUCHERRY ","29 ","34 ","8.3 ","8.3 ","1236 ","1450 ","0.0 ","0.0 ","0.7 ",1.1,,,,
+"2446 ","WELL AT PALLUR ","PUDUCHERRY ","28 ","28 ","6.2 ","6.2 ","328 ","328 ","0.0 ","0.0 ","11.5 ",11.5,,,,
+"2447 ","WELL AT PANTHAKKAL ","PUDUCHERRY ","28 ","28 ","6.2 ","6.2 ","142 ","142 ","0.0 ","0.0 ","2.2 ",2.2,,,,
+"3882 ","WELL AT ECHANKADU, KIRUMAMBAKKAM ","PUDUCHERRY ","32 ","33 ","6.6 ","7.7 ","435 ","471 ","0.0 ","0.0 ","0.0 ","0.0 ","2 ","2 ","8 ",8
+"3883 ","WELL NEAR BY LAKE BAHOUR ","PUDUCHERRY ","31 ","31 ","7.0 ","7.6 ","361 ","370 ","0.0 ","0.0 ","0.0 ","0.0 ","2 ","170 ","2 ",300
+,WELL AT CHEVALIER SELLANE GOVERNMENT,,,,,,,,,,,,,,,
+"3884 ",,"PUDUCHERRY ","29 ","30 ","7.0 ","7.2 ","760 ","952 ","0.0 ","0.0 ","5.0 ","5.9 ","2 ","110 ","2 ",280
+,"HIGH SECONDARY SCHOOL, KALAPET ",,,,,,,,,,,,,,,
+"3885 ","WELL AT DHANDERAR KULAM, SEDARAPET ","PUDUCHERRY ","30 ","32 ","7.0 ","7.6 ","1977 ","17409 ","0.0 ","0.0 ","0.4 ","0.9 ","2 ","2 ","2 ",280
+,"WELL AT KOTHAPURINATHAM,",,,,,,,,,,,,,,,
+"3886 ",,"PUDUCHERRY ","31 ","32 ","7.7 ","7.7 ","1170 ","1240 ","0.0 ","0.0 ","2.3 ","2.6 ","2 ","2 ","2 ",240
+,"THIRUVANDARKOIL ",,,,,,,,,,,,,,,
+
+TABLE - 23: WATER QUALITY OF GROUND WATER IN PUNJAB– 2018,,,,,,,,,,,,,,,,
+,,,,,,,,,Nitrate-N +,,,,,,,
+Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,,,,
+,,,"pH ",,,,,,Nitrite-N,,,,,,,
+Station,,,,,,,,,,,,,,,,
+,"⁰C ",,,,(μmhos/cm),,(mg/l),,,,(MPN/100ml),(MPN/100ml),,,,
+Station Name State Name,,,,,,,,,,,,,,,,
+,,,,,,,,,(mg/l),,,,,,,
+"Code ",,,,,,,,,,,,,,,,
+"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,,,
+"1898 PETROL PUMP OPP. HERO CYCLE, LUDHIANA PUNJAB ",,"6.4 ","7.2 ","1206 ","1224 ","0.0 ","0.0 ","14.3 ",24.1,,,,,,,
+"BHAGWAN SINGH, H.NO.907, DASMESH NAGAR,",,,,,,,,,,,,,,,,
+"1899 PUNJAB ",,"7.5 ","7.5 ","586 ","586 ","0.0 ","0.0 ","0.9 ",0.9,,,,,,,
+"GALI NO. 6, LUDHIANA ",,,,,,,,,,,,,,,,
+GURCHAARAN SINGH HAIBOWAL DAIRY,,,,,,,,,,,,,,,,
+"1900 PUNJAB ",,"7.1 ","7.3 ","664 ","907 ","0.0 ","0.0 ","2.3 ",12.7,,,,,,,
+"COMPLEX, LUDHIANA ",,,,,,,,,,,,,,,,
+"DUSSHERA GROUND INDUSTRIAL ESTATE,",,,,,,,,,,,,,,,,
+"1901 PUNJAB ",,"6.6 ","7.4 ","808 ","840 ","0.0 ","0.0 ","13.8 ",14.9,,,,,,,
+"LUDHIANA ",,,,,,,,,,,,,,,,
+"1902 SHUKLA TEA STAL POINT, LUDHIANA PUNJAB ",,"6.8 ","7.0 ","1373 ","1381 ","0.0 ","0.0 ","7.5 ",9.3,,,,,,,
+"1903 PUNJAB AGRICULTURAL UNIVERSITY, LUDHIANA PUNJAB ",,"7.3 ","7.3 ","528 ","542 ","0.0 ","0.0 ","2.8 ",4.1,,,,,,,
+"2916 NEAR LANDFILL SITE, AMRITSAR, PUNJAB PUNJAB ",,"7.1 ","7.2 ","742 ","1266 ","0.0 ","0.0 ","0.7 ",9.1,,,,,,,
+"2917 NEAR HARMANDIR SAHEB, AMRITSAR, PUNJAB PUNJAB ",,"7.1 ","7.3 ","1031 ","1197 ","0.0 ","0.0 ","2.5 ",6.2,,,,,,,
+HAND PUMP INSTALLED AT THE VACANT PLOT OF,,,,,,,,,,,,,,,,
+"SH. PREM SINGH, NEAR DASHMESH DENTAL",,,,,,,,,,,,,,,,
+"2918PUNJAB ",,"7.1 ","7.1 ","1070 ","2378 ","0.0 ","0.0 ","0.7 ",15.0,,,,,,,
+"CLINIC, BHANKARPUR, TEHSIL DERA BASSI DISTT.",,,,,,,,,,,,,,,,
+SAS NAGAR,,,,,,,,,,,,,,,,
+HAND PUMP INSTALLED AT RAILWAY CROSSING,,,,,,,,,,,,,,,,
+"2919NEAR LALA WALA PEER, LALRU THE. DERABASSIPUNJAB ",,"7.1 ","7.2 ","1747 ","2532 ","0.0 ","0.0 ","4.4 ",27.0,,,,,,,
+SAS NAGAR,,,,,,,,,,,,,,,,
+FROM THE HAND PUMP AT VILLAGE HAMIRA,,,,,,,,,,,,,,,,
+"2920 PUNJAB ",,"7.3 ","7.5 ","412 ","1431 ","0.0 ","0.0 ","0.2 ",6.9,,,,,,,
+"DISTT. KAPURTHALA ",,,,,,,,,,,,,,,,
+FROM THE PIEZOMETER INSTALLED NEAR,,,,,,,,,,,,,,,,
+"2921RAILWAY CROSSING JAGJIT INDUSTRIES VILLAGEPUNJAB ",,"7.5 ","7.6 ","412 ","429 ","0.0 ","0.0 ","0.0 ",0.6,,,,,,,
+HAMIRA,,,,,,,,,,,,,,,,
+"2922 LEATHER COMPLEX, JALANDHAR, PUNJAB PUNJAB ",,"7.2 ","7.7 ","1549 ","1875 ","0.0 ","0.0 ","8.0 ",11.4,,,,,,,
+"2923 LEATHER COMPLEX, JALANDHAR, PUNJAB PUNJAB ",,"7.4 ","7.9 ","384 ","1623 ","0.0 ","0.0 ","0.5 ",9.7,,,,,,,
+HAND PUMP INSTALLED NEAR ESI HOSPITAL,,,,,,,,,,,,,,,,
+"2924SURJIT NAGAR, SECTOR-10 BLOCK-A, CHETNAPUNJAB ",,"7.1 ","7.8 ","606 ","1126 ","0.0 ","0.0 ","1.4 ",19.9,,,,,,,
+"BEAUTY, GURU KI NAGAR, MANDI GOBINDGARH",,,,,,,,,,,,,,,,
+"M/S AGNI REFRACTORIES PVT. LTD, G.T. ROAD",,,,,,,,,,,,,,,,
+"2925 PUNJAB ",,"6.9 ","7.9 ","608 ","2443 ","0.0 ","0.0 ","1.8 ",3.8,,,,,,,
+"VILLAGE AJNALI MANDI GOBINDGARH. ",,,,,,,,,,,,,,,,
+HAND PUNP INSTALLED AT VILLAGE BELA DHIANI,,,,,,,,,,,,,,,,
+"2926 PUNJAB ",,"7.0 ","7.9 ","713 ","1147 ","0.0 ","0.0 ","3.6 ",14.8,,,,,,,
+"TEHSIL NANGAL ROPAR ",,,,,,,,,,,,,,,,
+HAND PUMP INSTALLED AT VILLAGE BELA DHIANI,,,,,,,,,,,,,,,,
+"2927 PUNJAB ",,"7.0 ","7.7 ","885 ","1485 ","0.0 ","0.0 ","9.0 ",11.2,,,,,,,
+"TEHSIL NANGAL POPAR ",,,,,,,,,,,,,,,,
+
+,,,,,,,,,Nitrate-N +,,,,,,,
+Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,,,,
+,,,"pH ",,,,,,Nitrite-N,,,,,,,
+Station,,,,,,,,,,,,,,,,
+,"⁰C ",,,,(μmhos/cm),,(mg/l),,,,(MPN/100ml),(MPN/100ml),,,,
+Station Name State Name,,,,,,,,,,,,,,,,
+,,,,,,,,,(mg/l),,,,,,,
+"Code ",,,,,,,,,,,,,,,,
+"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,,,
+VILLAGE CHAK DHERA NEAR ASH DYKE-3 OF,,,,,,,,,,,,,,,,
+THERMAL PLANT ROPAR HAND PUMP OF SH.,,,,,,,,,,,,,,,,
+"2928PUNJAB ",,"7.4 ","7.5 ","446 ","909 ","0.0 ","0.0 ","0.6 ",3.3,,,,,,,
+HARDEV SINGH S/O TEJA SINGH NEAR YAADGARI,,,,,,,,,,,,,,,,
+MAI LACHHMI JI,,,,,,,,,,,,,,,,
+VILLAGE RANJITPURA NEAR ASHDYKES,,,,,,,,,,,,,,,,
+HANDPUMP OF THE THERMAL PLANT ROPAR,,,,,,,,,,,,,,,,
+"2929PUNJAB ",,"7.1 ","7.6 ","446 ","546 ","0.0 ","0.0 ","0.4 ",0.6,,,,,,,
+ACROSS THE HOT WATER CANAL OF THE,,,,,,,,,,,,,,,,
+THERMAL PLANT,,,,,,,,,,,,,,,,
+FROM THE HANDPUMP OF SH. DHARAMPAL S/O,,,,,,,,,,,,,,,,
+"2930ATAMA RAM VILL. TOANSA, TEH BALACHAURPUNJAB ",,"7.6 ","7.7 ","402 ","2129 ","0.0 ","0.0 ","0.0 ",0.2,,,,,,,
+DISTT. SBS NAGAR,,,,,,,,,,,,,,,,
+HAND PUMP LOCATED AT THE RESIDENT OF SH.,,,,,,,,,,,,,,,,
+"2931MOHAN LAL S/O RELU RAM VILLAGE TOANSAPUNJAB ",,"7.4 ","7.7 ","1397 ","1854 ","0.0 ","0.0 ","0.1 ",0.6,,,,,,,
+"TEHSIL BALACHAUR, DISTT SBS NAGAR",,,,,,,,,,,,,,,,
+"TUBE WELL AT RSSB, TIBBA ROAD, LUDHIANA",,,,,,,,,,,,,,,,
+"4134 PUNJAB ",,"7.3 ","7.5 ","563 ","581 ","0.0 ","0.0 ","0.2 ",0.4,,,,,,,
+"INDUSTRIAL AREA ",,,,,,,,,,,,,,,,
+"4135 MSW DUMPING SITE, JAMALPUR PUNJAB ",,"7.1 ","7.3 ","573 ","676 ","0.0 ","0.0 ","0.0 ",0.1,,,,,,,
+"4136 STP JAMALPUR PUNJAB ",,"6.8 ","6.9 ","1316 ","1756 ","0.0 ","0.0 ","3.3 ",7.2,,,,,,,
+"HANDPUMP IN M/s DEEP STEEL LTD, MUGHAL",,,,,,,,,,,,,,,,
+"4137 PUNJAB ",,"6.9 ","7.0 ","564 ","1128 ","0.0 ","0.0 ","1.2 ",24.4,,,,,,,
+"MAJRA, MANDI GOBBINDGARH ",,,,,,,,,,,,,,,,
+"HANDPUMP, 149 NEAR SANT PRITAM SCHOOL,",,,,,,,,,,,,,,,,
+"4138 PUNJAB ",,"7.0 ","7.1 ","943 ","1171 ","0.0 ","0.0 ","7.8 ",9.0,,,,,,,
+"AMBEY MAJRA, MANDI GOBINDGARH ",,,,,,,,,,,,,,,,
+HANDPUMP AT PARK ADJOINING TO NATIONAL,,,,,,,,,,,,,,,,
+"4139INDUSTRIES, E-128, PH-IV, FOCAL POINTPUNJAB ",,"6.4 ","6.9 ","124 ","1171 ","0.0 ","0.0 ","21.0 ",22.2,,,,,,,
+LUDHIANA,,,,,,,,,,,,,,,,
+"HANDPUMP IN SAHOTA BAGHBANI FARM, VILL",,,,,,,,,,,,,,,,
+"4140 PUNJAB ",,"7.1 ","7.8 ","1393 ","2232 ","0.0 ",0.0,,,,,,,,,
+"HARIAN, MACHIWARA ",,,,,,,,,,,,,,,,
+"HANDPUMP INSTRIAL GROWTH CENTRE,",,,,,,,,,,,,,,,,
+"4141 PUNJAB ",,"6.5 ","6.8 ","338 ","388 ","0.0 ","0.0 ","4.5 ",5.2,,,,,,,
+"DEFENCE ROAD, PATHANKOT ",,,,,,,,,,,,,,,,
+"4142 HANDPUMP, VILL DHERIWAL, DIST PATHANKOT PUNJAB ",,"7.0 ","7.3 ","524 ","668 ","0.0 ","0.0 ","1.3 ",2.5,,,,,,,
+HANDPUMP NEAR ASH DYKES OF NABHA POWER,,,,,,,,,,,,,,,,
+"4143 PUNJAB ",,"7.2 ","7.5 ","1022 ","1147 ","0.0 ","0.0 ","0.2 ",0.3,,,,,,,
+"LTD, VILL NALASH, RAJPURA ",,,,,,,,,,,,,,,,
+GROUND WATER SAMPLING BLOCATION IN,,,,,,,,,,,,,,,,
+"4144 PUNJAB ",,"7.0 ","7.5 ","943 ","1367 ","0.0 ","0.0 ","5.0 ",9.1,,,,,,,
+"VILLAGE MAIN ",,,,,,,,,,,,,,,,
+SAGAR PARA DRAIN MEETING WITH RIVER,,,,,,,,,,,,,,,,
+"4145 PUNJAB ",,"7.0 ","7.1 ","1418 ","1490 ","0.0 ","0.0 ","0.0 ",0.5,,,,,,,
+"GHAGGAR NEAR VILL SAGAR PARA, PATRAN ",,,,,,,,,,,,,,,,
+NEAR ASH DYKES OF GURU NANAK THERMAL,,,,,,,,,,,,,,,,
+"4147 PUNJAB ",,"7.3 ","8.1 ","2175 ","3430 ","0.0 ","0.0 ","4.8 ",9.0,,,,,,,
+"POWER PLANT/ NFL, BHATINDA ",,,,,,,,,,,,,,,,
+
+,,,,,,,,,,,Nitrate-N +,,,,,
+,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,,
+,,,,,"pH ",,,,,,Nitrite-N,,,,,
+Station,,,,,,,,,,,,,,,,
+,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),,
+"Station Name ",State Name,,,,,,,,,,,,,,,
+,,,,,,,,,,,(mg/l),,,,,
+"Code ",,,,,,,,,,,,,,,,
+,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,
+VILLAGE KANAKWAL/ PHUKOKARI GGS HMEL,,,,,,,,,,,,,,,,
+"4148 ","PUNJAB ",,,"7.5 ","8.0 ","286 ","4460 ","0.0 ","0.0 ","0.1 ",16.1,,,,,
+"REFINERY, BHATINDA ",,,,,,,,,,,,,,,,
+ASH DYKES OF THERMAL POWER PLANT LEHRA,,,,,,,,,,,,,,,,
+"4149 ","PUNJAB ",,,"7.3 ","8.0 ","684 ","2117 ","0.0 ","0.0 ","1.6 ",4.8,,,,,
+"MOHABBAT, BHATINDA ",,,,,,,,,,,,,,,,
+"4150 100 m D/s OF VILL RURIANWALI, DIST MUKTSAR ","PUNJAB ",,,"7.1 ","7.6 ","946 ","2066 ","0.0 ","0.0 ","0.0 ",2.0,,,,,
+"NEAR MALBORS INTERNATIONLA P LTD, VILL",,,,,,,,,,,,,,,,
+"4151 ","PUNJAB ",,,"7.9 ","8.1 ","344 ","2833 ","0.0 ","0.0 ","1.5 ",29.2,,,,,
+"MANSOORWAL, DIST FEROZPUR ",,,,,,,,,,,,,,,,
+"S R SPIRIT BAHMNI WALA ROAD, JALALABAD",,,,,,,,,,,,,,,,
+"4152 ","PUNJAB ",,,"7.7 ","8.0 ","2631 ","2850 ","0.0 ","0.0 ","3.8 ",5.5,,,,,
+"(WEST) ",,,,,,,,,,,,,,,,
+"4153 DASHMESH NAGAR, GALI NO 12, LUDHIANA ","PUNJAB ",,,"6.2 ","7.5 ","620 ","747 ","0.0 ","0.0 ","11.8 ",17.0,,,,,
+"4154 TSSM SR SEC SCHOOL SHIMLAPURI, LUDHIANA ","PUNJAB ",,,"6.5 ","7.3 ","809 ","878 ","0.0 ","0.0 ","17.7 ",18.3,,,,,
+"DAIRY COMPLEX, TAJPUR ROAD, LUDHIANA OPP",,,,,,,,,,,,,,,,
+"4155 ","PUNJAB ","27 ","27 ","6.8 ","7.7 ","910 ","1967 ","0.0 ","1.9 ","3.1 ","21.7 ","3 ","3 ","4 ",4,
+"SATISH DAIRY MEAR AMRIT DHARAM KANTA ",,,,,,,,,,,,,,,,
+HANDPUMP IN AREA ON SUA ROAD NEAR,,,,,,,,,,,,,,,,
+"4156 ","PUNJAB ",,,"6.8 ","6.8 ","851 ","1392 ","0.0 ","0.0 ","10.9 ",17.4,,,,,
+"DHANDARI KALAN, LUDHIANA ",,,,,,,,,,,,,,,,
+HANDPUMP SHALLOW TUBEWELL IN THE AREA,,,,,,,,,,,,,,,,
+"4157 ","PUNJAB ",,,"6.6 ","7.6 ","802 ","1248 ","0.0 ","0.0 ","13.7 ",13.9,,,,,
+"OF JANTA NAGAR, LUDHIANA ",,,,,,,,,,,,,,,,
+
+,,TABLE - 24: WATER QUALITY OF GROUND WATER IN RAJASTHAN– 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,"WELL OF LOOMJI, CHAUDHARY, NEAR",,,,,,,,,,,,,,,
+1415,"NAYAGAON, PALI, (U/S 1 KM. FROM PALI TOWN),","RAJASTHAN ","25 ","29 ","7.9 ","8.3 ","3300 ","11200 ","1.8 ","4.4 ","2.3 ","2.7 ","3 ","3 ","3 ",3
+,RAJASTHAN,,,,,,,,,,,,,,,
+,"RIICO PUMP HOUSE NEAR MONTO MOTORS,",,,,,,,,,,,,,,,
+"1706 ",,"RAJASTHAN ","28 ","30 ","7.2 ","7.4 ","1080 ","1300 ","1.6 ","1.6 ","2.3 ","2.7 ","3 ","3 ","3 ",3
+,"MIA, ALWAR, RAJASTHAN ",,,,,,,,,,,,,,,
+,"BORE WELL IN MODI ALKALIS & CHEMICALS, MIA,",,,,,,,,,,,,,,,
+"1707 ",,"RAJASTHAN ","29 ","29 ","7.1 ","7.5 ","2000 ","2300 ","1.3 ","1.7 ","0.3 ","2.1 ","3 ","3 ","4 ",4
+,"ALWAR, RAJASTHAN ",,,,,,,,,,,,,,,
+,"WELL KOTHI IN VILLAGE BAGAR RAJPUT, ALWAR,",,,,,,,,,,,,,,,
+"1708 ",,"RAJASTHAN ","29 ","31 ","7.1 ","7.4 ","1400 ","1420 ","1.3 ","1.9 ","2.1 ","3.1 ","3 ","3 ","4 ",4
+,"RAJASTHAN ",,,,,,,,,,,,,,,
+,WELL AT VILLAGE SANTHLA VERY NEAR BHIWADI,,,,,,,,,,,,,,,
+"1709 ",,"RAJASTHAN ","27 ","27 ","7.4 ","7.5 ","1620 ","2400 ","0.6 ","1.2 ","2.5 ","3.1 ","3 ","3 ","3 ",4
+,"INDUSTRIAL AREA, BHIWADI, RAJASTHAN ",,,,,,,,,,,,,,,
+,"WELL AT VILLAGE ALUPUR, VERY NEAR BHIWADI",,,,,,,,,,,,,,,
+"1710 ",,"RAJASTHAN ","26 ","29 ","7.2 ","7.5 ","2500 ","3600 ","1.8 ","1.9 ","2.4 ","2.7 ","3 ","3 ","3 ",4
+,"INDUSTRIAL AREA, BHIWADI, RAJASTHAN ",,,,,,,,,,,,,,,
+,"WELL AT VILLAGE HARCHANDPUR, VERY NEAR,",,,,,,,,,,,,,,,
+1711,"BHIWADI TO BHIWADI INDUSTRIAL AREA,","RAJASTHAN ","27 ","27 ","7.2 ","7.5 ","2700 ","3000 ","1.3 ","1.9 ","2.3 ","2.7 ","3 ","3 ","3 ",3
+,"BHIWADI, RAJASTHAN",,,,,,,,,,,,,,,
+,"WELL AT VILLAGE BHIWADI , VERY NEAR,",,,,,,,,,,,,,,,
+1712,"BHIWADI TO BHIWADI INDUSTRIAL AREA,","RAJASTHAN ","26 ","28 ","7.3 ","7.5 ","1900 ","2200 ","0.1 ","1.8 ","2.1 ","2.2 ","3 ","3 ","3 ",3
+,"BHIWADI, RAJASTHAN",,,,,,,,,,,,,,,
+,"WELL AT VILLAGE GATTAL, NEAR, BHIWADI TO",,,,,,,,,,,,,,,
+1713,"BHIWADI INDUSTRIAL AREA, BHIWADI,","RAJASTHAN ","26 ","28 ","7.2 ","7.6 ","650 ","940 ","1.3 ","1.8 ","2.4 ","2.7 ","3 ","3 ","3 ",3
+,RAJASTHAN,,,,,,,,,,,,,,,
+,HAND PUMP NEAR SECONDARY SCHOOL ABOUT,,,,,,,,,,,,,,,
+1715,"300MT. FROM KANSUA NALLAH KOTA,","RAJASTHAN ","25 ","28 ","6.9 ","7.4 ","1130 ","1230 ","0.6 ","2.9 ","2.3 ","2.5 ","3 ","3 ","3 ",3
+,RAJASTHAN,,,,,,,,,,,,,,,
+,"CHAUDHARY KA WELL VILLAGE PANIALA,",,,,,,,,,,,,,,,
+1720,KOTAPUTALI NEAR ASSOCIATED ALCOHOL,"RAJASTHAN ","27 ","28 ","7.5 ","7.8 ","930 ","1040 ","1.3 ","2.4 ","2.4 ","2.7 ","3 ","3 ","3 ",3
+,"BREVERIES LTD JAIPUR, RAJASTHAN",,,,,,,,,,,,,,,
+,"PHED WELL NEAR RAILWAY LINE JHOTAWARA,",,,,,,,,,,,,,,,
+"1721 ",,"RAJASTHAN ","27 ","28 ","7.7 ","8.0 ","590 ","650 ","0.5 ","1.5 ","1.8 ","2.1 ","3 ","3 ","3 ",3
+,"JAIPUR, RAJASTHAN ",,,,,,,,,,,,,,,
+,HAND PUMP OF VIDHANI VILLAGE GONER ROAD,,,,,,,,,,,,,,,
+"1723 ",,"RAJASTHAN ","28 ","28 ","7.7 ","8.2 ","2100 ","3400 ","1.3 ","1.4 ","2.3 ","3.1 ","3 ","3 ","3 ",3
+,"JAIPUR, RAJASTHAN ",,,,,,,,,,,,,,,
+,"WELL OF GOOJARON KI TALAI, MOHANA ROAD",,,,,,,,,,,,,,,
+"1724 ",,"RAJASTHAN ","28 ","30 ","8.0 ","8.3 ","470 ","2800 ","1.1 ","1.5 ","2.7 ","3.2 ","3 ","3 ","3 ",3
+,"SANGANER JAIPUR, RAJASTHAN ",,,,,,,,,,,,,,,
+,"PUBLIC HAND PUMP BEFORE SANGANER PULIA,",,,,,,,,,,,,,,,
+"1725 ",,"RAJASTHAN ","27 ","29 ","7.4 ","8.0 ","510 ","2000 ","1.1 ","1.3 ","2.8 ","3.1 ","3 ","3 ","3 ",3
+,"RAJASTHAN ",,,,,,,,,,,,,,,
+,"PABUPURA ROAD NEAR CIVIL AIR PORT,",,,,,,,,,,,,,,,
+"2015 ",,"RAJASTHAN ","27 ","35 ","6.8 ","8.2 ","4500 ","5000 ","2.1 ","2.6 ","3.7 ","4.4 ","3 ","3 ","4 ",4
+,"JODHPUR (MANGILAL RATHOR) ",,,,,,,,,,,,,,,
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,"VILLAGE VINAYAKIA, JODHPUR (HIRALAL",,,,,,,,,,,,,,,
+"2016 ",,"RAJASTHAN ","22 ","30 ","6.7 ","8.5 ","2600 ","3200 ","1.2 ","8.3 ","2.3 ","2.8 ","3 ","3 ","4 ",4
+,"KUMHAR) ",,,,,,,,,,,,,,,
+"2017 ","VILLAGE VINAYAKIA, JODHPUR (BADRI KUMHAR) ","RAJASTHAN ","22 ","30 ","6.8 ","8.6 ","2800 ","2800 ","1.3 ","2.2 ","2.0 ","2.3 ","3 ","3 ","4 ",4
+,"VILLAGE VINAYAKIA, JODHPUR (HUKUM SINGH",,,,,,,,,,,,,,,
+"2018 ",,"RAJASTHAN ","24 ","31 ","6.7 ","8.5 ","7600 ","7600 ","2.4 ","5.2 ","7.7 ","9.2 ","3 ","3 ","4 ",4
+,"RATHORE) ",,,,,,,,,,,,,,,
+"2019 ","NEAR UIT BRIDGE, UDAIPUR ","RAJASTHAN ","18 ","20 ","6.8 ","6.9 ","1400 ","2200 ","0.7 ","2.1 ","1.8 ","2.8 ","3 ","4 ","4 ",4
+,"NEW FATEHPURA, 200 FT.FROM PANCHWATI",,,,,,,,,,,,,,,
+"2020 ",,"RAJASTHAN ","18 ","20 ","7.1 ","7.1 ","2100 ","2500 ","1.3 ","3.6 ","1.8 ","1.8 ","3 ","3 ","3 ",3
+,"NALLAH, UDAIPUR ",,,,,,,,,,,,,,,
+,"NEAR ARVIND GENERAL STORE, ALOO FACTORY,",,,,,,,,,,,,,,,
+"2021 ",,"RAJASTHAN ","18 ","20 ","6.8 ","7.0 ","2300 ","2700 ","1.3 ","1.5 ","1.8 ","2.2 ","3 ","3 ","3 ",3
+,"KACCHI BASTI, SARDARPURA, UDAIPUR ",,,,,,,,,,,,,,,
+,"NEAR RANA PRATAP NAGAR, RAILWAY STATION,",,,,,,,,,,,,,,,
+"2022 ",,"RAJASTHAN ","18 ","20 ","7.2 ","7.3 ","1510 ","1530 ","2.2 ","2.6 ","2.2 ","2.7 ","3 ","3 ","3 ",3
+,"UDAIPUR ",,,,,,,,,,,,,,,
+"2023 ","HOTEL ORIENT PLACE, SUBHAS NAGAR, UDAIPUR ","RAJASTHAN ","20 ","22 ","7.2 ","7.3 ","1280 ","1400 ","1.3 ","2.1 ","2.1 ","2.8 ","3 ","3 ","4 ",4
+,IN SIDE SHIV TEMPLE NEAR AIR FORCE STATION,,,,,,,,,,,,,,,
+"2024 ",,"RAJASTHAN ","25 ","28 ","7.0 ","7.5 ","2400 ","3800 ","1.3 ","1.4 ","3.0 ","3.1 ","3 ","3 ","3 ",3
+,"AMER ROAD, JAIPUR ",,,,,,,,,,,,,,,
+,NEAR SHREE KALYANESHWAR MAHADEV,,,,,,,,,,,,,,,
+"2025 ",,"RAJASTHAN ","27 ","27 ","7.4 ","8.1 ","1900 ","1900 ","1.2 ","1.4 ","2.7 ","3.1 ","3 ","3 ","3 ",3
+,"TEMPLE, JAI SINGH PURA KHURD, JAIPUR. ",,,,,,,,,,,,,,,
+,"NEAR FOJI NAGAR, KACCHI BASTI, AMBABARI,",,,,,,,,,,,,,,,
+"2026 ",,"RAJASTHAN ","27 ","27 ","8.1 ","8.1 ","1090 ","1090 ","1.3 ","1.3 ","2.5 ",2.5,,,,
+,"JAIPUR. ",,,,,,,,,,,,,,,
+,"NEAR ABN CENTRAL ACADEMY, SUSILPURA,",,,,,,,,,,,,,,,
+"2027 ",,"RAJASTHAN ","26 ","26 ","7.3 ","8.0 ","1800 ","2200 ","0.5 ","2.0 ","2.4 ","3.1 ","3 ","3 ","3 ",3
+,"SODALA, JAIPUR. ",,,,,,,,,,,,,,,
+,"NEAR SAMSHAN VISHWAKARMA NAGAR,",,,,,,,,,,,,,,,
+"2028 ",,"RAJASTHAN ","28 ","28 ","7.6 ","7.9 ","880 ","960 ","0.8 ","1.7 ","3.0 ","3.1 ","3 ","3 ","3 ",3
+,"MAHARANIFARM, JAIPUR ",,,,,,,,,,,,,,,
+"2029 ","NEAR GANDHI BHWAN, AJMER ","RAJASTHAN ","26 ","27 ","7.8 ","8.2 ","760 ","1010 ","1.3 ","1.5 ","2.4 ","2.5 ","3 ","3 ","3 ",3
+"2030 ","OPPOSITE PRIVATE BUS STAND, AJMER ","RAJASTHAN ","26 ","26 ","8.1 ","8.1 ","3200 ","3200 ","1.4 ","1.4 ","2.8 ","2.8 ","3 ","3 ","3 ",3
+,"NEAR 9 NO. PETROL PUMP, NEAR ADARSH",,,,,,,,,,,,,,,
+"2031 ",,"RAJASTHAN ","26 ","27 ","7.9 ","8.1 ","550 ","1030 ","1.6 ","2.2 ","2.5 ","2.8 ","3 ","3 ","4 ",4
+,"NAGAR GATE, AJMER ",,,,,,,,,,,,,,,
+"2032 ","NEAR KHANPURA TALAB, AJMER ","RAJASTHAN ","26 ","28 ","7.8 ","8.2 ","420 ","1070 ","1.5 ","1.6 ","1.8 ","2.1 ","3 ","3 ","3 ",3
+,"WELL INFRONT OF SINGHANA POLICE STATION,",,,,,,,,,,,,,,,
+"2960 ",,"RAJASTHAN ","28 ","29 ","7.4 ","8.0 ","3900 ","5200 ","1.5 ","1.7 ","2.7 ","3.0 ","3 ","3 ","4 ",4
+,"SINGHANA, JHUNJHUNU, RAJASTHAN ",,,,,,,,,,,,,,,
+,"WELL OF SH MNAGAL CHAND MEENA, MANPUR",,,,,,,,,,,,,,,
+"2961 ",,"RAJASTHAN ","25 ","26 ","8.0 ","8.3 ","730 ","910 ","0.6 ","1.6 ","2.1 ","2.7 ","3 ","3 ","3 ",3
+,"MACHERI, JAIPUR, RAJASTHAN ",,,,,,,,,,,,,,,
+,"WELL OF SH MOOL CHAND RAIGER, MANPUR",,,,,,,,,,,,,,,
+"2962 ",,"RAJASTHAN ","25 ","26 ","7.8 ","8.5 ","760 ","1100 ","0.6 ","1.2 ","2.3 ","3.1 ","3 ","3 ","4 ",4
+,"MACHERI, JAIPUR, RAJASTHAN ",,,,,,,,,,,,,,,
+,"WELL OF RIICO AT LEATHER COMPLEX, MANPUR",,,,,,,,,,,,,,,
+"2963 ",,"RAJASTHAN ","27 ","27 ","7.6 ","8.0 ","1810 ","2200 ","0.8 ","1.3 ","2.8 ","3.0 ","3 ","3 ","3 ",3
+,"MACHERI, JAIPUR, RAJASTHAN ",,,,,,,,,,,,,,,
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,"WELL AT INDIA PUBLIC SCHOOL, MANPUR",,,,,,,,,,,,,,,
+"2964 ",,"RAJASTHAN ","27 ","27 ","7.6 ","7.8 ","1680 ","2100 ","0.7 ","1.3 ","2.2 ","2.8 ","3 ","3 ","3 ",3
+,"MACHERI, JAIPUR, RAJASTHAN ",,,,,,,,,,,,,,,
+,SHRI GIRDHARI SINGH CHOUDHARY NEAR BANDI,,,,,,,,,,,,,,,
+2965,"RIVER BRIDGE, PALI BYE PASS ROAD, PALI,","RAJASTHAN ","25 ","28 ","8.4 ","8.6 ","4500 ","4700 ","0.7 ","1.9 ","2.7 ","3.1 ","3 ","3 ","3 ",3
+,RAJASTHAN,,,,,,,,,,,,,,,
+,SHRI GIRDHARI SINGH RAJPUROHIT NEAR,,,,,,,,,,,,,,,
+2966,"VILLAGE PUNAYATA, JODHPUR- SUMERPUR BYE","RAJASTHAN ","23 ","28 ","8.2 ","8.4 ","6700 ","8600 ","2.1 ","2.4 ","2.7 ","2.8 ","3 ","3 ","4 ",4
+,"PASS ROAD, PALI, RAJASTHAN",,,,,,,,,,,,,,,
+,"SH. POL SINGH PUROHIT, VILLAGE PUNAYATA,",,,,,,,,,,,,,,,
+"2967 ",,"RAJASTHAN ","26 ","28 ","8.0 ","8.2 ","4300 ","6600 ","2.5 ","9.2 ","2.4 ","2.8 ","3 ","3 ","4 ",4
+,"PALI, RAJASTHAN ",,,,,,,,,,,,,,,
+,"SH. BHANA RAM KALAL, DHARU NAGAR, NEAR",,,,,,,,,,,,,,,
+2968,"MAIN MANDIA ROAD, OPP. VILLAGE MANDIA,","RAJASTHAN ","24 ","27 ","8.1 ","8.4 ","6100 ","7100 ","0.6 ","2.3 ","2.6 ","3.1 ","3 ","3 ","4 ",4
+,"PALI, RAJASTHAN",,,,,,,,,,,,,,,
+,"M/S SPECIALTY SILICA LTD., MIA ALWAR AGRO",,,,,,,,,,,,,,,
+"2969 ",,"RAJASTHAN ","28 ","29 ","6.9 ","7.2 ","960 ","1050 ","1.1 ","2.0 ","1.8 ","2.5 ","3 ","3 ","3 ",3
+,"FOOD PARK, ALWAR, RAJASTHAN ",,,,,,,,,,,,,,,
+"2970 ","RIICO TUBE WELL, RIA, BEHROR, RAJASTHAN ","RAJASTHAN ","28 ","31 ","7.0 ","7.4 ","1460 ","1540 ","0.7 ","1.9 ","2.1 ","3.0 ","3 ","3 ","3 ",3
+"2971 ","RIICO TUBE WELL, RIA, NEEMRANA, RAJASTHAN ","RAJASTHAN ","28 ","30 ","7.0 ","7.4 ","2000 ","2400 ","1.7 ","2.3 ","1.8 ","2.5 ","3 ","3 ","4 ",4
+"2972 ","RIICO TUBE WELL, RIA, SOTANALA, RAJASTHAN ","RAJASTHAN ","28 ","30 ","7.3 ","7.3 ","2800 ","2800 ","1.3 ","2.1 ","2.1 ","3.0 ","3 ","3 ","3 ",3
+,"RIICO TUBE WELL, RIA, SHAHJAHANPUR,",,,,,,,,,,,,,,,
+"2973 ",,"RAJASTHAN ","29 ","32 ","7.1 ","7.1 ","4100 ","5200 ","1.2 ","1.8 ","2.2 ","2.7 ","3 ","3 ","3 ",3
+,"RAJASTHAN ",,,,,,,,,,,,,,,
+,"VILLAGE AGYARA, TEHSIL- RAMGARH, ALWAR,",,,,,,,,,,,,,,,
+"2974 ",,"RAJASTHAN ","28 ","29 ","7.2 ","8.0 ","1420 ","1460 ","1.2 ","1.5 ","2.3 ","3.0 ","3 ","3 ","3 ",3
+,"RAJASTHAN ",,,,,,,,,,,,,,,
+,"VILLAGE BAGER MEO, TEHSIL- RAMGARH,",,,,,,,,,,,,,,,
+"2975 ",,"RAJASTHAN ","29 ","29 ","7.1 ","7.2 ","3300 ","3900 ","0.8 ","1.3 ","2.4 ","3.0 ","3 ","3 ","3 ",3
+,"ALWAR, RAJASTHAN ",,,,,,,,,,,,,,,
+"2976 ","SUJAN GANGA, BHARATPUR, RAJASTHAN ","RAJASTHAN ","28 ","31 ","7.9 ","8.4 ","7900 ","8900 ","18.3 ","24.9 ","13.1 ","15.4 ","150 ",150,,
+,"WELL OF RAM CHANDRA DEWRA, VILLAGE-",,,,,,,,,,,,,,,
+"2977 ",,"RAJASTHAN ","22 ","30 ","7.1 ","9.5 ","18000 ","20000 ","2.6 ","19.4 ","6.2 ","9.2 ","3 ","3 ","4 ",4
+,"SANGARIA, JODHPUR, RAJASTHAN ",,,,,,,,,,,,,,,
+,"WELL OF BIRMA RAM PATEL, SALAWAS,",,,,,,,,,,,,,,,
+"2982 ",,"RAJASTHAN ","21 ","31 ","7.0 ","8.4 ","14000 ","14000 ","2.3 ","12.7 ","2.8 ","3.2 ","3 ","3 ","4 ",4
+,"JODHPUR, RAJASTHAN ",,,,,,,,,,,,,,,
+,"WELL OF GIRDHARI RAM MEGHWAL, VILLAGE-",,,,,,,,,,,,,,,
+"2985 ",,"RAJASTHAN ","22 ","31 ","6.8 ","7.6 ","15000 ","16000 ","2.3 ","6.7 ","8.3 ","15.4 ","3 ","3 ","4 ",4
+,"NANDWAN, JODHPUR, RAJASTHAN ",,,,,,,,,,,,,,,
+,"TUBE WELL OF GIRDHARI LAL, BHITUJA,",,,,,,,,,,,,,,,
+"2986 ",,"RAJASTHAN ","24 ","24 ","7.7 ","8.1 ","2000 ","3800 ","1.8 ","4.2 ","2.1 ","2.8 ","3 ","3 ","3 ",3
+,"RAJASTHAN ",,,,,,,,,,,,,,,
+"2987 ","CWR OF PHED, BHITUJA, RAJASTHAN ","RAJASTHAN ","24 ","24 ","7.8 ","7.8 ","6200 ","8700 ","1.8 ","1.8 ","1.8 ","2.8 ","3 ","3 ","3 ",3
+"2988 ","WELL OF PEMA RAM MALI, BHITUJA, RAJASTHAN ","RAJASTHAN ","24 ","24 ","7.6 ","8.4 ","5000 ","5500 ","1.3 ","1.9 ","1.7 ","2.8 ","3 ","3 ","3 ",3
+,"WELL OF BABULAL UKKAD JI MALI, SAKARNA",,,,,,,,,,,,,,,
+"2989 ",,"RAJASTHAN ","24 ","24 ","7.6 ","8.4 ","7100 ","10200 ","1.9 ","5.7 ","1.8 ","2.8 ","3 ","3 ","4 ",7
+,"BERA, BALOTRA, , JODHPUR, RAJASTHAN ",,,,,,,,,,,,,,,
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,"WELL OF BHIKSINGH S/O AMAR SINGH PUROHIT,",,,,,,,,,,,,,,,
+2990,"SAKARNA BERA, BALOTRA, JODHPUR,","RAJASTHAN ","25 ","25 ","8.1 ","8.4 ","14400 ","14400 ","1.8 ","16.4 ","1.8 ","3.1 ","3 ","3 ","4 ",7
+,RAJASTHAN,,,,,,,,,,,,,,,
+,"WELL OF BHAG JI LAXMAN RAM MALI, SAKARNA",,,,,,,,,,,,,,,
+"2991 ",,"RAJASTHAN ","25 ","25 ","8.1 ","8.2 ","10500 ","10800 ","2.2 ","14.8 ","1.7 ","2.8 ","3 ","4 ","4 ",7
+,"BERA, BALOTRA, JODHPUR, RAJASTHAN ",,,,,,,,,,,,,,,
+,"WELL OF CHOUTHA RAM PUSA PAM, LEFT SIDE",,,,,,,,,,,,,,,
+"2993 ",,"RAJASTHAN ","25 ","25 ","7.9 ","8.4 ","4400 ","8200 ","1.8 ","6.7 ","2.1 ","2.7 ","3 ","3 ","4 ",4
+,"OF BRIDGE LUNI, BALOTRA, RAJASTHAN ",,,,,,,,,,,,,,,
+,"BORE WELL SH. PREM CHAND, VILLAGE PHALSHA",,,,,,,,,,,,,,,
+"2999 ",,"RAJASTHAN ","26 ","26 ","7.0 ","7.5 ","1560 ","1610 ","0.3 ","2.2 ","2.2 ","2.6 ","3 ","3 ","3 ",3
+,"MODE RIA CHOPNADI, RAJASTHAN ",,,,,,,,,,,,,,,
+,BORE WELL SH. UMESH KUMAR S/O SH.,,,,,,,,,,,,,,,
+3000,"HORIDWARI RAM 3A-16 UIT, BHIWADI,","RAJASTHAN ","26 ","27 ","6.9 ","7.6 ","990 ","1020 ","0.5 ","1.3 ","2.3 ","3.1 ","3 ","3 ","3 ",3
+,RAJASTHAN,,,,,,,,,,,,,,,
+,"BORE WELL SH. BHRAM JEET SERVICE STATION,",,,,,,,,,,,,,,,
+"3001 ",,"RAJASTHAN ","27 ","29 ","6.9 ","7.6 ","1260 ","1410 ","0.6 ","1.3 ","1.8 ","2.6 ","3 ","3 ","3 ",3
+,"BHIWADI, RAJASTHAN ",,,,,,,,,,,,,,,
+,"BORE WELL M/S R.C. PALACE HOTEL, BHIWADI,",,,,,,,,,,,,,,,
+"3002 ",,"RAJASTHAN ","26 ","29 ","7.1 ","7.6 ","1130 ","1560 ","0.6 ","1.3 ","2.3 ","2.7 ","3 ","3 ","3 ",3
+,"RAJASTHAN ",,,,,,,,,,,,,,,
+,"BORE WELL OFFICE OF RAJ. HOUSING BOARD,",,,,,,,,,,,,,,,
+"3003 ",,"RAJASTHAN ","25 ","28 ","7.3 ","7.7 ","1290 ","1870 ","0.5 ","1.5 ","2.2 ","2.3 ","3 ","3 ","3 ",3
+,"BHIWADI, RAJASTHAN ",,,,,,,,,,,,,,,
+,"BORE WELL OF M/S MODERN PUBLIC SCHOOL,",,,,,,,,,,,,,,,
+"3004 ",,"RAJASTHAN ","26 ","28 ","7.7 ","7.8 ","1240 ","1390 ","0.5 ","2.0 ","1.8 ","2.1 ","3 ","3 ","3 ",3
+,"BHIWADI, RAJASTHAN ",,,,,,,,,,,,,,,
+,BORE WELL OF M/S KUNDAN EDIBLE FOOD,,,,,,,,,,,,,,,
+"3005 ",,"RAJASTHAN ","27 ","27 ","6.9 ","7.8 ","1010 ","1010 ","0.7 ","1.5 ","1.5 ","1.7 ","3 ","3 ","3 ",3
+,"PRODUCT, KHUSKHERA, RAJASTHAN ",,,,,,,,,,,,,,,
+,"HAND PUMP NEAR NEVTA TIRAHA, NEVTA DAM,",,,,,,,,,,,,,,,
+"3006 ",,"RAJASTHAN ","26 ","26 ","7.6 ","8.3 ","2100 ","2300 ","1.5 ","1.8 ","2.6 ","2.7 ","3 ","3 ","3 ",3
+,"SANGANER, JAIPUR, RAJASTHAN ",,,,,,,,,,,,,,,
+"4168 ","HAND PUMP AT VILLAGE MANDAPIA, BHILWARA ","RAJASTHAN ","17 ","17 ","7.5 ","7.5 ","5700 ","5700 ","1.3 ","1.3 ","3.0 ",3.0,,,,
+"4169 ","HAND PUMP AT VILLAGE MANGROP, BHILWARA ","RAJASTHAN ","18 ","21 ","7.3 ","7.6 ","1140 ","1390 ","1.2 ","2.0 ","1.8 ","2.5 ","4 ","4 ","11 ",11
+"4170 ","HAND PUMP AT VILLAGE ATOON, BHILWARA ","RAJASTHAN ","18 ","22 ","7.3 ","7.8 ","1290 ","1480 ","0.8 ","1.8 ","2.5 ","2.8 ","4 ","4 ","7 ",7
+,"HAND PUMP NEAR RIICO INUSTRIAL AREA,",,,,,,,,,,,,,,,
+"4176 ",,"RAJASTHAN ","20 ","29 ","7.4 ","7.6 ","3100 ","3300 ","1.2 ","1.7 ","2.5 ","3.1 ","4 ","4 ","7 ",7
+,"AAJOLIYON KA KHERA, GANGRAR, CHITTORGARH ",,,,,,,,,,,,,,,
+"4177 ","SWAROOP NAGAR, UDAIPUR ","RAJASTHAN ","16 ","32 ","8.3 ","8.6 ","580 ","630 ","0.6 ","2.2 ","2.4 ","3.0 ","7 ","14 ","11 ",150
+"4178 ","GOVERDHAN SAGAR, UDAIPUR ","RAJASTHAN ","16 ","32 ","8.2 ","8.6 ","1050 ","1270 ","1.1 ","4.3 ","2.3 ","3.1 ","7 ","20 ","20 ",75
+,BOREWELL OF JYOTI UCHCH MADHYMIC,,,,,,,,,,,,,,,
+4180,"VIDHYALAYA, NAYAGAON, RAMPUR MUNDANA,","RAJASTHAN ","26 ","26 ","7.8 ","7.8 ","1240 ","1240 ","0.4 ","0.4 ","1.1 ","1.1 ","3 ","3 ","4 ",4
+,BHIWADI,,,,,,,,,,,,,,,
+,"BOREWELL IN THE HOUSE AKRAM KHAN,",,,,,,,,,,,,,,,
+"4181 ",,"RAJASTHAN ","27 ","27 ","7.7 ","7.7 ","1410 ","1410 ","1.2 ","1.2 ","1.1 ","1.1 ","3 ","3 ","4 ",4
+,"AMLAKI, KHARGANJ INDL AREA, TIJARA, ALWAR ",,,,,,,,,,,,,,,
+
+,,,,,,,,,,,Nitrate-N +,,,,,
+,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,,
+,,,,,"pH ",,,,,,Nitrite-N,,,,,
+Station,,,,,,,,,,,,,,,,
+,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),,
+"Station Name ",State Name,,,,,,,,,,,,,,,
+,,,,,,,,,,,(mg/l),,,,,
+"Code ",,,,,,,,,,,,,,,,
+,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,
+"BOREWELL AT STAR HOSPITAL, INFRONT OF STP,",,,,,,,,,,,,,,,,
+"4183 ","RAJASTHAN ","26 ","26 ","7.5 ","7.5 ","2200 ","2200 ","0.8 ","0.8 ","1.2 ","1.2 ","3 ","3 ","4 ",4,
+"BHIWADI, TIJARA, ALWAR ",,,,,,,,,,,,,,,,
+"BOREWELL IN CETP PREMISES, BHIWADI, TIJARA,",,,,,,,,,,,,,,,,
+"4184 ","RAJASTHAN ","26 ","26 ","7.5 ","7.5 ","2000 ","2000 ","0.6 ","0.6 ","1.3 ","1.3 ","3 ","3 ","4 ",4,
+"ALWAR ",,,,,,,,,,,,,,,,
+
+,TABLE - 25: WATER QUALITY OF GROUND WATER IN TAMIL NADU– 2018,,,,,,,,,,,,,,,
+,,,,,,,,,,,Nitrate-N +,,,,,
+,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,,
+,,,,,"pH ",,,,,,Nitrite-N,,,,,
+Station,,,,,,,,,,,,,,,,
+,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),,
+"Station Name ",State Name,,,,,,,,,,,,,,,
+,,,,,,,,,,,(mg/l),,,,,
+"Code ",,,,,,,,,,,,,,,,
+,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,
+COLLECTOR WELL AT THIRUPUVANAM FOR,,,,,,,,,,,,,,,,
+"1449 ","TAMIL NADU ","20 ","28 ","7.2 ","7.2 ","612 ","1218 ","6.2 ","6.3 ","0.6 ","13.9 ","2 ","4 ","4 ",7,
+"MADURAI WAT. SUPPLY SCHEME, TAMILNADU ",,,,,,,,,,,,,,,,
+
+,,TABLE - 26: WATER QUALITY OF GROUND WATER IN TELANGANA– 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,,(MPN/100ml),(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"15 ","WELL AT KUYYURA ","TELANGANA ","29 ","29 ","7.3 ","7.3 ","880 ","880 ","2.0 ","2.0 ","0.0 ","1.3 ","24 ","24 ","700 ",700
+"16 ","WELL AT TADAVAI ","TELANGANA ","28 ","29 ","7.9 ","7.9 ","739 ","822 ","4.0 ","4.0 ","1.1 ","15.9 ","2 ","26 ","15 ",400
+"27 ","WELL AT PEDDAVOORA ","TELANGANA ","26 ","27 ","6.4 ","8.2 ","684 ","2606 ","3.0 ","3.0 ","0.7 ","32.6 ","8 ","50 ","45 ",400
+,"B/W. - NAGARAM(V), PALVONCHA, KHAMMAM",,,,,,,,,,,,,,,
+"1515 ",,"TELANGANA ","30 ","30 ","7.2 ","7.3 ","1001 ","1170 ","6.0 ","7.0 ","7.9 ","25.4 ","2 ","26 ","18 ",3125
+,"DIST. ",,,,,,,,,,,,,,,
+,"B/W - IDA , NEAR CHAITANYA CHLORIDES ,",,,,,,,,,,,,,,,
+"1525 ",,"TELANGANA ","26 ","30 ","7.2 ","7.3 ","3050 ","3120 ",,,"22.6 ","28.7 ","2 ","2 ","2 ",2
+,"PASHAMAYLAM , MEDAK DIST. ",,,,,,,,,,,,,,,
+,"B/W. - EAST OF SAICHERUVU , PAIDIPALLY (V),",,,,,,,,,,,,,,,
+"1791 ",,"TELANGANA ","28 ","31 ","7.2 ","7.3 ","1188 ","1528 ","8.0 ","12.0 ","3.7 ","8.2 ","2 ","25 ","12 ",12050
+,"WARANGAL DIST. ",,,,,,,,,,,,,,,
+,"B/W -NEAR CKM COLLEGE , ENUMAMULA (V) ,",,,,,,,,,,,,,,,
+"1792 ",,"TELANGANA ","28 ","30 ","7.0 ","8.0 ","1396 ","1511 ","4.0 ","6.0 ","14.5 ","18.3 ","2 ","27 ","13 ",14
+,"WARANGAL DIST. ",,,,,,,,,,,,,,,
+,"O/W - BHOOMAIAH NEAR ASHPONDS OF NTPC ,",,,,,,,,,,,,,,,
+1793,"KUNDANPALLY (V) , RAMAGUNDAM ,","TELANGANA ","26 ","26 ","7.3 ","7.7 ","1692 ","1945 ","4.0 ","6.0 ","0.2 ","1.5 ","18 ","28 ","540 ",650
+,KARIMNAGAR,,,,,,,,,,,,,,,
+"1794 ","B/W - MANAKONDUR (V) , KARIMNAGAR DIST. ","TELANGANA ","26 ","28 ","7.2 ","7.3 ","1065 ","1161 ","6.0 ","7.0 ","0.0 ","4.3 ","2 ","22 ","230 ",550
+,"B/W. - PANCHAYAT OFFICE , , BOLLARAM (V)",,,,,,,,,,,,,,,
+"1795 ",,"TELANGANA ","26 ","29 ","7.1 ","7.5 ","3560 ","3640 ",,,"45.8 ","49.9 ","2 ","2 ","2 ",2
+,"MEDAK DIST. ",,,,,,,,,,,,,,,
+,"B/W - SRI RAMNAGAR COLONY, SHAKKAR",,,,,,,,,,,,,,,
+"1810 ",,"TELANGANA ","26 ","26 ","7.0 ","8.0 ","2918 ","2938 ",,,"24.6 ","32.5 ","2 ","2 ","2 ",2
+,"NAGAR, BODHAN, NIZAMABAD DIST. ",,,,,,,,,,,,,,,
+,"B/W. - PRIMARY SCHOOL - RUDRAVELLI (V) ,",,,,,,,,,,,,,,,
+"1811 ",,"TELANGANA ","24 ","25 ","6.6 ","7.8 ","1845 ","2011 ",,,"12.5 ","22.3 ","2 ","2 ","2 ",2
+,"BIBINAGAR (M), NALGONDA DIST. ",,,,,,,,,,,,,,,
+,"B/W AT J.NARASIMHA RAO’S HOUSE, 14NOS.",,,,,,,,,,,,,,,
+3088,"AREA, RAMAVARAM, NEAR MWS DUMPSITE,","TELANGANA ","29 ","30 ","6.5 ","6.8 ","1674 ","1776 ","7.0 ","8.0 ","11.4 ","41.9 ","2 ","25 ","6 ",8025
+,"KOTHAGUDEM, KHAMMAM",,,,,,,,,,,,,,,
+,"B/W AT AKBARNAGAR, RAMAGUNDAM,",,,,,,,,,,,,,,,
+"3094 ",,"TELANGANA ","26 ","29 ","7.8 ","7.9 ","855 ","889 ","4.0 ","6.0 ",,,"8 ","26 ","130 ",600
+,"KARIMNAGAR ",,,,,,,,,,,,,,,
+,"BORE WELL NEAR MSW DUMP YARD, MEDAK",,,,,,,,,,,,,,,
+"4260 ",,"TELANGANA ","31 ","31 ","7.7 ","7.8 ","1168 ","1250 ","2.0 ","3.0 ","6.7 ",6.8,,,,
+,"TOWN MEDAK DISTRICT ",,,,,,,,,,,,,,,
+,"BORE WELL AT M/S SHALINI STEELS LTD, IDA",,,,,,,,,,,,,,,
+4261,"BOLLARAM, JINNARAM MANDAL, SANGAREDDY","TELANGANA ","27 ","27 ","6.4 ","6.4 ","5560 ","5560 ",,,"62.5 ",62.5,,,,
+,DISTRICT,,,,,,,,,,,,,,,
+,"BOREWELL NEAR GRAMPANCHYAT OFFICE,",,,,,,,,,,,,,,,
+4262,"KISTAIPALLY VILLAGE JINNARM MANDAL,","TELANGANA ","27 ","28 ","6.9 ","6.9 ","1694 ","2117 ","3.0 ","3.0 ","20.5 ",62.5,,,,
+,SANGAREDDY DISTRICT,,,,,,,,,,,,,,,
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,,(MPN/100ml),(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,BOREWELL NEAR MPP SCHOOL,,,,,,,,,,,,,,,
+4263,"GADDAPOTHARAM VILLAGE, JINNARAM","TELANGANA ","27 ","32 ","7.0 ","7.3 ","3170 ","3590 ",,,"25.3 ",30.3,,,,
+,"MANDAL, SANGAREDDY DISTRICT",,,,,,,,,,,,,,,
+,BORE WELL WATER POINT AT ZP GIRLS HIGH,,,,,,,,,,,,,,,
+4264,SCHOOL BHUDAM POCHAMPALLY (V & M),"TELANGANA ","27 ","27 ","6.6 ","7.6 ","2842 ","3380 ",,,"21.1 ",48.2,,,,
+,YADADRI DISTRICT,,,,,,,,,,,,,,,
+,"B/W AT GRAM PANCHAYATH OFFICE,",,,,,,,,,,,,,,,
+"4265 ",,"TELANGANA ","26 ","27 ","6.9 ","7.0 ","1480 ","2034 ",,,"47.2 ",63.3,,,,
+,"DOTHIGUDAM ",,,,,,,,,,,,,,,
+,"BOREWELL NEAR PRIMARY SCHOOL, ADLOOR",,,,,,,,,,,,,,,
+4266,YELLAREDDY (N) SADASHIVANAGAR (M),"TELANGANA ","28 ","28 ","6.9 ","6.9 ","1694 ","1694 ","3.0 ","3.0 ","62.5 ",62.5,,,,
+,KAMAREDDY DIST,,,,,,,,,,,,,,,
+"4267 ","BOREWELL IDA KATTEDAN ","TELANGANA ","29 ","29 ","7.0 ","7.8 ","2036 ","3520 ","53.0 ","53.0 ","48.4 ","53.0 ","49 ","49 ","530 ",530
+,BOREWELL LOCATED AT HOUSE OF SRI VITAL,,,,,,,,,,,,,,,
+4268,"RAO, H.NO. 2-42 875, ABESTOS COLONY, GANDHI","TELANGANA ","26 ","26 ","6.7 ","7.4 ","1401 ","1722 ","12.0 ","16.0 ","0.5 ","10.9 ","2 ","2 ","430 ",430
+,"NAGAR, BALANAGAR, MEDCHAL DISTRICT",,,,,,,,,,,,,,,
+,BOREWELL LOCATED AT HOUSE OF SRI P,,,,,,,,,,,,,,,
+,"NEKATESH RAJU, PLOT NO 115,22 321, APIIC, CO-",,,,,,,,,,,,,,,
+4269,,"TELANGANA ","25 ","27 ","6.6 ","7.8 ","2676 ","3140 ","16.0 ","24.0 ","1.2 ","6.1 ","8 ","8 ","540 ",540
+,"[PERATIVE CONONY, JEEDIMETLA,",,,,,,,,,,,,,,,
+,QUTHBULLAPUR (M) MEDCHAL DISTRICT,,,,,,,,,,,,,,,
+,BOREWELL LOCATED AT HOUSE OF P.,,,,,,,,,,,,,,,
+,"ANJANEYULU, PLOT NO,25, SHAKTHIPURAM,",,,,,,,,,,,,,,,
+4270,,"TELANGANA ","25 ","29 ","7.1 ","7.3 ","2264 ","2448 ","8.0 ","10.0 ","12.6 ","32.6 ","4 ","4 ","220 ",220
+,"PRASHANTH NAGAR, I. E. KUKATPALLY, MEDCHAL",,,,,,,,,,,,,,,
+,DISTRICT,,,,,,,,,,,,,,,
+,BOREWELL LOCATED AT GOVERNMENT PRIMARY,,,,,,,,,,,,,,,
+4271,"SCHOOL, SY. NO 32 DHULAPALLY (V)","TELANGANA ","26 ","28 ","6.9 ","7.3 ","1853 ","1883 ","10.0 ","12.0 ","25.6 ","28.1 ","6 ","6 ","540 ",540
+,QUTHBULLAPUR (M) MEDCHAL DISTRICT.,,,,,,,,,,,,,,,
+,"BOREWELL LOCATED AT RAHIV GRUHA KA;PA,",,,,,,,,,,,,,,,
+4272,"AHMEDGUDA, AMBEDKAR NAGAR, KAPRA","TELANGANA ","28 ","30 ","7.4 ","7.6 ","709 ","791 ","2.0 ","6.0 ","1.2 ","2.7 ","2 ","2 ","220 ",220
+,MEDCHAL DISTRICT.,,,,,,,,,,,,,,,
+,BOREWELL LOCATED AT THANDA DUNDIGAL (V),,,,,,,,,,,,,,,
+"4273 ",,"TELANGANA ","28 ","32 ","6.8 ","7.2 ","2954 ","3030 ","16.0 ","22.0 ","17.5 ","23.9 ","10 ","10 ","280 ",280
+,"DHUNDIGAL (M) MEDCHAL DISTRICT ",,,,,,,,,,,,,,,
+,BOREWELL POINTS AT THE PERIPHERY OF THE,,,,,,,,,,,,,,,
+"4274 ",,"TELANGANA ","28 ","33 ","7.1 ","7.6 ","1678 ","1953 ","3.0 ","10.0 ","18.3 ","20.7 ","2 ","2 ","540 ",540
+,"IDA, JEEDIMETLA ",,,,,,,,,,,,,,,
+,BOREWELL POINTS AT THE PERIPHERY OF THE ISA,,,,,,,,,,,,,,,
+"4275 ",,"TELANGANA ","28 ","28 ","7.4 ","7.4 ","2185 ","2185 ","18.0 ","18.0 ","11.2 ","11.2 ","2 ","2 ","430 ",430
+,"BALANAGAR ",,,,,,,,,,,,,,,
+,"BOREWELL NEAR GRAM PANCHAYAT OFFICE,",,,,,,,,,,,,,,,
+"4276 ",,"TELANGANA ","27 ","29 ","7.5 ","7.8 ","1954 ","2036 ",,,"48.4 ",55.5,,,,
+,"KHAZIPALLY VILLAGE, SANGAREDDY DISTRIST ",,,,,,,,,,,,,,,
+"4277 ","B/W AT ZPHS SULTHANPUR ","TELANGANA ","28 ","32 ","6.5 ","6.7 ","5940 ","6980 ",,,"50.8 ","61.0 ","7 ","7 ","38 ",38
+"4278 ","B/W AT AUROBINDO, HATNUR, SANGAREDDY ","TELANGANA ","28 ","33 ","6.5 ","7.1 ","798 ","4340 ",,,"7.6 ",30.7,,,,
+
+,,,,,,,,,,,Nitrate-N +,,,,,
+,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,,
+,,,,,"pH ",,,,,,Nitrite-N,,,,,
+Station,,,,,,,,,,,,,,,,
+,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),,
+"Station Name ",State Name,,,,,,,,,,,,,,,
+,,,,,,,,,,,(mg/l),,,,,
+"Code ",,,,,,,,,,,,,,,,
+,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,
+"B/W NEAR M/S ARCH PHARMA, GUNDLA",,,,,,,,,,,,,,,,
+"4279 ","TELANGANA ","28 ","28 ","8.2 ","8.2 ","2909 ","2909 ",,,"16.3 ","16.3 ","7 ","7 ","38 ",38,
+"MACHANUR, SANGAREDDY ",,,,,,,,,,,,,,,,
+"B,W AT IDS RAMPUR, HANAMKONDA,",,,,,,,,,,,,,,,,
+"4280 ","TELANGANA ","25 ","28 ","7.3 ","7.4 ","1807 ","7250 ","22.0 ","72.0 ","0.3 ","4.6 ","2 ","2 ","10 ",15,
+"WARANGAL ",,,,,,,,,,,,,,,,
+B/W NEAR BHIMANPALLI VILLAGE (OPEN LAND ),,,,,,,,,,,,,,,,
+"4281 ","TELANGANA ","27 ","27 ","6.7 ","7.0 ","3550 ","3820 ",,,"11.1 ",16.2,,,,,
+"POCHAMPALLY MANDAL ",,,,,,,,,,,,,,,,
+"B/W NEAR AARLA BAVI (AGRICULTURAL FIELD),",,,,,,,,,,,,,,,,
+"4282 ","TELANGANA ","28 ","28 ","6.7 ","7.0 ","1401 ","1565 ",,,"20.5 ",25.3,,,,,
+"POCHAMPALLY MANDAL ",,,,,,,,,,,,,,,,
+"B/W NEAR DANTUR (OPEN LAND),",,,,,,,,,,,,,,,,
+"4283 ","TELANGANA ","26 ","27 ","6.9 ","7.2 ","4690 ","5680 ","0.0 ","0.0 ","52.1 ","66.1 ","4 ","4 ","70 ",70,
+"POCHAMPALLY MANDAL ",,,,,,,,,,,,,,,,
+"B/W NEAR MALKAPUR LAKE, MALKAPUR VILLAGE",,,,,,,,,,,,,,,,
+"4284 ","TELANGANA ","26 ","27 ","7.1 ","7.2 ","1950 ","3390 ",,,"40.6 ","66.5 ","5 ","5 ","62 ",62,
+"(AGRICULTURAL FIELD) CHOUTUPPA; MANDAL ",,,,,,,,,,,,,,,,
+B/W NEAR PEDDAKONDUR VILLAGE,,,,,,,,,,,,,,,,
+"4285 ","TELANGANA ","27 ","27 ","6.5 ","6.9 ","2687 ","2962 ",,,"58.4 ","63.3 ","4 ","4 ","32 ",32,
+"(AGRICULTURAL FIELD), CHOUTUPPAL MANDAL ",,,,,,,,,,,,,,,,
+B/W NEAR ANKIREDDIGUDAM VILLAGE,,,,,,,,,,,,,,,,
+"4286 ","TELANGANA ","27 ","27 ","7.0 ","7.6 ","456 ","3240 ",,,"5.7 ",65.6,,,,,
+"(AGRUCULTURAL FIELD) CHOUTUPPAL MANDAL ",,,,,,,,,,,,,,,,
+B/W NEAR LINGAREDDYGUDAM VILLAGE (BESIDE,,,,,,,,,,,,,,,,
+4287CHOUTUPPAL- VALIGONDA ROAD) CHOUTUPPAL,"TELANGANA ","32 ","32 ","6.9 ","7.0 ","1986 ","2494 ",,,"36.6 ",63.5,,,,,
+MANDAL,,,,,,,,,,,,,,,,
+"B/W NEAR NAGARAM CHERUVU, DEVALAMMA",,,,,,,,,,,,,,,,
+"4288 ","TELANGANA ","31 ","31 ","7.1 ","7.1 ","979 ","979 ",,,"48.1 ","48.1 ","3 ","3 ","34 ",34,
+"NAGARAM VILLAGE ",,,,,,,,,,,,,,,,
+B/W NEAR PITTAM PALLE VILLAGE (OPEN LAND,,,,,,,,,,,,,,,,
+"4289 ","TELANGANA ","27 ","29 ","6.6 ","7.0 ","1376 ","1436 ",,,"32.5 ","51.5 ","5 ","5 ","39 ",39,
+"BESIDE VILLAGE ROAD) CHITYAL MANDAL ",,,,,,,,,,,,,,,,
+B/W NEAR PITTAM PEDDAKAPARTHI VIKKAGE,,,,,,,,,,,,,,,,
+4290(OPEN LAND BESIDE VILLAGE ROAD) CHITYAL,"TELANGANA ","28 ","28 ","6.7 ","7.2 ","976 ","1237 ","24.0 ","24.0 ","7.2 ","26.3 ","38 ",38,,,
+MANDAL,,,,,,,,,,,,,,,,
+
+,,TABLE - 27: WATER QUALITY OF GROUND WATER IN TRIPURA– 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"1405 ","WELL AT UDAIPUR (TUBEWELL), TRIPURA ","TRIPURA ","25 ","27 ","7.5 ","7.8 ","129 ","157 ","0.0 ","0.0 ","0.4 ","0.9 ","2 ","2 ","2 ",2
+"1406 ","WELL AROUND UDAIPUR (TUBEWELL), TRIPURA ","TRIPURA ","25 ","28 ","5.9 ","6.5 ","134 ","181 ","0.0 ","0.0 ","0.3 ","0.4 ","2 ","2 ","2 ",2
+"1730 ","KUNJBAN, AGARTALA, TRIPURA ","TRIPURA ","26 ","27 ","5.8 ","6.0 ","116 ","129 ","0.0 ","0.0 ","0.4 ","0.4 ","2 ","2 ","2 ",2
+"1731 ","LANKAMURA, TRIPURA ","TRIPURA ","25 ","27 ","6.4 ","6.5 ","108 ","113 ","0.0 ","0.0 ","0.2 ","0.3 ","2 ","2 ","2 ",2
+"1732 ","A.D.NAGAR, AGARTALA, TRIPURA ","TRIPURA ","26 ","27 ","5.9 ","6.0 ","124 ","131 ","0.0 ","0.0 ","0.3 ","0.4 ","2 ","2 ","2 ",2
+"1733 ","SHIBNAGAR, AGARTALA, TRIPURA ","TRIPURA ","25 ","27 ","6.3 ","6.4 ","124 ","156 ","0.0 ","0.0 ","0.2 ","0.3 ","2 ","2 ","2 ",2
+"1734 ","GANDHIGRAM, AGARTALA, TRIPURA ","TRIPURA ","25 ","27 ","6.7 ","6.8 ","118 ","131 ","0.0 ","0.0 ","0.2 ","0.4 ","2 ","2 ","2 ",2
+"3423 ","TUBE WELL AT HAPANIA, WEST TRIPURA ","TRIPURA ","26 ","28 ","6.4 ","6.8 ","137 ","138 ","0.0 ","0.0 ","0.3 ","0.4 ","2 ","2 ","2 ",2
+"3424 ","TUBE WELL AT NAGICHERRA, WEST TRIPURA ","TRIPURA ","26 ","28 ","6.4 ","6.6 ","118 ","125 ","0.0 ","0.5 ","0.2 ","0.3 ","2 ","2 ","2 ",2
+,"TUBE WELL AT BODHJUNG NAGAR, WEST",,,,,,,,,,,,,,,
+"3425 ",,"TRIPURA ","27 ","28 ","6.2 ","6.9 ","135 ","147 ","0.0 ","0.0 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+,"TRIPURA ",,,,,,,,,,,,,,,
+"3426 ","TUBE WELL AT B.C.MANU, SOUTH TRIPURA ","TRIPURA ","25 ","27 ","6.2 ","6.3 ","118 ","137 ","0.0 ","0.0 ","0.2 ","0.3 ","2 ","2 ","2 ",2
+"3427 ","TUBE WELL AT SHANTIR BAZAR, SOUTH TRIPURA ","TRIPURA ","27 ","27 ","6.4 ","6.4 ","109 ","122 ","0.0 ","0.5 ","0.2 ","0.2 ","2 ","2 ","2 ",2
+"3428 ","TUBE WELL AT BAGAFA, SOUTH TRIPURA ","TRIPURA ","26 ","27 ","6.1 ","6.9 ","123 ","134 ","0.0 ","0.0 ","0.2 ","0.2 ","2 ","2 ","2 ",2
+"3429 ","TUBE WELL AT 82 MILE, DHALAI ","TRIPURA ","26 ","27 ","6.3 ","6.6 ","128 ","145 ","0.0 ","0.2 ","0.2 ","0.2 ","2 ","2 ","2 ",2
+"3430 ","TUBE WELL AT JAWAHANAGAR, DHALAI ","TRIPURA ","25 ","26 ","6.2 ","6.5 ","126 ","144 ","0.0 ","0.0 ","0.2 ","0.2 ","2 ","2 ","2 ",2
+"3431 ","TUBE WELL AT KULAI, DHALAI ","TRIPURA ","26 ","27 ","5.9 ","5.9 ","122 ","137 ","0.0 ","0.4 ","0.1 ","0.2 ","2 ","2 ","2 ",2
+,TUBE WELL AT CHURAIBARI (INTERSTATE,,,,,,,,,,,,,,,
+"3432 ",,"TRIPURA ","26 ","26 ","6.1 ","6.2 ","128 ","145 ","0.0 ","0.2 ","0.3 ","0.4 ","2 ","2 ","2 ",2
+,"BOUNDRY), NORTH TRIPURA ",,,,,,,,,,,,,,,
+,"TUBE WELL AT KAMESWAR, INDUSTRIAL ESTATE",,,,,,,,,,,,,,,
+"3433 ",,"TRIPURA ","25 ","26 ","6.3 ","6.6 ","138 ","177 ","0.0 ","0.4 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+,"AREA, NORTH TRIPURA ",,,,,,,,,,,,,,,
+,"TUBE WELL AT KUMARGHAT, INDUSTRIAL ESTATE",,,,,,,,,,,,,,,
+"3434 ",,"TRIPURA ","26 ","26 ","6.2 ","6.9 ","132 ","151 ","0.0 ","0.0 ","0.3 ","0.4 ","2 ","2 ","2 ",2
+,"AREA, NORTH TRIPURA ",,,,,,,,,,,,,,,
+"3435 ","TUBE WELL AT GOUR NAGAR, NORTH TRIPURA ","TRIPURA ","25 ","26 ","6.5 ","7.0 ","142 ","187 ","0.0 ","0.1 ","0.2 ","0.3 ","2 ","2 ","2 ",2
+"3436 ","TUBE WELL AT KAILASHAHAR, NORTH TRIPURA ","TRIPURA ","26 ","26 ","5.9 ","6.1 ","184 ","206 ","0.0 ","0.2 ","0.3 ","0.4 ","2 ","2 ","2 ",2
+"4185 ","TUBE WELL AT JIRANIA ","TRIPURA ","26 ","26 ","7.1 ","7.1 ","135 ","135 ","0.2 ","0.2 ","0.2 ",0.2,,,,
+"4186 ","TUBE WELL AT DOKLI ","TRIPURA ","27 ","27 ","6.3 ","6.3 ","96 ","96 ","0.1 ","0.1 ","0.3 ",0.3,,,,
+
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"4187 ","TUBE WELL AT BADHARGHAT ","TRIPURA ","27 ","27 ","7.0 ","7.0 ","96 ","96 ","0.1 ","0.1 ","0.3 ",0.3,,,,
+"4188 ","TUBE WELL AT ARUNDHATI NAGAR ","TRIPURA ","26 ","26 ","7.2 ","7.2 ","108 ","108 ","0.2 ","0.2 ","0.2 ",0.2,,,,
+"4189 ","TUBE WELL AT NANADANNAGAR ","TRIPURA ","27 ","27 ","6.9 ","6.9 ","97 ","97 ","0.1 ","0.1 ","0.2 ",0.2,,,,
+"4190 ","TUBE WELL AT DEBENDRA CHANDRA NAGAR ","TRIPURA ","27 ","27 ","6.3 ","6.3 ","112 ","112 ","0.1 ","0.1 ","0.3 ",0.3,,,,
+"4191 ","TUBE WELL AT SURYAMONI NAGAR ","TRIPURA ","26 ","26 ","7.0 ","7.0 ","106 ","106 ","0.1 ","0.1 ","0.3 ",0.3,,,,
+"4200 ","TUBE WELL AT BISHALGARH ","TRIPURA ","26 ","26 ","6.9 ","6.9 ","137 ","137 ","0.0 ","0.0 ","0.2 ",0.2,,,,
+"4201 ","TUBE WELL AT SONAMURA ","TRIPURA ","27 ","27 ","5.9 ","5.9 ","143 ","143 ","0.1 ","0.1 ","0.2 ",0.2,,,,
+"4202 ","TUBE WELL AT BISHRAMGANJ ","TRIPURA ","27 ","27 ","5.7 ","5.7 ","157 ","157 ","0.1 ","0.1 ","0.2 ","0.2 ","2 ","2 ","2 ",2
+"4203 ","TUBE WELL AT KARBOOK ","TRIPURA ","26 ","26 ","6.1 ","6.1 ","151 ","151 ","0.1 ","0.1 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+"4204 ","TUBE WELL AT AMARPUR ","TRIPURA ","26 ","26 ","6.2 ","6.2 ","149 ","149 ","0.1 ","0.1 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+"4205 ","TUBE WELL AT AMAR SAGAR, UDAIPUR ","TRIPURA ","27 ","27 ","6.3 ","6.3 ","144 ","144 ","0.1 ","0.1 ","0.4 ","0.4 ","2 ","2 ","2 ",2
+"4206 ","TUBE WELL AT DHANI SAGAR, UDAIPUR ","TRIPURA ","27 ","27 ","5.9 ","5.9 ","137 ","137 ","0.1 ","0.1 ","0.5 ","0.5 ","2 ","2 ","2 ",2
+"4207 ","TUBE WELL AT SABROOM ","TRIPURA ","27 ","27 ","6.5 ","6.5 ","148 ","148 ","0.1 ","0.1 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+"4208 ","TUBE WELL AT JOLAIBARI ","TRIPURA ","26 ","26 ","6.3 ","6.3 ","189 ","189 ","0.1 ","0.1 ","0.4 ","0.4 ","2 ","2 ","2 ",2
+"4209 ","TUBE WELL AT BELONIA ","TRIPURA ","27 ","27 ","6.5 ","6.5 ","151 ","151 ","0.0 ","0.0 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+"4210 ","TUBE WELL AT AMBASSA ","TRIPURA ","26 ","26 ","6.1 ","6.1 ","145 ","145 ","0.1 ","0.1 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+"4211 ","TUBE WELL AT KAMALPUR ","TRIPURA ","26 ","26 ","6.3 ","6.3 ","150 ","150 ","0.0 ","0.0 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+"4212 ","TUBE WELL AT CHAWMANU ","TRIPURA ","26 ","26 ","6.3 ","6.3 ","157 ","157 ","0.1 ","0.1 ","0.4 ","0.4 ","2 ","2 ","2 ",2
+"4213 ","TUBE WELL AT TELIAMURA ","TRIPURA ","27 ","27 ","6.3 ","6.3 ","135 ","135 ","0.2 ","0.2 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+"4214 ","TUBE WELL AT KHOWAI ","TRIPURA ","26 ","26 ","5.5 ","5.5 ","157 ","157 ","0.0 ","0.0 ","0.4 ","0.4 ","2 ","2 ","2 ",2
+"4215 ","TUBE WELL AT DHARMANAGAR ","TRIPURA ","26 ","26 ","5.4 ","5.4 ","183 ","183 ","0.0 ","0.0 ","0.4 ","0.4 ","2 ","2 ","2 ",2
+"4216 ","TUBE WELL AT DAMCHERRA ","TRIPURA ","27 ","27 ","5.8 ","5.8 ","151 ","151 ","0.1 ","0.1 ","0.2 ","0.2 ","2 ","2 ","2 ",2
+"4217 ","TUBE WELL AT KANCHANPUR ","TRIPURA ","26 ","26 ","6.1 ","6.1 ","165 ","165 ","0.0 ","0.0 ","0.2 ","0.2 ","2 ","2 ","2 ",2
+"4218 ","TUBE WELL AT PANISAGAR ","TRIPURA ","26 ","26 ","6.1 ","6.1 ","133 ","133 ","0.1 ","0.1 ","0.2 ","0.2 ","2 ","2 ","2 ",2
+
+,,TABLE - 28: WATER QUALITY OF GROUND WATER IN UTTAR PRADESH– 2018,,,,,,,,,,,,,,
+,,,,,,,,,,,,Nitrate-N +,,,,
+,,,Temperature,,,,,Conductivity,,B.O.D.,,,Faecal Coli form,,Total Coli form,
+,,,,,,"pH ",,,,,,Nitrite-N,,,,
+Station,,,,,,,,,,,,,,,,
+,,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,(MPN/100ml),,(MPN/100ml),
+,"Station Name ",State Name,,,,,,,,,,,,,,
+,,,,,,,,,,,,(mg/l),,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+,GROUND WATER QUALITY STATION,,,,,,,,,,,,,,,
+"1736 ",,"UTTAR PRADESH ","20 ","26 ","5.2 ","7.6 ","142 ","990 ","1.4 ","5.6 ",,,"180 ","200 ","360 ",400
+,"SARDARNAGAR, U.P ",,,,,,,,,,,,,,,
+,GROUND WATER QUALITY STATION,,,,,,,,,,,,,,,
+"1737 ",,"UTTAR PRADESH ","23 ","28 ","5.7 ","8.4 ","482 ","670 ","3.1 ","4.6 ","0.0 ","0.3 ","180 ","2200 ","360 ",3400
+,"CAPTANGANJ, U.P ",,,,,,,,,,,,,,,
+,"SITE 1, INDUSTRIAL AREA NEAR M/S",,,,,,,,,,,,,,,
+"1738 ",,"UTTAR PRADESH ","29 ","29 ","7.5 ","7.5 ","868 ","868 ","0.1 ","0.1 ","0.9 ","0.9 ","2 ","2 ","2 ",2
+,"WOODWARM CHEMICAL LTD., UNNAO, U.P ",,,,,,,,,,,,,,,
+,"SITE 2, INDUSTRIAL AREA NEAR M/S AMIN SONS,",,,,,,,,,,,,,,,
+"1739 ",,"UTTAR PRADESH ","29 ","29 ","7.2 ","7.2 ","1562 ","1562 ","2.7 ","2.7 ","0.8 ","0.8 ","2 ","2 ","2 ",2
+,"UNNAO, U.P ",,,,,,,,,,,,,,,
+"1740 ","AT ROADWAYS BUS STATION, UNNAO, U.P ","UTTAR PRADESH ","29 ","29 ","7.3 ","7.3 ","2475 ","2475 ","0.0 ","0.0 ","0.6 ","0.6 ","2 ","2 ","23 ",23
+,MAGAWARA INDUSTRIAL AREA NEAR M/S,,,,,,,,,,,,,,,
+"1741 ",,"UTTAR PRADESH ","29 ","29 ","7.4 ","7.4 ","786 ","786 ","0.0 ","0.0 ","0.5 ","0.5 ","2 ","2 ","2 ",2
+,"JAMJAM TANNERS, UNNAO, U.P ",,,,,,,,,,,,,,,
+,CHINHAT INDUSTRIAL AREA IN LUCKNOW NEAR,,,,,,,,,,,,,,,
+"1742 ",,"UTTAR PRADESH ",,,"7.7 ","7.7 ","620 ","620 ","0.5 ","0.5 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+,"M/S INDIA PESTICIDES LUCKNOW, U.P ",,,,,,,,,,,,,,,
+,AISHBAGH INDUSTRIAL AREA AT LUCKNOW NEAR,,,,,,,,,,,,,,,
+"1743 ",,"UTTAR PRADESH ",,,"7.7 ","7.7 ","886 ","886 ","0.0 ","0.0 ","6.3 ","6.3 ","2 ","2 ","2 ",2
+,"M/S EVEREADY INDUSTRIES LTD. LUCKNOW, U.P ",,,,,,,,,,,,,,,
+"1744 ","JAJMAU INDUSTRIAL AREA NO. 6 KANPUR, U.P ","UTTAR PRADESH ","30 ","30 ","7.1 ","7.1 ","2056 ","2056 ",,,,,"2 ","2 ","2 ",2
+,PANKI INDUSTRIAL AREA NEAR INDUSTRY OF,,,,,,,,,,,,,,,
+"1745 ",,"UTTAR PRADESH ","30 ","30 ","7.3 ","7.3 ","1757 ","1757 ",,,,,"2 ","2 ","2 ",2
+,"AMMONIA FERTIZER KANPUR, U.P ",,,,,,,,,,,,,,,
+"1746 ","NAGAR PALIKA TUBE WELL, SULTANPUR, U.P ","UTTAR PRADESH ","18 ","18 ","7.7 ","7.8 ","802 ","891 ",,,"0.1 ",0.1,,,,
+,INDIA MARKA HAND PUMP IN SAROWNI BLOCK,,,,,,,,,,,,,,,
+"1747 ",,"UTTAR PRADESH ","19 ","19 ","7.8 ","7.8 ","869 ","901 ",,,"0.2 ",0.2,,,,
+,"AT RAIBAREILLY, U.P ",,,,,,,,,,,,,,,
+,"TUBE WELL IN INDUSTRIAL AREA AT GAJRAULA,",,,,,,,,,,,,,,,
+"1751 ",,"UTTAR PRADESH ",,,"7.4 ","7.4 ","840 ","840 ","1.0 ","1.0 ","1.1 ","1.1 ","2 ","2 ","2 ",2
+,"MORADABAD, U.P ",,,,,,,,,,,,,,,
+"1752 ","SAHIBABAD INDUSTRIAL AREA, GHAZIABAD, U.P ","UTTAR PRADESH ","23 ","24 ","7.3 ","7.4 ","1620 ","2060 ","1.0 ","1.1 ","0.4 ","0.4 ","2 ","2 ","2 ",2
+,"MEERUT ROAD INDUSTRIAL AREA GHAZIABAD,",,,,,,,,,,,,,,,
+"1753 ",,"UTTAR PRADESH ","23 ","24 ","7.1 ","7.3 ","527 ","576 ","0.3 ","0.3 ","0.4 ","0.4 ","2 ","2 ","2 ",2
+,"U.P ",,,,,,,,,,,,,,,
+"1754 ","HAPUR ROAD INDUSTRIAL AREA GHAZIABAD, U.P ","UTTAR PRADESH ","23 ","24 ","7.2 ","7.5 ","760 ","890 ","0.2 ","0.3 ","0.3 ","0.4 ","2 ","2 ","2 ",2
+"1755 ","PILKHUA INDUSTRIAL AREA GHAZIABAD, U.P ","UTTAR PRADESH ","0 ","24 ","7.2 ","7.5 ","1490 ","1525 ","0.2 ","0.2 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+,"GOPIGANJ INDUSTRIAL AREA BHADOHI,",,,,,,,,,,,,,,,
+"1756 ",,"UTTAR PRADESH ","21 ","27 ","7.5 ","7.7 ","457 ","470 ","1.4 ","1.4 ","0.0 ",1.5,,,,
+,"VARANASI, U.P ",,,,,,,,,,,,,,,
+"1758 ","GROUND AROUND STP DINAPUR, VARANASI, U.P ","UTTAR PRADESH ","21 ","27 ","7.6 ","7.7 ","502 ","525 ","0.9 ","0.9 ","0.0 ",1.7,,,,
+"1759 ","IFFCO, PHOOLPUR, ALLAHABAD, U.P ","UTTAR PRADESH ","25 ","26 ","6.7 ","7.2 ","796 ","848 ","0.3 ","0.4 ","1.3 ",1.5,,,,
+
+,,,,,,,,,,,Nitrate-N +,,,,,
+,,Temperature,,,,Conductivity,,,B.O.D.,,,Faecal Coli form,,Total Coli form,,
+,,,,,"pH ",,,,,,Nitrite-N,,,,,
+Station,,,,,,,,,,,,,,,,
+,,"⁰C ",,,,,(μmhos/cm),,(mg/l),,,,(MPN/100ml),(MPN/100ml),,
+"Station Name ",State Name,,,,,,,,,,,,,,,
+,,,,,,,,,,,(mg/l),,,,,
+"Code ",,,,,,,,,,,,,,,,
+,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,
+"CHANDPUR INDUSTRIAL AREA, LAHARTARA,",,,,,,,,,,,,,,,,
+"2467 ","UTTAR PRADESH ","21 ","27 ","7.5 ","7.5 ","488 ","517 ","1.0 ","1.0 ","0.0 ",1.9,,,,,
+"VARANASI ",,,,,,,,,,,,,,,,
+"BHADOHI INDUSTRIAL AREA, DEVELOPMENT",,,,,,,,,,,,,,,,
+"2468 ","UTTAR PRADESH ","21 ","27 ","7.4 ","7.5 ","465 ","485 ","1.3 ","1.3 ","0.0 ",1.3,,,,,
+"AUTHORITY, SANT RAVIDAS NAGAR ",,,,,,,,,,,,,,,,
+"2469 AT INDUSTRIAL AREA. NAINI, ALLAHABAD ","UTTAR PRADESH ","25 ","26 ","7.2 ","7.4 ","1082 ","1116 ","0.3 ","0.5 ","1.4 ",1.9,,,,,
+"2470 AT INDUSTRIAL AREA, FATEHPUR ","UTTAR PRADESH ","25 ","26 ","6.9 ","7.3 ","1138 ","1382 ","0.3 ","0.5 ","1.5 ",1.8,,,,,
+GORAKHPUR INDUSTRIAL DEVELOPMENT,,,,,,,,,,,,,,,,
+"2471 ","UTTAR PRADESH ","22 ","28 ","7.8 ","8.2 ","496 ","564 ","2.4 ","5.6 ","0.0 ","0.5 ","180 ","43000 ","360 ",63000,
+"AUTHORITY AREA (GIDA), GORAKHPUR ",,,,,,,,,,,,,,,,
+"2474 UNCHAHAAR (NEAR THERMAL POWER PLANT) ","UTTAR PRADESH ","18 ","18 ","7.8 ","7.8 ","816 ","861 ",,,"0.2 ",0.2,,,,,
+"2475 INDUSTRIAL AREA, SULTANPUR ROAD ","UTTAR PRADESH ","19 ","19 ","7.9 ","8.1 ","851 ","977 ",,,"0.2 ",0.2,,,,,
+"DEVA ROAD, INDUSTRIAL AREA, CHAINHAT, LKO",,,,,,,,,,,,,,,,
+"2478 ","UTTAR PRADESH ",,,"8.0 ","8.0 ","539 ","539 ","0.8 ","0.8 ","0.4 ","0.4 ","2 ","2 ","2 ",2,
+"NEAR UPTRON POLICE CHOWKI, LUCKNOW ",,,,,,,,,,,,,,,,
+
+TABLE - 29: WATER QUALITY OF GROUND WATER IN UTTRAKHAND– 2018,,,,,,,,,,,,,,,,
+,,,,,,,,,Nitrate-N +,,,,,,,
+,,,,,Conductivity,,,,,,Faecal Coliform,Total Coliform,,,,
+"Temperature ⁰C ",,,"pH ",,,B.O.D. (mg/l),,,Nitrite-N,,,,,,,
+Station,,,,,,,,,,,,,,,,
+,,,,,"(μmhos/cm) ",,,,,,(MPN/100ml),(MPN/100ml),,,,
+"Station Name State Name ",,,,,,,,,,,,,,,,
+,,,,,,,,,(mg/l),,,,,,,
+"Code ",,,,,,,,,,,,,,,,
+"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max,,,
+HANDPUMP IN VILLAGE DAMAUDA AT KASHIPUR,,,,,,,,,,,,,,,,
+"1748 UTTARAKHAND 24 ","26 ","7.2 ","7.4 ","280 ","370 ","1.2 ",2.0,,,,,,,,,
+"NEAR M/S INDIA GLYCOLES LTD. ",,,,,,,,,,,,,,,,
+"3440 GROUND WATER AT SITAR GANJ INDUSTRIAL AREA- 1 UTTARAKHAND 25 ","25 ","7.2 ","7.2 ","410 ","410 ","1.4 ",1.4,,,,,,,,,
+"3441 GROUND WATER AT SITAR GANJ INDUSTRIAL AREA- 2 UTTARAKHAND 26 ","26 ","7.2 ","7.3 ","270 ","450 ","1.2 ",1.2,,,,,,,,,
+"3442 GROUND WATER AT PANTNAGAR INDUSTRIAL AREA- 1 UTTARAKHAND 24 ","26 ","7.2 ","7.4 ","280 ","320 ","1.2 ",1.6,,,,,,,,,
+"3443 GROUND WATER AT PANTNAGAR INDUSTRIAL AREA- 2 UTTARAKHAND 25 ","26 ","7.2 ","7.3 ","310 ","310 ","1.2 ",2.0,,,,,,,,,
+"3444 GROUND WATER AT SANTIPURI KICHHA- 1 UTTARAKHAND 23 ","25 ","7.2 ","7.3 ","250 ","370 ","1.4 ",2.0,,,,,,,,,
+"3445 GROUND WATER AT SANTIPURI KICHHA- 2 UTTARAKHAND 25 ","25 ","6.8 ","6.8 ","450 ","450 ","1.2 ",1.2,,,,,,,,,
+"3446 GROUND WATER AT KASHIPUR MORADABAD ROAD- 1 UTTARAKHAND 25 ","27 ","7.2 ","7.4 ","410 ","500 ","1.2 ",1.4,,,,,,,,,
+"3447 GROUND WATER AT KASHIPUR MORADABAD ROAD- 2 UTTARAKHAND 25 ","26 ","7.1 ","7.2 ","330 ","370 ","1.2 ",1.8,,,,,,,,,
+"3448 GROUND WATER AT KASHIPUR BAJPUR ROAD- 1 UTTARAKHAND 24 ","25 ","7.4 ","7.4 ","240 ","440 ","1.2 ",1.2,,,,,,,,,
+"3449 GROUND WATER AT KASHIPUR BAJPUR ROAD- 2 UTTARAKHAND 25 ","25 ","7.1 ","7.6 ","300 ","310 ","1.2 ",2.0,,,,,,,,,
+"GROUND WATER AT SELAQUI INDUSTRIAL AREA- 1,",,,,,,,,,,,,,,,,
+"3456 UTTARAKHAND 17 ","18 ","7.2 ","7.3 ",,,,,,,,,"2 ",2,,,
+"DEHRADUN ",,,,,,,,,,,,,,,,
+"GROUND WATER AT SELAQUI INDUSTRIAL AREA- 2,",,,,,,,,,,,,,,,,
+"3457 UTTARAKHAND 16 ","17 ","7.3 ","7.4 ",,,,,,,,,"2 ",2,,,
+"DEHRADUN ",,,,,,,,,,,,,,,,
+
+,,TABLE - 30: WATER QUALITY OF GROUND WATER IN WEST BENGAL– 2018,,,,,,,,,,,,,,
+,,,,,,,Conductivity,,,B.O.D.,,Nitrate-N +,Faecal Coli form,,Total Coli form,
+,,,"Temperature ⁰C ",,"pH ",,,,,,,,,,,
+Station,,,,,,,,,,,,,,,,
+,,,,,,,,(μmhos/cm),,(mg/l),Nitrite-N (mg/l),,(MPN/100ml),,(MPN/100ml),
+,"Station Name ","State Name ",,,,,,,,,,,,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"1766 ","MINE PIT WATER ASSANSOL, WEST BENGAL ","WEST BENGAL ","30 ","31 ","7.1 ","7.5 ","681 ","835 ","0.6 ","0.6 ","0.1 ","0.1 ","2 ","8 ","2 ",11
+"1767 ","DURGAPUR TOWN, NEAR IISCO, BURDWAN, WEST BENGAL ","WEST BENGAL ","28 ","28 ","7.2 ","7.7 ","167 ","324 ","0.5 ","0.6 ","0.4 ","0.7 ","4 ","8 ","7 ",11
+"1768 ","DURGAPUR TOWN, BURDWAN, WEST BENGAL ","WEST BENGAL ","28 ","31 ","7.3 ","7.5 ","737 ","810 ","0.5 ","0.7 ","0.9 ","1.0 ","2 ","4 ","2 ",8
+"1769 ","INSIDE HINDUSTAN LIVER FACTORY, HALDIA, WEST BENGAL ","WEST BENGAL ","33 ","35 ","7.3 ","7.4 ","1889 ","2025 ","0.6 ","0.7 ","0.2 ","0.3 ","2 ","2 ","2 ",2
+"1770 ","NEAR IOC REFINERY HALDIA, WEST BENGAL ","WEST BENGAL ","32 ","34 ","7.2 ","7.2 ","2327 ","2380 ","0.4 ","0.6 ","0.3 ","0.4 ","2 ","2 ","2 ",2
+"1771 ","KALYANI INDUSTRIAL AREA, NADIA, WEST BENGAL ","WEST BENGAL ","28 ","28 ","7.8 ","8.1 ","834 ","1258 ","0.2 ","3.0 ","0.1 ","0.4 ","2 ","2 ","2 ",2
+"1772 ","BARSAT MUNICIPALITY NORTH 24-P, WEST BENGAL ","WEST BENGAL ","27 ","29 ","7.0 ","7.8 ","1176 ","1216 ","0.2 ","0.5 ","0.2 ","2.3 ","2 ","2 ","2 ",2
+"1773 ","TANGRA, CALCUTTA , WEST BENGAL ","WEST BENGAL ","29 ","32 ","7.2 ","8.0 ","1801 ","2087 ","0.6 ","1.9 ","0.3 ","0.4 ","130 ","220 ","350 ",900
+"1774 ","TOPSIA CALCUTTA, WEST BENGAL ","WEST BENGAL ","29 ","34 ","6.9 ","7.2 ","1949 ","6070 ","1.4 ","2.2 ","0.3 ","0.4 ","2 ","4 ","2 ",11
+"1775 ","DHAPA CALCUTTA, WEST BENGAL ","WEST BENGAL ","28 ","32 ","7.2 ","8.0 ","1823 ","2378 ","1.7 ","1.9 ","0.3 ","0.3 ","2 ","2 ","2 ",4
+"1776 ","GARIA CALCUTTA, WEST BENGAL ","WEST BENGAL ","27 ","29 ","7.4 ","7.7 ","921 ","930 ","1.0 ","1.4 ","0.1 ","0.3 ","2 ","2 ","2 ",2
+"1777 ","BEHALA CALCUTTA, WEST BENGAL ","WEST BENGAL ","27 ","28 ","7.6 ","7.9 ","981 ","1097 ","0.7 ","0.7 ","0.0 ","0.3 ","2 ","2 ","2 ",2
+"1778 ","DOMJUR HOWRAH, WEST BENGAL ","WEST BENGAL ","28 ","30 ","7.6 ","7.6 ","664 ","797 ","0.6 ","1.7 ","0.0 ","0.5 ","2 ","13 ","2 ",23
+"1779 ","DANKUNI (NEAR COAL COMPLEX), WEST BENGAL ","WEST BENGAL ","26 ","28 ","7.9 ","8.2 ","976 ","1032 ","0.3 ","0.3 ","0.1 ","0.1 ","2 ","2 ","2 ",2
+"1813 ","RISHRA, WEST BENGAL ","WEST BENGAL ","27 ","29 ","7.9 ","7.9 ","372 ","754 ","0.2 ","0.5 ","0.1 ","0.2 ","2 ","2 ","2 ",2
+"1931 ","COSSIPORE - NORTH KOLKATA ","WEST BENGAL ","27 ","33 ","7.4 ","8.2 ","270 ","2506 ","0.6 ","2.1 ","0.2 ","0.3 ","2 ","2 ","2 ",2
+"1932 ","CENTRAL KOLKATA ","WEST BENGAL ","27 ","28 ","7.8 ","8.5 ","758 ","897 ","0.8 ","2.2 ","0.4 ","0.8 ","2 ","2 ","2 ",2
+"1933 ","NEAR GALVANISATION UNIT, HOWRAH ","WEST BENGAL ","27 ","28 ","7.5 ","7.5 ","1354 ","1472 ","0.4 ","0.6 ","0.2 ","0.2 ","2 ","8 ","11 ",70
+"1934 ","CENTRAL HOWRAH-RESIDENTAIL AREA ","WEST BENGAL ","28 ","28 ","7.6 ","7.8 ","2287 ","2546 ","1.3 ","1.5 ","0.3 ","0.4 ","2 ","2 ","2 ",2
+"1935 ","INSIDE KOLKATA LEATHER COMPLEX ","WEST BENGAL ","26 ","28 ","7.2 ","7.4 ","1611 ","1648 ","1.4 ","3.2 ","0.3 ","0.3 ","2 ","8 ","2 ",17
+"1936 ","RESIDENTIAL AREA - SONARPUR ","WEST BENGAL ","27 ","28 ","6.9 ","7.5 ","871 ","937 ","0.9 ","2.7 ","0.0 ","0.4 ","2 ","2 ","2 ",2
+"1937 ","RAJARHAT - NEW TOWNSHIP ","WEST BENGAL ","27 ","31 ","7.5 ","8.3 ","294 ","2328 ","1.4 ","2.0 ","0.4 ","0.5 ","2 ","2 ","2 ",2
+"1938 ","BSIRHAT MUNICIPALITY ","WEST BENGAL ","28 ","31 ","8.1 ","8.7 ","1722 ","1749 ","0.9 ","1.3 ","0.1 ","1.2 ","2 ","2 ","2 ",2
+"1939 ","BARRAKPORE MUNICIPALITY ","WEST BENGAL ","28 ","29 ","7.3 ","8.5 ","367 ","408 ","0.1 ","0.3 ","0.1 ","0.1 ","2 ","2 ","2 ",2
+"1940 ","NEAR THE PHOSPHATE COMPANY-RISHRA ","WEST BENGAL ","29 ","29 ","7.8 ","8.7 ","520 ","524 ","0.4 ","0.5 ","0.1 ","0.2 ","2 ","2 ","2 ",2
+
+,,,,,,,Conductivity,,,B.O.D.,,Nitrate-N +,Faecal Coli form,,Total Coli form,
+,,,"Temperature ⁰C ",,"pH ",,,,,,,,,,,
+Station,,,,,,,,,,,,,,,,
+,,,,,,,,(μmhos/cm),,(mg/l),Nitrite-N (mg/l),,(MPN/100ml),,(MPN/100ml),
+,"Station Name ","State Name ",,,,,,,,,,,,,,
+"Code ",,,,,,,,,,,,,,,,
+,,,"Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ","Max ","Min ",Max
+"1941 ","NEAR FLY ASH DUMPING SITE-KUNTIGHAT, BANDEL ","WEST BENGAL ","27 ","27 ","8.0 ","8.1 ","395 ","407 ","0.2 ","0.2 ","0.1 ","0.1 ","2 ","2 ","2 ",2
+"1942 ","NEAR EXIDE INDUSTRIES-HALDIA ","WEST BENGAL ","31 ","32 ","7.2 ","7.5 ","1490 ","1501 ","0.4 ","0.5 ","0.2 ","0.4 ","2 ","2 ","2 ",2
+"1943 ","INSIDE TATA METALIKS, KHARAGPUR ","WEST BENGAL ","32 ","32 ","6.6 ","7.1 ","514 ","569 ","0.7 ","0.9 ","0.3 ","0.4 ","2 ","2 ","2 ",2
+"1944 ","KHARAGPUR INDUSTRIAL AREA ","WEST BENGAL ","31 ","31 ","6.3 ","6.4 ","123 ","168 ","0.6 ","0.9 ","0.3 ","0.5 ","2 ","2 ","2 ",2
+"1945 ","ENGLISH BAZAR- MALDAH ","WEST BENGAL ","23 ","24 ","7.1 ","7.9 ","602 ","610 ","0.1 ","0.7 ","0.1 ","0.1 ","2 ","2 ","2 ",2
+"2510 ","GEOKHALI BUNGLOW MIDNAPUR-EAST ","WEST BENGAL ","30 ","31 ","7.2 ","7.4 ","1035 ","1113 ","0.3 ","0.5 ","0.3 ","0.3 ","2 ","2 ","2 ",2
+"2515 ","SDO OFFICE, RANAGHAT ","WEST BENGAL ","27 ","28 ","7.7 ","8.5 ","587 ","695 ","0.1 ","0.2 ","0.1 ","0.1 ","2 ","2 ","2 ",2
+"2516 ","SDO OFFICE, KRISHNANAGAR ","WEST BENGAL ","28 ","28 ","7.7 ","7.8 ","748 ","748 ","0.2 ","0.4 ","0.1 ","0.1 ","2 ","2 ","2 ",2
+"2526 ","FULBARI BARRAGE ","WEST BENGAL ","18 ","29 ","6.2 ","7.1 ","180 ","181 ","0.4 ","1.6 ","0.4 ","0.6 ","70 ","110 ","260 ",350
+"2528 ","GROUND WATER POINT INSIDE BURDWAN UNIVERSITY ","WEST BENGAL ","30 ","30 ","6.8 ","7.2 ","472 ","503 ","0.4 ","0.7 ","0.7 ","0.9 ","4 ","4 ","8 ",8
+"2529 ","GROUND WATER POINT NEAR BURDWAN STATION ","WEST BENGAL ","28 ","29 ","6.8 ","8.0 ","862 ","957 ","0.5 ","0.8 ","0.6 ","1.0 ","2 ","2 ","2 ",2
+"2530 ","HOT SPRING AT BAKRESHWAR ","WEST BENGAL ","62 ","69 ","8.4 ","8.4 ","551 ","581 ","0.4 ","0.6 ","0.5 ","0.8 ","2 ","2 ","2 ",2
+"2533 ","SURI TOWN NEAR BUS STAND ","WEST BENGAL ","29 ","30 ","6.9 ","7.1 ","742 ","754 ","0.8 ","1.0 ","0.2 ","0.6 ","2 ","2 ","2 ",2
+"2535 ","VISVA BHARATI ","WEST BENGAL ","29 ","31 ","7.0 ","7.4 ","491 ","498 ","0.7 ","0.9 ","0.1 ","1.0 ","4 ","4 ","7 ",7
+"2536 ","NALHATI RAILWAY STATION OF BIRBHUM ","WEST BENGAL ","27 ","30 ","6.2 ","6.6 ","915 ","956 ","0.7 ","0.8 ","0.9 ","1.0 ","2 ","2 ","2 ",2
+"2537 ","BOLPUR NEAR RAILWAY STATION ","WEST BENGAL ","29 ","29 ","6.7 ","6.8 ","434 ","887 ","0.8 ","0.9 ","0.9 ","1.0 ","2 ","2 ","2 ",2
+"2538 ","MOREGRAM CROSSING ","WEST BENGAL ","27 ","30 ","7.0 ","7.1 ","348 ","372 ","0.7 ","0.9 ","0.2 ","1.0 ","2 ","2 ","2 ",2
+"2540 ","SATI GHAT AT BANKURA TOWN ","WEST BENGAL ","26 ","26 ","7.1 ","7.2 ","1308 ","1567 ","0.9 ","1.0 ","0.0 ","0.1 ","2 ","9 ","4 ",14
+"2542 ","DWARIKA AT BISHNUPUR TOWN ","WEST BENGAL ","26 ","27 ","7.5 ","7.6 ","977 ","1048 ","0.5 ","0.7 ","0.8 ","0.9 ","2 ","2 ","2 ",2
+"2543 ","SDO OFFICE AT BISHNUPUR TOWN ","WEST BENGAL ","26 ","28 ","6.3 ","7.2 ","193 ","203 ","0.7 ","0.7 ","1.0 ","1.0 ","2 ","2 ","2 ",2
+"2545 ","GROUND WATER POINT AT PURULIA RK MISSION ","WEST BENGAL ","28 ","33 ","6.7 ","7.0 ","1602 ","2097 ","0.6 ","0.8 ","0.2 ","1.0 ","2 ","4 ","2 ",9
+"2546 ","ULUBERIA COLLEGE AT HOWRAH ","WEST BENGAL ","28 ","29 ","7.4 ","7.8 ","937 ","959 ","0.5 ","2.1 ","0.2 ","0.3 ","2 ","2 ","2 ",2
+"2547 ","AMTOLA ON DIAMOND HARBOUR ROAD, 24 PARGANAS (S) ","WEST BENGAL ","27 ","32 ","7.2 ","7.7 ","9612 ","9631 ","0.8 ","1.2 ","0.0 ","0.4 ","8 ","8 ","11 ",11
+"2548 ","HIDCO OFFICE, RAJARHAT ","WEST BENGAL ","29 ","30 ","7.7 ","8.5 ","395 ","2602 ","1.3 ","1.6 ","0.4 ","0.4 ","2 ","4 ","2 ",7

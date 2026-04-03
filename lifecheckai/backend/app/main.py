@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from lifecheckai.backend.app.routes import chat
 from lifecheckai.backend.app.routes import realtime
 from lifecheckai.backend.app.routes import safety, test
 
@@ -19,6 +20,7 @@ app.add_middleware(
 
 # Routes
 app.include_router(safety.router)
+app.include_router(chat.router)
 app.include_router(realtime.router)
 app.include_router(test.router)
 
@@ -30,6 +32,3 @@ def home():
 @app.get("/health")
 def health():
     return {"status": "ok", "version": "1.0.0"}
-
-
-app.include_router(test.router)
