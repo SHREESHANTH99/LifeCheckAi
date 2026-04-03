@@ -1,42 +1,55 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
+# -----------------------------
+# OS / Editor
+# -----------------------------
 .DS_Store
-*.pem
+Thumbs.db
+.idea/
+.vscode/
 
-# debug
+# -----------------------------
+# Logs
+# -----------------------------
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# -----------------------------
+# Python (backend)
+# -----------------------------
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.coverage
+**/.coverage.*
+**/htmlcov/
 
-# vercel
-.vercel
+lifecheckai/backend/venv/
+lifecheckai/backend/.venv/
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# local environment secrets
+lifecheckai/backend/.env
+lifecheckai/backend/.env.*
+!lifecheckai/backend/.env.example
+
+# -----------------------------
+# Node / Next.js (frontend)
+# -----------------------------
+lifecheckai/frontend/node_modules/
+lifecheckai/frontend/.next/
+lifecheckai/frontend/out/
+lifecheckai/frontend/coverage/
+lifecheckai/frontend/.vercel/
+lifecheckai/frontend/.env
+lifecheckai/frontend/.env.*
+!lifecheckai/frontend/.env.example
+lifecheckai/frontend/*.tsbuildinfo
+
+# -----------------------------
+# Rust / SpaceTimeDB module
+# -----------------------------
+lifecheck-sbt/**/target/
 

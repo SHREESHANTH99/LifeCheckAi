@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import safety, realtime, test
+from lifecheckai.backend.app.routes import realtime
+from lifecheckai.backend.app.routes import safety, test
 
 app = FastAPI(
     title="LifeCheck AI API",

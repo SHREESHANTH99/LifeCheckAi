@@ -1,5 +1,5 @@
 import requests
-from app.config import GOOGLE_API_KEY
+from lifecheckai.backend.app.config import GOOGLE_API_KEY
 
 POLLEN_URL = "https://pollen.googleapis.com/v1/forecast:lookup"
 

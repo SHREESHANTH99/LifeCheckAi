@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Query, HTTPException
-from app.services.maps_service import get_coordinates
-from app.services.weather_service import get_weather
-from app.services.air_service import get_air_quality
-from app.services.pollen_service import get_pollen
-from app.services.db_service import save_city_data, get_city_data, get_all_cities
-from app.utils.rules import air_safety, weather_safety, pollen_safety, overall_safety
+from lifecheckai.backend.app.services.maps_service import get_coordinates
+from lifecheckai.backend.app.services.weather_service import get_weather
+from lifecheckai.backend.app.services.air_service import get_air_quality
+from lifecheckai.backend.app.services.pollen_service import get_pollen
+from lifecheckai.backend.app.services.db_service import save_city_data, get_city_data, get_all_cities
+from lifecheckai.backend.app.utils.rules import air_safety, weather_safety, pollen_safety, overall_safety
 
 router = APIRouter(prefix="/api", tags=["Safety"])
 

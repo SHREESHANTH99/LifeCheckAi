@@ -1,5 +1,5 @@
 import requests
-from app.config import GOOGLE_API_KEY
+from lifecheckai.backend.app.config import GOOGLE_API_KEY
 
 GEOCODING_URL = "https://maps.googleapis.com/maps/api/geocode/json"
 

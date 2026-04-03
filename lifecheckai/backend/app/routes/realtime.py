@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.services.db_service import get_all_cities
+from lifecheckai.backend.app.services.db_service import get_all_cities
 
 router = APIRouter(prefix="/realtime", tags=["Realtime"])
 

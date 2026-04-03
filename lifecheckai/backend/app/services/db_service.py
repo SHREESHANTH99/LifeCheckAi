@@ -1,12 +1,44 @@
 import time
 import json
 import requests
-from app.config import SPACETIMEDB_HOST, SPACETIMEDB_DB_NAME
+from lifecheckai.backend.app.config import SPACETIMEDB_HOST, SPACETIMEDB_DB_NAME
 
 # SpaceTimeDB REST API base
-BASE = f"{SPACETIMEDB_HOST}/database/{SPACETIMEDB_DB_NAME}"
+BASE = f"{SPACETIMEDB_HOST}/v1/database/{SPACETIMEDB_DB_NAME}"
 
 CACHE_TTL_SECONDS = 300  # 5 minutes
+
+
+def _query_rows(sql: str) -> list[dict]:
+    """
+    Execute SQL against SpaceTimeDB and return rows as dicts.
+    """
+    try:
+        res = requests.post(
+            f"{BASE}/sql",
+            headers={"Content-Type": "text/plain"},
+            data=sql,
+            timeout=5,
+        )
+        if res.status_code != 200:
+            return []
+
+        payload = res.json()
+        if not isinstance(payload, list) or not payload:
+            return []
+
+        frame = payload[0]
+        schema = frame.get("schema", {}).get("elements", [])
+        columns = [col.get("name", {}).get("some") for col in schema]
+        rows = frame.get("rows", [])
+
+        result = []
+        for row in rows:
+            result.append({k: v for k, v in zip(columns, row)})
+        return result
+
+    except Exception:
+        return []
 
 
 # ─────────────────────────────────────────
@@ -25,7 +57,7 @@ def save_city_data(city: str, data: dict) -> bool:
 
     try:
         res = requests.post(
-            f"{BASE}/reducer/save_city_data",
+            f"{BASE}/call/save_city_data",
             json=payload,
             timeout=5
         )
@@ -46,16 +78,10 @@ def get_city_data(city: str) -> dict | None:
     Returns None if cache is expired (>5 mins).
     """
     try:
-        res = requests.get(
-            f"{BASE}/table/city_data",
-            params={"city": city.lower()},
-            timeout=5
+        safe_city = city.lower().replace("'", "''")
+        rows = _query_rows(
+            f"select id, city, data, timestamp from city_data where city = '{safe_city}'"
         )
-
-        if res.status_code != 200:
-            return None
-
-        rows = res.json()
 
         if not rows:
             return None
@@ -86,15 +112,7 @@ def get_all_cities() -> list:
     Used for live multi-city dashboard.
     """
     try:
-        res = requests.get(
-            f"{BASE}/table/city_data",
-            timeout=5
-        )
-
-        if res.status_code != 200:
-            return []
-
-        rows = res.json()
+        rows = _query_rows("select id, city, data, timestamp from city_data")
         cutoff = int(time.time()) - CACHE_TTL_SECONDS
 
         # Only return fresh data

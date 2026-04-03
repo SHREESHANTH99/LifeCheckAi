@@ -1,5 +1,5 @@
 import requests
-from app.config import GOOGLE_API_KEY
+from lifecheckai.backend.app.config import GOOGLE_API_KEY
 
 WEATHER_URL = "https://weather.googleapis.com/v1/currentConditions:lookup"
 

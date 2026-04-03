@@ -1,5 +1,5 @@
 import requests
-from app.config import GOOGLE_API_KEY
+from lifecheckai.backend.app.config import GOOGLE_API_KEY
 
 AIR_QUALITY_URL = "https://airquality.googleapis.com/v1/currentConditions:lookup"
 
@@ -13,17 +13,6 @@ def get_air_quality(lat: float, lon: float) -> dict | None:
             "latitude": lat,
             "longitude": lon
         },
-        "includedPollutants": [
-            "POLLUTANT_CO",
-            "POLLUTANT_NO2",
-            "POLLUTANT_O3",
-            "POLLUTANT_PM10",
-            "POLLUTANT_PM25"
-        ],
-        "extraComputations": [
-            "DOMINANT_POLLUTANT_CONCENTRATION",
-            "POLLUTANT_ADDITIONAL_INFO"
-        ],
         "universalAqi": True
     }
 
@@ -56,7 +45,7 @@ def get_air_quality(lat: float, lon: float) -> dict | None:
         category = universal.get("category", "Unknown")
         dominant = universal.get("dominantPollutant", "Unknown")
 
-        # Parse individual pollutants
+        # Parse individual pollutants when provided by API
         pollutants_raw = data.get("pollutants", [])
         pollutants = {}
 
