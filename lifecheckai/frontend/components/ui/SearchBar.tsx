@@ -5,6 +5,16 @@ import { MapPin, Navigation, Search, Loader2, Clock3, Sparkles, X } from "lucide
 
 const RECENT_SEARCHES_KEY = "lifecheck_recent_searches";
 const MAX_RECENT = 6;
+const DEFAULT_POPULAR_CITIES = [
+  "Mumbai",
+  "Delhi",
+  "Bangalore",
+  "Chennai",
+  "Hyderabad",
+  "Kolkata",
+  "Pune",
+  "Ahmedabad",
+];
 
 interface SearchBarProps {
   onSearch: (city: string) => void;
@@ -81,13 +91,41 @@ export function SearchBar({
 
   const suggestions = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
-    const merged = [...recentSearches, ...quickCities];
+    const merged = [...recentSearches, ...quickCities, ...DEFAULT_POPULAR_CITIES];
     const unique = merged.filter((city, index) => merged.findIndex((x) => x.toLowerCase() === city.toLowerCase()) === index);
 
-    return unique
-      .filter((city) => (normalizedQuery ? city.toLowerCase().includes(normalizedQuery) : true))
-      .slice(0, 7);
+    const scored = unique
+      .map((city) => {
+        const lower = city.toLowerCase();
+        let score = 0;
+        if (!normalizedQuery) {
+          score = recentSearches.some((item) => item.toLowerCase() === lower) ? 90 : 60;
+        } else if (lower === normalizedQuery) {
+          score = 120;
+        } else if (lower.startsWith(normalizedQuery)) {
+          score = 100;
+        } else if (lower.includes(normalizedQuery)) {
+          score = 70;
+        }
+
+        if (recentSearches.some((item) => item.toLowerCase() === lower)) score += 8;
+        if (quickCities.some((item) => item.toLowerCase() === lower)) score += 4;
+        return { city, score };
+      })
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map((item) => item.city)
+      .slice(0, 8);
+
+    return scored;
   }, [quickCities, query, recentSearches]);
+
+  const groupedSuggestions = useMemo(() => {
+    const recentSet = new Set(recentSearches.map((item) => item.toLowerCase()));
+    const recent = suggestions.filter((city) => recentSet.has(city.toLowerCase())).slice(0, 4);
+    const popular = suggestions.filter((city) => !recentSet.has(city.toLowerCase())).slice(0, 4);
+    return { recent, popular };
+  }, [recentSearches, suggestions]);
 
   const showDropdown = showSuggestions && isFocused && suggestions.length > 0;
 
@@ -150,23 +188,48 @@ export function SearchBar({
             <p className="text-[11px] uppercase tracking-wide text-text-muted">Suggestions</p>
             <p className="text-[11px] text-text-muted">Press Enter to search</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {suggestions.map((city) => {
-              const isRecent = recentSearches.some((item) => item.toLowerCase() === city.toLowerCase());
-              return (
-                <button
-                  key={city}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    submitSuggestion(city);
-                  }}
-                  className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-border-default bg-bg-secondary/40 text-sm text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
-                >
-                  <span className="truncate">{city}</span>
-                  {isRecent ? <Clock3 size={13} className="text-text-muted shrink-0" /> : <Sparkles size={13} className="text-accent-cyan shrink-0" />}
-                </button>
-              );
-            })}
+          <div className="space-y-3">
+            {groupedSuggestions.recent.length > 0 && (
+              <div>
+                <p className="text-[11px] text-text-muted mb-1.5">Recent</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {groupedSuggestions.recent.map((city) => (
+                    <button
+                      key={`recent-${city}`}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        submitSuggestion(city);
+                      }}
+                      className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-border-default bg-bg-secondary/40 text-sm text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
+                    >
+                      <span className="truncate">{city}</span>
+                      <Clock3 size={13} className="text-text-muted shrink-0" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {groupedSuggestions.popular.length > 0 && (
+              <div>
+                <p className="text-[11px] text-text-muted mb-1.5">Popular Picks</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {groupedSuggestions.popular.map((city) => (
+                    <button
+                      key={`popular-${city}`}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        submitSuggestion(city);
+                      }}
+                      className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-border-default bg-bg-secondary/40 text-sm text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
+                    >
+                      <span className="truncate">{city}</span>
+                      <Sparkles size={13} className="text-accent-cyan shrink-0" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

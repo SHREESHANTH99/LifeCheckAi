@@ -289,6 +289,11 @@ function DashboardPageContent() {
     return { total: all.length, unsafeCount, cautionCount, topRisk };
   }, [monitoredData]);
 
+  const smartQuickCities = useMemo(() => {
+    const merged = [...monitoredCities, ...QUICK_CITY_OPTIONS];
+    return merged.filter((cityName, index) => merged.findIndex((x) => x.toLowerCase() === cityName.toLowerCase()) === index);
+  }, [monitoredCities]);
+
   // Auto-search if city query param is present
   useEffect(() => {
     const cityParam = searchParams.get("city");
@@ -310,7 +315,7 @@ function DashboardPageContent() {
             placeholder="Search any city..."
             isLoading={loading}
             isLocating={loading}
-            quickCities={QUICK_CITY_OPTIONS}
+            quickCities={smartQuickCities}
           />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -343,7 +348,7 @@ function DashboardPageContent() {
             placeholder="Enter a city to check safety conditions..."
             isLoading={loading}
             isLocating={loading}
-            quickCities={QUICK_CITY_OPTIONS}
+            quickCities={smartQuickCities}
           />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -373,7 +378,7 @@ function DashboardPageContent() {
               placeholder="Search another city..."
               isLoading={loading}
               isLocating={loading}
-              quickCities={QUICK_CITY_OPTIONS}
+              quickCities={smartQuickCities}
             />
           </div>
           {data && (

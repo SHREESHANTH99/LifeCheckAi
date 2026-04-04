@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSafetyData } from "@/app/hooks/useSafetyData";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { StatusBadge } from "@/components/ui/StatusBadge";
-import { Wind, Thermometer, ArrowRight, MapPin, RefreshCw, Radar, ShieldAlert } from "lucide-react";
+import { Wind, Thermometer, ArrowRight, MapPin, RefreshCw, Radar, ShieldAlert, Layers3, Eye, EyeOff, AlertTriangle, Menu, PanelLeftClose } from "lucide-react";
 import Link from "next/link";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
@@ -46,6 +46,108 @@ interface LiveCityRow {
   };
 }
 
+interface GoogleLatLng {
+  lat: number;
+  lng: number;
+}
+
+interface GoogleMapInstance {
+  setCenter: (latLng: GoogleLatLng) => void;
+  setZoom: (zoom: number) => void;
+}
+
+interface GoogleOverlayInstance {
+  setMap: (map: GoogleMapInstance | null) => void;
+}
+
+interface GoogleMapsAPI {
+  maps: {
+    Map: new (
+      element: HTMLElement,
+      options: {
+        center: GoogleLatLng;
+        zoom: number;
+        mapTypeId?: string;
+        streetViewControl?: boolean;
+        fullscreenControl?: boolean;
+        mapTypeControl?: boolean;
+      },
+    ) => GoogleMapInstance;
+    Marker: new (options: {
+      position: GoogleLatLng;
+      map: GoogleMapInstance;
+      title?: string;
+      label?: { text: string; color: string; fontSize: string; fontWeight: string };
+      icon?: {
+        path: number;
+        scale: number;
+        fillColor: string;
+        fillOpacity: number;
+        strokeColor: string;
+        strokeWeight: number;
+      };
+      zIndex?: number;
+    }) => GoogleOverlayInstance;
+    Circle: new (options: {
+      map: GoogleMapInstance;
+      center: GoogleLatLng;
+      radius: number;
+      fillColor: string;
+      fillOpacity: number;
+      strokeColor: string;
+      strokeOpacity: number;
+      strokeWeight: number;
+    }) => GoogleOverlayInstance;
+    SymbolPath: {
+      CIRCLE: number;
+    };
+  };
+}
+
+interface WindowWithGoogle extends Window {
+  google?: GoogleMapsAPI;
+}
+
+let googleMapsLoader: Promise<GoogleMapsAPI> | null = null;
+
+function loadGoogleMapsApi(apiKey: string): Promise<GoogleMapsAPI> {
+  if (googleMapsLoader) return googleMapsLoader;
+
+  googleMapsLoader = new Promise((resolve, reject) => {
+    const win = window as WindowWithGoogle;
+    if (win.google?.maps) {
+      resolve(win.google);
+      return;
+    }
+
+    const existing = document.getElementById("google-maps-script");
+    if (existing) {
+      existing.addEventListener("load", () => {
+        const loaded = (window as WindowWithGoogle).google;
+        if (loaded?.maps) resolve(loaded);
+        else reject(new Error("Google Maps failed to initialize"));
+      });
+      existing.addEventListener("error", () => reject(new Error("Google Maps script failed to load")));
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.id = "google-maps-script";
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      const loaded = (window as WindowWithGoogle).google;
+      if (loaded?.maps) resolve(loaded);
+      else reject(new Error("Google Maps failed to initialize"));
+    };
+    script.onerror = () => reject(new Error("Google Maps script failed to load"));
+    document.head.appendChild(script);
+  });
+
+  return googleMapsLoader;
+}
+
 function getRiskWeight(status: CityStatus, aqi: number | null): number {
   const statusWeight: Record<CityStatus, number> = {
     SAFE: 20,
@@ -60,6 +162,7 @@ function getRiskWeight(status: CityStatus, aqi: number | null): number {
 
 export default function MapPage() {
   const { data, search, loading } = useSafetyData();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedCity, setSelectedCity] = useState<MonitoredCity | null>(null);
   const [sortMode, setSortMode] = useState<"risk" | "name">("risk");
   const [statusFilter, setStatusFilter] = useState<"ALL" | CityStatus>("ALL");
@@ -67,6 +170,12 @@ export default function MapPage() {
   const [refreshingLive, setRefreshingLive] = useState(false);
   const [mapCenter, setMapCenter] = useState({ lat: 20.5937, lon: 78.9629 });
   const [mapZoom, setMapZoom] = useState(5);
+  const [showZones, setShowZones] = useState(true);
+  const [mapInitError, setMapInitError] = useState<string | null>(null);
+  const mapHolderRef = useRef<HTMLDivElement | null>(null);
+  const mapInstanceRef = useRef<GoogleMapInstance | null>(null);
+  const mapApiRef = useRef<GoogleMapsAPI | null>(null);
+  const zoneOverlaysRef = useRef<GoogleOverlayInstance[]>([]);
 
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "";
 
@@ -146,6 +255,93 @@ export default function MapPage() {
     return { total, unsafe, caution };
   }, [monitoredCities]);
 
+  const highestRisk = useMemo(() => {
+    return [...monitoredCities].sort((a, b) => getRiskWeight(b.status, b.aqi) - getRiskWeight(a.status, a.aqi))[0] || null;
+  }, [monitoredCities]);
+
+  useEffect(() => {
+    if (!apiKey || !mapHolderRef.current || mapInstanceRef.current) return;
+
+    loadGoogleMapsApi(apiKey)
+      .then((googleApi) => {
+        mapApiRef.current = googleApi;
+        const instance = new googleApi.maps.Map(mapHolderRef.current as HTMLElement, {
+          center: { lat: mapCenter.lat, lng: mapCenter.lon },
+          zoom: mapZoom,
+          mapTypeId: "roadmap",
+          streetViewControl: false,
+          fullscreenControl: true,
+          mapTypeControl: false,
+        });
+        mapInstanceRef.current = instance;
+        setMapInitError(null);
+      })
+      .catch((err) => {
+        setMapInitError(err instanceof Error ? err.message : "Failed to initialize map");
+      });
+  }, [apiKey, mapCenter.lat, mapCenter.lon, mapZoom]);
+
+  useEffect(() => {
+    if (!mapInstanceRef.current) return;
+    mapInstanceRef.current.setCenter({ lat: mapCenter.lat, lng: mapCenter.lon });
+    mapInstanceRef.current.setZoom(mapZoom);
+  }, [mapCenter, mapZoom]);
+
+  useEffect(() => {
+    zoneOverlaysRef.current.forEach((overlay) => overlay.setMap(null));
+    zoneOverlaysRef.current = [];
+
+    if (!showZones || !mapInstanceRef.current || !mapApiRef.current) return;
+
+    const googleApi = mapApiRef.current;
+    const map = mapInstanceRef.current;
+
+    monitoredCities.forEach((cityItem) => {
+      if (cityItem.status === "UNKNOWN") return;
+
+      const statusColor =
+        cityItem.status === "SAFE"
+          ? "#10b981"
+          : cityItem.status === "CAUTION"
+            ? "#f59e0b"
+            : "#ef4444";
+
+      const circle = new googleApi.maps.Circle({
+        map,
+        center: { lat: cityItem.lat, lng: cityItem.lon },
+        radius: cityItem.status === "UNSAFE" ? 55000 : cityItem.status === "CAUTION" ? 42000 : 30000,
+        fillColor: statusColor,
+        fillOpacity: 0.18,
+        strokeColor: statusColor,
+        strokeOpacity: 0.7,
+        strokeWeight: 1.5,
+      });
+
+      const marker = new googleApi.maps.Marker({
+        map,
+        position: { lat: cityItem.lat, lng: cityItem.lon },
+        title: `${cityItem.name} (${cityItem.status})`,
+        label: {
+          text: cityItem.name.slice(0, 1),
+          color: "#ffffff",
+          fontSize: "10px",
+          fontWeight: "700",
+        },
+        icon: {
+          path: googleApi.maps.SymbolPath.CIRCLE,
+          scale: cityItem.status === "UNSAFE" ? 8 : cityItem.status === "CAUTION" ? 7 : 6,
+          fillColor: statusColor,
+          fillOpacity: 1,
+          strokeColor: "#0a0f1e",
+          strokeWeight: 1.5,
+        },
+        zIndex: 20,
+      });
+
+      zoneOverlaysRef.current.push(circle, marker);
+    });
+  }, [monitoredCities, showZones]);
+
   const handleCityClick = useCallback(
     (cityItem: MonitoredCity) => {
       setSelectedCity(cityItem);
@@ -171,15 +367,34 @@ export default function MapPage() {
     [search, monitoredCities]
   );
 
-  const mapUrl = apiKey
-    ? `https://www.google.com/maps/embed/v1/view?key=${apiKey}&center=${mapCenter.lat},${mapCenter.lon}&zoom=${mapZoom}&maptype=roadmap`
-    : null;
-
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
-      {/* Sidebar — city operations */}
-      <div className="lg:w-[26rem] border-b lg:border-b-0 lg:border-r border-border-default bg-bg-secondary/30 overflow-y-auto max-h-[46vh] lg:max-h-[calc(100vh-64px)]">
-        <div className="p-4 border-b border-border-default">
+    <div className="min-h-screen flex lg:flex-row relative">
+      {/* Sidebar backdrop */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.button
+            type="button"
+            aria-label="Close monitored cities panel"
+            onClick={() => setIsSidebarOpen(false)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 bg-bg-primary/50 backdrop-blur-[1px] lg:bg-bg-primary/30"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Sidebar — city operations drawer */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.aside
+            initial={{ x: -420, opacity: 0.85 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -420, opacity: 0.85 }}
+            transition={{ type: "spring", stiffness: 280, damping: 30 }}
+            className="fixed top-16 bottom-0 left-0 z-50 w-[min(92vw,26rem)] border-r border-border-default bg-bg-secondary/95 backdrop-blur-md overflow-y-auto"
+          >
+            <div className="p-4 border-b border-border-default">
           <div className="flex items-center justify-between mb-3">
             <h2 className="font-family-grotesk text-lg font-semibold text-text-primary flex items-center gap-2">
               <Radar size={18} className="text-accent-cyan" /> Monitored Cities
@@ -237,60 +452,81 @@ export default function MapPage() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 p-2">
-          {filteredCities.map((cityItem) => (
-            <button
-              key={cityItem.name}
-              onClick={() => handleCityClick(cityItem)}
-              className={`rounded-xl border px-3 py-3 text-left transition-all cursor-pointer ${
-                selectedCity?.name === cityItem.name
-                  ? "border-accent-blue/40 bg-accent-blue/10"
-                  : "border-border-default bg-bg-card hover:bg-bg-card-hover"
-              }`}
-            >
-              <div className="flex items-start justify-between gap-2">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <MapPin size={13} className="text-text-muted" />
-                    <span className="text-sm text-text-primary font-medium">{cityItem.name}</span>
-                  </div>
-                  <div className="mt-1 flex items-center gap-3 text-xs text-text-secondary">
-                    <span>AQI: {cityItem.aqi ?? "—"}</span>
-                    <span>{cityItem.temp != null ? `${Math.round(cityItem.temp)}°C` : "—"}</span>
-                  </div>
-                </div>
-                <StatusBadge status={cityItem.status} className="scale-90" />
-              </div>
-              <div className="mt-2 h-1.5 rounded-full bg-border-default overflow-hidden">
-                <div
-                  className={`h-full rounded-full ${
-                    cityItem.status === "SAFE"
-                      ? "bg-safe"
-                      : cityItem.status === "CAUTION"
-                        ? "bg-caution"
-                        : cityItem.status === "UNSAFE"
-                          ? "bg-unsafe"
-                          : "bg-text-muted"
+            <div className="flex flex-col gap-2 p-2">
+              {filteredCities.map((cityItem) => (
+                <button
+                  key={cityItem.name}
+                  onClick={() => handleCityClick(cityItem)}
+                  className={`rounded-xl border px-3 py-3 text-left transition-all cursor-pointer ${
+                    selectedCity?.name === cityItem.name
+                      ? "border-accent-blue/40 bg-accent-blue/10"
+                      : "border-border-default bg-bg-card hover:bg-bg-card-hover"
                   }`}
-                  style={{ width: `${Math.min(100, Math.round(getRiskWeight(cityItem.status, cityItem.aqi)))}%` }}
-                />
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <MapPin size={13} className="text-text-muted" />
+                        <span className="text-sm text-text-primary font-medium">{cityItem.name}</span>
+                      </div>
+                      <div className="mt-1 flex items-center gap-3 text-xs text-text-secondary">
+                        <span>AQI: {cityItem.aqi ?? "—"}</span>
+                        <span>{cityItem.temp != null ? `${Math.round(cityItem.temp)}°C` : "—"}</span>
+                      </div>
+                    </div>
+                    <StatusBadge status={cityItem.status} className="scale-90" />
+                  </div>
+                  <div className="mt-2 h-1.5 rounded-full bg-border-default overflow-hidden">
+                    <div
+                      className={`h-full rounded-full ${
+                        cityItem.status === "SAFE"
+                          ? "bg-safe"
+                          : cityItem.status === "CAUTION"
+                            ? "bg-caution"
+                            : cityItem.status === "UNSAFE"
+                              ? "bg-unsafe"
+                              : "bg-text-muted"
+                      }`}
+                      style={{ width: `${Math.min(100, Math.round(getRiskWeight(cityItem.status, cityItem.aqi)))}%` }}
+                    />
+                  </div>
+                </button>
+              ))}
+            </div>
+          </motion.aside>
+        )}
+      </AnimatePresence>
 
       {/* Map Area */}
       <div className="flex-1 relative">
-        {mapUrl ? (
-          <iframe
-            src={mapUrl}
-            className="w-full h-[60vh] lg:h-[calc(100vh-64px)] border-0"
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Safety Map"
-          />
+        {/* Monitored cities hamburger (all devices) */}
+        <button
+          onClick={() => setIsSidebarOpen((prev) => !prev)}
+          className="fixed top-20 left-4 z-[60] inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border-default bg-bg-secondary/90 backdrop-blur text-xs text-text-secondary hover:text-text-primary hover:bg-bg-card transition-colors cursor-pointer shadow-[0_8px_30px_rgba(0,0,0,0.28)]"
+          aria-label={isSidebarOpen ? "Hide map sidebar" : "Show map sidebar"}
+          title={isSidebarOpen ? "Hide sidebar" : "Show sidebar"}
+        >
+          {isSidebarOpen ? <PanelLeftClose size={14} /> : <Menu size={14} />}
+          {isSidebarOpen ? "Hide Monitored" : "Monitored"}
+        </button>
+
+        {apiKey ? (
+          <div className="w-full h-[60vh] lg:h-[calc(100vh-64px)] relative">
+            <div
+              ref={(node) => {
+                mapHolderRef.current = node;
+              }}
+              className="w-full h-full"
+            />
+            {mapInitError && (
+              <div className="absolute inset-0 bg-bg-primary/80 flex items-center justify-center">
+                <div className="text-center px-6">
+                  <p className="text-sm text-unsafe">{mapInitError}</p>
+                  <p className="text-xs text-text-muted mt-1">Please verify your Google Maps key and billing setup.</p>
+                </div>
+              </div>
+            )}
+          </div>
         ) : (
           <div className="w-full h-[60vh] lg:h-[calc(100vh-64px)] bg-bg-card flex items-center justify-center">
             <div className="text-center">
@@ -306,7 +542,7 @@ export default function MapPage() {
         )}
 
         {/* Overlay — top-left search */}
-        <div className="absolute top-4 left-4 right-4 lg:right-auto lg:w-80 z-10">
+        <div className={`absolute top-16 right-4 z-10 w-[min(92vw,20rem)] transition-all duration-300 ${isSidebarOpen ? "left-4 lg:left-[27rem]" : "left-4"}`}>
           <div className="glass rounded-2xl p-4">
             <p className="text-xs text-text-muted mb-2">City operations</p>
             <p className="text-sm text-text-primary">
@@ -317,7 +553,16 @@ export default function MapPage() {
 
         {/* Overlay — legend top-right */}
         <div className="absolute top-4 right-4 z-10 hidden lg:block">
-          <div className="glass rounded-xl p-3 flex flex-col gap-2">
+          <div className="glass rounded-xl p-3 flex flex-col gap-2 min-w-44">
+            <button
+              onClick={() => setShowZones((prev) => !prev)}
+              className="mb-1 inline-flex items-center justify-between gap-2 rounded-lg border border-border-default px-2.5 py-1.5 text-xs text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
+            >
+              <span className="inline-flex items-center gap-1.5">
+                <Layers3 size={12} /> Zone Layer
+              </span>
+              {showZones ? <Eye size={12} /> : <EyeOff size={12} />}
+            </button>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-safe" />
               <span className="text-xs text-text-secondary">Safe</span>
@@ -373,6 +618,41 @@ export default function MapPage() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Right sidebar — zone analytics */}
+      <aside className="hidden xl:flex xl:w-72 border-l border-border-default bg-bg-secondary/35 flex-col">
+        <div className="p-4 border-b border-border-default">
+          <h3 className="font-family-grotesk text-base font-semibold text-text-primary">Zone Intelligence</h3>
+          <p className="text-xs text-text-muted mt-1">Operational risk distribution</p>
+        </div>
+        <div className="p-4 space-y-3 overflow-y-auto">
+          <div className="rounded-xl border border-border-default bg-bg-card p-3">
+            <p className="text-[11px] uppercase tracking-wide text-text-muted">Unsafe Zones</p>
+            <p className="text-2xl font-family-mono font-bold text-unsafe mt-1">{summary.unsafe}</p>
+          </div>
+          <div className="rounded-xl border border-border-default bg-bg-card p-3">
+            <p className="text-[11px] uppercase tracking-wide text-text-muted">Caution Zones</p>
+            <p className="text-2xl font-family-mono font-bold text-caution mt-1">{summary.caution}</p>
+          </div>
+          <div className="rounded-xl border border-border-default bg-bg-card p-3">
+            <p className="text-[11px] uppercase tracking-wide text-text-muted">Highest Risk City</p>
+            {highestRisk ? (
+              <div className="mt-2">
+                <p className="text-sm font-semibold text-text-primary">{highestRisk.name}</p>
+                <p className="text-xs text-text-secondary mt-1">AQI: {highestRisk.aqi ?? "—"}</p>
+                <button
+                  onClick={() => handleCityClick(highestRisk)}
+                  className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-unsafe/40 text-xs text-unsafe hover:bg-unsafe/10 transition-colors cursor-pointer"
+                >
+                  <AlertTriangle size={12} /> Focus on map
+                </button>
+              </div>
+            ) : (
+              <p className="text-xs text-text-secondary mt-2">No active risk signals yet.</p>
+            )}
+          </div>
+        </div>
+      </aside>
     </div>
   );
 }

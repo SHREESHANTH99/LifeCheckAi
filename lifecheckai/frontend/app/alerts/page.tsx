@@ -13,8 +13,13 @@ import {
   Sun,
   Droplets,
   Filter,
+  Bell,
+  BellRing,
+  CheckCircle2,
 } from "lucide-react";
 import type { AlertItem } from "@/types";
+
+const ALERTS_READ_KEY = "lifecheck_alerts_read_ids";
 
 const categories = [
   { key: "all", label: "All", icon: <Filter size={14} /> },
@@ -135,8 +140,19 @@ const itemVariants = {
 
 export default function AlertsPage() {
   const { state } = useSafety();
-  const { data, search, loading } = useSafetyData();
+  const { search, loading } = useSafetyData();
   const [activeFilter, setActiveFilter] = useState("all");
+  const [readAlertIds, setReadAlertIds] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const raw = localStorage.getItem(ALERTS_READ_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed.filter((item) => typeof item === "string") : [];
+    } catch {
+      return [];
+    }
+  });
 
   // Generate alerts from current safety data
   const alerts = useMemo(() => generateAlerts(state.safetyData), [state.safetyData]);
@@ -146,10 +162,49 @@ export default function AlertsPage() {
     [alerts, activeFilter]
   );
 
+  const unreadAlerts = useMemo(
+    () => {
+      const validIds = new Set(alerts.map((alert) => alert.id));
+      return alerts.filter((alert) => !readAlertIds.includes(alert.id) && validIds.has(alert.id));
+    },
+    [alerts, readAlertIds],
+  );
+
+  const topNotifications = useMemo(() => {
+    const severityWeight: Record<AlertItem["severity"], number> = {
+      UNSAFE: 3,
+      CAUTION: 2,
+      SAFE: 1,
+    };
+
+    return [...alerts]
+      .sort((a, b) => {
+        const severityDelta = severityWeight[b.severity] - severityWeight[a.severity];
+        if (severityDelta !== 0) return severityDelta;
+        return b.timestamp.getTime() - a.timestamp.getTime();
+      })
+      .slice(0, 4);
+  }, [alerts]);
+
   const unsafeCount = useMemo(
     () => alerts.filter((a) => a.severity === "UNSAFE").length,
     [alerts]
   );
+
+  const markAllAsRead = useCallback(() => {
+    const ids = alerts.map((alert) => alert.id);
+    setReadAlertIds(ids);
+    localStorage.setItem(ALERTS_READ_KEY, JSON.stringify(ids));
+  }, [alerts]);
+
+  const markAsRead = useCallback((id: string) => {
+    setReadAlertIds((prev) => {
+      if (prev.includes(id)) return prev;
+      const next = [...prev, id];
+      localStorage.setItem(ALERTS_READ_KEY, JSON.stringify(next));
+      return next;
+    });
+  }, []);
 
   // If no data yet, prompt search
   useEffect(() => {
@@ -185,6 +240,80 @@ export default function AlertsPage() {
             </div>
           )}
         </motion.div>
+
+        {/* Notification Section */}
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="card mb-6"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+            <div>
+              <h2 className="font-family-grotesk text-lg font-semibold text-text-primary flex items-center gap-2">
+                {unreadAlerts.length > 0 ? <BellRing size={18} className="text-accent-blue" /> : <Bell size={18} className="text-text-muted" />}
+                Notifications
+              </h2>
+              <p className="text-xs text-text-secondary mt-1">
+                Latest alert updates and priorities for your monitored city.
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${
+                unreadAlerts.length > 0
+                  ? "bg-accent-blue/10 border-accent-blue/30 text-accent-blue"
+                  : "bg-safe/10 border-safe/30 text-safe"
+              }`}>
+                {unreadAlerts.length} unread
+              </span>
+              <button
+                onClick={markAllAsRead}
+                disabled={alerts.length === 0}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border-default text-xs text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+              >
+                <CheckCircle2 size={13} /> Mark all read
+              </button>
+            </div>
+          </div>
+
+          {topNotifications.length === 0 ? (
+            <div className="rounded-xl border border-border-default bg-bg-secondary/40 p-4 text-sm text-text-secondary">
+              No notifications yet. Alerts will appear here as soon as conditions update.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {topNotifications.map((item) => {
+                const unread = !readAlertIds.includes(item.id);
+                return (
+                  <button
+                    key={`notification-${item.id}`}
+                    onClick={() => {
+                      setActiveFilter(item.category);
+                      markAsRead(item.id);
+                    }}
+                    className={`w-full text-left rounded-xl border p-3 transition-colors cursor-pointer ${
+                      unread
+                        ? "border-accent-blue/35 bg-accent-blue/8"
+                        : "border-border-default bg-bg-secondary/40 hover:bg-white/5"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <p className="text-xs text-text-muted capitalize mb-1">{item.category} alert</p>
+                        <p className="text-sm text-text-primary font-semibold line-clamp-1">{item.title}</p>
+                      </div>
+                      {unread && <span className="w-2.5 h-2.5 rounded-full bg-accent-blue shrink-0 mt-1" />}
+                    </div>
+                    <p className="text-xs text-text-secondary mt-2 line-clamp-2">{item.description}</p>
+                    <div className="mt-3 flex items-center justify-between">
+                      <StatusBadge status={item.severity} />
+                      <span className="text-[10px] text-text-muted">Tap to filter feed</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </motion.section>
 
         {/* Filter Bar */}
         <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-6 scrollbar-hide">

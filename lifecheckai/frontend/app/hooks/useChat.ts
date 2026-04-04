@@ -23,14 +23,16 @@ export function useChat() {
     setError(null);
 
     try {
-      const res = await fetch(`${API_BASE}/api/ask`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query, city }),
-      });
+      const queryText = city?.trim() ? `${query} in ${city}` : query;
+      const res = await fetch(
+        `${API_BASE}/api/ask?query=${encodeURIComponent(queryText)}`,
+        {
+          method: "GET",
+        },
+      );
 
       if (!res.ok) {
-        throw new Error("Unable to reach AI assistant. Please try again.");
+        throw new Error(`Unable to reach AI assistant (${res.status}). Please try again.`);
       }
 
       const data = await res.json();
@@ -38,7 +40,10 @@ export function useChat() {
       const aiMessage: Message = {
         id: `ai-${Date.now()}`,
         role: "assistant",
-        content: data.advice || data.response || "I couldn't generate a response. Please try again.",
+        content:
+          data.answer ||
+          data.structured_answer?.summary ||
+          "I couldn't generate a response. Please try again.",
         timestamp: new Date(),
       };
 
