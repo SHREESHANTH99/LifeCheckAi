@@ -9,6 +9,7 @@ import { Shield, Menu, X, ExternalLink } from "lucide-react";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/dashboard", label: "Dashboard" },
+  { href: "/water", label: "Water" },
   { href: "/map", label: "Map" },
   { href: "/chat", label: "Chat" },
   { href: "/alerts", label: "Alerts" },

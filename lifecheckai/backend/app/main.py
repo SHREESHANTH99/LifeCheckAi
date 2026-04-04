@@ -8,6 +8,7 @@ from lifecheckai.backend.app.routes import chat
 from lifecheckai.backend.app.routes import history
 from lifecheckai.backend.app.routes import realtime
 from lifecheckai.backend.app.routes import safety, test
+from lifecheckai.backend.app.routes import water
 from lifecheckai.backend.app.services.scheduler import scheduler
 
 app = FastAPI(
@@ -31,6 +32,7 @@ app.include_router(history.router)
 app.include_router(chat.router)
 app.include_router(realtime.router)
 app.include_router(test.router)
+app.include_router(water.router)
 
 
 @app.get("/")

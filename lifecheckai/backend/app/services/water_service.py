@@ -302,3 +302,111 @@ def _pair_mean(first: float | None, second: float | None) -> float | None:
     if not values:
         return None
     return mean(values)
+
+
+# ──────────────────────────────────────────────────────────
+# Enhanced multi-parameter extraction for ML
+# ──────────────────────────────────────────────────────────
+
+# CSV column layout (paired Min/Max):
+#   Col 0: Station Code
+#   Col 1-2: location text (sometimes)
+#   Pairs:  Temp, pH, Conductivity, BOD, Nitrate+Nitrite,
+#           Fecal Coliform, Total Coliform, TDS, Fluoride, Arsenic
+# Each parameter has 2 columns (Min, Max) → 20 numeric columns
+# But the exact offset depends on year/state header. We use a
+# robust approach: parse ALL numeric pairs and map by position.
+
+PARAM_NAMES = [
+    "temperature", "ph", "conductivity", "bod", "nitrate",
+    "fecal_coliform", "total_coliform", "tds", "fluoride", "arsenic",
+]
+
+
+def _extract_all_params(row: list[str]) -> dict[str, float | None]:
+    """Extract all 10 water quality parameters from a CSV data row."""
+    pairs = _measurement_pairs(row)
+    result: dict[str, float | None] = {}
+
+    for idx, name in enumerate(PARAM_NAMES):
+        if idx < len(pairs):
+            first, second = pairs[idx]
+            result[name] = round(_pair_mean(first, second), 4) if _pair_mean(first, second) is not None else None
+        else:
+            result[name] = None
+
+    # Sanity-check pH range
+    if result.get("ph") is not None and not (4 <= result["ph"] <= 10.5):
+        result["ph"] = None
+
+    return result
+
+
+@lru_cache(maxsize=1)
+def _load_all_param_records() -> list[dict]:
+    """Load all CSV files and extract full 10-parameter records."""
+    records: list[dict] = []
+
+    for path in sorted(DATA_PATH.glob("water_quality_data_*.csv")):
+        year_match = re.search(r"(\d{4})", path.stem)
+        if not year_match:
+            continue
+
+        year = int(year_match.group(1))
+        records.extend(_load_year_all_params(path, year))
+
+    return records
+
+
+def _load_year_all_params(path: Path, year: int) -> list[dict]:
+    """Load a single CSV and extract full parameter records."""
+    with path.open("r", encoding="utf-8", errors="ignore", newline="") as handle:
+        rows = list(csv.reader(handle))
+
+    records: list[dict] = []
+    current_state: str | None = None
+
+    for index, row in enumerate(rows):
+        joined_text = " ".join(cell.strip() for cell in row if cell and cell.strip())
+        lowered_text = joined_text.lower()
+        state_from_text = extract_state_from_text(joined_text)
+
+        if state_from_text and any(marker in lowered_text for marker in ("water quality", "ground water", "nwmp")):
+            current_state = state_from_text
+
+        if not _is_data_row(row):
+            continue
+
+        state = (
+            extract_state_from_text(joined_text)
+            or extract_state_from_text(_nearby_text(rows, index))
+            or current_state
+        )
+        if not state:
+            continue
+
+        params = _extract_all_params(row)
+
+        # Skip rows with no useful data at all
+        if all(v is None for v in params.values()):
+            continue
+
+        records.append({
+            "year": year,
+            "state": state,
+            "location": _extract_location(row, rows, index),
+            **params,
+        })
+
+    return records
+
+
+def get_all_records() -> list[dict]:
+    """Public API: return all records with full 10 parameters."""
+    return _load_all_param_records()
+
+
+def get_available_states() -> list[str]:
+    """Return sorted list of states that have water quality data."""
+    states = {r["state"] for r in _load_all_param_records()}
+    return sorted(states)
