@@ -146,10 +146,27 @@ def _ensure_model():
 
 import concurrent.futures
 
-def _filter_by_location(records: list[dict], state: str, location: str) -> tuple[list[dict], str | None, float | None]:
+def get_stations_for_state(state: str) -> list[str]:
+    """Get all unique monitoring locations for a given state."""
+    records = get_all_records()
+    stations = {r["location"] for r in records if r["state"] == state and r.get("location")}
+    return sorted(list(stations))
+
+def _filter_by_location(records: list[dict], state: str, location: str) -> tuple[list[dict], str | None, float | None, list[str]]:
+    """Filter records by a specific location name or find nearby records within an adaptive radius."""
+    # 1. Check for exact station match first (India-wide supply point discovery)
+    search_loc = location.strip().lower()
+    all_known_locs = {r["location"].lower(): r["location"] for r in records if r.get("location")}
+    
+    if search_loc in all_known_locs:
+        actual_name = all_known_locs[search_loc]
+        filtered = [r for r in records if r.get("location") == actual_name]
+        return filtered, actual_name, 0.0, [actual_name]
+
+    # 2. Fallback to physical geocoding discovery
     target_coords = get_coordinates(f"{location}, {state}")
     if not target_coords or target_coords.get("lat") is None:
-        return records, None, None
+        return records, None, None, []
 
     unique_locations = list({r["location"] for r in records if r.get("location")})
     
@@ -177,7 +194,7 @@ def _filter_by_location(records: list[dict], state: str, location: str) -> tuple
     loc_distances.sort(key=lambda x: x[1])
     
     if not loc_distances or loc_distances[0][1] == float('inf'):
-        return records, None, None
+        return records, None, None, []
         
     # Step 1: Collect all locations within base radius (20km)
     base_radius = 20.0
@@ -185,9 +202,8 @@ def _filter_by_location(records: list[dict], state: str, location: str) -> tuple
     filtered_records = [r for r in records if r.get("location") in nearby_locs]
     unique_years = {r["year"] for r in filtered_records}
 
-    # Step 2: Adaptive Radius Expansion for Sparse Historical Data
-    # For large cities missing smooth trends, expand until we capture >= 4 years of data
-    expansion_radii = [50.0, 100.0, 150.0, 250.0]
+    # Forceful Adaptive Radius Expansion to guarantee trends
+    expansion_radii = [30.0, 100.0, 200.0, 300.0]
     final_radius = base_radius
     
     for r_km in expansion_radii:
@@ -199,32 +215,41 @@ def _filter_by_location(records: list[dict], state: str, location: str) -> tuple
         final_radius = r_km
                 
     if not nearby_locs:
-        # Fallback to absolute nearest if none within 250km
         nearest_loc, min_dist = loc_distances[0]
-        return [r for r in records if r.get("location") == nearest_loc], nearest_loc, min_dist
+        return [r for r in records if r.get("location") == nearest_loc], nearest_loc, min_dist, [nearest_loc]
 
-    # Use true minimum distance for display, unless substring matched 0
     min_dist_found = loc_distances[0][1] if loc_distances[0][1] != float('inf') else 0.0
     label = f"{location.upper()} (Region Avg < {int(final_radius)}km)"
-    return filtered_records, label, min_dist_found
-
+    
+    # Extract up to 5 closest stations
+    closest_stations = []
+    for loc, dist in loc_distances:
+        if loc in nearby_locs:
+            if loc not in closest_stations:
+                closest_stations.append(loc)
+            if len(closest_stations) >= 5:
+                break
+                
+    return filtered_records, label, min_dist_found, closest_stations
 
 # ── Prediction ───────────────────────────────────────────
 
 def predict_for_state(state: str, location: str | None = None) -> dict | None:
     """Predict water drinkability for a given state (and optionally location) using its latest data."""
-    _ensure_model()
-    if _model is None:
-        return None
-
     records = [r for r in get_all_records() if r["state"] == state]
     if not records:
         return None
         
     matched_location = None
     distance_km = None
+    nearby_stations = []
+    
     if location:
-        records, matched_location, distance_km = _filter_by_location(records, state, location)
+        records, matched_location, distance_km, nearby_stations = _filter_by_location(records, state, location)
+    else:
+        # Include top 10 stations to show where state data flows from
+        all_locs = sorted(list({r.get("location") for r in records if r.get("location")}))
+        nearby_stations = all_locs[:10]
         
     if not records:
         return None
@@ -234,43 +259,47 @@ def predict_for_state(state: str, location: str | None = None) -> dict | None:
     latest = [r for r in records if r["year"] == latest_year]
 
     # Aggregate by averaging
-    bundle = joblib.load(MODEL_PATH) if MODEL_PATH.exists() else None
-    feature_cols = bundle["features"] if bundle else FEATURES
-
     aggregated = {}
-    for f in feature_cols:
+    for f in PARAM_NAMES:
         vals = [r[f] for r in latest if r.get(f) is not None]
         aggregated[f] = round(mean(vals), 4) if vals else None
 
-    df_input = pd.DataFrame([aggregated])[feature_cols]
-
-    # Model inherently handles NaNs; no imputation needed.
-    prediction = _model.predict(df_input)[0]
-    probabilities = _model.predict_proba(df_input)[0]
-
-    # Determine which params exceed BIS limits
-    violations = []
-    if aggregated.get("ph") is not None:
-        if aggregated["ph"] < BIS_LIMITS["ph_min"] or aggregated["ph"] > BIS_LIMITS["ph_max"]:
-            violations.append({"param": "pH", "value": aggregated["ph"], "limit": f"{BIS_LIMITS['ph_min']}-{BIS_LIMITS['ph_max']}"})
-    for param in ("nitrate", "tds", "fluoride", "arsenic", "fecal_coliform", "total_coliform", "bod", "conductivity"):
-        val = aggregated.get(param)
-        if val is not None and val > BIS_LIMITS[param]:
-            violations.append({"param": param, "value": round(val, 4), "limit": BIS_LIMITS[param]})
+    # Supply default zeroes for missing specific inputs handled properly inside the logic payload map
+    from lifecheckai.backend.app.predict import predict_drinkability
+    result = predict_drinkability(
+        state=state,
+        pH=aggregated.get("ph", 7.0) or 7.0,
+        TDS=aggregated.get("tds", 250) or 250,
+        Fluoride=aggregated.get("fluoride", 0.5) or 0.5,
+        Arsenic=aggregated.get("arsenic", 0.005) or 0.005,
+        Nitrate=aggregated.get("nitrate", 10.0) or 10.0,
+        BOD=aggregated.get("bod", 2.0) or 2.0,
+        Conductivity=aggregated.get("conductivity", 500) or 500,
+        Temp=aggregated.get("temperature", 25.0) or 25.0,
+        Fecal_Coliform=aggregated.get("fecal_coliform", 0) or 0,
+        Total_Coliform=aggregated.get("total_coliform", 0) or 0,
+        year=latest_year,
+    )
+    
+    if not result:
+        return None
 
     return {
         "state": state,
         "matched_location": matched_location,
         "distance_km": distance_km,
+        "nearby_stations": nearby_stations,
         "year": latest_year,
         "sample_count": len(latest),
-        "prediction": "Not Drinkable" if prediction == 1 else "Drinkable",
-        "confidence": round(float(max(probabilities)) * 100, 2),
-        "drinkable_probability": round(float(probabilities[0]) * 100, 2),
-        "not_drinkable_probability": round(float(probabilities[1]) * 100, 2),
+        "prediction": result["prediction"],
+        "confidence": result["confidence"],
+        "drinkable_probability": result["drinkability_probability"],
+        "not_drinkable_probability": result["not_drinkable_probability"],
+        "risk_level": result["risk_level"],
         "parameters": aggregated,
-        "violations": violations,
+        "violations": result["violations"],
         "bis_limits": BIS_LIMITS,
+        "recommendations": result["recommendations"],
     }
 
 
@@ -284,8 +313,13 @@ def get_trends(state: str, location: str | None = None) -> dict | None:
         
     matched_location = None
     distance_km = None
+    nearby_stations = []
+    
     if location:
-        records, matched_location, distance_km = _filter_by_location(records, state, location)
+        records, matched_location, distance_km, nearby_stations = _filter_by_location(records, state, location)
+    else:
+        all_locs = sorted(list({r.get("location") for r in records if r.get("location")}))
+        nearby_stations = all_locs[:10]
         
     if not records:
         return None
@@ -309,6 +343,7 @@ def get_trends(state: str, location: str | None = None) -> dict | None:
         "state": state,
         "matched_location": matched_location,
         "distance_km": distance_km,
+        "nearby_stations": nearby_stations,
         "years": trend_years,
         "parameters": trends,
         "sample_counts": {y: len(by_year[y]) for y in years},

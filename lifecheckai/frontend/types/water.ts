@@ -289,6 +289,7 @@ export interface WaterQualityAPIResponse {
   location: string;
   matched_location?: string | null;
   distance_km?: number | null;
+  nearby_stations?: string[];
   timestamp: string;
   parameters: Record<string, number | null>;
   metrics?: Metric[];
@@ -312,6 +313,7 @@ export interface WaterQualityAPIResponse {
 export interface WaterHistoryAPIResponse {
   location: string;
   period: HistoryPeriod;
+  nearby_stations?: string[];
   data: WaterHistoryDataPoint[];
   totalRecords: number;
 }

@@ -18,6 +18,12 @@ def list_states():
     return {"states": get_available_states()}
 
 
+@router.get("/stations")
+def get_stations(state: str = Query(..., description="Indian state to get stations for")):
+    """Return all unique monitoring stations for a given state."""
+    return {"stations": ml_service.get_stations_for_state(state)}
+
+
 @router.get("/predict")
 async def predict_water_quality(
     state: str = Query(..., description="Indian state to predict water quality for"),
