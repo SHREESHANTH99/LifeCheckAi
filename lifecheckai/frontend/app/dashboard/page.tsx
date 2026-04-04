@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useSafetyData } from "@/app/hooks/useSafetyData";
 import { SearchBar } from "@/components/ui/SearchBar";
@@ -22,8 +22,40 @@ import {
   AlertTriangle,
   CheckCircle,
   XCircle,
+  MapPin,
+  Plus,
+  Trash2,
+  Radar,
+  ShieldAlert,
 } from "lucide-react";
 import Link from "next/link";
+
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
+const MONITORED_CITIES_KEY = "lifecheck_monitored_cities";
+const QUICK_CITY_OPTIONS = [
+  "Delhi",
+  "Mumbai",
+  "Bangalore",
+  "Chennai",
+  "Hyderabad",
+  "Kolkata",
+  "Pune",
+  "Ahmedabad",
+];
+
+type MonitoredStatusFilter = "ALL" | "SAFE" | "CAUTION" | "UNSAFE";
+type MonitoredSortMode = "risk" | "aqi" | "name";
+
+interface MonitoredCitySnapshot {
+  city: string;
+  verdict: "SAFE" | "CAUTION" | "UNSAFE" | "UNKNOWN";
+  summary: string;
+  aqi: number | null;
+  temp: number | null;
+  humidity: number | null;
+  source: string;
+  updatedAt: number;
+}
 
 function formatTime(date: Date | null): string {
   if (!date) return "—";
@@ -69,6 +101,22 @@ function getPollenRingColor(category: string | undefined): string {
   return "border-unsafe";
 }
 
+function normalizeCityName(value: string): string {
+  return value.trim().replace(/\s+/g, " ");
+}
+
+function getRiskScore(snapshot: MonitoredCitySnapshot): number {
+  const verdictWeight: Record<MonitoredCitySnapshot["verdict"], number> = {
+    SAFE: 10,
+    CAUTION: 50,
+    UNSAFE: 85,
+    UNKNOWN: 5,
+  };
+
+  const aqiPenalty = snapshot.aqi != null ? Math.min(snapshot.aqi / 3, 40) : 0;
+  return verdictWeight[snapshot.verdict] + aqiPenalty;
+}
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
@@ -81,8 +129,165 @@ const itemVariants = {
 import { Suspense } from "react";
 
 function DashboardPageContent() {
-  const { data, loading, error, city, search, refresh, lastUpdated } = useSafetyData();
+  const { data, loading, error, city, search, refresh, lastUpdated, locateMe } = useSafetyData();
   const searchParams = useSearchParams();
+  const [monitoredCities, setMonitoredCities] = useState<string[]>([]);
+  const [monitoredData, setMonitoredData] = useState<Record<string, MonitoredCitySnapshot>>({});
+  const [monitoredLoading, setMonitoredLoading] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<MonitoredStatusFilter>("ALL");
+  const [sortMode, setSortMode] = useState<MonitoredSortMode>("risk");
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(MONITORED_CITIES_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        setMonitoredCities(
+          parsed
+            .map((item) => (typeof item === "string" ? normalizeCityName(item) : ""))
+            .filter(Boolean),
+        );
+      }
+    } catch {
+      // Ignore malformed monitored city state in localStorage.
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!data?.city || monitoredCities.length > 0) return;
+    setMonitoredCities([normalizeCityName(data.city)]);
+  }, [data?.city, monitoredCities.length]);
+
+  useEffect(() => {
+    if (monitoredCities.length === 0) return;
+    localStorage.setItem(MONITORED_CITIES_KEY, JSON.stringify(monitoredCities));
+  }, [monitoredCities]);
+
+  const fetchMonitoredCity = useCallback(async (cityName: string): Promise<MonitoredCitySnapshot> => {
+    const response = await fetch(`${API_BASE}/api/check-safety?city=${encodeURIComponent(cityName)}`);
+    if (!response.ok) {
+      throw new Error(`Unable to refresh ${cityName}`);
+    }
+
+    const payload = await response.json();
+    const air = payload.air_quality ?? payload.air ?? {};
+    const weather = payload.weather ?? {};
+    return {
+      city: payload.city || cityName,
+      verdict: payload.overall?.verdict || "UNKNOWN",
+      summary: payload.overall?.summary || "No summary available.",
+      aqi: typeof air?.aqi === "number" ? air.aqi : null,
+      temp:
+        typeof weather?.temp_celsius === "number"
+          ? weather.temp_celsius
+          : typeof weather?.temp === "number"
+            ? weather.temp
+            : null,
+      humidity:
+        typeof weather?.humidity_percent === "number"
+          ? weather.humidity_percent
+          : typeof weather?.humidity === "number"
+            ? weather.humidity
+            : null,
+      source: payload.source || "live",
+      updatedAt: Date.now(),
+    };
+  }, []);
+
+  const refreshMonitoredCities = useCallback(
+    async (cityList: string[]) => {
+      if (cityList.length === 0) return;
+      setMonitoredLoading(true);
+      try {
+        const results = await Promise.all(
+          cityList.map(async (entry) => {
+            try {
+              return await fetchMonitoredCity(entry);
+            } catch {
+              return {
+                city: entry,
+                verdict: "UNKNOWN",
+                summary: "Latest city snapshot is unavailable right now.",
+                aqi: null,
+                temp: null,
+                humidity: null,
+                source: "cache",
+                updatedAt: Date.now(),
+              } as MonitoredCitySnapshot;
+            }
+          }),
+        );
+
+        const nextMap = results.reduce<Record<string, MonitoredCitySnapshot>>((acc, item) => {
+          acc[item.city] = item;
+          return acc;
+        }, {});
+        setMonitoredData(nextMap);
+      } finally {
+        setMonitoredLoading(false);
+      }
+    },
+    [fetchMonitoredCity],
+  );
+
+  useEffect(() => {
+    refreshMonitoredCities(monitoredCities);
+  }, [monitoredCities, refreshMonitoredCities]);
+
+  const addMonitoredCity = useCallback(
+    (inputCity: string) => {
+      const normalized = normalizeCityName(inputCity);
+      if (!normalized) return;
+      setMonitoredCities((prev) => {
+        if (prev.some((entry) => entry.toLowerCase() === normalized.toLowerCase())) {
+          return prev;
+        }
+        return [normalized, ...prev].slice(0, 8);
+      });
+    },
+    [],
+  );
+
+  const removeMonitoredCity = useCallback((cityName: string) => {
+    setMonitoredCities((prev) => prev.filter((entry) => entry.toLowerCase() !== cityName.toLowerCase()));
+    setMonitoredData((prev) => {
+      const next = { ...prev };
+      delete next[cityName];
+      return next;
+    });
+  }, []);
+
+  const monitoredEntries = useMemo(() => {
+    const available = monitoredCities.reduce<MonitoredCitySnapshot[]>((acc, cityName) => {
+      const snapshot = monitoredData[cityName] || monitoredData[cityName.trim()];
+      if (snapshot) acc.push(snapshot);
+      return acc;
+    }, []);
+
+    const filtered =
+      statusFilter === "ALL" ? available : available.filter((item) => item.verdict === statusFilter);
+
+    const sorted = [...filtered].sort((a, b) => {
+      if (sortMode === "name") {
+        return a.city.localeCompare(b.city);
+      }
+      if (sortMode === "aqi") {
+        return (b.aqi ?? -1) - (a.aqi ?? -1);
+      }
+      return getRiskScore(b) - getRiskScore(a);
+    });
+
+    return sorted;
+  }, [monitoredCities, monitoredData, statusFilter, sortMode]);
+
+  const monitoredSummary = useMemo(() => {
+    const all = Object.values(monitoredData);
+    const unsafeCount = all.filter((item) => item.verdict === "UNSAFE").length;
+    const cautionCount = all.filter((item) => item.verdict === "CAUTION").length;
+    const topRisk = [...all].sort((a, b) => getRiskScore(b) - getRiskScore(a))[0];
+    return { total: all.length, unsafeCount, cautionCount, topRisk };
+  }, [monitoredData]);
 
   // Auto-search if city query param is present
   useEffect(() => {
@@ -99,7 +304,14 @@ function DashboardPageContent() {
     return (
       <div className="min-h-screen px-4 sm:px-8 lg:px-16 py-8">
         <div className="max-w-2xl mx-auto mt-8">
-          <SearchBar onSearch={search} placeholder="Search any city..." isLoading={loading} />
+          <SearchBar
+            onSearch={search}
+            onUseCurrentLocation={locateMe}
+            placeholder="Search any city..."
+            isLoading={loading}
+            isLocating={loading}
+            quickCities={QUICK_CITY_OPTIONS}
+          />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -125,7 +337,14 @@ function DashboardPageContent() {
     return (
       <div className="min-h-screen px-4 sm:px-8 lg:px-16 py-8">
         <div className="max-w-2xl mx-auto mt-8">
-          <SearchBar onSearch={search} placeholder="Enter a city to check safety conditions..." isLoading={loading} />
+          <SearchBar
+            onSearch={search}
+            onUseCurrentLocation={locateMe}
+            placeholder="Enter a city to check safety conditions..."
+            isLoading={loading}
+            isLocating={loading}
+            quickCities={QUICK_CITY_OPTIONS}
+          />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -148,7 +367,14 @@ function DashboardPageContent() {
       <div className="sticky top-16 z-30 bg-bg-secondary/90 backdrop-blur-md border-b border-border-default px-4 sm:px-8 lg:px-16 py-3">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center gap-4">
           <div className="flex-1 w-full">
-            <SearchBar onSearch={search} placeholder="Search another city..." isLoading={loading} />
+            <SearchBar
+              onSearch={search}
+              onUseCurrentLocation={locateMe}
+              placeholder="Search another city..."
+              isLoading={loading}
+              isLocating={loading}
+              quickCities={QUICK_CITY_OPTIONS}
+            />
           </div>
           {data && (
             <div className="flex items-center gap-3 text-sm shrink-0">
@@ -208,6 +434,203 @@ function DashboardPageContent() {
                 <span className="text-xs text-text-muted">Updated live</span>
               </div>
             </div>
+          </motion.div>
+
+          {/* Location Intelligence */}
+          <motion.div variants={itemVariants} className="card">
+            <h3 className="font-family-grotesk text-lg font-semibold text-text-primary mb-4">
+              Location Intelligence
+            </h3>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <div className="p-4 rounded-xl border border-border-default bg-bg-secondary/50">
+                <p className="text-xs uppercase tracking-wide text-text-muted mb-1">Resolved Address</p>
+                <p className="text-sm text-text-primary">{data.formatted_address || data.city}</p>
+              </div>
+              <div className="p-4 rounded-xl border border-border-default bg-bg-secondary/50">
+                <p className="text-xs uppercase tracking-wide text-text-muted mb-1">Coordinates</p>
+                <p className="text-sm text-text-primary font-family-mono">
+                  {data.coordinates?.lat?.toFixed?.(4) ?? "--"}, {data.coordinates?.lon?.toFixed?.(4) ?? "--"}
+                </p>
+              </div>
+              <div className="p-4 rounded-xl border border-border-default bg-bg-secondary/50">
+                <p className="text-xs uppercase tracking-wide text-text-muted mb-1">Geocoding Confidence</p>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-sm text-text-primary capitalize">{data.geocoding?.match || "standard"}</p>
+                  <p className="text-sm font-semibold text-text-primary">
+                    {typeof data.geocoding?.confidence === "number"
+                      ? `${Math.round(data.geocoding.confidence * 100)}%`
+                      : "--"}
+                  </p>
+                </div>
+                <div className="w-full h-1.5 rounded-full bg-border-default overflow-hidden">
+                  <motion.div
+                    className="h-full rounded-full bg-gradient-to-r from-accent-cyan to-accent-blue"
+                    initial={{ width: 0 }}
+                    animate={{
+                      width: `${Math.max(8, Math.round((data.geocoding?.confidence ?? 0.5) * 100))}%`,
+                    }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                  />
+                </div>
+                <p className="text-xs text-text-muted mt-2">
+                  Source: {data.geocoding?.source || data.source || "live"}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Monitored Cities */}
+          <motion.div variants={itemVariants} className="card">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-5">
+              <div>
+                <h3 className="font-family-grotesk text-lg font-semibold text-text-primary flex items-center gap-2">
+                  <Radar size={18} className="text-accent-cyan" />
+                  Monitored Cities
+                </h3>
+                <p className="text-sm text-text-secondary mt-1">
+                  Track multiple city risk profiles and prioritize interventions faster.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  onClick={() => data?.city && addMonitoredCity(data.city)}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border-default bg-bg-secondary text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
+                >
+                  <Plus size={14} />
+                  Add Current City
+                </button>
+                <button
+                  onClick={() => refreshMonitoredCities(monitoredCities)}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border-default bg-bg-secondary text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
+                >
+                  <RefreshCw size={14} className={monitoredLoading ? "animate-spin" : ""} />
+                  Refresh All
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+              <div className="p-3 rounded-xl border border-border-default bg-bg-secondary/50">
+                <p className="text-xs uppercase tracking-wide text-text-muted">Tracked</p>
+                <p className="text-2xl font-family-mono font-bold text-text-primary mt-1">
+                  {monitoredSummary.total}
+                </p>
+              </div>
+              <div className="p-3 rounded-xl border border-border-default bg-bg-secondary/50">
+                <p className="text-xs uppercase tracking-wide text-text-muted">At Risk</p>
+                <p className="text-2xl font-family-mono font-bold text-unsafe mt-1">
+                  {monitoredSummary.unsafeCount}
+                </p>
+              </div>
+              <div className="p-3 rounded-xl border border-border-default bg-bg-secondary/50">
+                <p className="text-xs uppercase tracking-wide text-text-muted">Watchlist</p>
+                <p className="text-2xl font-family-mono font-bold text-caution mt-1">
+                  {monitoredSummary.cautionCount}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 mb-4">
+              <div className="flex items-center gap-2">
+                <ShieldAlert size={14} className="text-text-muted" />
+                <select
+                  value={statusFilter}
+                  onChange={(event) => setStatusFilter(event.target.value as MonitoredStatusFilter)}
+                  className="px-3 py-2 rounded-lg border border-border-default bg-bg-secondary text-sm text-text-primary outline-none"
+                >
+                  <option value="ALL">All statuses</option>
+                  <option value="UNSAFE">Unsafe only</option>
+                  <option value="CAUTION">Caution only</option>
+                  <option value="SAFE">Safe only</option>
+                </select>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin size={14} className="text-text-muted" />
+                <select
+                  value={sortMode}
+                  onChange={(event) => setSortMode(event.target.value as MonitoredSortMode)}
+                  className="px-3 py-2 rounded-lg border border-border-default bg-bg-secondary text-sm text-text-primary outline-none"
+                >
+                  <option value="risk">Sort by risk</option>
+                  <option value="aqi">Sort by AQI</option>
+                  <option value="name">Sort by name</option>
+                </select>
+              </div>
+            </div>
+
+            {monitoredSummary.topRisk && (
+              <div className="mb-4 p-3 rounded-xl border border-unsafe/25 bg-unsafe/5">
+                <p className="text-xs uppercase tracking-wide text-text-muted mb-1">Highest Priority</p>
+                <p className="text-sm text-text-primary">
+                  <span className="font-semibold">{monitoredSummary.topRisk.city}</span>
+                  {" "}requires attention. Risk score: {Math.round(getRiskScore(monitoredSummary.topRisk))}
+                </p>
+              </div>
+            )}
+
+            {monitoredEntries.length === 0 ? (
+              <div className="p-6 rounded-xl border border-dashed border-border-default text-center">
+                <p className="text-sm text-text-secondary">
+                  No monitored city matches the current filter. Add your current city to start tracking.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {monitoredEntries.map((entry) => (
+                  <div key={entry.city} className="p-4 rounded-xl border border-border-default bg-bg-secondary/50">
+                    <div className="flex items-start justify-between gap-2 mb-3">
+                      <div>
+                        <p className="text-sm font-semibold text-text-primary">{entry.city}</p>
+                        <p className="text-xs text-text-muted">Updated {formatTime(new Date(entry.updatedAt))}</p>
+                      </div>
+                      <StatusBadge status={entry.verdict} />
+                    </div>
+                    <p className="text-sm text-text-secondary min-h-[42px]">{entry.summary}</p>
+                    <div className="grid grid-cols-3 gap-2 mt-3 mb-4">
+                      <div className="p-2 rounded-lg border border-border-default text-center">
+                        <p className="text-[10px] uppercase tracking-wide text-text-muted">AQI</p>
+                        <p className="text-sm font-family-mono font-semibold text-text-primary">
+                          {entry.aqi ?? "—"}
+                        </p>
+                      </div>
+                      <div className="p-2 rounded-lg border border-border-default text-center">
+                        <p className="text-[10px] uppercase tracking-wide text-text-muted">Temp</p>
+                        <p className="text-sm font-family-mono font-semibold text-text-primary">
+                          {entry.temp != null ? `${Math.round(entry.temp)}°` : "—"}
+                        </p>
+                      </div>
+                      <div className="p-2 rounded-lg border border-border-default text-center">
+                        <p className="text-[10px] uppercase tracking-wide text-text-muted">Humidity</p>
+                        <p className="text-sm font-family-mono font-semibold text-text-primary">
+                          {entry.humidity != null ? `${Math.round(entry.humidity)}%` : "—"}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => search(entry.city)}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border-default text-xs text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
+                      >
+                        <MapPin size={12} /> Open
+                      </button>
+                      <button
+                        onClick={() => refreshMonitoredCities([entry.city])}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border-default text-xs text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
+                      >
+                        <RefreshCw size={12} /> Refresh
+                      </button>
+                      <button
+                        onClick={() => removeMonitoredCity(entry.city)}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-unsafe/40 text-xs text-unsafe hover:bg-unsafe/10 transition-colors cursor-pointer"
+                      >
+                        <Trash2 size={12} /> Remove
+                      </button>
+                    </div>
+                    <p className="text-[11px] text-text-muted mt-3">Source: {entry.source}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </motion.div>
 
           {/* 4-Metric Row */}
@@ -273,7 +696,7 @@ function DashboardPageContent() {
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
             {/* AQI Detail Panel */}
             <motion.div variants={itemVariants} className="lg:col-span-3 card">
-              <h3 className="font-[family-name:var(--font-family-grotesk)] text-lg font-semibold text-text-primary mb-6">
+              <h3 className="font-family-grotesk text-lg font-semibold text-text-primary mb-6">
                 Air Quality Details
               </h3>
               <div className="flex flex-col items-center mb-6">
@@ -303,7 +726,7 @@ function DashboardPageContent() {
                           <span className="text-text-secondary uppercase text-xs font-medium tracking-wide">
                             {name}
                           </span>
-                          <span className="text-text-primary font-[family-name:var(--font-family-mono)] text-xs">
+                          <span className="text-text-primary font-family-mono text-xs">
                             {info.value} {info.units}
                           </span>
                         </div>
@@ -335,12 +758,12 @@ function DashboardPageContent() {
 
             {/* Weather Detail Panel */}
             <motion.div variants={itemVariants} className="lg:col-span-2 card">
-              <h3 className="font-[family-name:var(--font-family-grotesk)] text-lg font-semibold text-text-primary mb-6">
+              <h3 className="font-family-grotesk text-lg font-semibold text-text-primary mb-6">
                 Weather Conditions
               </h3>
 
               <div className="flex items-center gap-4 mb-6">
-                <div className="text-4xl font-bold font-[family-name:var(--font-family-mono)] text-text-primary">
+                <div className="text-4xl font-bold font-family-mono text-text-primary">
                   {data.weather?.temp_celsius != null ? `${Math.round(data.weather.temp_celsius)}°C` : "—"}
                 </div>
                 <CloudRain size={36} className="text-accent-blue" />
@@ -376,23 +799,36 @@ function DashboardPageContent() {
           {/* Pollen Breakdown */}
           {data.pollen?.types && (
             <motion.div variants={itemVariants} className="card">
-              <h3 className="font-[family-name:var(--font-family-grotesk)] text-lg font-semibold text-text-primary mb-6">
+              <h3 className="font-family-grotesk text-lg font-semibold text-text-primary mb-6">
                 Pollen Forecast
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                {Object.entries(data.pollen.types).map(([type, info]) => (
-                  <div key={type} className="flex flex-col items-center text-center">
-                    <div className={`w-20 h-20 rounded-full border-4 ${getPollenRingColor(info.category)} flex items-center justify-center mb-3`}>
-                      <span className={`text-2xl font-bold font-[family-name:var(--font-family-mono)] ${getPollenColor(info.category)}`}>
-                        {info.level}
-                      </span>
+                {Object.entries(data.pollen.types).map(([type, info]) => {
+                  if (!info || typeof info !== "object") {
+                    return null;
+                  }
+
+                  const pollenInfo = info as { level?: number | string; category?: string };
+                  const category = typeof pollenInfo.category === "string" ? pollenInfo.category : undefined;
+                  const level =
+                    typeof pollenInfo.level === "number" || typeof pollenInfo.level === "string"
+                      ? pollenInfo.level
+                      : "—";
+
+                  return (
+                    <div key={type} className="flex flex-col items-center text-center">
+                      <div className={`w-20 h-20 rounded-full border-4 ${getPollenRingColor(category)} flex items-center justify-center mb-3`}>
+                        <span className={`text-2xl font-bold font-family-mono ${getPollenColor(category)}`}>
+                          {level}
+                        </span>
+                      </div>
+                      <h4 className="text-sm font-semibold text-text-primary capitalize mb-1">{type}</h4>
+                      <p className={`text-xs font-medium ${getPollenColor(category)}`}>
+                        {category || "Unknown"}
+                      </p>
                     </div>
-                    <h4 className="text-sm font-semibold text-text-primary capitalize mb-1">{type}</h4>
-                    <p className={`text-xs font-medium ${getPollenColor(info.category)}`}>
-                      {info.category}
-                    </p>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
               {data.pollen.advice && (
                 <p className="text-sm text-text-secondary mt-6 text-center">{data.pollen.advice}</p>
@@ -410,7 +846,7 @@ function DashboardPageContent() {
                 <Sparkles size={24} className="text-accent-purple" />
               </div>
               <div className="flex-1">
-                <h3 className="font-[family-name:var(--font-family-grotesk)] text-lg font-semibold text-text-primary mb-2">
+                <h3 className="font-family-grotesk text-lg font-semibold text-text-primary mb-2">
                   AI Safety Recommendation
                 </h3>
                 <p className="text-sm text-text-secondary italic leading-relaxed">

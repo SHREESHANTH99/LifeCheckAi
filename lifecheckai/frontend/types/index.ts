@@ -47,6 +47,14 @@ export interface SafetyData {
   city: string;
   formatted_address: string;
   coordinates: Coordinates;
+  geocoding?: {
+    provider?: string;
+    match?: string;
+    confidence?: number;
+    place_id?: string;
+    location_type?: string;
+    source?: string;
+  };
   overall: Overall;
   air_quality: AirQuality;
   weather: Weather;

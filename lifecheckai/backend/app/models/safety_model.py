@@ -55,6 +55,7 @@ class SafetyResponse(BaseModel):
     city: str
     formatted_address: str | None = None
     coordinates: dict[str, float] | None = None
+    geocoding: dict[str, Any] | None = None
     overall: Overall
     composite_score: int | None = None
     air: Air

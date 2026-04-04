@@ -20,6 +20,7 @@ from lifecheckai.backend.app.services.db_service import (
     save_city_data,
 )
 from lifecheckai.backend.app.services.maps_service import get_coordinates
+from lifecheckai.backend.app.services.maps_service import get_place_from_coordinates
 from lifecheckai.backend.app.services.pollen_service import get_pollen
 from lifecheckai.backend.app.services.runtime_state import (
     record_alerts,
@@ -93,6 +94,47 @@ def get_city_safety_snapshot(city: str, allow_partial: bool = False) -> dict:
 @router.get("/check-safety", response_model=SafetyResponse)
 def check_safety(city: str = Query(..., description="City name to check safety for")):
     payload = get_city_safety_snapshot(city)
+    return SafetyResponse(**payload)
+
+
+@router.get("/check-safety-by-coordinates", response_model=SafetyResponse)
+def check_safety_by_coordinates(
+    lat: float = Query(..., ge=-90, le=90),
+    lon: float = Query(..., ge=-180, le=180),
+):
+    resolved = get_place_from_coordinates(lat, lon) or {}
+    city = str(resolved.get("city") or "Current Location")
+
+    weather_data = get_weather(lat, lon)
+    air_data = get_air_quality(lat, lon)
+    pollen_data = get_pollen(lat, lon)
+
+    if not weather_data:
+        raise HTTPException(status_code=502, detail="Weather data unavailable")
+    if not air_data:
+        raise HTTPException(status_code=502, detail="Air quality data unavailable")
+
+    coords = {
+        "lat": lat,
+        "lon": lon,
+        "formatted_address": resolved.get("formatted_address") or city,
+        "geocoding": resolved.get("geocoding")
+        or {
+            "provider": "coordinate_input",
+            "match": "precise",
+            "confidence": 1.0,
+            "source": "browser_geolocation",
+        },
+    }
+
+    payload = _build_snapshot(
+        city=city,
+        coords=coords,
+        weather_data=weather_data,
+        air_data=air_data,
+        pollen_data=pollen_data,
+    )
+
     return SafetyResponse(**payload)
 
 
@@ -209,6 +251,7 @@ def _build_snapshot(
             "lat": coords["lat"],
             "lon": coords["lon"],
         },
+        geocoding=coords.get("geocoding"),
         overall=Overall(**verdict),
         air=air,
         weather=weather,

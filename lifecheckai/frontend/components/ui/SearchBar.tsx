@@ -1,64 +1,175 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { MapPin, Search, Loader2 } from "lucide-react";
+import { useState, useCallback, useMemo } from "react";
+import { MapPin, Navigation, Search, Loader2, Clock3, Sparkles, X } from "lucide-react";
+
+const RECENT_SEARCHES_KEY = "lifecheck_recent_searches";
+const MAX_RECENT = 6;
 
 interface SearchBarProps {
   onSearch: (city: string) => void;
+  onUseCurrentLocation?: () => void;
   placeholder?: string;
   isLoading?: boolean;
+  isLocating?: boolean;
   className?: string;
+  quickCities?: string[];
+  showSuggestions?: boolean;
 }
 
 export function SearchBar({
   onSearch,
+  onUseCurrentLocation,
   placeholder = "Search any city...",
   isLoading = false,
+  isLocating = false,
   className = "",
+  quickCities = [],
+  showSuggestions = true,
 }: SearchBarProps) {
   const [query, setQuery] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
+  const [recentSearches, setRecentSearches] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const raw = localStorage.getItem(RECENT_SEARCHES_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed)
+        ? parsed.filter((item) => typeof item === "string").slice(0, MAX_RECENT)
+        : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const persistRecent = useCallback((city: string) => {
+    setRecentSearches((prev) => {
+      const next = [city, ...prev.filter((item) => item.toLowerCase() !== city.toLowerCase())].slice(0, MAX_RECENT);
+      localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(next));
+      return next;
+    });
+  }, []);
 
   const handleSubmit = useCallback(() => {
     const trimmed = query.trim();
     if (trimmed && !isLoading) {
       onSearch(trimmed);
+      persistRecent(trimmed);
+      setIsFocused(false);
     }
-  }, [query, isLoading, onSearch]);
+  }, [query, isLoading, onSearch, persistRecent]);
+
+  const submitSuggestion = useCallback(
+    (city: string) => {
+      setQuery(city);
+      onSearch(city);
+      persistRecent(city);
+      setIsFocused(false);
+    },
+    [onSearch, persistRecent],
+  );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSubmit();
     }
+    if (e.key === "Escape") {
+      setIsFocused(false);
+    }
   };
 
+  const suggestions = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    const merged = [...recentSearches, ...quickCities];
+    const unique = merged.filter((city, index) => merged.findIndex((x) => x.toLowerCase() === city.toLowerCase()) === index);
+
+    return unique
+      .filter((city) => (normalizedQuery ? city.toLowerCase().includes(normalizedQuery) : true))
+      .slice(0, 7);
+  }, [quickCities, query, recentSearches]);
+
+  const showDropdown = showSuggestions && isFocused && suggestions.length > 0;
+
   return (
-    <div
-      className={`relative flex items-center w-full h-14 rounded-full border border-border-default bg-bg-card transition-all duration-200 focus-within:border-accent-blue focus-within:shadow-[0_0_0_3px_rgba(59,130,246,0.15)] ${className}`}
-    >
-      <div className="flex items-center justify-center pl-5 text-accent-cyan">
-        <MapPin size={20} />
-      </div>
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder={placeholder}
-        className="flex-1 h-full bg-transparent px-3 text-text-primary placeholder-text-muted outline-none text-sm font-medium"
-        disabled={isLoading}
-      />
-      <button
-        onClick={handleSubmit}
-        disabled={isLoading || !query.trim()}
-        className="flex items-center justify-center h-10 w-10 mr-2 rounded-full bg-gradient-to-r from-accent-blue to-accent-cyan text-white transition-all duration-200 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-        aria-label="Search"
+    <div className="relative w-full">
+      <div
+        className={`relative flex items-center w-full h-14 rounded-full border border-border-default bg-bg-card transition-all duration-200 focus-within:border-accent-blue focus-within:shadow-[0_0_0_3px_rgba(59,130,246,0.15)] ${className}`}
       >
-        {isLoading ? (
-          <Loader2 size={18} className="animate-spin" />
-        ) : (
-          <Search size={18} />
+        <div className="flex items-center justify-center pl-5 text-accent-cyan">
+          <MapPin size={20} />
+        </div>
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setTimeout(() => setIsFocused(false), 120)}
+          onKeyDown={handleKeyDown}
+          placeholder={placeholder}
+          className="flex-1 h-full bg-transparent px-3 text-text-primary placeholder-text-muted outline-none text-sm font-medium"
+          disabled={isLoading}
+        />
+        {query.trim() && !isLoading && (
+          <button
+            onClick={() => setQuery("")}
+            className="flex items-center justify-center h-8 w-8 rounded-full text-text-muted hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
+            aria-label="Clear search"
+          >
+            <X size={14} />
+          </button>
         )}
-      </button>
+        <button
+          onClick={handleSubmit}
+          disabled={isLoading || !query.trim()}
+          className="flex items-center justify-center h-10 w-10 mr-2 rounded-full bg-gradient-to-r from-accent-blue to-accent-cyan text-white transition-all duration-200 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+          aria-label="Search"
+        >
+          {isLoading ? (
+            <Loader2 size={18} className="animate-spin" />
+          ) : (
+            <Search size={18} />
+          )}
+        </button>
+        {onUseCurrentLocation && (
+          <button
+            onClick={onUseCurrentLocation}
+            disabled={isLoading || isLocating}
+            className="flex items-center justify-center h-10 w-10 mr-2 rounded-full border border-border-default text-text-secondary hover:text-text-primary hover:border-accent-cyan transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+            aria-label="Use current location"
+            title="Use current location"
+          >
+            {isLocating ? <Loader2 size={16} className="animate-spin" /> : <Navigation size={16} />}
+          </button>
+        )}
+      </div>
+
+      {showDropdown && (
+        <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-40 card p-3">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-[11px] uppercase tracking-wide text-text-muted">Suggestions</p>
+            <p className="text-[11px] text-text-muted">Press Enter to search</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {suggestions.map((city) => {
+              const isRecent = recentSearches.some((item) => item.toLowerCase() === city.toLowerCase());
+              return (
+                <button
+                  key={city}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    submitSuggestion(city);
+                  }}
+                  className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-border-default bg-bg-secondary/40 text-sm text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
+                >
+                  <span className="truncate">{city}</span>
+                  {isRecent ? <Clock3 size={13} className="text-text-muted shrink-0" /> : <Sparkles size={13} className="text-accent-cyan shrink-0" />}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

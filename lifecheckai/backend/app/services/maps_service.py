@@ -1,7 +1,15 @@
+from __future__ import annotations
+
+import re
+from functools import lru_cache
+from typing import Any
+
 import requests
-from lifecheckai.backend.app.config import GOOGLE_API_KEY
+
+from lifecheckai.backend.app.config import GEOCODING_COUNTRY, GEOCODING_REGION, GOOGLE_API_KEY
 
 GEOCODING_URL = "https://maps.googleapis.com/maps/api/geocode/json"
+REVERSE_GEOCODING_URL = "https://maps.googleapis.com/maps/api/geocode/json"
 
 MOCK_COORDS = {
     "delhi": {"lat": 28.6139, "lon": 77.2090, "formatted_address": "New Delhi, Delhi, India"},
@@ -13,37 +21,233 @@ MOCK_COORDS = {
     "hyderabad": {"lat": 17.3850, "lon": 78.4867, "formatted_address": "Hyderabad, Telangana, India"},
 }
 
-def get_coordinates(city: str) -> dict | None:
-    """
-    Converts city name → { lat, lon, formatted_address }
-    Uses Google Geocoding API with fallback to mock data
-    """
-    if not GOOGLE_API_KEY or GOOGLE_API_KEY == "dummy":
-        return MOCK_COORDS.get(city.lower()) or {"lat": 20.0, "lon": 78.0, "formatted_address": city}
 
-    params = {
-        "address": city,
-        "key": GOOGLE_API_KEY
-    }
+def _clean_query(city: str) -> str:
+    cleaned = re.sub(r"\s+", " ", city.strip())
+    return cleaned
 
-    try:
-        res = requests.get(GEOCODING_URL, params=params, timeout=6)
-        res.raise_for_status()
-        data = res.json()
 
-        if data.get("status") != "OK":
-            print(f"[GEOCODING ERROR] Status: {data.get('status')}")
-            return MOCK_COORDS.get(city.lower())
+def _safe_str(value: Any) -> str:
+    return value if isinstance(value, str) else ""
 
-        result = data["results"][0]
-        location = result["geometry"]["location"]
 
+def _result_score(result: dict, cleaned_query: str) -> float:
+    types = result.get("types") or []
+    components = result.get("address_components") or []
+    formatted_address = _safe_str(result.get("formatted_address")).lower()
+
+    score = 0.0
+
+    if "locality" in types:
+        score += 4.0
+    if "administrative_area_level_2" in types:
+        score += 2.0
+    if "administrative_area_level_1" in types:
+        score += 1.5
+    if "country" in types:
+        score -= 3.0
+
+    location_type = _safe_str((result.get("geometry") or {}).get("location_type"))
+    if location_type == "ROOFTOP":
+        score += 1.5
+    elif location_type == "RANGE_INTERPOLATED":
+        score += 0.8
+
+    if result.get("partial_match"):
+        score -= 1.2
+
+    query_lower = cleaned_query.lower()
+    if query_lower and query_lower in formatted_address:
+        score += 2.0
+
+    for component in components:
+        long_name = _safe_str(component.get("long_name")).lower()
+        short_name = _safe_str(component.get("short_name")).lower()
+        c_types = component.get("types") or []
+        if query_lower and (query_lower == long_name or query_lower == short_name):
+            score += 1.8
+            if "locality" in c_types:
+                score += 1.2
+
+    return score
+
+
+def _best_result(results: list[dict], cleaned_query: str) -> dict | None:
+    if not results:
+        return None
+
+    ranked = sorted(results, key=lambda row: _result_score(row, cleaned_query), reverse=True)
+    return ranked[0]
+
+
+def _confidence_from_result(result: dict, cleaned_query: str) -> float:
+    score = _result_score(result, cleaned_query)
+    normalized = max(0.0, min(1.0, (score + 1.0) / 8.0))
+    return round(normalized, 2)
+
+
+def _mock_payload(city: str) -> dict | None:
+    key = city.strip().lower()
+    if key in MOCK_COORDS:
+        row = MOCK_COORDS[key]
         return {
-            "lat": location["lat"],
-            "lon": location["lng"],
-            "formatted_address": result.get("formatted_address", city)
+            **row,
+            "geocoding": {
+                "provider": "mock",
+                "match": "city_seed",
+                "confidence": 0.55,
+                "source": "mock_fallback",
+            },
         }
 
-    except Exception as e:
-        print(f"[GEOCODING ERROR] {e}")
-        return MOCK_COORDS.get(city.lower())
+    if key:
+        return {
+            "lat": 20.0,
+            "lon": 78.0,
+            "formatted_address": city,
+            "geocoding": {
+                "provider": "mock",
+                "match": "unknown_seed",
+                "confidence": 0.2,
+                "source": "mock_default",
+            },
+        }
+
+    return None
+
+
+def _request_geocode(params: dict) -> dict | None:
+    for _ in range(2):
+        try:
+            response = requests.get(GEOCODING_URL, params=params, timeout=6)
+            response.raise_for_status()
+            return response.json()
+        except Exception:
+            continue
+    return None
+
+
+@lru_cache(maxsize=512)
+def _get_coordinates_cached(cleaned_city: str) -> dict | None:
+    if not GOOGLE_API_KEY or GOOGLE_API_KEY == "dummy":
+        return _mock_payload(cleaned_city)
+
+    params = {
+        "address": cleaned_city,
+        "key": GOOGLE_API_KEY,
+        "region": GEOCODING_REGION,
+    }
+
+    if GEOCODING_COUNTRY:
+        params["components"] = f"country:{GEOCODING_COUNTRY}"
+
+    data = _request_geocode(params)
+    if not data:
+        return _mock_payload(cleaned_city)
+
+    status = data.get("status")
+    if status != "OK":
+        if status == "ZERO_RESULTS":
+            relaxed_params = {
+                "address": cleaned_city,
+                "key": GOOGLE_API_KEY,
+                "region": GEOCODING_REGION,
+            }
+            data = _request_geocode(relaxed_params)
+            if not data or data.get("status") != "OK":
+                return _mock_payload(cleaned_city)
+        else:
+            return _mock_payload(cleaned_city)
+
+    results = data.get("results") or []
+    result = _best_result(results, cleaned_city)
+    if not result:
+        return _mock_payload(cleaned_city)
+
+    location = (result.get("geometry") or {}).get("location") or {}
+    lat = location.get("lat")
+    lon = location.get("lng")
+    if lat is None or lon is None:
+        return _mock_payload(cleaned_city)
+
+    confidence = _confidence_from_result(result, cleaned_city)
+
+    return {
+        "lat": lat,
+        "lon": lon,
+        "formatted_address": result.get("formatted_address", cleaned_city),
+        "geocoding": {
+            "provider": "google",
+            "match": "exact" if confidence >= 0.85 else "approximate",
+            "confidence": confidence,
+            "place_id": result.get("place_id"),
+            "location_type": _safe_str((result.get("geometry") or {}).get("location_type")),
+            "types": result.get("types") or [],
+            "source": "google_geocoding",
+        },
+    }
+
+
+def get_coordinates(city: str) -> dict | None:
+    cleaned_city = _clean_query(city)
+    if not cleaned_city:
+        return None
+
+    payload = _get_coordinates_cached(cleaned_city)
+    if not payload:
+        return None
+    return dict(payload)
+
+
+def get_place_from_coordinates(lat: float, lon: float) -> dict | None:
+    if not GOOGLE_API_KEY or GOOGLE_API_KEY == "dummy":
+        return {
+            "city": "Current Location",
+            "formatted_address": f"{lat:.4f}, {lon:.4f}",
+            "geocoding": {
+                "provider": "mock",
+                "match": "approximate",
+                "confidence": 0.5,
+                "source": "coords_fallback",
+            },
+        }
+
+    try:
+        params = {
+            "latlng": f"{lat},{lon}",
+            "key": GOOGLE_API_KEY,
+            "result_type": "locality|administrative_area_level_2|administrative_area_level_1",
+            "region": GEOCODING_REGION,
+        }
+        response = requests.get(REVERSE_GEOCODING_URL, params=params, timeout=6)
+        response.raise_for_status()
+        data = response.json()
+        if data.get("status") != "OK":
+            return None
+
+        result = (data.get("results") or [{}])[0]
+        components = result.get("address_components") or []
+
+        city = None
+        for component in components:
+            c_types = component.get("types") or []
+            if "locality" in c_types:
+                city = component.get("long_name")
+                break
+            if "administrative_area_level_2" in c_types and not city:
+                city = component.get("long_name")
+
+        return {
+            "city": city or "Current Location",
+            "formatted_address": result.get("formatted_address", f"{lat:.4f}, {lon:.4f}"),
+            "geocoding": {
+                "provider": "google",
+                "match": "reverse_geocode",
+                "confidence": 0.82,
+                "place_id": result.get("place_id"),
+                "types": result.get("types") or [],
+                "source": "google_reverse_geocoding",
+            },
+        }
+    except Exception:
+        return None
