@@ -2,323 +2,193 @@
 
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { useMemo } from "react";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { useSafetyData } from "@/app/hooks/useSafetyData";
-import {
-  Wind,
-  CloudLightning,
-  Flower2,
-  Sparkles,
-  MapPin,
-  BarChart3,
-  ShieldCheck,
-  ArrowRight,
-} from "lucide-react";
+import { Wind, ShieldAlert, Sparkles, Activity } from "lucide-react";
 
 const popularCities = ["Mumbai", "Delhi", "Bangalore", "Chennai", "Hyderabad", "Kolkata"];
 
 const features = [
   {
-    icon: <Wind size={24} />,
+    icon: <Wind size={28} style={{ color: "var(--color-accent-cyan)", filter: "drop-shadow(0 0 8px var(--color-accent-cyan))" }} />,
     color: "text-accent-cyan",
-    bg: "bg-accent-cyan/10",
-    title: "Air Quality",
-    description: "Real-time AQI from Google Air Quality API with pollutant breakdown",
+    border: "border-l-accent-cyan",
+    title: "Air Quality Matrix",
+    description: "Real-time AQI with full pollutant breakdown and gradient mapping.",
   },
   {
-    icon: <CloudLightning size={24} />,
-    color: "text-accent-blue",
-    bg: "bg-accent-blue/10",
-    title: "Weather Safety",
-    description: "Heat, storm, UV risk detection and condition monitoring",
+    icon: <ShieldAlert size={28} style={{ color: "var(--color-accent-violet)", filter: "drop-shadow(0 0 8px var(--color-accent-violet))" }} />,
+    color: "text-accent-violet",
+    border: "border-l-accent-violet",
+    title: "Risk Analysis",
+    description: "Multi-layered real-time environmental safety alerts via vector logic.",
   },
   {
-    icon: <Flower2 size={24} />,
-    color: "text-accent-green",
-    bg: "bg-accent-green/10",
-    title: "Pollen Levels",
-    description: "Allergy risk by pollen type — tree, grass, and weed tracking",
-  },
-  {
-    icon: <Sparkles size={24} />,
-    color: "text-accent-purple",
-    bg: "bg-accent-purple/10",
-    title: "AI Assistant",
-    description: "Ask safety questions in plain English, powered by Gemini",
+    icon: <Sparkles size={28} style={{ color: "var(--color-safe)", filter: "drop-shadow(0 0 8px var(--color-safe))" }} />,
+    color: "text-safe",
+    border: "border-l-[var(--color-safe)]",
+    title: "Gemini Intelligence",
+    description: "Hyperlocal contextual advice powered by Google Gemini AI.",
   },
 ];
-
-const steps = [
-  { num: 1, icon: <MapPin size={24} />, title: "Enter Your City", desc: "Type any city name to get started" },
-  { num: 2, icon: <BarChart3 size={24} />, title: "We Analyze Conditions", desc: "Real-time data from multiple sources" },
-  { num: 3, icon: <ShieldCheck size={24} />, title: "Get Safety Advice", desc: "AI-powered recommendations for you" },
-];
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } },
-};
 
 export default function HomePage() {
   const router = useRouter();
   const { search, loading } = useSafetyData();
-  const particles = useMemo(
-    () =>
-      Array.from({ length: 24 }).map((_, idx) => ({
-        id: idx,
-        left: Math.random() * 100,
-        top: Math.random() * 100,
-        size: Math.floor(Math.random() * 3) + 1,
-        delay: Math.random() * 6,
-        duration: 6 + Math.random() * 8,
-      })),
-    []
-  );
 
   const handleSearch = (city: string) => {
     search(city);
-    router.push(`/dashboard`);
+    router.push(`/dashboard?city=${encodeURIComponent(city)}`);
   };
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative min-h-[calc(100vh-64px)] flex flex-col items-center justify-center px-4 overflow-hidden">
-        {/* Background gradient */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(59,130,246,0.12), transparent), radial-gradient(ellipse 60% 40% at 80% 80%, rgba(6,182,212,0.06), transparent)",
-          }}
-        />
-
-        <div className="absolute inset-0 hidden lg:block pointer-events-none">
-          {particles.map((particle) => (
-            <span
-              key={particle.id}
-              className="absolute rounded-full"
-              style={{
-                left: `${particle.left}%`,
-                top: `${particle.top}%`,
-                width: `${particle.size}px`,
-                height: `${particle.size}px`,
-                background:
-                  particle.id % 3 === 0
-                    ? "#06b6d4"
-                    : particle.id % 3 === 1
-                    ? "#3b82f6"
-                    : "#10b981",
-                opacity: 0.45,
-                animation: `float-particle ${particle.duration}s ease-in-out ${particle.delay}s infinite`,
-              }}
-            />
-          ))}
+    <div className="min-h-screen relative overflow-hidden">
+      {/* ─── Hero Section ─── */}
+      <section className="relative min-h-[90vh] flex flex-col items-center justify-center px-4">
+        {/* Animated Background Orb (simulating Delhi's average AQI color - yellow/orange) */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+          <motion.div
+            animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.4, 0.3] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="w-[500px] h-[500px] sm:w-[800px] sm:h-[800px] rounded-full blur-[100px] sm:blur-[140px] bg-warning/20"
+          />
         </div>
-
-        {/* Floating cards (desktop) */}
-        <motion.div
-          className="absolute top-32 left-16 hidden xl:block"
-          animate={{ y: [0, -12, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <div className="card px-4 py-3 opacity-30 rotate-[-8deg] scale-75">
-            <div className="text-xs text-text-muted mb-1">AQI</div>
-            <div className="text-lg font-bold font-[family-name:var(--font-family-mono)] text-safe">42</div>
-          </div>
-        </motion.div>
-        <motion.div
-          className="absolute top-48 right-20 hidden xl:block"
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        >
-          <div className="card px-4 py-3 opacity-25 rotate-[6deg] scale-75">
-            <div className="text-xs text-text-muted mb-1">Temperature</div>
-            <div className="text-lg font-bold font-[family-name:var(--font-family-mono)] text-caution">34°C</div>
-          </div>
-        </motion.div>
-        <motion.div
-          className="absolute bottom-40 left-32 hidden xl:block"
-          animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        >
-          <div className="card px-4 py-3 opacity-20 rotate-[3deg] scale-75">
-            <div className="text-xs text-text-muted mb-1">Status</div>
-            <div className="text-sm font-bold text-safe">✓ Safe</div>
-          </div>
-        </motion.div>
 
         {/* Content */}
-        <motion.div
-          className="relative z-10 flex flex-col items-center text-center max-w-3xl"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          {/* Top badge */}
-          <div className="mb-6 px-4 py-2 rounded-full glass border border-accent-blue/20 text-sm text-text-secondary">
-            🛡️ Real-time Safety Intelligence
-          </div>
+        <div className="relative z-10 flex flex-col items-center text-center max-w-4xl w-full">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 px-4 py-1.5 rounded-full glass border border-accent-cyan/30 text-xs sm:text-sm font-medium tracking-wide flex items-center justify-center gap-2"
+          >
+            <Activity size={14} className="text-accent-cyan animate-pulse-slow" />
+            ENVIRONMENTAL INTELLIGENCE PLATFORM
+          </motion.div>
 
-          {/* Heading */}
-          <h1 className="font-[family-name:var(--font-family-grotesk)] text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6">
-            <span className="text-text-primary">Know Before</span>
-            <br />
-            <span className="bg-gradient-to-r from-accent-blue to-accent-cyan bg-clip-text text-transparent">
-              You Go
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-5xl sm:text-7xl font-bold leading-tight mb-6 tracking-tight"
+          >
+            Omnipresent Safety. <br />
+            <span className="bg-gradient-to-r from-accent-cyan to-accent-violet bg-clip-text text-transparent">
+              Hyperlocal Analysis.
             </span>
-          </h1>
+          </motion.h1>
 
-          {/* Subtitle */}
-          <p className="text-base sm:text-lg text-text-secondary max-w-md mb-10 leading-relaxed">
-            Real-time air quality, weather safety, and health alerts for any city — powered by AI.
-          </p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg text-text-secondary max-w-2xl mb-12"
+          >
+            Real-time air quality, safety scores, weather anomalies, and holistic risk evaluation powered by sophisticated AI.
+          </motion.p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
-            <button
-              onClick={() => {
-                const el = document.getElementById("quick-search");
-                el?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="px-8 py-4 rounded-full bg-gradient-to-r from-accent-blue to-accent-cyan text-white font-semibold text-sm transition-all duration-200 hover:opacity-90 hover:shadow-glow-blue flex items-center gap-2 cursor-pointer"
-            >
-              Check My City
-              <ArrowRight size={16} />
-            </button>
-            <button
-              onClick={() => router.push("/map")}
-              className="px-8 py-4 rounded-full border border-border-default text-text-secondary font-semibold text-sm transition-all duration-200 hover:border-border-light hover:text-text-primary cursor-pointer"
-            >
-              View Live Map
-            </button>
-          </div>
-
-          {/* Trust line */}
-          <p className="text-text-muted text-xs flex items-center gap-2">
-            Trusted data from Google APIs
-            <span className="w-1 h-1 rounded-full bg-text-muted" />
-            Updated every 5 minutes
-          </p>
-        </motion.div>
-      </section>
-
-      {/* Quick Search Section */}
-      <section id="quick-search" className="py-12 sm:py-16 px-4">
-        <div className="max-w-2xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-            className="text-center mb-8"
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="w-full max-w-2xl"
           >
-            <h2 className="font-[family-name:var(--font-family-grotesk)] text-2xl sm:text-3xl font-bold text-text-primary mb-3">
-              Check Safety For Any City
-            </h2>
-          </motion.div>
-
-          <SearchBar
-            onSearch={handleSearch}
-            placeholder="Enter a city name..."
-            isLoading={loading}
-          />
-
-          {/* Popular cities */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
-            {popularCities.map((city) => (
-              <button
-                key={city}
-                onClick={() => handleSearch(city)}
-                className="px-4 py-2 rounded-full border border-border-default text-sm text-text-secondary transition-all duration-200 hover:border-accent-blue hover:text-text-primary cursor-pointer"
-              >
-                {city}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="py-12 sm:py-16 px-4">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-          >
-            {features.map((feature) => (
-              <motion.div
-                key={feature.title}
-                variants={itemVariants}
-                whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                className="card group cursor-default"
-              >
-                <div className={`w-12 h-12 rounded-xl ${feature.bg} flex items-center justify-center mb-4 ${feature.color}`}>
-                  {feature.icon}
-                </div>
-                <h3 className="font-[family-name:var(--font-family-grotesk)] text-lg font-semibold text-text-primary mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-sm text-text-secondary leading-relaxed">{feature.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-12 sm:py-20 px-4">
-        <div className="max-w-4xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="font-[family-name:var(--font-family-grotesk)] text-2xl sm:text-3xl font-bold text-text-primary text-center mb-16"
-          >
-            How It Works
-          </motion.h2>
-
-          <div className="relative">
-            {/* Connecting line (desktop) */}
-            <div className="absolute top-12 left-[15%] right-[15%] h-px border-t-2 border-dashed border-border-default hidden lg:block" />
-
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12"
-            >
-              {steps.map((step) => (
-                <motion.div key={step.num} variants={itemVariants} className="flex flex-col items-center text-center">
-                  <div className="relative mb-6">
-                    <div className="w-12 h-12 rounded-full bg-accent-blue/15 border-2 border-accent-blue/40 flex items-center justify-center text-accent-blue font-bold font-[family-name:var(--font-family-grotesk)]">
-                      {step.num}
-                    </div>
-                  </div>
-                  <div className="text-text-secondary mb-3">{step.icon}</div>
-                  <h3 className="font-[family-name:var(--font-family-grotesk)] text-lg font-semibold text-text-primary mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm text-text-secondary">{step.desc}</p>
-                </motion.div>
+            {/* The SearchBar has glass styles via its own component hopefully, if not we wrap it */}
+            <div className="relative w-full shadow-glow-cyan rounded-2xl">
+              <SearchBar
+                onSearch={handleSearch}
+                placeholder="Check safety in your city..."
+                isLoading={loading}
+              />
+            </div>
+            
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
+              {popularCities.map((city) => (
+                <button
+                  key={city}
+                  onClick={() => handleSearch(city)}
+                  className="px-4 py-1.5 rounded-full glass hover:border-accent-cyan hover:text-white transition-all text-sm text-text-muted cursor-pointer"
+                >
+                  {city}
+                </button>
               ))}
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </section>
+
+      {/* ─── Animated Ticker ─── */}
+      <div className="w-full border-y border-border-default bg-white/5 backdrop-blur-sm py-3 overflow-hidden flex whitespace-nowrap">
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ ease: "linear", duration: 15, repeat: Infinity }}
+          className="flex items-center gap-16 px-8 flex-nowrap"
+        >
+          {Array(4).fill(0).map((_, i) => (
+            <div key={i} className="flex gap-16 font-mono text-sm tracking-widest text-text-muted">
+              <span>14 CITIES MONITORED</span>
+              <span className="text-accent-cyan">•</span>
+              <span>99.2% UPTIME</span>
+              <span className="text-accent-violet">•</span>
+              <span>3.2M CHECKS</span>
+              <span className="text-safe">•</span>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* ─── Features Below Fold ─── */}
+      <section id="features" className="py-24 px-4 relative z-10 max-w-7xl mx-auto border-t border-white/5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {features.map((feature, i) => (
+            <motion.div
+              key={feature.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className={`glass p-8 border-l-2 ${feature.border} group`}
+            >
+              <div className={`w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 ${feature.color} shadow-glow`}>
+                {feature.icon}
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
+              <p className="text-text-secondary leading-relaxed">{feature.description}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* ─── Technology Stack ─── */}
+      <section id="technology" className="py-24 px-4 relative z-10 max-w-7xl mx-auto border-t border-white/5">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-white mb-4">Powered by Advanced Technologies</h2>
+          <p className="text-text-secondary max-w-xl mx-auto">
+            A robust software architecture built for speed, accuracy, and absolute scale.
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+           <div className="glass p-6 rounded-3xl border border-white/10 hover:border-[var(--color-accent-cyan)] transition-colors group">
+              <div className="text-[10px] uppercase font-bold tracking-widest text-[#00D4FF] mb-2 drop-shadow-sm">Frontend Architecture</div>
+              <h3 className="text-xl font-bold text-white mb-2">Next.js 14 App Router</h3>
+              <p className="text-sm text-text-secondary leading-relaxed group-hover:text-white/80 transition-colors">Server-side rendering, heavily optimized edge networks, complex routing states for immediate dashboard load times.</p>
+           </div>
+           
+           <div className="glass p-6 rounded-3xl border border-white/10 hover:border-[var(--color-accent-violet)] transition-colors group">
+              <div className="text-[10px] uppercase font-bold tracking-widest text-[#7C3AED] mb-2 drop-shadow-sm">Artificial Intelligence</div>
+              <h3 className="text-xl font-bold text-white mb-2">Google Gemini Pro</h3>
+              <p className="text-sm text-text-secondary leading-relaxed group-hover:text-white/80 transition-colors">Underpinning our core Chat interface allowing realtime, localized contextual advice that parses telemetry data natively.</p>
+           </div>
+
+           <div className="glass p-6 rounded-3xl border border-white/10 hover:border-[var(--color-safe)] transition-colors group">
+              <div className="text-[10px] uppercase font-bold tracking-widest text-[#10B981] mb-2 drop-shadow-sm">Predictive Systems</div>
+              <h3 className="text-xl font-bold text-white mb-2">Python ML Integrations</h3>
+              <p className="text-sm text-text-secondary leading-relaxed group-hover:text-white/80 transition-colors">Scikit-learn random forests calculating BIS IS 10500:2012 water drinkability probabilities over massive datasets.</p>
+           </div>
+        </div>
+      </section>
+
     </div>
   );
 }

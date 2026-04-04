@@ -484,7 +484,7 @@ function DashboardPageContent() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-8 flex flex-col gap-6"
+          className="max-w-7xl mx-auto px-4 sm:px-8 py-8 flex flex-col gap-6"
         >
           <motion.div variants={itemVariants}>
             <HealthProfileSelector
@@ -495,38 +495,60 @@ function DashboardPageContent() {
             />
           </motion.div>
 
-          {/* Overall Safety Banner */}
-          <motion.div
-            variants={itemVariants}
-            className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 rounded-2xl border ${
-              overallStatus === "safe"
-                ? "border-safe/30 bg-safe/5"
-                : overallStatus === "caution"
-                ? "border-caution/30 bg-caution/5"
-                : overallStatus === "unsafe"
-                ? "border-unsafe/30 bg-unsafe/5"
-                : "border-border-default bg-bg-card"
-            }`}
-          >
-            <div className="flex items-center gap-3">
-              {overallStatus === "safe" && <CheckCircle size={24} className="text-safe" />}
-              {overallStatus === "caution" && <AlertTriangle size={24} className="text-caution" />}
-              {overallStatus === "unsafe" && <XCircle size={24} className="text-unsafe" />}
-              {overallStatus === "unknown" && <AlertTriangle size={24} className="text-text-muted" />}
-              <span className="text-text-primary font-medium">
-                {data.overall?.summary || "Conditions are being evaluated"}
-              </span>
+          {/* Bento Grid Layout */}
+          <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <div className="glass p-6 flex flex-col items-center justify-center group relative border-l-4 border-l-accent-violet">
+                {overallStatus !== "unknown" && (
+                  <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-safe/10 border border-safe/30 px-2 py-0.5 rounded-full z-10">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-safe opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-safe" />
+                    </span>
+                    <span className="text-[9px] font-bold text-safe uppercase tracking-wider">Live</span>
+                  </div>
+                )}
+                <h3 className="text-lg font-semibold text-white mb-6">Overall Safety Score</h3>
+                <SafetyScoreRing score={safetyScore} size="lg" />
+                <div className="mt-6 flex flex-col items-center">
+                    <StatusBadge status={data.overall?.verdict || "UNKNOWN"} />
+                    <span className="text-sm text-text-secondary mt-3 text-center px-4">{data.overall?.summary}</span>
+                </div>
             </div>
-            <div className="flex items-center gap-4">
-              <SafetyScoreRing score={safetyScore} size="sm" />
-              <StatusBadge status={data.overall?.verdict || "UNKNOWN"} />
-              <div className="flex items-center gap-1.5">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-safe opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-safe" />
-                </span>
-                <span className="text-xs text-text-muted">Updated live</span>
-              </div>
+
+            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <MetricCard
+                icon={<Wind size={20} />}
+                label="Air Quality Index"
+                value={data.air_quality?.aqi ?? "—"}
+                status={(data.air_quality?.aqi ?? 999) <= 50 ? "safe" : (data.air_quality?.aqi ?? 999) <= 100 ? "warning" : "danger"}
+                sublabel={data.air_quality?.category || "Fetching..."}
+                isLive
+              />
+              <MetricCard
+                icon={<Thermometer size={20} />}
+                label="Temperature"
+                value={data.weather?.temp_celsius != null ? `${Math.round(data.weather.temp_celsius)}` : "—"}
+                unit="°C"
+                status={!data.weather?.temp_celsius ? "unknown" : data.weather.temp_celsius > 40 ? "danger" : data.weather.temp_celsius > 35 ? "warning" : "safe"}
+                sublabel={data.weather?.feels_like != null ? `Feels like ${Math.round(data.weather.feels_like)}°C` : ""}
+                isLive
+              />
+              <MetricCard
+                icon={<Flower2 size={20} />}
+                label="Pollen Risk"
+                value={data.pollen?.level || "—"}
+                status={data.pollen?.level?.toLowerCase() === "low" ? "safe" : data.pollen?.level?.toLowerCase() === "moderate" ? "warning" : data.pollen?.level?.toLowerCase() === "high" ? "danger" : "unknown"}
+                sublabel={data.pollen?.advice || ""}
+              />
+              <MetricCard
+                icon={<Sun size={20} />}
+                label="UV Severity"
+                value={data.weather?.uv_index ?? "—"}
+                status={!data.weather?.uv_index ? "unknown" : data.weather.uv_index <= 2 ? "safe" : data.weather.uv_index <= 5 ? "warning" : "danger"}
+                sublabel={getUVLabel(data.weather?.uv_index)}
+                isLive
+              />
             </div>
           </motion.div>
 
@@ -540,434 +562,72 @@ function DashboardPageContent() {
             </motion.div>
           )}
 
-          {/* Location Intelligence */}
-          <motion.div variants={itemVariants} className="card">
-            <h3 className="font-family-grotesk text-lg font-semibold text-text-primary mb-4">
-              Location Intelligence
-            </h3>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              <div className="p-4 rounded-xl border border-border-default bg-bg-secondary/50">
-                <p className="text-xs uppercase tracking-wide text-text-muted mb-1">Resolved Address</p>
-                <p className="text-sm text-text-primary">{data.formatted_address || data.city}</p>
-              </div>
-              <div className="p-4 rounded-xl border border-border-default bg-bg-secondary/50">
-                <p className="text-xs uppercase tracking-wide text-text-muted mb-1">Coordinates</p>
-                <p className="text-sm text-text-primary font-family-mono">
-                  {data.coordinates?.lat?.toFixed?.(4) ?? "--"}, {data.coordinates?.lon?.toFixed?.(4) ?? "--"}
-                </p>
-              </div>
-              <div className="p-4 rounded-xl border border-border-default bg-bg-secondary/50">
-                <p className="text-xs uppercase tracking-wide text-text-muted mb-1">Geocoding Confidence</p>
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm text-text-primary capitalize">{data.geocoding?.match || "standard"}</p>
-                  <p className="text-sm font-semibold text-text-primary">
-                    {typeof data.geocoding?.confidence === "number"
-                      ? `${Math.round(data.geocoding.confidence * 100)}%`
-                      : "--"}
-                  </p>
-                </div>
-                <div className="w-full h-1.5 rounded-full bg-border-default overflow-hidden">
-                  <motion.div
-                    className="h-full rounded-full bg-gradient-to-r from-accent-cyan to-accent-blue"
-                    initial={{ width: 0 }}
-                    animate={{
-                      width: `${Math.max(8, Math.round((data.geocoding?.confidence ?? 0.5) * 100))}%`,
-                    }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                  />
-                </div>
-                <p className="text-xs text-text-muted mt-2">
-                  Source: {data.geocoding?.source || data.source || "live"}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Monitored Cities */}
-          <motion.div variants={itemVariants} className="card">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-5">
+          <motion.div variants={itemVariants} className="glass p-6 border-l-4 border-l-accent-cyan">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 pb-4 border-b border-border-default">
               <div>
-                <h3 className="font-family-grotesk text-lg font-semibold text-text-primary flex items-center gap-2">
+                <h3 className="font-family-grotesk text-lg font-semibold text-white flex items-center gap-2">
                   <Radar size={18} className="text-accent-cyan" />
-                  Monitored Cities
+                  Monitored Territories
                 </h3>
-                <p className="text-sm text-text-secondary mt-1">
-                  Track multiple city risk profiles and prioritize interventions faster.
-                </p>
               </div>
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex items-center gap-3">
                 <button
                   onClick={() => data?.city && addMonitoredCity(data.city)}
-                  className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border-default bg-bg-secondary text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
+                  className="btn-primary flex items-center gap-2 px-4 py-2 cursor-pointer"
                 >
-                  <Plus size={14} />
-                  Add Current City
-                </button>
-                <button
-                  onClick={() => refreshMonitoredCities(monitoredCities)}
-                  className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border-default bg-bg-secondary text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
-                >
-                  <RefreshCw size={14} className={monitoredLoading ? "animate-spin" : ""} />
-                  Refresh All
+                  <Plus size={16} /> Track Current
                 </button>
               </div>
             </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
-              <div className="p-3 rounded-xl border border-border-default bg-bg-secondary/50">
-                <p className="text-xs uppercase tracking-wide text-text-muted">Tracked</p>
-                <p className="text-2xl font-family-mono font-bold text-text-primary mt-1">
-                  {monitoredSummary.total}
-                </p>
-              </div>
-              <div className="p-3 rounded-xl border border-border-default bg-bg-secondary/50">
-                <p className="text-xs uppercase tracking-wide text-text-muted">At Risk</p>
-                <p className="text-2xl font-family-mono font-bold text-unsafe mt-1">
-                  {monitoredSummary.unsafeCount}
-                </p>
-              </div>
-              <div className="p-3 rounded-xl border border-border-default bg-bg-secondary/50">
-                <p className="text-xs uppercase tracking-wide text-text-muted">Watchlist</p>
-                <p className="text-2xl font-family-mono font-bold text-caution mt-1">
-                  {monitoredSummary.cautionCount}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 mb-4">
-              <div className="flex items-center gap-2">
-                <ShieldAlert size={14} className="text-text-muted" />
-                <select
-                  value={statusFilter}
-                  onChange={(event) => setStatusFilter(event.target.value as MonitoredStatusFilter)}
-                  className="px-3 py-2 rounded-lg border border-border-default bg-bg-secondary text-sm text-text-primary outline-none"
-                >
-                  <option value="ALL">All statuses</option>
-                  <option value="UNSAFE">Unsafe only</option>
-                  <option value="CAUTION">Caution only</option>
-                  <option value="SAFE">Safe only</option>
-                </select>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin size={14} className="text-text-muted" />
-                <select
-                  value={sortMode}
-                  onChange={(event) => setSortMode(event.target.value as MonitoredSortMode)}
-                  className="px-3 py-2 rounded-lg border border-border-default bg-bg-secondary text-sm text-text-primary outline-none"
-                >
-                  <option value="risk">Sort by risk</option>
-                  <option value="aqi">Sort by AQI</option>
-                  <option value="name">Sort by name</option>
-                </select>
-              </div>
-            </div>
-
-            {monitoredSummary.topRisk && (
-              <div className="mb-4 p-3 rounded-xl border border-unsafe/25 bg-unsafe/5">
-                <p className="text-xs uppercase tracking-wide text-text-muted mb-1">Highest Priority</p>
-                <p className="text-sm text-text-primary">
-                  <span className="font-semibold">{monitoredSummary.topRisk.city}</span>
-                  {" "}requires attention. Risk score: {Math.round(getRiskScore(monitoredSummary.topRisk))}
-                </p>
-              </div>
-            )}
 
             {monitoredEntries.length === 0 ? (
-              <div className="p-6 rounded-xl border border-dashed border-border-default text-center">
-                <p className="text-sm text-text-secondary">
-                  No monitored city matches the current filter. Add your current city to start tracking.
-                </p>
+              <div className="p-8 border border-dashed border-border-default rounded-2xl text-center text-text-secondary">
+                You are not tracking any additional locations yet.
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {monitoredEntries.map((entry) => (
-                  <div key={entry.city} className="p-4 rounded-xl border border-border-default bg-bg-secondary/50">
-                    <div className="flex items-start justify-between gap-2 mb-3">
+                  <div key={entry.city} className="p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-accent-cyan hover:-translate-y-1 transition-all overflow-hidden relative group">
+                    <div className="flex justify-between items-start mb-3">
                       <div>
-                        <p className="text-sm font-semibold text-text-primary">{entry.city}</p>
-                        <p className="text-xs text-text-muted">Updated {formatTime(new Date(entry.updatedAt))}</p>
+                        <h4 className="text-base font-bold text-white mb-1">{entry.city}</h4>
+                        <p className="text-[10px] text-text-muted">UPDATED {formatTime(new Date(entry.updatedAt))}</p>
                       </div>
                       <StatusBadge status={entry.verdict} />
                     </div>
-                    <p className="text-sm text-text-secondary min-h-[42px]">{entry.summary}</p>
-                    <div className="grid grid-cols-3 gap-2 mt-3 mb-4">
-                      <div className="p-2 rounded-lg border border-border-default text-center">
-                        <p className="text-[10px] uppercase tracking-wide text-text-muted">AQI</p>
-                        <p className="text-sm font-family-mono font-semibold text-text-primary">
-                          {entry.aqi ?? "—"}
-                        </p>
+                    
+                    <div className="flex items-center justify-between mt-5 pt-4 border-t border-white/5">
+                      <div className="flex flex-col">
+                        <span className="text-[10px] uppercase text-text-muted">AQI</span>
+                        <span className="font-mono text-sm font-bold text-accent-cyan">{entry.aqi ?? "—"}</span>
                       </div>
-                      <div className="p-2 rounded-lg border border-border-default text-center">
-                        <p className="text-[10px] uppercase tracking-wide text-text-muted">Temp</p>
-                        <p className="text-sm font-family-mono font-semibold text-text-primary">
-                          {entry.temp != null ? `${Math.round(entry.temp)}°` : "—"}
-                        </p>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] uppercase text-text-muted">Temp</span>
+                        <span className="font-mono text-sm font-bold text-accent-cyan">{entry.temp != null ? `${Math.round(entry.temp)}°` : "—"}</span>
                       </div>
-                      <div className="p-2 rounded-lg border border-border-default text-center">
-                        <p className="text-[10px] uppercase tracking-wide text-text-muted">Humidity</p>
-                        <p className="text-sm font-family-mono font-semibold text-text-primary">
-                          {entry.humidity != null ? `${Math.round(entry.humidity)}%` : "—"}
-                        </p>
+                       <div className="flex gap-2">
+                        <button
+                          onClick={() => search(entry.city)}
+                          className="w-8 h-8 rounded-full bg-white/5 hover:bg-accent-cyan hover:text-black flex items-center justify-center transition-colors text-text-secondary cursor-pointer"
+                        >
+                          <MapPin size={14} />
+                        </button>
+                        <button
+                          onClick={() => removeMonitoredCity(entry.city)}
+                          className="w-8 h-8 rounded-full bg-white/5 hover:bg-danger text-text-secondary hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                        >
+                          <Trash2 size={14} />
+                        </button>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => search(entry.city)}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border-default text-xs text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
-                      >
-                        <MapPin size={12} /> Open
-                      </button>
-                      <button
-                        onClick={() => refreshMonitoredCities([entry.city])}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border-default text-xs text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
-                      >
-                        <RefreshCw size={12} /> Refresh
-                      </button>
-                      <button
-                        onClick={() => removeMonitoredCity(entry.city)}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-unsafe/40 text-xs text-unsafe hover:bg-unsafe/10 transition-colors cursor-pointer"
-                      >
-                        <Trash2 size={12} /> Remove
-                      </button>
-                    </div>
-                    <p className="text-[11px] text-text-muted mt-3">Source: {entry.source}</p>
                   </div>
                 ))}
               </div>
             )}
           </motion.div>
-
-          {/* 4-Metric Row */}
-          <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <MetricCard
-              icon={<Wind size={20} />}
-              label="Air Quality Index"
-              value={data.air_quality?.aqi ?? "—"}
-              status={
-                (data.air_quality?.aqi ?? 999) <= 50 ? "safe" : (data.air_quality?.aqi ?? 999) <= 100 ? "caution" : "unsafe"
-              }
-              sublabel={data.air_quality?.category || ""}
-            />
-            <MetricCard
-              icon={<Thermometer size={20} />}
-              label="Temperature"
-              value={data.weather?.temp_celsius != null ? `${Math.round(data.weather.temp_celsius)}` : "—"}
-              unit="°C"
-              status={
-                !data.weather?.temp_celsius
-                  ? "unknown"
-                  : data.weather.temp_celsius > 40 || data.weather.temp_celsius < 5
-                  ? "unsafe"
-                  : data.weather.temp_celsius > 35 || data.weather.temp_celsius < 10
-                  ? "caution"
-                  : "safe"
-              }
-              sublabel={data.weather?.feels_like != null ? `Feels like ${Math.round(data.weather.feels_like)}°C` : ""}
-            />
-            <MetricCard
-              icon={<Flower2 size={20} />}
-              label="Pollen"
-              value={data.pollen?.level || "—"}
-              status={
-                data.pollen?.level?.toLowerCase() === "low"
-                  ? "safe"
-                  : data.pollen?.level?.toLowerCase() === "moderate"
-                  ? "caution"
-                  : data.pollen?.level?.toLowerCase() === "high"
-                  ? "unsafe"
-                  : "unknown"
-              }
-              sublabel={data.pollen?.advice || ""}
-            />
-            <MetricCard
-              icon={<Sun size={20} />}
-              label="UV Index"
-              value={data.weather?.uv_index ?? "—"}
-              status={
-                !data.weather?.uv_index
-                  ? "unknown"
-                  : data.weather.uv_index <= 2
-                  ? "safe"
-                  : data.weather.uv_index <= 5
-                  ? "caution"
-                  : "unsafe"
-              }
-              sublabel={getUVLabel(data.weather?.uv_index)}
-            />
-          </motion.div>
-
+          
           <motion.div variants={itemVariants}>
             <SafetyTimeline currentData={data} />
-          </motion.div>
-
-          {/* AQI Detail + Weather Detail */}
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-            {/* AQI Detail Panel */}
-            <motion.div variants={itemVariants} className="lg:col-span-3 card">
-              <h3 className="font-family-grotesk text-lg font-semibold text-text-primary mb-6">
-                Air Quality Details
-              </h3>
-              <div className="flex flex-col items-center mb-6">
-                <AQIGauge aqi={data.air_quality?.aqi ?? 0} size="lg" />
-              </div>
-
-              {/* Pollutants grid */}
-              {data.air_quality?.pollutants && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                  {Object.entries(data.air_quality.pollutants).map(([name, info]) => {
-                    const safeThresholds: Record<string, number> = {
-                      "pm2.5": 35,
-                      pm10: 150,
-                      no2: 100,
-                      o3: 100,
-                      co: 9000,
-                      so2: 75,
-                    };
-                    const threshold = safeThresholds[name.toLowerCase()] || 100;
-                    const pct = Math.min((info.value / threshold) * 100, 100);
-                    const barColor =
-                      pct < 50 ? "bg-safe" : pct < 75 ? "bg-caution" : "bg-unsafe";
-
-                    return (
-                      <div key={name} className="flex flex-col gap-2">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-text-secondary uppercase text-xs font-medium tracking-wide">
-                            {name}
-                          </span>
-                          <span className="text-text-primary font-family-mono text-xs">
-                            {info.value} {info.units}
-                          </span>
-                        </div>
-                        <div className="w-full h-1.5 rounded-full bg-border-default overflow-hidden">
-                          <motion.div
-                            className={`h-full rounded-full ${barColor}`}
-                            initial={{ width: 0 }}
-                            animate={{ width: `${pct}%` }}
-                            transition={{ duration: 0.8, ease: "easeOut" }}
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-
-              {data.air_quality?.dominant_pollutant && (
-                <div className="mt-6 p-4 rounded-xl bg-bg-secondary border border-border-default">
-                  <p className="text-xs text-text-muted uppercase tracking-wide mb-1">
-                    Dominant Pollutant
-                  </p>
-                  <p className="text-sm text-text-primary font-semibold">
-                    {data.air_quality.dominant_pollutant}
-                  </p>
-                </div>
-              )}
-            </motion.div>
-
-            {/* Weather Detail Panel */}
-            <motion.div variants={itemVariants} className="lg:col-span-2 card">
-              <h3 className="font-family-grotesk text-lg font-semibold text-text-primary mb-6">
-                Weather Conditions
-              </h3>
-
-              <div className="flex items-center gap-4 mb-6">
-                <div className="text-4xl font-bold font-family-mono text-text-primary">
-                  {data.weather?.temp_celsius != null ? `${Math.round(data.weather.temp_celsius)}°C` : "—"}
-                </div>
-                <CloudRain size={36} className="text-accent-blue" />
-              </div>
-
-              <div className="flex flex-col gap-4">
-                {[
-                  { label: "Humidity", value: data.weather?.humidity_percent != null ? `${data.weather.humidity_percent}%` : "—", icon: <Droplets size={16} className="text-accent-cyan" /> },
-                  { label: "Wind Speed", value: data.weather?.wind_speed != null ? `${data.weather.wind_speed} km/h` : "—", icon: <Wind size={16} className="text-text-secondary" /> },
-                  { label: "UV Index", value: data.weather?.uv_index != null ? `${data.weather.uv_index} (${getUVLabel(data.weather.uv_index)})` : "—", icon: <Sun size={16} className="text-accent-yellow" /> },
-                  { label: "Feels Like", value: data.weather?.feels_like != null ? `${Math.round(data.weather.feels_like)}°C` : "—", icon: <Thermometer size={16} className="text-accent-orange" /> },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-center justify-between pb-3 border-b border-border-default last:border-0 last:pb-0">
-                    <div className="flex items-center gap-2">
-                      {item.icon}
-                      <span className="text-sm text-text-secondary">{item.label}</span>
-                    </div>
-                    <span className="text-sm text-text-primary font-medium">{item.value}</span>
-                  </div>
-                ))}
-              </div>
-
-              {data.weather?.advice && (
-                <div className={`mt-6 p-4 rounded-xl border ${
-                  data.weather.safe ? "bg-safe/5 border-safe/20" : "bg-unsafe/5 border-unsafe/20"
-                }`}>
-                  <p className="text-sm text-text-primary">{data.weather.advice}</p>
-                </div>
-              )}
-            </motion.div>
-          </div>
-
-          {/* Pollen Breakdown */}
-          {data.pollen?.types && (
-            <motion.div variants={itemVariants} className="card">
-              <h3 className="font-family-grotesk text-lg font-semibold text-text-primary mb-6">
-                Pollen Forecast
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                {Object.entries(data.pollen.types).map(([type, info]) => {
-                  if (!info || typeof info !== "object") {
-                    return null;
-                  }
-
-                  const pollenInfo = info as { level?: number | string; category?: string };
-                  const category = typeof pollenInfo.category === "string" ? pollenInfo.category : undefined;
-                  const level =
-                    typeof pollenInfo.level === "number" || typeof pollenInfo.level === "string"
-                      ? pollenInfo.level
-                      : "—";
-
-                  return (
-                    <div key={type} className="flex flex-col items-center text-center">
-                      <div className={`w-20 h-20 rounded-full border-4 ${getPollenRingColor(category)} flex items-center justify-center mb-3`}>
-                        <span className={`text-2xl font-bold font-family-mono ${getPollenColor(category)}`}>
-                          {level}
-                        </span>
-                      </div>
-                      <h4 className="text-sm font-semibold text-text-primary capitalize mb-1">{type}</h4>
-                      <p className={`text-xs font-medium ${getPollenColor(category)}`}>
-                        {category || "Unknown"}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-              {data.pollen.advice && (
-                <p className="text-sm text-text-secondary mt-6 text-center">{data.pollen.advice}</p>
-              )}
-            </motion.div>
-          )}
-
-          {/* AI Recommendation Banner */}
-          <motion.div
-            variants={itemVariants}
-            className="card bg-accent-purple/5 border-accent-purple/20"
-          >
-            <div className="flex flex-col sm:flex-row items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-accent-purple/15 flex items-center justify-center shrink-0">
-                <Sparkles size={24} className="text-accent-purple" />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-family-grotesk text-lg font-semibold text-text-primary mb-2">
-                  AI Safety Recommendation
-                </h3>
-                <p className="text-sm text-text-secondary italic leading-relaxed">
-                  {data.overall?.summary || "Based on current conditions, please check individual metrics for detailed advice."}
-                </p>
-              </div>
-              <Link
-                href="/chat"
-                className="shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent-purple/15 text-accent-purple text-sm font-medium hover:bg-accent-purple/25 transition-colors"
-              >
-                Ask Follow-up <ArrowRight size={14} />
-              </Link>
-            </div>
           </motion.div>
         </motion.div>
       )}

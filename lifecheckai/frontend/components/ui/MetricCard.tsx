@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import { AnimatedNumber } from "./AnimatedNumber";
 
-type StatusType = "safe" | "caution" | "unsafe" | "unknown";
+type StatusType = "safe" | "caution" | "warning" | "unsafe" | "danger" | "unknown";
 
 interface MetricCardProps {
   icon: ReactNode;
@@ -13,20 +13,16 @@ interface MetricCardProps {
   status?: StatusType;
   sublabel?: string;
   className?: string;
+  isLive?: boolean;
 }
 
 const borderColors: Record<StatusType, string> = {
-  safe: "border-l-safe",
-  caution: "border-l-caution",
-  unsafe: "border-l-unsafe",
-  unknown: "border-l-text-muted",
-};
-
-const glowColors: Record<StatusType, string> = {
-  safe: "rgba(16, 185, 129, 0.15)",
-  caution: "rgba(245, 158, 11, 0.15)",
-  unsafe: "rgba(239, 68, 68, 0.15)",
-  unknown: "transparent",
+  safe: "border-safe",
+  caution: "border-warning",
+  warning: "border-warning",
+  unsafe: "border-danger",
+  danger: "border-danger",
+  unknown: "border-border-default",
 };
 
 export function MetricCard({
@@ -37,32 +33,46 @@ export function MetricCard({
   status = "unknown",
   sublabel,
   className = "",
+  isLive = false,
 }: MetricCardProps) {
+  const isNumeric = typeof value === "number" || (!isNaN(Number(value)) && value !== "—");
+  const numValue = isNumeric ? Number(value) : 0;
+
   return (
-    <motion.div
-      className={`card border-l-4 ${borderColors[status]} overflow-hidden relative ${className}`}
-      whileHover={{ y: -4, transition: { duration: 0.2 } }}
-      style={{
-        boxShadow: `inset 4px 0 12px -4px ${glowColors[status]}`,
-      }}
+    <div
+      className={`glass p-5 relative flex flex-col group ${className} border-l-4 ${borderColors[status]}`}
     >
-      <div className="flex items-center gap-3 mb-3">
-        <div className="text-text-secondary">{icon}</div>
-        <span className="text-xs font-medium uppercase tracking-wider text-text-muted">
+      {isLive && (
+        <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-safe/10 border border-safe/30 px-2 py-0.5 rounded-full z-10">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-safe opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-safe" />
+          </span>
+          <span className="text-[9px] font-bold text-safe uppercase tracking-wider">Live</span>
+        </div>
+      )}
+
+      <div className="flex items-center gap-3 mb-4">
+        <div className="text-text-secondary w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/5 transition-colors group-hover:border-accent-cyan/40">
+          {icon}
+        </div>
+        <span className="text-sm font-medium text-text-primary capitalize tracking-wide">
           {label}
         </span>
       </div>
-      <div className="flex items-baseline gap-1.5">
-        <span className="text-3xl font-bold font-[family-name:var(--font-family-mono)] text-text-primary">
-          {value}
+      
+      <div className="flex items-baseline gap-1.5 mt-auto">
+        <span className="text-4xl font-bold font-family-mono text-white">
+          {isNumeric ? <AnimatedNumber value={numValue} /> : value}
         </span>
         {unit && (
-          <span className="text-sm text-text-secondary">{unit}</span>
+          <span className="text-sm font-medium text-text-secondary">{unit}</span>
         )}
       </div>
+      
       {sublabel && (
-        <p className="text-sm text-text-secondary mt-2">{sublabel}</p>
+        <p className="text-sm text-text-secondary mt-3 line-clamp-2">{sublabel}</p>
       )}
-    </motion.div>
+    </div>
   );
 }

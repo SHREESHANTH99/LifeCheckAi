@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { WaterWave } from "@/components/ui/WaterWave";
 import {
   Droplets,
   FlaskConical,
@@ -258,20 +259,19 @@ export default function WaterPage() {
                     )}
                     <h3 className="font-[family-name:var(--font-family-grotesk)] font-semibold text-lg">ML Prediction</h3>
                   </div>
-                  <div
-                    className={`text-center py-6 px-4 rounded-xl mb-4 ${
-                      prediction.prediction === "Drinkable"
-                        ? "bg-safe/10 border border-safe/20"
-                        : "bg-unsafe/10 border border-unsafe/20"
-                    }`}
-                  >
-                    <p className={`text-2xl font-bold font-[family-name:var(--font-family-grotesk)] ${
-                      prediction.prediction === "Drinkable" ? "text-safe" : "text-unsafe"
+                  <div className="py-6 flex flex-col items-center justify-center relative">
+                    <WaterWave 
+                      percentage={prediction.drinkable_probability} 
+                      isDrinkable={prediction.prediction === "Drinkable"} 
+                      size={180} 
+                    />
+                    <p className={`mt-6 text-xl font-bold uppercase tracking-wider shadow-glow-sm ${
+                        prediction.prediction === "Drinkable" ? "text-safe" : "text-unsafe"
                     }`}>
                       {prediction.prediction}
                     </p>
-                    <p className="text-text-secondary text-sm mt-1">
-                      {prediction.confidence}% confidence
+                    <p className="text-[10px] uppercase font-bold tracking-widest text-text-muted mt-1">
+                      ML Confidence: {prediction.confidence.toFixed(1)}%
                     </p>
                   </div>
                   <div className="space-y-2 text-sm">

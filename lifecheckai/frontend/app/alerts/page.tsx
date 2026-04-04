@@ -43,22 +43,28 @@ const categoryIcons: Record<string, typeof Wind> = {
 
 const severityStyles = {
   SAFE: {
-    border: "border-l-safe",
+    border: "border-safe/30",
     bg: "bg-safe/5",
-    iconBg: "bg-safe/15",
+    iconBg: "bg-safe/10",
     iconColor: "text-safe",
+    glow: "shadow-[0_0_15px_rgba(16,185,129,0.15)]",
+    timelineBadge: "border-safe text-safe shadow-[0_0_8px_rgba(16,185,129,0.4)]"
   },
   CAUTION: {
-    border: "border-l-caution",
-    bg: "bg-caution/5",
-    iconBg: "bg-caution/15",
-    iconColor: "text-caution",
+    border: "border-warning/30",
+    bg: "bg-warning/5",
+    iconBg: "bg-warning/10",
+    iconColor: "text-warning",
+    glow: "shadow-[0_0_15px_rgba(245,158,11,0.15)]",
+    timelineBadge: "border-warning text-warning shadow-[0_0_8px_rgba(245,158,11,0.4)]"
   },
   UNSAFE: {
-    border: "border-l-unsafe",
-    bg: "bg-unsafe/5",
-    iconBg: "bg-unsafe/15",
-    iconColor: "text-unsafe",
+    border: "border-danger/30",
+    bg: "bg-danger/5",
+    iconBg: "bg-danger/10",
+    iconColor: "text-danger",
+    glow: "shadow-[0_0_15px_rgba(239,68,68,0.15)]",
+    timelineBadge: "border-danger text-danger shadow-[0_0_8px_rgba(239,68,68,0.4)]"
   },
 };
 
@@ -218,8 +224,11 @@ export default function AlertsPage() {
   }, [state.safetyData, loading, search]);
 
   return (
-    <div className="min-h-screen px-4 sm:px-8 lg:px-16 py-8">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen px-4 sm:px-8 lg:px-16 py-8 relative">
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(0,212,255,0.05),transparent_40%)] z-0" />
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_bottom_left,rgba(124,58,237,0.05),transparent_40%)] z-0" />
+      
+      <div className="max-w-4xl mx-auto relative z-10">
         {/* Page Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -227,20 +236,20 @@ export default function AlertsPage() {
           className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8"
         >
           <div>
-            <h1 className="font-family-grotesk text-3xl font-bold text-text-primary mb-1">
-              Safety Alerts
+            <h1 className="text-3xl font-bold tracking-tight text-white mb-1">
+              Safety Timeline
             </h1>
-            <p className="text-sm text-text-secondary">
-              Real-time environmental and weather warnings
+            <p className="text-sm text-text-muted uppercase tracking-wider">
+              Chronological Environmental Alerts
             </p>
           </div>
           {unsafeCount > 0 && (
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-unsafe/10 border border-unsafe/30">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-danger/10 border border-danger/30 shadow-glow">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-unsafe opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-unsafe" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-danger opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-danger" />
               </span>
-              <span className="text-xs font-semibold text-unsafe">{unsafeCount} active alert{unsafeCount !== 1 ? "s" : ""}</span>
+              <span className="text-xs font-bold text-danger uppercase tracking-wider">{unsafeCount} active alert{unsafeCount !== 1 ? "s" : ""}</span>
             </div>
           )}
         </motion.div>
@@ -249,42 +258,39 @@ export default function AlertsPage() {
         <motion.section
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="card mb-6"
+          className="glass rounded-3xl p-6 mb-8 border border-white/5 shadow-glow"
         >
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
             <div>
-              <h2 className="font-family-grotesk text-lg font-semibold text-text-primary flex items-center gap-2">
-                {unreadAlerts.length > 0 ? <BellRing size={18} className="text-accent-blue" /> : <Bell size={18} className="text-text-muted" />}
-                Notifications
+              <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                {unreadAlerts.length > 0 ? <BellRing size={18} className="text-accent-cyan" /> : <Bell size={18} className="text-text-muted" />}
+                Unread Diagnostics
               </h2>
-              <p className="text-xs text-text-secondary mt-1">
-                Latest alert updates and priorities for your monitored city.
-              </p>
             </div>
-            <div className="flex items-center gap-2">
-              <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${
+            <div className="flex items-center gap-3">
+              <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
                 unreadAlerts.length > 0
-                  ? "bg-accent-blue/10 border-accent-blue/30 text-accent-blue"
+                  ? "bg-accent-cyan/10 border-accent-cyan/30 text-accent-cyan"
                   : "bg-safe/10 border-safe/30 text-safe"
               }`}>
-                {unreadAlerts.length} unread
+                {unreadAlerts.length} Dispatch(s)
               </span>
               <button
                 onClick={markAllAsRead}
                 disabled={alerts.length === 0}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border-default text-xs text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider text-text-secondary hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
               >
-                <CheckCircle2 size={13} /> Mark all read
+                <CheckCircle2 size={13} /> Clear
               </button>
             </div>
           </div>
 
           {topNotifications.length === 0 ? (
-            <div className="rounded-xl border border-border-default bg-bg-secondary/40 p-4 text-sm text-text-secondary">
-              No notifications yet. Alerts will appear here as soon as conditions update.
+            <div className="rounded-2xl border border-white/5 bg-white/5 p-6 text-sm text-text-secondary text-center">
+              No recent anomaly dispatches found for monitored parameters.
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {topNotifications.map((item) => {
                 const unread = !readAlertIds.includes(item.id);
                 return (
@@ -295,24 +301,20 @@ export default function AlertsPage() {
                       markAsRead(item.id);
                       setSelectedAlert(item);
                     }}
-                    className={`w-full text-left rounded-xl border p-3 transition-colors cursor-pointer ${
+                    className={`w-full text-left rounded-2xl glass p-4 transition-all hover:-translate-y-1 cursor-pointer ${
                       unread
-                        ? "border-accent-blue/35 bg-accent-blue/8"
-                        : "border-border-default bg-bg-secondary/40 hover:bg-white/5"
+                        ? "border border-accent-cyan/30 shadow-[0_0_15px_rgba(0,212,255,0.1)]"
+                        : "border border-white/5 opacity-80"
                     }`}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <p className="text-xs text-text-muted capitalize mb-1">{item.category} alert</p>
-                        <p className="text-sm text-text-primary font-semibold line-clamp-1">{item.title}</p>
+                        <p className="text-[10px] text-accent-cyan font-bold uppercase tracking-wider mb-1">{item.category} Vector</p>
+                        <p className="text-sm text-white font-semibold line-clamp-1">{item.title}</p>
                       </div>
-                      {unread && <span className="w-2.5 h-2.5 rounded-full bg-accent-blue shrink-0 mt-1" />}
+                      {unread && <span className="w-2 h-2 rounded-full bg-accent-cyan shadow-[0_0_8px_rgba(0,212,255,0.8)] shrink-0 mt-1" />}
                     </div>
-                    <p className="text-xs text-text-secondary mt-2 line-clamp-2">{item.description}</p>
-                    <div className="mt-3 flex items-center justify-between">
-                      <StatusBadge status={item.severity} />
-                      <span className="text-[10px] text-text-muted">Tap to view details</span>
-                    </div>
+                    <p className="text-xs text-text-secondary mt-3 line-clamp-2 leading-relaxed">{item.description}</p>
                   </button>
                 );
               })}
@@ -321,15 +323,15 @@ export default function AlertsPage() {
         </motion.section>
 
         {/* Filter Bar */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-6 scrollbar-hide">
+        <div className="flex items-center gap-3 overflow-x-auto pb-4 mb-8 scrollbar-hide hide-scrollbar">
           {categories.map((cat) => (
             <button
               key={cat.key}
               onClick={() => setActiveFilter(cat.key)}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 cursor-pointer ${
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-300 cursor-pointer ${
                 activeFilter === cat.key
-                  ? "bg-accent-blue text-white"
-                  : "border border-border-default text-text-secondary hover:border-accent-blue hover:text-text-primary"
+                  ? "bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.2)] scale-105"
+                  : "border border-white/10 text-text-secondary hover:border-white/30 hover:text-white"
               }`}
             >
               {cat.icon}
@@ -338,23 +340,23 @@ export default function AlertsPage() {
           ))}
         </div>
 
-        {/* Alerts Feed */}
+        {/* Alerts Timeline Feed */}
         {loading ? (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-6">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="card skeleton h-24" />
+              <div key={i} className="h-32 glass rounded-2xl border border-white/5 opacity-50 animate-pulse" />
             ))}
           </div>
         ) : filteredAlerts.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="card text-center py-16"
+            className="text-center py-20 glass rounded-3xl border border-white/5 shadow-glow"
           >
-            <ShieldAlert size={48} className="text-text-muted mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-text-primary mb-2">No Active Alerts</h3>
-            <p className="text-sm text-text-secondary">
-              No alerts match the current filter for monitored cities.
+            <ShieldAlert size={48} className="text-white/20 mx-auto mb-6" />
+            <h3 className="text-xl font-bold text-white mb-2">No Active Telemetry Alerts</h3>
+            <p className="text-sm text-text-secondary w-2/3 mx-auto leading-relaxed">
+              Based on the latest data inputs, no critical alerts are matching this criteria for your monitored zones.
             </p>
           </motion.div>
         ) : (
@@ -362,52 +364,62 @@ export default function AlertsPage() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-6 relative"
           >
+            {/* The vertical timeline bar */}
+            <div className="absolute left-[39px] sm:left-[39px] top-6 bottom-0 w-[2px] bg-gradient-to-b from-white/20 via-white/5 to-transparent z-0" />
+
             <AnimatePresence>
               {filteredAlerts.map((alert) => {
-                const style = severityStyles[alert.severity] || severityStyles.CAUTION;
+                const style = severityStyles[alert.severity as keyof typeof severityStyles] || severityStyles.CAUTION;
                 const IconComp = categoryIcons[alert.category] || Wind;
                 return (
-                  <motion.button
+                  <motion.div
                     key={alert.id}
                     variants={itemVariants}
-                    whileHover={{ y: -2, transition: { duration: 0.15 } }}
-                    onClick={() => {
-                      setSelectedAlert(alert);
-                      markAsRead(alert.id);
-                    }}
-                    className={`card border-l-4 ${style.border} ${style.bg} flex flex-col sm:flex-row items-start gap-4 overflow-hidden`}
+                    className="flex items-start gap-4 sm:gap-6 relative z-10 group"
                   >
-                    {/* Icon */}
-                    <div className={`w-10 h-10 rounded-xl ${style.iconBg} flex items-center justify-center shrink-0`}>
-                      <IconComp size={20} className={style.iconColor} />
-                    </div>
+                     {/* Timeline Node */}
+                     <div className="flex flex-col items-center pt-3 shrink-0">
+                        <div className={`w-20 h-20 sm:w-16 sm:h-16 rounded-full glass border ${style.timelineBadge} flex flex-col items-center justify-center transition-transform group-hover:scale-110`}>
+                           <IconComp size={20} className={style.iconColor} />
+                           <span className="text-[9px] uppercase font-bold tracking-widest mt-1 opacity-70">Now</span>
+                        </div>
+                     </div>
 
-                    {/* Content */}
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-semibold text-text-primary mb-1 truncate">
-                        {alert.title}
-                      </h4>
-                      <p className="text-xs text-text-secondary leading-relaxed mb-3 line-clamp-2">
-                        {alert.description}
-                      </p>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="px-2 py-0.5 rounded-full bg-bg-primary border border-border-default text-[10px] text-text-muted font-medium">
-                          {alert.city}
-                        </span>
-                        <span className="px-2 py-0.5 rounded-full bg-bg-primary border border-border-default text-[10px] text-text-muted font-medium capitalize">
-                          {alert.category}
-                        </span>
-                      </div>
-                    </div>
+                     {/* Main Card */}
+                     <button
+                        onClick={() => {
+                          setSelectedAlert(alert);
+                          markAsRead(alert.id);
+                        }}
+                        className={`flex-1 text-left glass rounded-3xl p-5 border ${style.border} ${style.bg} ${style.glow} hover:bg-white/5 transition-all w-full cursor-pointer overflow-hidden`}
+                     >
+                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                           <div className="flex-1">
+                               <div className="flex items-center gap-2 mb-2">
+                                  <span className="px-2 py-0.5 rounded mr-2 bg-black/20 border border-white/5 text-[10px] uppercase tracking-wider text-text-muted font-bold">
+                                      {alert.city}
+                                  </span>
+                                  <span className="px-2 py-0.5 rounded bg-black/20 border border-white/5 text-[10px] uppercase tracking-wider text-accent-violet font-bold">
+                                      {alert.category}
+                                  </span>
+                               </div>
+                               <h4 className="text-base font-bold text-white mb-2 leading-tight pr-4">
+                                  {alert.title}
+                               </h4>
+                               <p className="text-sm text-text-secondary leading-relaxed line-clamp-2 max-w-2xl">
+                                  {alert.description}
+                               </p>
+                           </div>
 
-                    {/* Right side */}
-                    <div className="flex flex-col items-end gap-2 shrink-0">
-                      <span className="text-[10px] text-text-muted">Just now</span>
-                      <StatusBadge status={alert.severity} />
-                    </div>
-                  </motion.button>
+                           <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-3 border-t sm:border-t-0 border-white/5 pt-3 sm:pt-0 shrink-0">
+                               <StatusBadge status={alert.severity} className="scale-90 origin-right" />
+                               <span className="text-[10px] uppercase tracking-wide text-text-muted font-bold block sm:mt-1">Details &rarr;</span>
+                           </div>
+                       </div>
+                     </button>
+                  </motion.div>
                 );
               })}
             </AnimatePresence>
@@ -420,68 +432,58 @@ export default function AlertsPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-black/45 backdrop-blur-sm p-4 flex items-center justify-center"
+              className="fixed inset-0 z-50 bg-[#0A0F1E]/80 backdrop-blur-md p-4 flex items-center justify-center"
               onClick={() => setSelectedAlert(null)}
             >
               <motion.div
-                initial={{ opacity: 0, y: 20, scale: 0.96 }}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 20, scale: 0.96 }}
-                transition={{ duration: 0.2 }}
-                onClick={(event) => event.stopPropagation()}
-                className="w-full max-w-xl rounded-2xl border border-border-default glass p-5 sm:p-6"
+                exit={{ opacity: 0, y: 30, scale: 0.95 }}
+                onClick={(e) => e.stopPropagation()}
+                className="w-full max-w-2xl glass rounded-3xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden"
               >
-                <div className="flex items-start justify-between gap-3 mb-4">
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-text-muted mb-1">Alert Details</p>
-                    <h3 className="text-lg font-semibold text-text-primary leading-snug">{selectedAlert.title}</h3>
+                <div className="p-6 border-b border-white/10 flex items-start justify-between bg-black/20">
+                  <div className="flex items-center gap-3">
+                     <div className="w-10 h-10 rounded-full glass border border-white/10 flex items-center justify-center">
+                        <MapPin size={18} className="text-accent-cyan" />
+                     </div>
+                     <div>
+                        <p className="text-[10px] uppercase tracking-widest text-accent-violet font-bold mb-0.5">Emergency Dispatch</p>
+                        <h3 className="text-lg font-bold text-white leading-tight">{selectedAlert.title}</h3>
+                     </div>
                   </div>
                   <button
                     onClick={() => setSelectedAlert(null)}
-                    className="w-8 h-8 rounded-lg bg-white/5 text-text-secondary hover:text-text-primary transition-colors flex items-center justify-center cursor-pointer"
-                    aria-label="Close alert popup"
+                    className="w-8 h-8 rounded-full glass text-text-secondary hover:text-white transition-colors flex items-center justify-center cursor-pointer shadow-glow hover:scale-105"
                   >
                     <X size={16} />
                   </button>
                 </div>
 
-                <p className="text-sm text-text-secondary leading-relaxed mb-4">{selectedAlert.description}</p>
+                <div className="p-8">
+                    <p className="text-base text-text-secondary leading-relaxed mb-8">{selectedAlert.description}</p>
+                    
+                    <div className="grid grid-cols-3 gap-4 mb-8">
+                       <div className="glass rounded-2xl p-4 flex flex-col items-center justify-center gap-2 border border-white/5">
+                           <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold">Classification</span>
+                           <StatusBadge status={selectedAlert.severity} />
+                       </div>
+                       <div className="glass rounded-2xl p-4 flex flex-col items-center justify-center gap-2 border border-white/5">
+                           <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold">Region</span>
+                           <span className="text-sm font-bold text-white uppercase">{selectedAlert.city}</span>
+                       </div>
+                       <div className="glass rounded-2xl p-4 flex flex-col items-center justify-center gap-2 border border-white/5">
+                           <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold">Vector</span>
+                           <span className="text-sm font-bold text-accent-cyan uppercase">{selectedAlert.category}</span>
+                       </div>
+                    </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-5">
-                  <div className="rounded-lg border border-border-default bg-bg-secondary/40 px-3 py-2">
-                    <p className="text-[10px] text-text-muted mb-1">Severity</p>
-                    <StatusBadge status={selectedAlert.severity} />
-                  </div>
-                  <div className="rounded-lg border border-border-default bg-bg-secondary/40 px-3 py-2">
-                    <p className="text-[10px] text-text-muted mb-1">City</p>
-                    <p className="text-sm text-text-primary inline-flex items-center gap-1.5">
-                      <MapPin size={13} /> {selectedAlert.city}
-                    </p>
-                  </div>
-                  <div className="rounded-lg border border-border-default bg-bg-secondary/40 px-3 py-2">
-                    <p className="text-[10px] text-text-muted mb-1">Updated</p>
-                    <p className="text-sm text-text-primary inline-flex items-center gap-1.5">
-                      <Clock3 size={13} /> Just now
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between gap-2">
-                  <button
-                    onClick={() => {
-                      setActiveFilter(selectedAlert.category);
-                      setSelectedAlert(null);
-                    }}
-                    className="text-xs px-3 py-2 rounded-lg border border-border-default text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
-                  >
-                    Filter by {selectedAlert.category}
-                  </button>
-                  <button
-                    onClick={() => setSelectedAlert(null)}
-                    className="text-xs px-3 py-2 rounded-lg bg-accent-blue text-white hover:bg-accent-cyan transition-colors cursor-pointer"
-                  >
-                    Dismiss
-                  </button>
+                    <button
+                       onClick={() => setSelectedAlert(null)}
+                       className="w-full text-center py-4 rounded-xl bg-white text-black font-bold uppercase tracking-wider text-sm hover:scale-[1.02] transition-transform cursor-pointer shadow-glow"
+                    >
+                       Acknowledge Protocol
+                    </button>
                 </div>
               </motion.div>
             </motion.div>

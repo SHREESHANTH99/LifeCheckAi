@@ -229,133 +229,19 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.12),_transparent_40%),linear-gradient(180deg,_rgba(2,6,23,0.96),_rgba(15,23,42,0.98))] text-white">
-      <div className="mx-auto flex min-h-[calc(100vh-64px)] max-w-7xl gap-4 px-3 py-3 lg:px-5">
-        {/* Main chat area */}
-        <main className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-3xl border border-white/10 bg-slate-950/70 shadow-[0_24px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl">
-          <div className="border-b border-white/10 bg-white/5 px-4 py-3 sm:px-5">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-blue-400/20 bg-gradient-to-br from-blue-500/25 to-cyan-400/15 text-blue-200 shadow-lg shadow-blue-500/10">
-                  <Bot className="h-5 w-5" />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h1 className="text-base font-semibold tracking-tight text-white sm:text-lg">
-                      Safety Assistant
-                    </h1>
-                    <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-0.5 text-[11px] font-medium text-emerald-200">
-                      Live
-                    </span>
-                    {isStreaming && (
-                      <span className="inline-flex items-center gap-1 rounded-full border border-blue-400/25 bg-blue-500/10 px-2.5 py-0.5 text-[11px] font-medium text-blue-200">
-                        <Loader2 className="h-3 w-3 animate-spin" />
-                        Generating
-                      </span>
-                    )}
-                  </div>
-                  <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-300">
-                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
-                      City: {attachedCity || 'Delhi'}
-                    </span>
-                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
-                      Memory: {memory.length} items
-                    </span>
-                    <span className="text-slate-400">Air, weather, water, and risk guidance</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 self-start">
-                <button
-                  onClick={handleClearChat}
-                  className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-slate-200 transition-colors hover:border-white/20 hover:bg-white/10"
-                >
-                  Clear chat
-                </button>
-              </div>
+    <div className="min-h-screen px-4 py-8">
+      <div className="mx-auto flex w-full max-w-7xl h-[calc(100vh-120px)] gap-6">
+        
+        {/* Left Sidebar (1/3) */}
+        <aside className="hidden lg:flex w-1/3 flex-col glass rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(124,58,237,0.06)] border border-white/5 relative z-10">
+            <div className="p-5 border-b border-white/5 bg-[#0A0F1E]/80 backdrop-blur-md">
+                <h2 className="text-xl font-bold text-white flex items-center gap-2 tracking-tight">
+                    <Bot className="text-accent-violet" size={24} /> 
+                    Safety Intelligence
+                </h2>
+                <p className="text-xs text-text-muted mt-1 uppercase tracking-wider">Context & Memory</p>
             </div>
-
-            {!messages.length && !isStreaming && (
-              <div className="mt-3 flex flex-wrap gap-2">
-                {starterPrompts.slice(0, 2).map((prompt) => (
-                  <button
-                    key={prompt}
-                    onClick={() => handleSendMessage(prompt)}
-                    className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-200 transition-colors hover:border-blue-300/30 hover:bg-blue-500/10"
-                  >
-                    {prompt}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="min-h-0 flex-1 overflow-hidden bg-[linear-gradient(180deg,rgba(15,23,42,0.18),rgba(2,6,23,0.02))]">
-            {error && (
-              <div className="mx-4 mt-4 rounded-2xl border border-amber-400/20 bg-amber-500/10 px-4 py-3 text-sm text-amber-100 sm:mx-6">
-                <div className="flex items-start gap-2">
-                  <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-300" />
-                  <div>
-                    <div className="font-medium">Connection switched to fallback mode</div>
-                    <div className="mt-1 text-xs leading-5 text-amber-100/80">{error}</div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {safetyError && (
-              <div className="mx-4 mt-4 rounded-2xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-100 sm:mx-6">
-                <div className="flex items-start gap-2">
-                  <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0 text-red-300" />
-                  <div>
-                    <div className="font-medium">Safety data fallback active</div>
-                    <div className="mt-1 text-xs leading-5 text-red-100/80">{safetyError}</div>
-                  </div>
-                </div>
-              </div>
-            )}
-            <MessageList messages={messages} isLoading={false} />
-          </div>
-
-          {!isStreaming && showSuggestions && suggestedPrompts.length > 0 && (
-            <div className="border-t border-white/10 bg-white/5 px-4 py-3 sm:px-6">
-              <SuggestedPrompts
-                suggestions={suggestedPrompts}
-                onSelect={handleSuggestedPrompt}
-                isVisible={showSuggestions}
-              />
-            </div>
-          )}
-
-          <div className="border-t border-white/10 bg-slate-950/85 px-4 py-4 sm:px-6">
-            <ChatInput
-              value={inputValue}
-              onChange={setInputValue}
-              onSend={handleSendMessage}
-              onVoiceInput={handleVoiceInput}
-              isStreaming={isStreaming}
-              attachedCity={attachedCity}
-              onClearCity={() => setAttachedCity('')}
-            />
-          </div>
-
-          <div className="mt-4 border-t border-white/10 bg-white/[0.02] px-4 py-3 sm:mt-5 sm:px-6">
-            <div className="rounded-2xl border border-white/10 bg-slate-950/55">
-              <button
-                type="button"
-                onClick={() => setInsightsOpen(prev => !prev)}
-                className="flex w-full items-center justify-between px-4 py-3 text-left"
-              >
-                <div>
-                  <div className="text-sm font-semibold text-white">Context, Agent, and Memory</div>
-                  <div className="mt-0.5 text-xs text-slate-400">
-                    Optional panel for live context controls and assistant diagnostics
-                  </div>
-                </div>
-                <span className="text-xs text-blue-200">{insightsOpen ? 'Hide' : 'Show'}</span>
-              </button>
-
-              {insightsOpen && (
+            <div className="flex-1 overflow-hidden relative">
                 <ChatSidebar
                   safetyData={safetyData}
                   safetyLoading={safetyLoading}
@@ -369,13 +255,105 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
                   onRefresh={handleRefreshSafety}
                   embedded={true}
                 />
-              )}
             </div>
+        </aside>
+
+        {/* Right Active Chat (2/3) */}
+        <main className="flex-1 lg:w-2/3 flex flex-col glass rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(0,212,255,0.06)] border border-white/5 relative z-10">
+          <div className="border-b border-white/5 bg-[#0A0F1E]/80 backdrop-blur-md px-6 py-4 flex items-center justify-between z-20">
+            <div className="flex items-center gap-4">
+               <div>
+                 <div className="flex items-center gap-3">
+                   <h1 className="text-lg font-bold tracking-tight text-white">Active Session</h1>
+                   <span className="rounded-full border border-safe/30 bg-safe/10 px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider text-safe flex items-center gap-1.5 shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+                     <span className="w-1.5 h-1.5 rounded-full bg-safe animate-pulse" /> Live
+                   </span>
+                 </div>
+                 <div className="mt-1 text-xs text-text-secondary flex items-center gap-2">
+                    <span>Target: <span className="text-accent-cyan font-mono">{attachedCity || 'Delhi'}</span></span>
+                    <span className="text-white/20">|</span>
+                    <span>Memory span: {memory.length} items</span>
+                 </div>
+               </div>
+            </div>
+            <button
+               onClick={handleClearChat}
+               className="rounded-full border border-danger/30 bg-danger/10 px-4 py-2 text-xs font-bold text-danger uppercase tracking-wider transition-colors hover:bg-danger hover:text-white cursor-pointer shadow-glow"
+             >
+               Clear
+             </button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto bg-bg-primary/50 p-6 relative">
+             <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_60%_60%_at_50%_-20%,rgba(124,58,237,0.05),transparent)] z-0" />
+            
+             <div className="relative z-10">
+                {!messages.length && !isStreaming && (
+                  <div className="flex flex-col items-center justify-center mt-20 text-center gap-6 animate-fade-in">
+                    <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-glow-violet">
+                        <Bot size={40} className="text-accent-violet" />
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-bold text-white mb-2">How can I assist your safety today?</h2>
+                        <p className="text-text-secondary max-w-sm mx-auto text-sm">Ask me about specific risks, air quality patterns, or tailored advice for your current profile.</p>
+                    </div>
+                    <div className="flex flex-wrap items-center justify-center gap-3 mt-4 max-w-lg">
+                        {starterPrompts.slice(0, 3).map((prompt) => (
+                        <button
+                            key={prompt}
+                            onClick={() => handleSendMessage(prompt)}
+                            className="rounded-full glass px-4 py-2 text-xs text-text-primary transition-all hover:border-accent-cyan hover:text-accent-cyan cursor-pointer shadow-glow"
+                        >
+                            {prompt}
+                        </button>
+                        ))}
+                    </div>
+                  </div>
+                )}
+
+                {error && (
+                  <div className="my-4 rounded-2xl glass !bg-warning/10 border border-warning/30 p-4 text-sm text-white flex items-start gap-3 shadow-glow">
+                      <AlertTriangle className="w-5 h-5 flex-shrink-0 text-warning" />
+                      <div>
+                        <div className="font-bold text-warning mb-1 uppercase tracking-wider text-xs">Connection Warning</div>
+                        <div>{error}</div>
+                      </div>
+                  </div>
+                )}
+
+                {safetyError && (
+                  <div className="my-4 rounded-2xl glass !bg-danger/10 border border-danger/30 p-4 text-sm text-white flex items-start gap-3 shadow-glow">
+                      <AlertTriangle className="w-5 h-5 flex-shrink-0 text-danger" />
+                      <div>
+                         <div className="font-bold text-danger mb-1 uppercase tracking-wider text-xs">Data Fallback Active</div>
+                         <div>{safetyError}</div>
+                      </div>
+                  </div>
+                )}
+
+                <MessageList messages={messages} isLoading={false} />
+             </div>
+          </div>
+
+          {showSuggestions && suggestedPrompts.length > 0 && (
+             <div className="bg-[#0A0F1E]/95 border-t border-white/5 px-6 py-4">
+                 <SuggestedPrompts suggestions={suggestedPrompts} onSelect={handleSuggestedPrompt} isVisible={showSuggestions} />
+             </div>
+          )}
+
+          <div className="bg-[#0A0F1E] border-t border-white/5 p-6 z-20">
+            <ChatInput
+              value={inputValue}
+              onChange={setInputValue}
+              onSend={handleSendMessage}
+              onVoiceInput={handleVoiceInput}
+              isStreaming={isStreaming}
+              attachedCity={attachedCity}
+              onClearCity={() => setAttachedCity('')}
+            />
           </div>
         </main>
       </div>
-
-      
     </div>
   );
 };
