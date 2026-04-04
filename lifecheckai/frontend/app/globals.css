@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-@import "tailwindcss";
-@source "../app";
-@source "../components";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
+:root {
   --color-bg-primary: #0a0f1e;
   --color-bg-secondary: #0d1426;
   --color-bg-card: #111827;
@@ -32,20 +32,9 @@
   --font-family-body: 'DM Sans', sans-serif;
   --font-family-mono: 'JetBrains Mono', monospace;
 
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-pulse-slow: pulse 3s ease-in-out infinite;
-  --animate-fade-in: fadeIn 0.4s ease-out;
-  --animate-slide-up: slideUp 0.4s ease-out;
-  --animate-bounce-dot: bounceDot 1.4s infinite ease-in-out both;
-
   --radius-default: 16px;
   --radius-sm: 10px;
   --radius-lg: 24px;
-
-  --shadow-glow-blue: 0 0 20px rgba(59,130,246,0.3);
-  --shadow-glow-green: 0 0 20px rgba(16,185,129,0.3);
-  --shadow-glow-red: 0 0 20px rgba(239,68,68,0.3);
-  --shadow-glow-purple: 0 0 20px rgba(139,92,246,0.3);
 }
 
 @keyframes float {

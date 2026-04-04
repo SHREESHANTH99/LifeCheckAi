@@ -78,7 +78,9 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 };
 
-export default function DashboardPage() {
+import { Suspense } from "react";
+
+function DashboardPageContent() {
   const { data, loading, error, city, search, refresh, lastUpdated } = useSafetyData();
   const searchParams = useSearchParams();
 
@@ -426,5 +428,13 @@ export default function DashboardPage() {
         </motion.div>
       )}
     </div>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={<LoadingPulse inline text="Loading dashboard..." />}>
+      <DashboardPageContent />
+    </Suspense>
   );
 }
