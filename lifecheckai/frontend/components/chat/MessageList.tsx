@@ -9,6 +9,10 @@ type DateSeparatorItem = {
 
 type MessageListItem = ChatMessage | DateSeparatorItem;
 
+function isDateSeparatorItem(item: MessageListItem): item is DateSeparatorItem {
+  return (item as DateSeparatorItem).kind === 'date-separator';
+}
+
 interface MessageListProps {
   messages: ChatMessage[];
   onCopy?: (text: string) => void;
@@ -87,7 +91,7 @@ export const MessageList: React.FC<MessageListProps> = ({
 
       {/* Messages */}
       {groupedMessages.map((item, idx) => {
-        if ('kind' in item && item.kind === 'date-separator') {
+        if (isDateSeparatorItem(item)) {
           const date = new Date(item.date);
           const today = new Date().toDateString();
           const yesterdayDate = new Date();

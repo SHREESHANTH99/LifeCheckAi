@@ -34,6 +34,7 @@ interface Prediction {
   state: string;
   matched_location?: string | null;
   distance_km?: number | null;
+  nearby_stations?: string[];
   year: number;
   sample_count: number;
   prediction: string;
@@ -299,7 +300,7 @@ export default function WaterPage() {
               <div>
                 <span>
                   Showing location-aware prediction for <strong>{prediction.matched_location}</strong>
-                  {prediction.distance_km !== null && prediction.distance_km > 0 && ` (${prediction.distance_km} km from query)`}.
+                  {typeof prediction.distance_km === "number" && prediction.distance_km > 0 && ` (${prediction.distance_km} km from query)`}.
                 </span>
                 {prediction.nearby_stations && prediction.nearby_stations.length > 0 && (
                   <div className="mt-1 text-xs opacity-90 border-t border-accent-blue/20 pt-1">

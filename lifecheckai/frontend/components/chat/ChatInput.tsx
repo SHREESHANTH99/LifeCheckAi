@@ -1,6 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Mic, Send } from 'lucide-react';
 
+type SpeechRecognitionLike = {
+  lang: string;
+  interimResults: boolean;
+  maxAlternatives: number;
+  onresult: (event: { results: ArrayLike<ArrayLike<{ transcript?: string }>> }) => void;
+  onerror: () => void;
+  onend: () => void;
+  start: () => void;
+};
+
+type SpeechRecognitionCtor = new () => SpeechRecognitionLike;
+
 interface ChatInputProps {
   value: string;
   onChange: (v: string) => void;
@@ -82,12 +94,12 @@ export const ChatInput: React.FC<ChatInputProps> = ({
 
     const SpeechRecognitionCtor =
       (window as typeof window & {
-        SpeechRecognition?: new () => SpeechRecognition;
-        webkitSpeechRecognition?: new () => SpeechRecognition;
+        SpeechRecognition?: SpeechRecognitionCtor;
+        webkitSpeechRecognition?: SpeechRecognitionCtor;
       }).SpeechRecognition ||
       (window as typeof window & {
-        SpeechRecognition?: new () => SpeechRecognition;
-        webkitSpeechRecognition?: new () => SpeechRecognition;
+        SpeechRecognition?: SpeechRecognitionCtor;
+        webkitSpeechRecognition?: SpeechRecognitionCtor;
       }).webkitSpeechRecognition;
 
     if (!SpeechRecognitionCtor) {
@@ -97,7 +109,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     const recognition = new SpeechRecognitionCtor();
     recognition.lang = 'en-US';
     recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
+    (recognition as { maxAlternatives?: number }).maxAlternatives = 1;
 
     setIsListening(true);
 

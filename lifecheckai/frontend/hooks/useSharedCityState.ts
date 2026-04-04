@@ -3,6 +3,14 @@
 import { useEffect, useMemo } from "react";
 import { useCityWatchers, useSharedAlerts, useJoinCity, useLeaveCity } from "@/lib/spacetime-db";
 
+type SharedAlertView = {
+  id: string;
+  city: string;
+  severity: string;
+  message: string;
+  createdAt: number;
+};
+
 export function useSharedCityState(city?: string) {
   const normalizedCity = city?.trim();
   
@@ -42,12 +50,20 @@ export function useSharedCityState(city?: string) {
   }, [watcherRows, normalizedCity]);
 
   // Get alerts for current city, sorted by most recent
-  const sharedAlerts = useMemo(() => {
+  const sharedAlerts = useMemo<SharedAlertView[]>(() => {
     if (!normalizedCity || !Array.isArray(alertRows)) return [];
+
     return alertRows
       .filter((row: any) => row.city === normalizedCity)
       .sort((a: any, b: any) => Number(b.createdAt) - Number(a.createdAt))
-      .slice(0, 6);
+      .slice(0, 6)
+      .map((row: any) => ({
+        id: String(row.id ?? ""),
+        city: String(row.city ?? normalizedCity),
+        severity: String(row.severity ?? "info"),
+        message: String(row.message ?? ""),
+        createdAt: Number(row.createdAt ?? Date.now()),
+      }));
   }, [alertRows, normalizedCity]);
 
   return {

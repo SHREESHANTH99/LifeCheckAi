@@ -78,6 +78,7 @@ interface GoogleMapsAPI {
         streetViewControl?: boolean;
         fullscreenControl?: boolean;
         mapTypeControl?: boolean;
+        styles?: Array<Record<string, unknown>>;
       },
     ) => GoogleMapInstance;
     Marker: new (options: {
@@ -498,7 +499,7 @@ export default function MapPage() {
                 : undefined,
           };
         })
-        .filter((entry): entry is { value: string; subtitle?: string } => !!entry);
+        .filter((entry): entry is { value: string; subtitle: string | undefined } => !!entry);
     },
     [],
   );

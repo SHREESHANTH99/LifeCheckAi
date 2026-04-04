@@ -5,6 +5,9 @@ interface WaterQualityData {
   status: string;
   location: string;
   timestamp: string;
+  temperature?: number;
+  ph?: number;
+  conductivity?: number;
   parameters: Record<string, number>;
   metrics: Array<{
     id: string;

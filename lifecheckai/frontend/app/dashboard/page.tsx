@@ -341,7 +341,7 @@ function DashboardPageContent() {
                 : undefined,
           };
         })
-        .filter((entry): entry is { value: string; subtitle?: string } => !!entry);
+        .filter((entry): entry is { value: string; subtitle: string | undefined } => !!entry);
     },
     [],
   );

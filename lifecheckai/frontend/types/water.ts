@@ -507,4 +507,3 @@ export interface TrendComparison {
 /**
  * Type definitions for all component props and utilities
  */
-export type * from './types';

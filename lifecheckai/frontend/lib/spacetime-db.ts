@@ -25,34 +25,34 @@ export interface SharedAlert {
 }
 
 // Table subscriptions - with error boundary
-export const useCityData = () => {
+export const useCityData = (): [CityData[], boolean] => {
   try {
-    return useTable("city_data");
+    return useTable("city_data" as any) as unknown as [CityData[], boolean];
   } catch {
-    return [[]];
+    return [[], false];
   }
 };
 
-export const useCityWatchers = () => {
+export const useCityWatchers = (): [CityWatcher[], boolean] => {
   try {
-    return useTable("city_watcher");
+    return useTable("city_watcher" as any) as unknown as [CityWatcher[], boolean];
   } catch {
-    return [[]];
+    return [[], false];
   }
 };
 
-export const useSharedAlerts = () => {
+export const useSharedAlerts = (): [SharedAlert[], boolean] => {
   try {
-    return useTable("shared_alert");
+    return useTable("shared_alert" as any) as unknown as [SharedAlert[], boolean];
   } catch {
-    return [[]];
+    return [[], false];
   }
 };
 
 // Reducer wrappers - with error boundary
 export const useSaveCityData = () => {
   try {
-    return useSpacetimeReducer("save_city_data");
+    return useSpacetimeReducer("save_city_data" as any);
   } catch {
     return async () => {};
   }
@@ -60,7 +60,7 @@ export const useSaveCityData = () => {
 
 export const useJoinCity = () => {
   try {
-    return useSpacetimeReducer("join_city");
+    return useSpacetimeReducer("join_city" as any);
   } catch {
     return async () => {};
   }
@@ -68,7 +68,7 @@ export const useJoinCity = () => {
 
 export const useLeaveCity = () => {
   try {
-    return useSpacetimeReducer("leave_city");
+    return useSpacetimeReducer("leave_city" as any);
   } catch {
     return async () => {};
   }
@@ -76,7 +76,7 @@ export const useLeaveCity = () => {
 
 export const usePushAlert = () => {
   try {
-    return useSpacetimeReducer("push_alert");
+    return useSpacetimeReducer("push_alert" as any);
   } catch {
     return async () => {};
   }
