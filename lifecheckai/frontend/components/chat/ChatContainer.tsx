@@ -363,54 +363,6 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
             </div>
           </div>
 
-          {!messages.length && !isStreaming && (
-          <div className="border-b border-white/5 bg-[linear-gradient(135deg,rgba(8,16,31,0.96),rgba(6,12,25,0.88))] px-6 py-4">
-            <div className={`rounded-3xl border p-4 sm:p-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between ${
-              settings.chatVoiceModeEnabled
-                ? 'border-accent-cyan/20 bg-accent-cyan/5 shadow-[0_0_30px_rgba(0,212,255,0.08)]'
-                : 'border-white/10 bg-white/5'
-            }`}>
-              <div className="flex items-start gap-4">
-                <div className={`h-12 w-12 rounded-2xl flex items-center justify-center border ${
-                  settings.chatVoiceModeEnabled
-                    ? 'border-accent-cyan/30 bg-accent-cyan/10 text-accent-cyan'
-                    : 'border-white/10 bg-white/5 text-text-secondary'
-                }`}>
-                  {settings.chatVoiceModeEnabled ? <Volume2 size={22} /> : <Mic size={22} />}
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <Sparkles size={14} className="text-accent-cyan" />
-                    <p className="text-xs font-bold uppercase tracking-[0.24em] text-text-muted">Voice Assistant</p>
-                  </div>
-                  <h3 className="mt-1 text-lg font-semibold text-white">
-                    {settings.chatVoiceModeEnabled ? 'Hands-free conversation is active' : 'Start a guided voice conversation'}
-                  </h3>
-                  <p className="mt-1 text-sm text-text-secondary max-w-2xl">
-                    {settings.chatVoiceModeEnabled
-                      ? 'The assistant will speak first, listen for your question, answer aloud, and re-open the mic for the next follow-up.'
-                      : 'Click the voice assistant to hear the prompt, then ask your question naturally. You can stop anytime.'}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 self-start sm:self-center">
-                <button
-                  onClick={handleVoicePanelAction}
-                  className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                    settings.chatVoiceModeEnabled
-                      ? 'bg-white/5 border border-white/10 text-white hover:bg-white/10'
-                      : 'bg-accent-cyan text-black hover:bg-cyan-400 shadow-[0_0_18px_rgba(0,212,255,0.22)]'
-                  }`}
-                >
-                  {settings.chatVoiceModeEnabled ? <VolumeX size={16} /> : <Mic size={16} />}
-                  {settings.chatVoiceModeEnabled ? 'Stop voice assistant' : 'Start voice assistant'}
-                </button>
-              </div>
-            </div>
-          </div>
-          )}
-
           {settings.chatVoiceModeEnabled && (
             <div className="px-6 py-3 border-b border-white/5 bg-[#0A0F1E]/70 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <span className="text-xs uppercase tracking-wider text-text-secondary flex items-center gap-2">
