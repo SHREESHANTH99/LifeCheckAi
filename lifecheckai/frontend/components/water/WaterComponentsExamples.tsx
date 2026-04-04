@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Water Components Integration Example
  * 

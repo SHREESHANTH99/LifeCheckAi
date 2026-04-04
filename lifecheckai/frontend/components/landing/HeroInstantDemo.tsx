@@ -49,7 +49,9 @@ export const HeroInstantDemo: React.FC<HeroDemoProps> = ({ onSearch, isLoading =
     return { bg: 'bg-red-500/20', border: 'border-red-500/40', text: 'text-red-300', dot: 'bg-red-500' };
   };
 
-  const colors = demoResult ? getStatusColor(demoResult.status) : {};
+  const colors = demoResult
+    ? getStatusColor(demoResult.status)
+    : { bg: '', border: '', text: '', dot: '' };
 
   return (
     <div className="py-8 space-y-4">

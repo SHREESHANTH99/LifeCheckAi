@@ -18,7 +18,7 @@ export const WaterWave: React.FC<WaterWaveProps> = ({ percentage, isDrinkable, s
 
   const waterColor = isDrinkable 
     ? "bg-gradient-to-t from-safe via-safe/80 to-safe/50" 
-    : "bg-gradient-to-t from-unsafe via-unsafe/80 to-unsafe/50";
+    : "bg-gradient-to-t from-danger via-danger/80 to-danger/50";
   
   const glassBorder = isDrinkable ? "border-safe/30 shadow-[0_0_20px_rgba(16,185,129,0.3)]" : "border-danger/30 shadow-[0_0_20px_rgba(239,68,68,0.3)]";
 

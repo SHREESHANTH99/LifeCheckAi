@@ -108,8 +108,8 @@ export const MessageList: React.FC<MessageListProps> = ({
 
         return (
           <MessageBubble
-            key={item.id}
-            message={item}
+            key={idx}
+            message={item as ChatMessage}
             onCopy={onCopy}
             onSpeak={onSpeak}
           />

@@ -329,7 +329,7 @@ function DashboardPageContent() {
                 : undefined,
           };
         })
-        .filter((entry): entry is { value: string; subtitle?: string } => !!entry);
+        .filter(Boolean) as Array<{ value: string; subtitle?: string }>;
     },
     [],
   );

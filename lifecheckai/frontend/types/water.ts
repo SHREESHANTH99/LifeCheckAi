@@ -1,510 +1,130 @@
-/**
- * Water Quality Components - Type Definitions & Interfaces
- * 
- * This file provides all TypeScript interfaces and types used across
- * the water quality components, hooks, and utilities.
- * 
- * Import this file to ensure type safety when working with water data.
- */
+export type WaterFlagStatus = "normal" | "caution" | "critical" | "unknown";
+export type WaterTrendDirection = "up" | "down" | "stable";
 
-/* ── Water Quality Data ──────────────────────────── */
-
-/**
- * Main water quality data response
- */
-export interface WaterQualityData {
-  wqi: number;
-  status: 'SAFE' | 'MODERATE' | 'POOR' | 'VERY_POOR';
-  location: string;
-  timestamp: string;
-  parameters: Record<string, number | null>;
-  metrics: Metric[];
-  temperature?: number;
-  ph?: number;
-  turbidity?: number;
-  conductivity?: number;
-  dissolvedOxygen?: number;
-  ammonia?: number;
-  nitrate?: number;
-  phosphate?: number;
-  hardness?: number;
-  iron?: number;
-  manganese?: number;
-  coliform?: number;
-}
-
-/**
- * Individual water quality metric
- */
-export interface Metric {
-  id: string;
+export interface WaterStateOption {
   name: string;
-  value: number;
-  unit: string;
-  type: 'wqi' | 'parameter' | 'health-impact';
-  status: 'safe' | 'warning' | 'danger';
-  historicalValue?: number;
+  sample_count: number;
+  station_count: number;
+  years: number[];
 }
 
-/**
- * Water quality parameter with comparison data
- */
-export interface Parameter {
+export interface WaterStation {
+  id: string;
+  code?: string | null;
   name: string;
-  value: number;
-  trend: 'up' | 'down' | 'stable';
+  sample_count: number;
+  latest_year?: number | null;
+  years: number[];
+  distance_km?: number | null;
+}
+
+export interface WaterParameterStatus {
+  param: string;
+  label: string;
   unit: string;
-  range: { min: number; max: number };
-  status: 'safe' | 'warning' | 'danger';
-}
-
-/**
- * Historical water quality data point
- */
-export interface WaterHistoryDataPoint {
-  timestamp: string;
-  value: number;
-  label?: string;
-  wqi?: number;
-  temperature?: number;
-  ph?: number;
-}
-
-/**
- * Water quality recommendation
- */
-export interface WaterRecommendation {
-  id: string;
-  title: string;
-  description: string;
-  severity: 'low' | 'medium' | 'high';
-  action: string;
-  icon?: React.ReactNode;
-}
-
-/**
- * Water quality alert
- */
-export interface WaterAlert {
-  id: string;
-  title: string;
+  value: number | null;
+  status: WaterFlagStatus;
+  ideal_min?: number | null;
+  ideal_max?: number | null;
+  critical_min?: number | null;
+  critical_max?: number | null;
   message: string;
-  severity: 'low' | 'medium' | 'high';
-  timestamp: string;
-  location?: string;
-  parameter?: string;
 }
 
-/* ── Component Props ─────────────────────────────── */
-
-/**
- * WaterStateMap Props
- */
-export interface WaterStateMapProps {
-  onStateSelect?: (state: string) => void;
-  selectedState?: string;
+export interface WaterResolvedPlace {
+  city?: string | null;
+  formatted_address?: string | null;
+  state?: string | null;
 }
 
-/**
- * WaterComparison Props
- */
-export interface WaterComparisonProps {
-  parameters: Parameter[];
-  location: string;
-  timestamp?: string;
-}
-
-/**
- * WaterMetrics Props
- */
-export interface WaterMetricsProps {
-  metrics: Metric[];
-  isLoading?: boolean;
-  onMetricClick?: (metricId: string) => void;
-}
-
-/**
- * WaterInfoCard Props
- */
-export interface WaterInfoCardProps {
-  title: string;
-  description?: string;
-  value?: string | number;
-  status?: 'safe' | 'warning' | 'danger' | 'info';
-  icon?: React.ReactNode;
-  trend?: 'up' | 'down' | 'stable';
-  children?: React.ReactNode;
-  onClick?: () => void;
-  className?: string;
-}
-
-/**
- * WaterChart Props
- */
-export interface WaterChartProps {
-  data: WaterHistoryDataPoint[];
-  title: string;
-  unit: string;
-  min?: number;
-  max?: number;
-  threshold?: number;
-  isLoading?: boolean;
-}
-
-/**
- * WaterRecommendations Props
- */
-export interface WaterRecommendationsProps {
-  recommendations: WaterRecommendation[];
-  isLoading?: boolean;
-}
-
-/* ── Hook Return Types ──────────────────────────── */
-
-/**
- * Return type for useWaterQuality hook
- */
-export interface UseWaterQualityReturn {
-  data: WaterQualityData | null;
-  loading: boolean;
-  error: Error | null;
-  refetch: () => Promise<void>;
-  setLocation: (location: string) => void;
-}
-
-/**
- * Return type for useWaterAlerts hook
- */
-export interface UseWaterAlertsReturn {
-  alerts: WaterAlert[];
-  loading: boolean;
-  error: Error | null;
-  refetch: () => Promise<void>;
-}
-
-/**
- * Return type for useWaterHistory hook
- */
-export interface UseWaterHistoryReturn {
-  data: WaterHistoryDataPoint[];
-  loading: boolean;
-  error: Error | null;
-  refetch: () => Promise<void>;
-}
-
-/**
- * Return type for useWaterRecommendations hook
- */
-export interface UseWaterRecommendationsReturn {
-  recommendations: WaterRecommendation[];
-  loading: boolean;
-  error: Error | null;
-  refetch: () => Promise<void>;
-}
-
-/**
- * Return type for useWaterComparison hook
- */
-export interface UseWaterComparisonReturn {
-  data: Record<string, WaterQualityData>;
-  loading: boolean;
-  error: Error | null;
-  refetch: () => Promise<void>;
-}
-
-/* ── Status Types ───────────────────────────────── */
-
-export type WQIStatus = 'SAFE' | 'MODERATE' | 'POOR' | 'VERY_POOR';
-export type ParameterStatus = 'safe' | 'warning' | 'danger';
-export type MetricType = 'wqi' | 'parameter' | 'health-impact';
-export type Trend = 'up' | 'down' | 'stable';
-export type Severity = 'low' | 'medium' | 'high';
-export type HistoryPeriod = 'day' | 'week' | 'month';
-
-/* ── Utility Function Types ──────────────────────── */
-
-/**
- * WQI Calculation Input
- */
-export interface WQICalculationInput {
-  ph?: number;
-  turbidity?: number;
-  orp?: number;
-  conductivity?: number;
-  do?: number;
-  temperature?: number;
-}
-
-/**
- * Parameter Threshold Definition
- */
-export interface ParameterThreshold {
-  safe: number;
-  warning: number;
-  danger: number;
-}
-
-/**
- * Health Warning
- */
-export interface HealthWarning {
-  message: string;
-  severity: Severity;
-}
-
-/**
- * Recommended Action
- */
-export interface RecommendedAction {
-  action: string;
-  reason: string;
-  priority: Severity;
-}
-
-/* ── Color Scheme Types ──────────────────────────── */
-
-export interface StatusColorScheme {
-  bg: string;
-  border: string;
-  text: string;
-  badge?: string;
-  icon?: string;
-}
-
-export interface ColorSchemes {
-  safe: StatusColorScheme;
-  warning: StatusColorScheme;
-  danger: StatusColorScheme;
-  info: StatusColorScheme;
-}
-
-/* ── API Response Types ──────────────────────────── */
-
-/**
- * Water Quality API Response
- */
-export interface WaterQualityAPIResponse {
-  wqi: number;
-  status: WQIStatus;
-  location: string;
+export interface WaterPrediction {
+  state: string;
+  scope: "state" | "station" | "nearby";
+  matched_station?: {
+    id: string;
+    code?: string | null;
+    name: string;
+  } | null;
   matched_location?: string | null;
   distance_km?: number | null;
-  nearby_stations?: string[];
-  timestamp: string;
+  resolved_place?: WaterResolvedPlace | null;
+  nearby_stations: WaterStation[];
+  year: number;
+  available_years: number[];
+  sample_count: number;
+  station_count?: number | null;
+  prediction: "Drinkable" | "Not Drinkable";
+  confidence: number;
+  drinkable_probability: number;
+  not_drinkable_probability: number;
+  risk_level: string;
   parameters: Record<string, number | null>;
-  metrics?: Metric[];
-  temperature?: number;
-  ph?: number;
-  turbidity?: number;
-  conductivity?: number;
-  dissolvedOxygen?: number;
-  ammonia?: number;
-  nitrate?: number;
-  phosphate?: number;
-  hardness?: number;
-  iron?: number;
-  manganese?: number;
-  coliform?: number;
+  parameter_statuses: WaterParameterStatus[];
+  violations: WaterParameterStatus[];
+  recommendations: string[];
+  model_version: string;
 }
 
-/**
- * Water History API Response
- */
-export interface WaterHistoryAPIResponse {
-  location: string;
-  period: HistoryPeriod;
-  nearby_stations?: string[];
-  data: WaterHistoryDataPoint[];
-  totalRecords: number;
+export interface WaterTrendOverview {
+  latest: number | null;
+  first: number | null;
+  change: number | null;
+  direction: WaterTrendDirection;
 }
 
-/**
- * Water Alerts API Response
- */
-export interface WaterAlertsAPIResponse {
-  location: string;
-  alerts: WaterAlert[];
-  activeCount: number;
-  timestamp: string;
-}
-
-/**
- * Water Recommendations API Response
- */
-export interface WaterRecommendationsAPIResponse {
-  location: string;
-  recommendations: WaterRecommendation[];
-  generatedAt: string;
-  nextUpdate: string;
-}
-
-/* ── State Management Types ──────────────────────── */
-
-/**
- * Water Data Store State
- */
-export interface WaterDataState {
-  currentLocation: string;
-  data: WaterQualityData | null;
-  history: WaterHistoryDataPoint[];
-  alerts: WaterAlert[];
-  recommendations: WaterRecommendation[];
-  loading: {
-    current: boolean;
-    history: boolean;
-    alerts: boolean;
-    recommendations: boolean;
-  };
-  error: {
-    current: Error | null;
-    history: Error | null;
-    alerts: Error | null;
-    recommendations: Error | null;
-  };
-  lastUpdated: {
-    current: Date | null;
-    history: Date | null;
-    alerts: Date | null;
-    recommendations: Date | null;
-  };
-}
-
-/* ── Configuration Types ─────────────────────────── */
-
-/**
- * Water Quality Feature Configuration
- */
-export interface WaterQualityConfig {
-  apiBaseUrl: string;
-  updateInterval: number; // milliseconds
-  pollInterval: number; // milliseconds
-  enablePolling: boolean;
-  enableCache: boolean;
-  cacheTimeout: number; // milliseconds
-  timeZone: string;
-  locale: string;
-  theme: 'dark' | 'light';
-}
-
-/**
- * Water Parameter Configuration
- */
-export interface WaterParameterConfig {
-  name: string;
-  displayName: string;
-  unit: string;
-  min: number;
-  max: number;
-  safeRange: { min: number; max: number };
-  warningRange: { min: number; max: number };
-  criticalRange: { min: number; max: number };
-  priority: number;
-}
-
-/* ── Error Types ────────────────────────────────── */
-
-/**
- * Water Quality Error
- */
-export class WaterQualityError extends Error {
-  constructor(
-    message: string,
-    public code: string,
-    public statusCode?: number,
-    public details?: Record<string, unknown>
-  ) {
-    super(message);
-    this.name = 'WaterQualityError';
-  }
-}
-
-/* ── Utility Types ──────────────────────────────── */
-
-/**
- * Pagination Info
- */
-export interface PaginationInfo {
-  page: number;
-  pageSize: number;
-  total: number;
-  totalPages: number;
-}
-
-/**
- * Date Range
- */
-export interface DateRange {
-  startDate: Date;
-  endDate: Date;
-}
-
-/**
- * Location Info
- */
-export interface LocationInfo {
-  name: string;
+export interface WaterTrends {
   state: string;
-  region: string;
-  coordinates?: {
-    latitude: number;
-    longitude: number;
+  scope: "state" | "station" | "nearby";
+  matched_station?: {
+    id: string;
+    code?: string | null;
+    name: string;
+  } | null;
+  matched_location?: string | null;
+  distance_km?: number | null;
+  resolved_place?: WaterResolvedPlace | null;
+  nearby_stations: WaterStation[];
+  years: number[];
+  parameters: Record<string, Array<number | null>>;
+  sample_counts: Record<string, number>;
+  overview: Record<string, WaterTrendOverview>;
+}
+
+export interface WaterModelMetrics {
+  accuracy: number;
+  precision: number;
+  recall: number;
+  f1_score: number;
+  roc_auc: number;
+  oob_score: number;
+  confusion_matrix: number[][];
+  total_samples: number;
+  train_samples: number;
+  test_samples: number;
+  class_distribution: {
+    drinkable: number;
+    not_drinkable: number;
   };
-  population?: number;
-  primaryWaterSource?: string;
+  feature_importance: Record<string, number>;
+  dataset_years: number[];
+  label_definition: string;
+  model_version: string;
 }
 
-/* ── Chart Types ────────────────────────────────── */
-
-/**
- * Chart Data Point
- */
-export interface ChartDataPoint {
-  label: string;
-  value: number;
-  timestamp: string;
+export interface WaterStatesResponse {
+  states: WaterStateOption[];
+  dataset_years: number[];
+  count: number;
 }
 
-/**
- * Chart Configuration
- */
-export interface ChartConfig {
-  type: 'bar' | 'line' | 'area';
-  title: string;
-  unit: string;
-  showLegend: boolean;
-  showGrid: boolean;
-  showTooltip: boolean;
-  colors?: string[];
+export interface WaterStationsResponse {
+  state: string;
+  stations: WaterStation[];
+  count: number;
 }
 
-/* ── Comparison Types ───────────────────────────── */
-
-/**
- * Location Comparison
- */
-export interface LocationComparison {
-  location1: string;
-  location2: string;
-  data1: WaterQualityData;
-  data2: WaterQualityData;
-  differences: Record<string, number>;
+export interface WaterNearbyResponse {
+  resolved_place?: WaterResolvedPlace | null;
+  prediction: WaterPrediction;
+  trends: WaterTrends;
 }
-
-/**
- * Trend Comparison
- */
-export interface TrendComparison {
-  location: string;
-  parameter: string;
-  previousValue: number;
-  currentValue: number;
-  changePercent: number;
-  trend: Trend;
-}
-
-/* ── Export All Types ───────────────────────────── */
-
-/**
- * Type definitions for all component props and utilities
- */
-export type * from './types';

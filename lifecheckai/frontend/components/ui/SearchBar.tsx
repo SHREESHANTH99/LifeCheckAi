@@ -146,7 +146,7 @@ export function SearchBar({
     const merged = [...recentSearches, ...quickCities, ...DEFAULT_POPULAR_CITIES];
     const unique = merged.filter((city, index) => merged.findIndex((x) => x.toLowerCase() === city.toLowerCase()) === index);
 
-    const scored = unique
+    const scored: Array<{ value: string; subtitle?: string }> = unique
       .map((city) => {
         const lower = city.toLowerCase();
         let score = 0;
@@ -167,14 +167,14 @@ export function SearchBar({
       .filter((item) => item.score > 0)
       .sort((a, b) => b.score - a.score)
       .slice(0, 8)
-      .map((item) => ({ value: item.city }));
+      .map((item) => ({ value: item.city, subtitle: undefined }));
 
     const remote = remoteSuggestions
       .filter((entry) => entry.value)
       .map((entry) => ({ value: entry.value, subtitle: entry.subtitle }));
 
     const localByValue = new Set(scored.map((entry) => entry.value.toLowerCase()));
-    const mergedSuggestions = [
+    const mergedSuggestions: Array<{ value: string; subtitle?: string }> = [
       ...remote,
       ...scored.filter((entry) => !localByValue.has(entry.value.toLowerCase())),
     ];
