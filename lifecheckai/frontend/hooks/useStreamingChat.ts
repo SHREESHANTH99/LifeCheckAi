@@ -153,7 +153,8 @@ export const useStreamingChat = () => {
 
         const animateChunk = (rawText: string) => {
           const normalized = rawText || '';
-          const pieces = normalized.match(/.{1,3}/g) || [];
+          // Preserve newlines while chunking so section formatting survives streaming.
+          const pieces = normalized.match(/[\s\S]{1,3}/g) || [];
 
           animationQueue = animationQueue.then(
             () =>

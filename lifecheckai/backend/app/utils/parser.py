@@ -121,6 +121,24 @@ LOCATION_HINT_RE = re.compile(
     r"\b(?:in|at|near|around|for|across|from)\s+([a-zA-Z][a-zA-Z\s-]+?)(?:[?.!,]|$)"
 )
 
+NON_LOCATION_TOKENS = {
+    "outdoor",
+    "plans",
+    "plan",
+    "today",
+    "tomorrow",
+    "now",
+    "safe",
+    "safety",
+    "weather",
+    "air",
+    "aqi",
+    "water",
+    "risk",
+    "quality",
+    "report",
+}
+
 
 def _normalize_text(value: str) -> str:
     cleaned = re.sub(r"[^a-zA-Z\s]", " ", value.lower())
@@ -152,6 +170,17 @@ def match_location(query: str) -> str | None:
     hint_match = LOCATION_HINT_RE.search(query)
     if hint_match:
         candidate = hint_match.group(1).strip()
+        normalized_candidate = _normalize_text(candidate)
+        candidate_tokens = normalized_candidate.split()
+
+        # Ignore generic non-location phrases (e.g. "for outdoor plans today").
+        if not candidate_tokens:
+            return None
+        if len(candidate_tokens) > 4:
+            return None
+        if any(token in NON_LOCATION_TOKENS for token in candidate_tokens):
+            return None
+
         candidate_state = extract_state_from_text(candidate)
         if candidate_state:
             return candidate_state
