@@ -9,6 +9,17 @@ import { StatusBadge } from "@/components/ui/StatusBadge";
 import { AQIGauge } from "@/components/ui/AQIGauge";
 import { MetricCard } from "@/components/ui/MetricCard";
 import { LoadingPulse } from "@/components/ui/LoadingPulse";
+import { SafetyScoreRing } from "@/components/ui/SafetyScoreRing";
+import {
+  HealthProfileSelector,
+  type HealthProfile,
+  type ProfileConfig,
+  PROFILES,
+} from "@/components/profile/HealthProfileSelector";
+import { PersonalRiskCard } from "@/components/profile/PersonalRiskCard";
+import { calculatePersonalizedRisk } from "@/lib/profileRisk";
+import { SafetyTimeline } from "@/components/forecast/SafetyTimeline";
+import { VoiceBriefingButton } from "@/components/voice/VoiceBriefingButton";
 import {
   Wind,
   Thermometer,
@@ -135,6 +146,8 @@ function DashboardPageContent() {
   const [monitoredLoading, setMonitoredLoading] = useState(false);
   const [statusFilter, setStatusFilter] = useState<MonitoredStatusFilter>("ALL");
   const [sortMode, setSortMode] = useState<MonitoredSortMode>("risk");
+  const [selectedProfile, setSelectedProfile] = useState<HealthProfile>("general");
+  const [profileConfig, setProfileConfig] = useState<ProfileConfig>(PROFILES[0]);
 
   useEffect(() => {
     try {
@@ -329,7 +342,43 @@ function DashboardPageContent() {
     }
   }, [searchParams, city, search]);
 
+  useEffect(() => {
+    const onLocate = () => {
+      locateMe();
+    };
+    const onRefresh = () => {
+      refresh();
+    };
+    window.addEventListener("lifecheck:locate-me", onLocate);
+    window.addEventListener("lifecheck:refresh", onRefresh);
+    return () => {
+      window.removeEventListener("lifecheck:locate-me", onLocate);
+      window.removeEventListener("lifecheck:refresh", onRefresh);
+    };
+  }, [locateMe, refresh]);
+
   const overallStatus = getStatusColor(data?.overall?.verdict);
+
+  const safetyScore = useMemo(() => {
+    if (!data) return 0;
+    const aqi = data.air_quality?.aqi ?? 100;
+    const temp = data.weather?.temp_celsius ?? 28;
+    const pollenLevel = String(data.pollen?.level || "").toLowerCase();
+    const pollenPenalty = pollenLevel === "high" ? 15 : pollenLevel === "moderate" ? 8 : 0;
+    const baseScore = 100 - aqi / 5;
+    const heatPenalty = temp > 40 ? 20 : temp > 35 ? 10 : 0;
+    return Math.max(0, Math.min(100, Math.round(baseScore - heatPenalty - pollenPenalty)));
+  }, [data]);
+
+  const personalRisk = useMemo(() => {
+    if (!data) return null;
+    return calculatePersonalizedRisk(data, profileConfig);
+  }, [data, profileConfig]);
+
+  useEffect(() => {
+    if (!data) return;
+    document.title = `${data.city} Safety Report — ${profileConfig.label} Profile`;
+  }, [data, profileConfig.label]);
 
   // Error state
   if (error && !data) {
@@ -437,6 +486,15 @@ function DashboardPageContent() {
           animate="visible"
           className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-8 flex flex-col gap-6"
         >
+          <motion.div variants={itemVariants}>
+            <HealthProfileSelector
+              onProfileChange={(profile, config) => {
+                setSelectedProfile(profile);
+                setProfileConfig(config);
+              }}
+            />
+          </motion.div>
+
           {/* Overall Safety Banner */}
           <motion.div
             variants={itemVariants}
@@ -459,7 +517,8 @@ function DashboardPageContent() {
                 {data.overall?.summary || "Conditions are being evaluated"}
               </span>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
+              <SafetyScoreRing score={safetyScore} size="sm" />
               <StatusBadge status={data.overall?.verdict || "UNKNOWN"} />
               <div className="flex items-center gap-1.5">
                 <span className="relative flex h-2 w-2">
@@ -470,6 +529,16 @@ function DashboardPageContent() {
               </div>
             </div>
           </motion.div>
+
+          {selectedProfile !== "general" && personalRisk && (
+            <motion.div variants={itemVariants}>
+              <PersonalRiskCard
+                risk={personalRisk}
+                profile={profileConfig}
+                onChangeProfile={() => window.dispatchEvent(new CustomEvent("lifecheck:open-profile"))}
+              />
+            </motion.div>
+          )}
 
           {/* Location Intelligence */}
           <motion.div variants={itemVariants} className="card">
@@ -727,6 +796,10 @@ function DashboardPageContent() {
             />
           </motion.div>
 
+          <motion.div variants={itemVariants}>
+            <SafetyTimeline currentData={data} />
+          </motion.div>
+
           {/* AQI Detail + Weather Detail */}
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
             {/* AQI Detail Panel */}
@@ -898,6 +971,7 @@ function DashboardPageContent() {
           </motion.div>
         </motion.div>
       )}
+      <VoiceBriefingButton safetyData={data || null} />
     </div>
   );
 }

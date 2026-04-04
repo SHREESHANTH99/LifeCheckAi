@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { useSafetyData } from "@/app/hooks/useSafetyData";
 import {
@@ -70,6 +71,18 @@ const itemVariants = {
 export default function HomePage() {
   const router = useRouter();
   const { search, loading } = useSafetyData();
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 24 }).map((_, idx) => ({
+        id: idx,
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        size: Math.floor(Math.random() * 3) + 1,
+        delay: Math.random() * 6,
+        duration: 6 + Math.random() * 8,
+      })),
+    []
+  );
 
   const handleSearch = (city: string) => {
     search(city);
@@ -88,6 +101,29 @@ export default function HomePage() {
               "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(59,130,246,0.12), transparent), radial-gradient(ellipse 60% 40% at 80% 80%, rgba(6,182,212,0.06), transparent)",
           }}
         />
+
+        <div className="absolute inset-0 hidden lg:block pointer-events-none">
+          {particles.map((particle) => (
+            <span
+              key={particle.id}
+              className="absolute rounded-full"
+              style={{
+                left: `${particle.left}%`,
+                top: `${particle.top}%`,
+                width: `${particle.size}px`,
+                height: `${particle.size}px`,
+                background:
+                  particle.id % 3 === 0
+                    ? "#06b6d4"
+                    : particle.id % 3 === 1
+                    ? "#3b82f6"
+                    : "#10b981",
+                opacity: 0.45,
+                animation: `float-particle ${particle.duration}s ease-in-out ${particle.delay}s infinite`,
+              }}
+            />
+          ))}
+        </div>
 
         {/* Floating cards (desktop) */}
         <motion.div

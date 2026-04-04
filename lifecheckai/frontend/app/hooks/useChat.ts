@@ -9,8 +9,9 @@ export function useChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastResponse, setLastResponse] = useState<Record<string, unknown> | null>(null);
 
-  const sendMessage = useCallback(async (query: string, city: string) => {
+  const sendMessage = useCallback(async (query: string, city: string, profileText?: string) => {
     const userMessage: Message = {
       id: `user-${Date.now()}`,
       role: "user",
@@ -23,7 +24,8 @@ export function useChat() {
     setError(null);
 
     try {
-      const queryText = city?.trim() ? `${query} in ${city}` : query;
+      const profileSuffix = profileText ? ` User has health profile: ${profileText}. Adjust advice accordingly.` : "";
+      const queryText = city?.trim() ? `${query} in ${city}.${profileSuffix}` : `${query}.${profileSuffix}`;
       const res = await fetch(
         `${API_BASE}/api/ask?query=${encodeURIComponent(queryText)}`,
         {
@@ -36,6 +38,7 @@ export function useChat() {
       }
 
       const data = await res.json();
+  setLastResponse(data);
 
       const aiMessage: Message = {
         id: `ai-${Date.now()}`,
@@ -45,6 +48,7 @@ export function useChat() {
           data.structured_answer?.summary ||
           "I couldn't generate a response. Please try again.",
         timestamp: new Date(),
+        error: Boolean(data.safety_guard_triggered),
       };
 
       setMessages((prev) => [...prev, aiMessage]);
@@ -75,6 +79,7 @@ export function useChat() {
     messages,
     isTyping,
     error,
+    lastResponse,
     sendMessage,
     clearChat,
   };

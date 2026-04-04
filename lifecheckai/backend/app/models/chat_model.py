@@ -37,3 +37,8 @@ class ChatResponse(BaseModel):
     structured_answer: StructuredAnswer
     model: ChatModelMeta
     user_profile: dict[str, Any] | None = None
+    action_type: str = "general"
+    safety_guard_triggered: bool = False
+    blocked_reason: str | None = None
+    location_extracted: str | None = None
+    intent_detected: str | None = None

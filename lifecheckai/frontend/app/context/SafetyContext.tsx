@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, useContext, useReducer, type ReactNode, type Dispatch } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  type ReactNode,
+  type Dispatch,
+} from "react";
 import type { SafetyData, Message } from "@/types";
 
 interface SafetyState {
@@ -68,6 +75,19 @@ const SafetyContext = createContext<{
 
 export function SafetyProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(safetyReducer, initialState);
+
+  useEffect(() => {
+    const verdict = state.safetyData?.overall?.verdict;
+    const ambient =
+      verdict === "SAFE"
+        ? "rgba(16,185,129,0.03)"
+        : verdict === "CAUTION"
+        ? "rgba(245,158,11,0.03)"
+        : verdict === "UNSAFE"
+        ? "rgba(239,68,68,0.03)"
+        : "rgba(59,130,246,0.02)";
+    document.documentElement.style.setProperty("--ambient", ambient);
+  }, [state.safetyData?.overall?.verdict]);
 
   return (
     <SafetyContext.Provider value={{ state, dispatch }}>

@@ -8,6 +8,11 @@ import { StatusBadge } from "@/components/ui/StatusBadge";
 import { Wind, Thermometer, ArrowRight, MapPin, RefreshCw, Radar, ShieldAlert, Layers3, Eye, EyeOff, AlertTriangle, Menu, PanelLeftClose } from "lucide-react";
 import Link from "next/link";
 import { INDIAN_STATE_LOCATIONS } from "@/lib/indiaLocations";
+import { useRealtime } from "@/hooks/useRealtime";
+import { UserPresenceMarkers } from "@/components/realtime/UserPresenceMarkers";
+import { CrowdReportMarkers } from "@/components/realtime/CrowdReportMarkers";
+import { CrowdReportModal } from "@/components/realtime/CrowdReportModal";
+import { LiveActivityTicker } from "@/components/realtime/LiveActivityTicker";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
 const MAP_MONITORED_CITIES_KEY = "lifecheck_map_monitored_cities";
@@ -163,7 +168,7 @@ function getRiskWeight(status: CityStatus, aqi: number | null): number {
 }
 
 export default function MapPage() {
-  const { data, search, loading } = useSafetyData();
+  const { data, search, loading, refresh, locateMe } = useSafetyData();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [monitoredSeedCities, setMonitoredSeedCities] = useState<Array<{ name: string; lat: number; lon: number }>>(
     () => {
@@ -199,12 +204,20 @@ export default function MapPage() {
   const [mapZoom, setMapZoom] = useState(5);
   const [showZones, setShowZones] = useState(true);
   const [mapInitError, setMapInitError] = useState<string | null>(null);
+  const [crowdModalOpen, setCrowdModalOpen] = useState(false);
   const mapHolderRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<GoogleMapInstance | null>(null);
   const mapApiRef = useRef<GoogleMapsAPI | null>(null);
   const zoneOverlaysRef = useRef<GoogleOverlayInstance[]>([]);
 
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "";
+
+  const { presence, crowdReports, activeUserCount, addCrowdReport } = useRealtime({
+    city: data?.city || selectedCity?.name,
+    lat: mapCenter.lat,
+    lon: mapCenter.lon,
+    enabled: true,
+  });
 
   const persistMonitoredCities = useCallback(
     (entries: Array<{ name: string; lat: number; lon: number }>) => {
@@ -463,6 +476,22 @@ export default function MapPage() {
     [],
   );
 
+  useEffect(() => {
+    const onLocate = () => {
+      locateMe();
+    };
+    const onRefresh = () => {
+      refresh();
+      refreshLiveCities();
+    };
+    window.addEventListener("lifecheck:locate-me", onLocate);
+    window.addEventListener("lifecheck:refresh", onRefresh);
+    return () => {
+      window.removeEventListener("lifecheck:locate-me", onLocate);
+      window.removeEventListener("lifecheck:refresh", onRefresh);
+    };
+  }, [locateMe, refresh, refreshLiveCities]);
+
   return (
     <div className="min-h-screen flex lg:flex-row relative">
       {/* Sidebar backdrop */}
@@ -623,6 +652,8 @@ export default function MapPage() {
                 </div>
               </div>
             )}
+            <UserPresenceMarkers presence={presence} map={mapInstanceRef.current as unknown} />
+            <CrowdReportMarkers reports={crowdReports} map={mapInstanceRef.current as unknown} />
           </div>
         ) : (
           <div className="w-full h-[60vh] lg:h-[calc(100vh-64px)] bg-bg-card flex items-center justify-center">
@@ -651,6 +682,11 @@ export default function MapPage() {
         {/* Overlay — legend top-right */}
         <div className="absolute top-4 right-4 z-10 hidden lg:block">
           <div className="glass rounded-xl p-3 flex flex-col gap-2 min-w-44">
+            <div className="rounded-lg border border-safe/30 bg-safe/10 px-2.5 py-2 text-xs text-safe inline-flex items-center justify-between">
+              <span className="inline-flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-safe animate-pulse" /> 👥 {activeUserCount} checking India right now
+              </span>
+            </div>
             <button
               onClick={() => setShowZones((prev) => !prev)}
               className="mb-1 inline-flex items-center justify-between gap-2 rounded-lg border border-border-default px-2.5 py-1.5 text-xs text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
@@ -674,6 +710,13 @@ export default function MapPage() {
             </div>
           </div>
         </div>
+
+        <button
+          onClick={() => setCrowdModalOpen(true)}
+          className="fixed z-[65] bottom-24 right-6 min-h-11 px-4 rounded-full bg-accent-blue text-white text-sm font-medium shadow-[0_12px_30px_rgba(0,0,0,0.3)] hover:opacity-90 transition-opacity cursor-pointer"
+        >
+          Report Condition
+        </button>
 
         {/* Bottom slide-up panel */}
         <AnimatePresence>
@@ -715,6 +758,17 @@ export default function MapPage() {
           )}
         </AnimatePresence>
       </div>
+
+      <CrowdReportModal
+        isOpen={crowdModalOpen}
+        onClose={() => setCrowdModalOpen(false)}
+        lat={mapCenter.lat}
+        lon={mapCenter.lon}
+        city={selectedCity?.name || data?.city || "Unknown"}
+        onSubmit={addCrowdReport}
+      />
+
+      <LiveActivityTicker city={data?.city || selectedCity?.name} lat={mapCenter.lat} lon={mapCenter.lon} />
 
       {/* Right sidebar — zone analytics */}
       <aside className="hidden xl:flex xl:w-72 border-l border-border-default bg-bg-secondary/35 flex-col">

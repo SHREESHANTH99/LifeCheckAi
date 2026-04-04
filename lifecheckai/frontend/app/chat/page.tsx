@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useChat } from "@/app/hooks/useChat";
 import { useSafetyData } from "@/app/hooks/useSafetyData";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { StatusBadge } from "@/components/ui/StatusBadge";
+import { AgentRulesPanel } from "@/components/agent/AgentRulesPanel";
+import { useAgentLog } from "@/hooks/useAgentLog";
+import { VoiceChatInput } from "@/components/voice/VoiceChatInput";
 import {
   Sparkles,
   Send,
@@ -24,10 +27,26 @@ const quickPrompts = [
 ];
 
 export default function ChatPage() {
-  const { messages, isTyping, sendMessage, clearChat } = useChat();
+  const { messages, isTyping, sendMessage, clearChat, lastResponse } = useChat();
   const { data, city, search, loading } = useSafetyData();
+  const { actions, lastConfidence, parseResponseForActions } = useAgentLog();
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [profile, setProfile] = useState("general");
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("lifecheck_health_profile");
+      if (saved) setProfile(saved);
+    } catch {
+      // no-op
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!lastResponse) return;
+    parseResponseForActions(lastResponse);
+  }, [lastResponse, parseResponseForActions]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -40,9 +59,14 @@ export default function ChatPage() {
   const handleSend = () => {
     const trimmed = input.trim();
     if (!trimmed) return;
-    sendMessage(trimmed, city || "Delhi");
+    sendMessage(trimmed, city || "Delhi", profile);
     setInput("");
   };
+
+  const blockedLast = useMemo(
+    () => Boolean(lastResponse?.safety_guard_triggered),
+    [lastResponse]
+  );
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -52,9 +76,9 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
+    <div className="min-h-screen flex gap-0 lg:gap-6 px-0 lg:px-6 py-0 lg:py-4">
       {/* Chat Column */}
-      <div className="flex-1 flex flex-col max-h-[calc(100vh-64px)]">
+      <div className="flex-1 flex flex-col max-h-[calc(100vh-64px)] border border-border-default bg-bg-secondary/30 rounded-none lg:rounded-2xl overflow-hidden">
         {/* Header */}
         <div className="px-4 sm:px-8 py-4 border-b border-border-default bg-bg-secondary/50">
           <div className="flex items-center justify-between">
@@ -105,7 +129,7 @@ export default function ChatPage() {
                   <button
                     key={prompt}
                     onClick={() => {
-                      sendMessage(prompt, city || "Delhi");
+                      sendMessage(prompt, city || "Delhi", profile);
                     }}
                     className="px-4 py-3 rounded-xl border border-border-default bg-bg-card text-sm text-text-secondary text-left hover:border-accent-blue hover:text-text-primary transition-all duration-200 cursor-pointer"
                   >
@@ -172,6 +196,12 @@ export default function ChatPage() {
                 </motion.div>
               )}
 
+              {blockedLast && (
+                <div className="bg-unsafe/10 border border-unsafe/30 rounded-xl px-4 py-2 text-sm text-unsafe">
+                  ⚠️ This query was flagged by the safety agent.
+                </div>
+              )}
+
               <div ref={messagesEndRef} />
             </div>
           )}
@@ -188,6 +218,16 @@ export default function ChatPage() {
               </div>
             )}
             <div className="flex items-center gap-3">
+              <VoiceChatInput
+                disabled={isTyping}
+                onTranscript={(text) => {
+                  setInput(text);
+                  setTimeout(() => {
+                    sendMessage(text, city || "Delhi", profile);
+                    setInput("");
+                  }, 500);
+                }}
+              />
               <input
                 type="text"
                 value={input}
@@ -210,57 +250,20 @@ export default function ChatPage() {
         </div>
       </div>
 
-      {/* Context Panel (Desktop only) */}
-      <div className="hidden lg:flex flex-col w-80 border-l border-border-default bg-bg-secondary/30 p-6 gap-6 overflow-y-auto max-h-[calc(100vh-64px)] sticky top-16">
-        {/* Current Conditions */}
-        <div className="card">
-          <h3 className="text-sm font-semibold text-text-primary mb-4">Current Conditions</h3>
+      <div className="hidden lg:flex flex-col gap-4 pt-0">
+        <div className="card w-[300px]">
+          <h3 className="text-sm font-semibold text-text-primary mb-3">City Context</h3>
+          <SearchBar onSearch={search} placeholder="Search city..." isLoading={loading} className="h-10" />
           {data ? (
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-text-secondary">
-                  <Wind size={14} />
-                  <span className="text-xs">AQI</span>
-                </div>
-                <span className="text-sm font-[family-name:var(--font-family-mono)] text-text-primary">
-                  {data.air_quality?.aqi ?? "—"}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-text-secondary">
-                  <Thermometer size={14} />
-                  <span className="text-xs">Temp</span>
-                </div>
-                <span className="text-sm font-[family-name:var(--font-family-mono)] text-text-primary">
-                  {data.weather?.temp_celsius != null ? `${Math.round(data.weather.temp_celsius)}°C` : "—"}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-text-secondary">
-                  <Flower2 size={14} />
-                  <span className="text-xs">Pollen</span>
-                </div>
-                <span className="text-sm text-text-primary">{data.pollen?.level || "—"}</span>
-              </div>
-              <div className="pt-2 border-t border-border-default">
-                <StatusBadge status={data.overall?.verdict || "UNKNOWN"} />
-              </div>
+            <div className="mt-3 flex items-center justify-between">
+              <span className="text-sm text-text-secondary">{data.city}</span>
+              <StatusBadge status={data.overall?.verdict || "UNKNOWN"} />
             </div>
           ) : (
-            <p className="text-xs text-text-muted">No city selected</p>
+            <p className="mt-3 text-xs text-text-muted">No city selected</p>
           )}
         </div>
-
-        {/* Change City */}
-        <div className="card">
-          <h3 className="text-sm font-semibold text-text-primary mb-3">Change City</h3>
-          <SearchBar
-            onSearch={search}
-            placeholder="Search city..."
-            isLoading={loading}
-            className="!h-10 !text-xs"
-          />
-        </div>
+        <AgentRulesPanel actions={actions} lastConfidence={lastConfidence || undefined} isActive={isTyping} />
       </div>
     </div>
   );

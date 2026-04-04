@@ -39,6 +39,41 @@ def ask(
     profile = _parse_user_profile(user_profile)
     requested_location = _resolve_request_location(query, profile)
     intent = detect_intent(query)
+    blocked_reason = _blocked_reason(query)
+
+    if blocked_reason:
+        safe_fallback = (
+            "I cannot assist with that request. I can help with environmental safety guidance, "
+            "risk interpretation, and official-health-aligned precautions for your city."
+        )
+        return ChatResponse(
+            query=query,
+            intent=intent,
+            location=ChatLocation(
+                requested=requested_location,
+                resolved_city=requested_location,
+                groundwater_state=resolve_state_name(requested_location, None),
+                formatted_address=None,
+            ),
+            source={"realtime_source": "safety_guard", "cache_hit": False},
+            confidence=72,
+            safety_override={"blocked": True, "reason": blocked_reason},
+            structured_answer=StructuredAnswer(
+                summary=safe_fallback,
+                air="Ask about AQI, pollutants, or safe outdoor windows.",
+                weather="Ask about weather-linked risks and precautions.",
+                water="Ask about groundwater trends and advisories for your state.",
+                action="I can provide a safe alternative answer if you rephrase the request.",
+            ),
+            answer=safe_fallback,
+            model=ChatModelMeta(provider="safety_guard", used_ai=False, fallback_used=True),
+            user_profile=profile,
+            action_type="general",
+            safety_guard_triggered=True,
+            blocked_reason=blocked_reason,
+            location_extracted=requested_location,
+            intent_detected=intent,
+        )
 
     safety_snapshot = get_city_safety_snapshot(requested_location, allow_partial=True)
     normalized = _normalize_snapshot(safety_snapshot, requested_location)
@@ -67,6 +102,11 @@ def ask(
                 fallback_used=False,
             ),
             user_profile=profile,
+            action_type=_action_type_from_intent(intent),
+            safety_guard_triggered=False,
+            blocked_reason=None,
+            location_extracted=requested_location,
+            intent_detected=intent,
         )
 
     prompt = build_prompt(normalized, query, intent, profile)
@@ -89,7 +129,39 @@ def ask(
             fallback_used=not used_ai,
         ),
         user_profile=profile,
+        action_type=_action_type_from_intent(intent),
+        safety_guard_triggered=False,
+        blocked_reason=None,
+        location_extracted=requested_location,
+        intent_detected=intent,
     )
+
+
+def _action_type_from_intent(intent: str) -> str:
+    normalized = (intent or "general").lower()
+    if "air" in normalized or "aqi" in normalized:
+        return "aqi_query"
+    if "weather" in normalized:
+        return "weather_query"
+    if "health" in normalized:
+        return "health_advice"
+    if "emergency" in normalized:
+        return "emergency"
+    return "general"
+
+
+def _blocked_reason(query: str) -> str | None:
+    text = query.lower()
+    rules = [
+        (["diagnose", "diagnosis", "what disease"], "Medical diagnosis requests are blocked."),
+        (["guarantee", "100% sure", "certain prediction"], "Guaranteed predictions are blocked."),
+        (["medication", "dose", "tablet", "prescribe"], "Medication recommendations are blocked."),
+        (["self-harm", "kill myself", "suicide"], "Self-harm related requests are blocked."),
+    ]
+    for keywords, reason in rules:
+        if any(keyword in text for keyword in keywords):
+            return reason
+    return None
 
 
 def _normalize_snapshot(snapshot: dict, requested_location: str) -> dict:

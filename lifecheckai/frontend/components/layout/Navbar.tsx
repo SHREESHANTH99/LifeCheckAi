@@ -16,6 +16,7 @@ import {
   CheckCheck,
 } from "lucide-react";
 import { showToast } from "@/components/ui/Toast";
+import { useCommandPalette } from "@/hooks/useCommandPalette";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
 const NAVBAR_ALERTS_READ_KEY = "lifecheck_nav_alerts_read_ids";
@@ -50,6 +51,7 @@ export function Navbar() {
   const [readAlertIds, setReadAlertIds] = useState<string[]>([]);
   const initializedSeenRef = useRef(false);
   const pathname = usePathname();
+  const { open: openCommandPalette } = useCommandPalette();
 
   const alertIdentity = (alert: LiveAlert) =>
     `${alert.city}::${alert.type}::${alert.level}::${alert.message}::${alert.timestamp ?? "no-ts"}`;
@@ -351,6 +353,16 @@ export function Navbar() {
           >
             <ExternalLink size={18} />
           </a>
+
+          <button
+            onClick={openCommandPalette}
+            className="hidden sm:inline-flex min-h-9 px-3 items-center rounded-full border border-border-default text-xs text-text-muted hover:text-text-primary hover:border-accent-blue transition-colors cursor-pointer"
+            aria-label="Open command palette"
+          >
+            {typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform)
+              ? "⌘K"
+              : "Ctrl+K"}
+          </button>
 
           {/* Mobile hamburger */}
           <button
