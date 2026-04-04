@@ -10,6 +10,11 @@ LifeCheck AI is a full-stack environmental intelligence platform focused on Indi
 - Browser geolocation flow with reverse geocoding and location-aware results.
 - Search suggestions with broad India coverage (city, district, state, UT support).
 - Live city cache support with source metadata and cache-hit indicators.
+- Multi-city and state-scale monitoring with live map overlays.
+- Alert feed and notification-style alert UX.
+- AI chat assistant with safety-aware fallback mode.
+- Water quality ML prediction + trends + Gemini AI analysis.
+- Realtime cache via SpaceTimeDB and scheduler-driven warmup.
 
 ### Realtime Monitoring and Alerts
 
@@ -119,6 +124,84 @@ lifecheck-ai/
       src/lib.rs
 ```
 
+## Backend Features (From Current Code)
+
+### Safety and geolocation
+
+- `GET /api/check-safety?city=...`
+	- Geocodes location, fetches weather/air/pollen, computes verdict, advisory and score
+	- Caches to SpaceTimeDB and returns `source` + `cache_hit`
+- `GET /api/check-safety-by-coordinates?lat=...&lon=...`
+	- Reverse-geocodes browser coordinates and returns full snapshot
+- `GET /api/location-suggestions?q=...&limit=...`
+	- Ranked location suggestions from geocoding + India state/UT fallback set
+- `GET /api/cities/live`
+	- Live cached city snapshots (used by map/dashboard monitored views)
+
+### Alerts / history / realtime
+
+- `GET /api/alerts/live`
+	- Active alerts + alert history
+- `GET /api/history?cities=...&limit=...`
+	- Snapshot history for one or more cities
+- `GET /realtime/snapshot`
+	- Realtime city snapshot feed for polling clients
+
+### AI chat
+
+- `GET /api/ask?query=...`
+	- Intent + location extraction
+	- Safety-guard critical override path
+	- Gemini-based sectioned answer with fallback rendering
+	- Confidence + source metadata in response
+
+### Water intelligence
+
+- `GET /api/water/states`
+- `GET /api/water/predict?state=...`
+- `GET /api/water/trends?state=...`
+- `GET /api/water/model-metrics`
+- `GET /api/water/analyze?state=...`
+
+### Platform endpoints 
+
+- `GET /` backend status message
+- `GET /health` service health + scheduler status
+- `GET /test` basic health route 
+
+## Frontend Features (From Current Code) 
+
+### Pages
+
+- `/` modern landing page with city quick-check + feature cards
+- `/dashboard`
+	- Sticky advanced search with async suggestions
+	- Location intelligence panel
+	- Air/weather/pollen/UV metric system
+	- Monitored cities section with filtering/sorting/priority summaries
+- `/map`
+	- Google Maps JS integration
+	- True map-anchored zone overlays (safe/caution/unsafe circles + markers)
+	- Drawer-style monitored panel with hamburger toggle (desktop + mobile)
+	- Dynamic monitored locations and live city refresh
+- `/chat`
+	- AI conversation UI with city context and quick prompts
+- `/alerts`
+	- Alert feed + filters + top notifications section with unread tracking
+- `/water`
+	- State selector, ML prediction, BIS violation view, trends charts, AI analysis
+
+### Shared frontend behavior
+
+- Context state store for safety data and chat context
+- `useSafetyData` hook with normalization for multiple backend payload shapes
+- 60-second auto-polling + local cache fallback + toasts
+- `locateMe` support for browser geolocation
+- Advanced `SearchBar` with:
+	- Recent searches
+	- Ranked suggestions
+	- Grouped sections (Recent, Location Matches, Popular Picks)
+	- Debounced async suggestion provider support
 ## Setup
 
 ### 1) Backend
