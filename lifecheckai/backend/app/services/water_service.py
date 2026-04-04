@@ -339,6 +339,22 @@ def _extract_all_params(row: list[str]) -> dict[str, float | None]:
     if result.get("ph") is not None and not (4 <= result["ph"] <= 10.5):
         result["ph"] = None
 
+    # Derived Feature: Water Quality Index (WQI)
+    # Higher score = Worse Quality. Computed roughly over basic BIS standard scales.
+    scores = []
+    if result.get("tds"): scores.append(result["tds"] / 500.0) # 500 desirable limit
+    if result.get("fluoride"): scores.append(result["fluoride"] / 1.0)
+    if result.get("nitrate"): scores.append(result["nitrate"] / 45.0)
+    if result.get("bod"): scores.append(result["bod"] / 5.0)
+    if result.get("ph") and result["ph"] >= 7.0: scores.append(abs(result["ph"] - 7.0) / 1.5)
+    
+    if scores:
+        # Scale to form an index out of 100 on average severity
+        wqi = sum(scores) / len(scores) * 100
+        result["wqi"] = round(wqi, 2)
+    else:
+        result["wqi"] = None
+
     return result
 
 

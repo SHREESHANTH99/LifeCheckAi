@@ -8,7 +8,7 @@ from statistics import mean
 import joblib
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.metrics import (
     accuracy_score,
     classification_report,
@@ -44,7 +44,7 @@ MODEL_DIR = Path(__file__).resolve().parents[2] / "models"
 MODEL_PATH = MODEL_DIR / "water_quality_model.joblib"
 
 FEATURES = ["ph", "tds", "conductivity", "bod", "nitrate",
-            "fecal_coliform", "total_coliform", "fluoride", "arsenic", "temperature"]
+            "fecal_coliform", "total_coliform", "fluoride", "arsenic", "temperature", "wqi"]
 
 _model = None
 _metrics: dict | None = None
@@ -55,12 +55,14 @@ _metrics: dict | None = None
 def _is_not_drinkable(row: dict) -> bool:
     """Return True if ANY BIS limit is exceeded."""
     ph = row.get("ph")
-    if ph is not None and (ph < BIS_LIMITS["ph_min"] or ph > BIS_LIMITS["ph_max"]):
-        return True
+    if ph is not None and not pd.isna(ph):
+        if ph < BIS_LIMITS["ph_min"] or ph > BIS_LIMITS["ph_max"]:
+            return True
+            
     for param in ("nitrate", "tds", "fluoride", "arsenic", "fecal_coliform",
                   "total_coliform", "bod", "conductivity"):
         val = row.get(param)
-        if val is not None and val > BIS_LIMITS[param]:
+        if val is not None and not pd.isna(val) and val > BIS_LIMITS[param]:
             return True
     return False
 
@@ -68,7 +70,7 @@ def _is_not_drinkable(row: dict) -> bool:
 # ── Training ─────────────────────────────────────────────
 
 def train_model(force: bool = False) -> dict:
-    """Train a Random Forest classifier on all CSV data."""
+    """Train a HistGradientBoosting classifier on all CSV data."""
     global _model, _metrics
 
     if _model is not None and not force:
@@ -83,22 +85,23 @@ def train_model(force: bool = False) -> dict:
     # Label
     df["label"] = df.apply(lambda r: 1 if _is_not_drinkable(r) else 0, axis=1)
 
-    # Keep only rows with at least 3 non-null features
+    # Keep only rows with at least 1 valid feature so the tree can split it
     feature_cols = [f for f in FEATURES if f in df.columns]
-    df_valid = df.dropna(subset=feature_cols, thresh=3)
+    df_valid = df.dropna(subset=feature_cols, how='all')
 
     if len(df_valid) < 20:
         return {"error": f"Insufficient data: {len(df_valid)} rows"}
 
-    X = df_valid[feature_cols].fillna(df_valid[feature_cols].median())
+    # NO median imputation here! HistGradientBoosting natively branches on NaNs.
+    X = df_valid[feature_cols]
     y = df_valid["label"]
 
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42, stratify=y
     )
 
-    clf = RandomForestClassifier(
-        n_estimators=100, max_depth=10, random_state=42, n_jobs=-1
+    clf = HistGradientBoostingClassifier(
+        learning_rate=0.1, max_iter=200, early_stopping=True, random_state=42
     )
     clf.fit(X_train, y_train)
 
@@ -113,24 +116,19 @@ def train_model(force: bool = False) -> dict:
         "total_samples": len(df_valid),
         "train_samples": len(X_train),
         "test_samples": len(X_test),
-        "feature_importance": {
-            name: round(imp, 4)
-            for name, imp in zip(feature_cols, clf.feature_importances_)
-        },
+        "feature_importance": {}, # HistGradient doesn't provide easy feature importances without permutation, so we omit for speed
         "class_distribution": {
             "drinkable": int((y == 0).sum()),
             "not_drinkable": int((y == 1).sum()),
         },
     }
 
-    # Save model
     MODEL_DIR.mkdir(parents=True, exist_ok=True)
     joblib.dump({"model": clf, "features": feature_cols, "metrics": metrics}, MODEL_PATH)
 
     _model = clf
     _metrics = metrics
     return metrics
-
 
 def _ensure_model():
     """Load or train model on first use."""
@@ -149,46 +147,66 @@ def _ensure_model():
 import concurrent.futures
 
 def _filter_by_location(records: list[dict], state: str, location: str) -> tuple[list[dict], str | None, float | None]:
-    unique_locations = list({r["location"] for r in records if r.get("location")})
-    
-    # Exact or substring match
-    match = next((loc for loc in unique_locations if location.lower() == loc.lower()), None)
-    if not match:
-        match = next((loc for loc in unique_locations if location.lower() in loc.lower()), None)
-        
-    if match:
-        return [r for r in records if r.get("location") == match], match, None
-        
-    # Geographical nearest match
     target_coords = get_coordinates(f"{location}, {state}")
     if not target_coords or target_coords.get("lat") is None:
         return records, None, None
-        
-    nearest_loc = None
-    min_dist = float('inf')
+
+    unique_locations = list({r["location"] for r in records if r.get("location")})
     
     def _calc_dist(loc: str):
+        # 1. Substring exact match = auto-include (distance 0)
+        if location.lower() in loc.lower():
+            return loc, 0.0
+            
+        # 2. Geocoding physical distance
         loc_coords = get_coordinates(f"{loc}, {state}")
         if loc_coords and loc_coords.get("lat") is not None:
             dist = calculate_distance(target_coords["lat"], target_coords["lon"], loc_coords["lat"], loc_coords["lon"])
             return loc, dist
+            
         return loc, float('inf')
     
-    # Parallelize geocoding API requests to drastically improve performance
-    with concurrent.futures.ThreadPoolExecutor(max_workers=15) as executor:
+    # Parallelize to rapidly scan all locations in the state
+    loc_distances = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
         future_to_loc = {executor.submit(_calc_dist, loc): loc for loc in unique_locations}
         for future in concurrent.futures.as_completed(future_to_loc):
-            loc, dist = future.result()
-            if dist < min_dist:
-                min_dist = dist
-                nearest_loc = loc
-                if min_dist <= 5.0: # Close enough, early exit
-                    break
-                
-    if nearest_loc:
-        return [r for r in records if r.get("location") == nearest_loc], nearest_loc, min_dist
+            loc_distances.append(future.result())
+            
+    # Sort locations by closest distance
+    loc_distances.sort(key=lambda x: x[1])
+    
+    if not loc_distances or loc_distances[0][1] == float('inf'):
+        return records, None, None
         
-    return records, None, None
+    # Step 1: Collect all locations within base radius (20km)
+    base_radius = 20.0
+    nearby_locs = {loc for loc, dist in loc_distances if dist <= base_radius}
+    filtered_records = [r for r in records if r.get("location") in nearby_locs]
+    unique_years = {r["year"] for r in filtered_records}
+
+    # Step 2: Adaptive Radius Expansion for Sparse Historical Data
+    # For large cities missing smooth trends, expand until we capture >= 4 years of data
+    expansion_radii = [50.0, 100.0, 150.0, 250.0]
+    final_radius = base_radius
+    
+    for r_km in expansion_radii:
+        if len(unique_years) >= 4:
+            break
+        nearby_locs = {loc for loc, dist in loc_distances if dist <= r_km}
+        filtered_records = [r for r in records if r.get("location") in nearby_locs]
+        unique_years = {r["year"] for r in filtered_records}
+        final_radius = r_km
+                
+    if not nearby_locs:
+        # Fallback to absolute nearest if none within 250km
+        nearest_loc, min_dist = loc_distances[0]
+        return [r for r in records if r.get("location") == nearest_loc], nearest_loc, min_dist
+
+    # Use true minimum distance for display, unless substring matched 0
+    min_dist_found = loc_distances[0][1] if loc_distances[0][1] != float('inf') else 0.0
+    label = f"{location.upper()} (Region Avg < {int(final_radius)}km)"
+    return filtered_records, label, min_dist_found
 
 
 # ── Prediction ───────────────────────────────────────────
@@ -226,12 +244,7 @@ def predict_for_state(state: str, location: str | None = None) -> dict | None:
 
     df_input = pd.DataFrame([aggregated])[feature_cols]
 
-    # Fill missing with training median
-    all_records = get_all_records()
-    df_all = pd.DataFrame(all_records)
-    medians = df_all[feature_cols].median()
-    df_input = df_input.fillna(medians)
-
+    # Model inherently handles NaNs; no imputation needed.
     prediction = _model.predict(df_input)[0]
     probabilities = _model.predict_proba(df_input)[0]
 
@@ -300,7 +313,6 @@ def get_trends(state: str, location: str | None = None) -> dict | None:
         "parameters": trends,
         "sample_counts": {y: len(by_year[y]) for y in years},
     }
-
 
 # ── Metrics ──────────────────────────────────────────────
 
