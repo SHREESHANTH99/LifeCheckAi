@@ -13,7 +13,11 @@ from lifecheckai.backend.app.models.chat_model import (
     StructuredAnswer,
 )
 from lifecheckai.backend.app.routes.safety import get_city_safety_snapshot
-from lifecheckai.backend.app.services.gemini_service import generate_response
+from lifecheckai.backend.app.services.gemini_service import (
+    generate_response,
+    get_last_gemini_error,
+    get_last_llm_provider,
+)
 from lifecheckai.backend.app.services.water_service import resolve_state_name
 from lifecheckai.backend.app.utils.confidence import compute_confidence
 from lifecheckai.backend.app.utils.intent import detect_intent
@@ -77,7 +81,7 @@ def ask(
             intent_detected=intent,
         )
 
-    safety_snapshot = get_city_safety_snapshot(requested_location, allow_partial=True)
+    safety_snapshot = _safe_city_safety_snapshot(requested_location)
     normalized = _normalize_snapshot(safety_snapshot, requested_location)
 
     critical = check_critical(normalized)
@@ -114,19 +118,23 @@ def ask(
     prompt = build_prompt(normalized, query, intent, profile)
     ai_sections = normalize_sections(generate_response(prompt))
     used_ai = ai_sections is not None
+    ai_provider = get_last_llm_provider() if used_ai else None
     sections = ai_sections or build_fallback_sections(normalized, query, intent, profile)
+    source_payload = _source_payload(normalized)
+    if not used_ai:
+        source_payload["ai_error"] = get_last_gemini_error()
 
     return ChatResponse(
         query=query,
         intent=intent,
         location=ChatLocation(**_location_payload(normalized)),
-        source=_source_payload(normalized),
+        source=source_payload,
         confidence=compute_confidence(normalized),
         safety_override=None,
         structured_answer=StructuredAnswer(**sections),
         answer=render_sections(sections),
         model=ChatModelMeta(
-            provider="gemini" if used_ai else "fallback",
+            provider=ai_provider or ("fallback" if not used_ai else "gemini"),
             used_ai=used_ai,
             fallback_used=not used_ai,
         ),
@@ -162,7 +170,7 @@ async def ask_stream(
                 return
             
             # Get safety snapshot
-            safety_snapshot = get_city_safety_snapshot(city, allow_partial=True)
+            safety_snapshot = _safe_city_safety_snapshot(city)
             normalized = _normalize_snapshot(safety_snapshot, city)
             intent = detect_intent(query)
             
@@ -269,6 +277,26 @@ def _generate_suggestions(query: str, intent: str, city: str) -> list[str]:
         ])
     
     return suggestions[:3]
+
+
+def _safe_city_safety_snapshot(city: str) -> dict:
+    try:
+        return get_city_safety_snapshot(city, allow_partial=True)
+    except Exception:
+        return {
+            "city": city,
+            "formatted_address": city,
+            "source": "fallback_error",
+            "cache_hit": False,
+            "overall": {
+                "summary": f"Live safety feeds are temporarily unavailable for {city}.",
+            },
+            "air": {},
+            "weather": {},
+            "water": {},
+            "alerts": [],
+            "prediction": "Unknown",
+        }
 
 
 def _action_type_from_intent(intent: str) -> str:

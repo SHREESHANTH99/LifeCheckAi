@@ -16,6 +16,7 @@ pydantic_core==2.41.5
 pymongo==4.16.0
 python-dotenv==1.2.2
 requests==2.33.1
+google-generativeai==0.8.4
 spacetimedb-sdk==0.7.0
 starlette==1.0.0
 typing-inspection==0.4.2
