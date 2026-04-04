@@ -7,7 +7,7 @@ from typing import Any
 import requests
 
 from lifecheckai.backend.app.config import GEOCODING_COUNTRY, GEOCODING_REGION, GOOGLE_API_KEY
-
+import math
 GEOCODING_URL = "https://maps.googleapis.com/maps/api/geocode/json"
 REVERSE_GEOCODING_URL = "https://maps.googleapis.com/maps/api/geocode/json"
 
@@ -64,6 +64,22 @@ INDIA_STATES_AND_UTS = [
 def _clean_query(city: str) -> str:
     cleaned = re.sub(r"\s+", " ", city.strip())
     return cleaned
+
+
+def calculate_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Calculate the great circle distance in kilometers between two points on the earth."""
+    R = 6371.0  # Earth radius in kilometers
+
+    lat1_rad, lon1_rad = math.radians(lat1), math.radians(lon1)
+    lat2_rad, lon2_rad = math.radians(lat2), math.radians(lon2)
+
+    dlat = lat2_rad - lat1_rad
+    dlon = lon2_rad - lon1_rad
+
+    a = math.sin(dlat / 2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+    return round(R * c, 2)
 
 
 def _safe_str(value: Any) -> str:

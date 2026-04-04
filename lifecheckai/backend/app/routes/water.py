@@ -19,30 +19,33 @@ def list_states():
 
 
 @router.get("/predict")
-def predict(state: str = Query(..., description="State name, e.g. Delhi")):
-    """ML prediction of water drinkability for a state."""
-    resolved = resolve_state_name(state)
-    if not resolved:
-        raise HTTPException(404, f"State '{state}' not found in data")
-
-    result = ml_service.predict_for_state(resolved)
+async def predict_water_quality(
+    state: str = Query(..., description="Indian state to predict water quality for"),
+    location: str | None = Query(None, description="Optional specific district or location within the state"),
+):
+    """
+    Predict water drinkability for a given state and optional location.
+    Returns prediction, probabilities, parameter values, and any BIS violations.
+    """
+    result = ml_service.predict_for_state(state, location)
     if not result:
-        raise HTTPException(404, f"No water data for state '{resolved}'")
-
+        raise HTTPException(
+            status_code=404, detail=f"No water quality data available for state: {state}"
+        )
     return result
 
 
 @router.get("/trends")
-def trends(state: str = Query(..., description="State name")):
-    """Year-over-year parameter trends for a state."""
-    resolved = resolve_state_name(state)
-    if not resolved:
-        raise HTTPException(404, f"State '{state}' not found in data")
-
-    result = ml_service.get_trends(resolved)
+async def get_water_trends(
+    state: str = Query(..., description="Indian state to get historical trends for"),
+    location: str | None = Query(None, description="Optional specific district or location within the state"),
+):
+    """
+    Get year-over-year trends for all 10 water quality parameters for a given state and optional location.
+    """
+    result = ml_service.get_trends(state, location)
     if not result:
-        raise HTTPException(404, f"No trend data for state '{resolved}'")
-
+        raise HTTPException(status_code=404, detail=f"No trends data available for state: {state}")
     return result
 
 

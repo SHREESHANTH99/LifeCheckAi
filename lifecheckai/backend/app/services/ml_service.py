@@ -24,6 +24,7 @@ from lifecheckai.backend.app.services.water_service import (
     get_all_records,
     get_available_states,
 )
+from lifecheckai.backend.app.services.maps_service import get_coordinates, calculate_distance
 
 # ── BIS IS 10500:2012 Safe Limits ────────────────────────
 BIS_LIMITS = {
@@ -145,15 +146,68 @@ def _ensure_model():
         train_model()
 
 
+import concurrent.futures
+
+def _filter_by_location(records: list[dict], state: str, location: str) -> tuple[list[dict], str | None, float | None]:
+    unique_locations = list({r["location"] for r in records if r.get("location")})
+    
+    # Exact or substring match
+    match = next((loc for loc in unique_locations if location.lower() == loc.lower()), None)
+    if not match:
+        match = next((loc for loc in unique_locations if location.lower() in loc.lower()), None)
+        
+    if match:
+        return [r for r in records if r.get("location") == match], match, None
+        
+    # Geographical nearest match
+    target_coords = get_coordinates(f"{location}, {state}")
+    if not target_coords or target_coords.get("lat") is None:
+        return records, None, None
+        
+    nearest_loc = None
+    min_dist = float('inf')
+    
+    def _calc_dist(loc: str):
+        loc_coords = get_coordinates(f"{loc}, {state}")
+        if loc_coords and loc_coords.get("lat") is not None:
+            dist = calculate_distance(target_coords["lat"], target_coords["lon"], loc_coords["lat"], loc_coords["lon"])
+            return loc, dist
+        return loc, float('inf')
+    
+    # Parallelize geocoding API requests to drastically improve performance
+    with concurrent.futures.ThreadPoolExecutor(max_workers=15) as executor:
+        future_to_loc = {executor.submit(_calc_dist, loc): loc for loc in unique_locations}
+        for future in concurrent.futures.as_completed(future_to_loc):
+            loc, dist = future.result()
+            if dist < min_dist:
+                min_dist = dist
+                nearest_loc = loc
+                if min_dist <= 5.0: # Close enough, early exit
+                    break
+                
+    if nearest_loc:
+        return [r for r in records if r.get("location") == nearest_loc], nearest_loc, min_dist
+        
+    return records, None, None
+
+
 # ── Prediction ───────────────────────────────────────────
 
-def predict_for_state(state: str) -> dict | None:
-    """Predict water drinkability for a given state using its latest data."""
+def predict_for_state(state: str, location: str | None = None) -> dict | None:
+    """Predict water drinkability for a given state (and optionally location) using its latest data."""
     _ensure_model()
     if _model is None:
         return None
 
     records = [r for r in get_all_records() if r["state"] == state]
+    if not records:
+        return None
+        
+    matched_location = None
+    distance_km = None
+    if location:
+        records, matched_location, distance_km = _filter_by_location(records, state, location)
+        
     if not records:
         return None
 
@@ -193,6 +247,8 @@ def predict_for_state(state: str) -> dict | None:
 
     return {
         "state": state,
+        "matched_location": matched_location,
+        "distance_km": distance_km,
         "year": latest_year,
         "sample_count": len(latest),
         "prediction": "Not Drinkable" if prediction == 1 else "Drinkable",
@@ -207,9 +263,17 @@ def predict_for_state(state: str) -> dict | None:
 
 # ── Trends ───────────────────────────────────────────────
 
-def get_trends(state: str) -> dict | None:
+def get_trends(state: str, location: str | None = None) -> dict | None:
     """Return year-over-year averages for each parameter."""
     records = [r for r in get_all_records() if r["state"] == state]
+    if not records:
+        return None
+        
+    matched_location = None
+    distance_km = None
+    if location:
+        records, matched_location, distance_km = _filter_by_location(records, state, location)
+        
     if not records:
         return None
 
@@ -230,6 +294,8 @@ def get_trends(state: str) -> dict | None:
 
     return {
         "state": state,
+        "matched_location": matched_location,
+        "distance_km": distance_km,
         "years": trend_years,
         "parameters": trends,
         "sample_counts": {y: len(by_year[y]) for y in years},

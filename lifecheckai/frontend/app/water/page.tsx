@@ -31,6 +31,8 @@ const API = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 /* ── Types ───────────────────────────────────────────── */
 interface Prediction {
   state: string;
+  matched_location?: string | null;
+  distance_km?: number | null;
   year: number;
   sample_count: number;
   prediction: string;
@@ -44,6 +46,8 @@ interface Prediction {
 
 interface Trends {
   state: string;
+  matched_location?: string | null;
+  distance_km?: number | null;
   years: number[];
   parameters: Record<string, (number | null)[]>;
   sample_counts: Record<number, number>;
@@ -90,6 +94,7 @@ const CHART_COLORS = [
 export default function WaterPage() {
   const [states, setStates] = useState<string[]>([]);
   const [selectedState, setSelectedState] = useState("");
+  const [locationQuery, setLocationQuery] = useState("");
   const [prediction, setPrediction] = useState<Prediction | null>(null);
   const [trends, setTrends] = useState<Trends | null>(null);
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
@@ -110,8 +115,9 @@ export default function WaterPage() {
   }, []);
 
   /* Fetch data for selected state */
-  const fetchStateData = useCallback(async (state: string) => {
+  const fetchStateData = useCallback(async (state: string, location?: string) => {
     setSelectedState(state);
+    if (!location) setLocationQuery("");
     setDropdownOpen(false);
     setPrediction(null);
     setTrends(null);
@@ -120,9 +126,16 @@ export default function WaterPage() {
     setLoading((p) => ({ ...p, prediction: true, trends: true }));
 
     try {
+      let predUrl = `${API}/api/water/predict?state=${encodeURIComponent(state)}`;
+      let trendsUrl = `${API}/api/water/trends?state=${encodeURIComponent(state)}`;
+      if (location) {
+        predUrl += `&location=${encodeURIComponent(location)}`;
+        trendsUrl += `&location=${encodeURIComponent(location)}`;
+      }
+
       const [predRes, trendRes] = await Promise.all([
-        fetch(`${API}/api/water/predict?state=${encodeURIComponent(state)}`),
-        fetch(`${API}/api/water/trends?state=${encodeURIComponent(state)}`),
+        fetch(predUrl),
+        fetch(trendsUrl),
       ]);
       if (predRes.ok) setPrediction(await predRes.json());
       if (trendRes.ok) setTrends(await trendRes.json());
@@ -156,37 +169,79 @@ export default function WaterPage() {
         </p>
       </div>
 
-      {/* State Selector */}
-      <div className="relative mb-8 max-w-md">
-        <button
-          onClick={() => setDropdownOpen(!dropdownOpen)}
-          className="w-full flex items-center justify-between gap-2 px-5 py-3.5 rounded-xl card text-left cursor-pointer hover:border-accent-blue/40 transition-colors"
-        >
-          <span className={selectedState ? "text-text-primary font-medium" : "text-text-muted"}>
-            {selectedState || "Select a state to analyze..."}
-          </span>
-          <ChevronDown size={18} className={`text-text-secondary transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
-        </button>
-        {dropdownOpen && (
-          <div className="absolute top-full left-0 right-0 mt-2 max-h-64 overflow-y-auto rounded-xl card border border-border-light z-50 shadow-lg">
-            {states.map((s) => (
-              <button
-                key={s}
-                onClick={() => fetchStateData(s)}
-                className={`w-full text-left px-5 py-2.5 text-sm hover:bg-white/5 transition-colors cursor-pointer ${
-                  s === selectedState ? "text-accent-blue font-medium bg-accent-blue/5" : "text-text-secondary"
-                }`}
-              >
-                {s}
-              </button>
-            ))}
+      {/* Inputs Configuration */}
+      <div className="flex flex-col md:flex-row gap-4 mb-8 max-w-2xl bg-card p-4 rounded-xl border border-border-light shadow-sm">
+        {/* State Selector */}
+        <div className="relative flex-1">
+          <label className="block text-xs font-medium text-text-secondary mb-1">State <span className="text-unsafe">*</span></label>
+          <button
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+            className="w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-lg border border-border-default text-left cursor-pointer hover:border-accent-blue/40 transition-colors"
+          >
+            <span className={selectedState ? "text-text-primary text-sm font-medium" : "text-text-muted text-sm"}>
+              {selectedState || "Select a state..."}
+            </span>
+            <ChevronDown size={16} className={`text-text-secondary transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
+          </button>
+          {dropdownOpen && (
+            <div className="absolute top-full left-0 right-0 mt-2 max-h-64 overflow-y-auto rounded-lg card border border-border-light z-50 shadow-lg">
+              {states.map((s) => (
+                <button
+                  key={s}
+                  onClick={() => {
+                    setSelectedState(s);
+                    setDropdownOpen(false);
+                  }}
+                  className={`w-full text-left px-4 py-2 text-sm hover:bg-white/5 transition-colors cursor-pointer ${
+                    s === selectedState ? "text-accent-blue font-medium bg-accent-blue/5" : "text-text-secondary"
+                  }`}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Location Input */}
+        <div className="flex-1 flex gap-2 items-end">
+          <div className="flex-1">
+            <label className="block text-xs font-medium text-text-secondary mb-1">District / City (Optional)</label>
+            <input
+              type="text"
+              placeholder="e.g. Kakinada"
+              value={locationQuery}
+              onChange={(e) => setLocationQuery(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-lg border border-border-default bg-transparent text-sm text-text-primary focus:outline-none focus:border-accent-blue"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && selectedState) {
+                  fetchStateData(selectedState, locationQuery);
+                }
+              }}
+            />
           </div>
-        )}
+          <button
+            onClick={() => selectedState && fetchStateData(selectedState, locationQuery)}
+            disabled={!selectedState || loading.prediction}
+            className="px-5 py-2.5 bg-accent-blue text-white text-sm font-medium rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed h-[42px]"
+          >
+            Analyze
+          </button>
+        </div>
       </div>
 
       {/* Results Grid */}
       {selectedState && (
         <div className="space-y-6">
+          {prediction && prediction.matched_location && (
+            <div className="bg-accent-blue/10 border border-accent-blue/20 text-accent-blue px-4 py-3 rounded-lg text-sm flex items-center gap-2">
+              <Info size={16} />
+              <span>
+                Showing location-aware prediction for <strong>{prediction.matched_location}</strong>
+                {prediction.distance_km !== null && prediction.distance_km > 0 && ` (${prediction.distance_km} km from query)`}.
+              </span>
+            </div>
+          )}
           {/* Row 1: Prediction + Parameters */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* ML Prediction Card */}
