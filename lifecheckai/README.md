@@ -1,57 +1,156 @@
 # LifeCheck AI
 
-Real-time city safety assistant built with:
+LifeCheck AI is a full-stack environmental safety platform for India-wide location intelligence.
+It combines real-time air, weather, pollen, water-quality analytics, AI guidance, and map-based monitoring.
 
-- FastAPI backend (Python)
-- Next.js frontend (TypeScript)
-- Google APIs (Geocoding, Weather, Air Quality, Pollen)
-- SpaceTimeDB for short-lived realtime cache
+## What Is Built
 
-This README is the full setup and runbook for teammates.
+### Core capabilities
 
-## Project Structure
+- Real-time safety snapshot per location (AQI, weather, pollen, overall verdict)
+- Geocoding + reverse geocoding (city/state/place resolution)
+- Browser geolocation safety lookup
+- Multi-city and state-scale monitoring with live map overlays
+- Alert feed and notification-style alert UX
+- AI chat assistant with safety-aware fallback mode
+- Water quality ML prediction + trends + Gemini analysis
+- Realtime cache via SpaceTimeDB and scheduler-driven warmup
+
+### Coverage
+
+- Dashboard and map search support broad location matching via `/api/location-suggestions`
+- India states and UTs seeded in frontend for professional quick-selection UX
+- Dynamic monitored locations are persisted and can grow beyond default seeds
+
+## Tech Stack
+
+### Frontend
+
+- Next.js (App Router)
+- TypeScript + React
+- Framer Motion
+- Tailwind CSS
+- Recharts (water trends)
+- Lucide icons
+
+### Backend
+
+- FastAPI
+- Pydantic
+- Requests/httpx
+- Scikit-learn, pandas, numpy, joblib (water ML)
+- Google APIs: Geocoding, Air Quality, Weather, Pollen
+- SpaceTimeDB (short-lived realtime cache)
+
+## Project Layout
 
 ```text
 lifecheck-ai/
 	lifecheckai/
 		backend/
-			.env
 			requirements.txt
+			.env
 			app/
 				main.py
 				config.py
 				routes/
 				services/
+				models/
 				utils/
 		frontend/
 			package.json
 			app/
+			components/
+			lib/
+			types/
 	lifecheck-sbt/
 		server/
 			Cargo.toml
 			src/lib.rs
 ```
 
-## Prerequisites
+## Backend Features (From Current Code)
 
-- Python 3.11+ (project also runs on newer versions)
-- Node.js 20+
-- npm
-- Rust toolchain (for SpaceTimeDB module publish)
-- SpaceTimeDB CLI installed
+### Safety and geolocation
 
-Optional but recommended:
+- `GET /api/check-safety?city=...`
+	- Geocodes location, fetches weather/air/pollen, computes verdict, advisory and score
+	- Caches to SpaceTimeDB and returns `source` + `cache_hit`
+- `GET /api/check-safety-by-coordinates?lat=...&lon=...`
+	- Reverse-geocodes browser coordinates and returns full snapshot
+- `GET /api/location-suggestions?q=...&limit=...`
+	- Ranked location suggestions from geocoding + India state/UT fallback set
+- `GET /api/cities/live`
+	- Live cached city snapshots (used by map/dashboard monitored views)
 
-- VS Code
-- `wasm-opt` (for optimized SpaceTimeDB module builds)
+### Alerts / history / realtime
 
-## One-Time Setup
+- `GET /api/alerts/live`
+	- Active alerts + alert history
+- `GET /api/history?cities=...&limit=...`
+	- Snapshot history for one or more cities
+- `GET /realtime/snapshot`
+	- Realtime city snapshot feed for polling clients
 
-### 1. Clone and open workspace
+### AI chat
 
-Use the `lifecheck-ai` workspace root as your terminal working directory.
+- `GET /api/ask?query=...`
+	- Intent + location extraction
+	- Safety-guard critical override path
+	- Gemini-based sectioned answer with fallback rendering
+	- Confidence + source metadata in response
 
-### 2. Backend setup
+### Water intelligence
+
+- `GET /api/water/states`
+- `GET /api/water/predict?state=...`
+- `GET /api/water/trends?state=...`
+- `GET /api/water/model-metrics`
+- `GET /api/water/analyze?state=...`
+
+### Platform endpoints
+
+- `GET /` backend status message
+- `GET /health` service health + scheduler status
+- `GET /test` basic health route
+
+## Frontend Features (From Current Code)
+
+### Pages
+
+- `/` modern landing page with city quick-check + feature cards
+- `/dashboard`
+	- Sticky advanced search with async suggestions
+	- Location intelligence panel
+	- Air/weather/pollen/UV metric system
+	- Monitored cities section with filtering/sorting/priority summaries
+- `/map`
+	- Google Maps JS integration
+	- True map-anchored zone overlays (safe/caution/unsafe circles + markers)
+	- Drawer-style monitored panel with hamburger toggle (desktop + mobile)
+	- Dynamic monitored locations and live city refresh
+- `/chat`
+	- AI conversation UI with city context and quick prompts
+- `/alerts`
+	- Alert feed + filters + top notifications section with unread tracking
+- `/water`
+	- State selector, ML prediction, BIS violation view, trends charts, AI analysis
+
+### Shared frontend behavior
+
+- Context state store for safety data and chat context
+- `useSafetyData` hook with normalization for multiple backend payload shapes
+- 60-second auto-polling + local cache fallback + toasts
+- `locateMe` support for browser geolocation
+- Advanced `SearchBar` with:
+	- Recent searches
+	- Ranked suggestions
+	- Grouped sections (Recent, Location Matches, Popular Picks)
+	- Debounced async suggestion provider support
+
+## Setup
+
+### 1) Backend
 
 ```powershell
 cd lifecheckai/backend
@@ -60,210 +159,92 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-Create or update `backend/.env`:
+Create/update `lifecheckai/backend/.env`:
 
 ```env
 GOOGLE_API_KEY=YOUR_GOOGLE_API_KEY
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY_OR_SAME_AS_GOOGLE
+GEMINI_MODEL=gemini-2.5-flash
+GEOCODING_COUNTRY=IN
+GEOCODING_REGION=in
+
 SPACETIMEDB_HOST=https://maincloud.spacetimedb.com
-SPACETIMEDB_DB_NAME=YOUR_SPACETIMEDB_DB_NAME
+SPACETIMEDB_DB_NAME=YOUR_DB_NAME
+
+ENABLE_SCHEDULER=true
+SCHEDULER_INTERVAL_SECONDS=300
+SCHEDULER_CITIES=Delhi,Mumbai,Bangalore,Chennai
 ```
 
-Important:
-
-- `app/config.py` loads `.env` from `backend/.env` explicitly.
-- Do not commit real API keys.
-
-### 3. Frontend setup
+### 2) Frontend
 
 ```powershell
 cd ../frontend
 npm install
 ```
 
-### 4. SpaceTimeDB module setup
+Create/update `lifecheckai/frontend/.env.local`:
 
-The SpaceTimeDB module lives in `lifecheck-sbt/server`.
+```env
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
+NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=YOUR_BROWSER_MAPS_KEY
+```
+
+### 3) SpaceTimeDB module (optional but recommended for realtime cache)
 
 ```powershell
 cd ../../lifecheck-sbt/server
 spacetime login
-spacetime publish YOUR_SPACETIMEDB_DB_NAME -y
+spacetime publish YOUR_DB_NAME -y
 ```
 
-After publish, copy the DB name into `backend/.env` as `SPACETIMEDB_DB_NAME`.
+## Run
 
-## Running the App
+From workspace root:
 
-Open two terminals from workspace root (`lifecheck-ai`).
-
-### Terminal A: Backend
+### Backend
 
 ```powershell
-./lifecheckai/backend/venv/Scripts/python.exe -m uvicorn lifecheckai.backend.app.main:app --host 127.0.0.1 --port 8000
+./lifecheckai/backend/venv/Scripts/python.exe -m uvicorn lifecheckai.backend.app.main:app --reload
 ```
 
-Backend URLs:
-
-- `http://127.0.0.1:8000/`
-- `http://127.0.0.1:8000/health`
-- `http://127.0.0.1:8000/docs`
-
-### Terminal B: Frontend
+### Frontend
 
 ```powershell
-cd lifecheckai/frontend
-npm run dev
-```
-
-Frontend URL:
-
-- `http://localhost:3000`
-
-## API Endpoints
-
-### Health and basics
-
-- `GET /` -> backend startup message
-- `GET /health` -> service health
-- `GET /test` -> basic route check
-
-### Safety
-
-- `GET /api/check-safety?city=Delhi`
-	- Pulls data from Google APIs
-	- Applies rule engine
-	- Saves response to SpaceTimeDB cache
-	- Returns `source: "live"` or `source: "realtime_cache"`
-
-- `GET /api/cities/live`
-	- Returns all non-expired cached city snapshots
-
-### Realtime
-
-- `GET /realtime/snapshot`
-	- Snapshot for polling clients
-
-## Frontend Data Flow
-
-- `frontend/app/hooks/useSafetyData.ts` polls `/api/check-safety` every 60 seconds.
-- `frontend/app/page.tsx` currently includes a basic backend connectivity view.
-
-## SpaceTimeDB Details
-
-### Module source
-
-- `lifecheck-sbt/server/src/lib.rs`
-
-### Current schema/reducer
-
-- Table: `city_data`
-- Reducer: `save_city_data(city, data, timestamp)`
-
-### Backend integration mode
-
-Backend uses SpaceTimeDB HTTP API:
-
-- Base: `{SPACETIMEDB_HOST}/v1/database/{SPACETIMEDB_DB_NAME}`
-- Write: `POST /call/save_city_data`
-- Read: `POST /sql` with SQL text payload
-
-Cache TTL is 5 minutes in `backend/app/services/db_service.py`.
-
-## Verification Checklist
-
-Run these after setup:
-
-```powershell
-curl http://127.0.0.1:8000/health
-curl "http://127.0.0.1:8000/api/check-safety?city=Delhi"
-curl http://127.0.0.1:8000/api/cities/live
-```
-
-Expected:
-
-- Health returns status `ok`
-- Safety returns JSON with `overall`, `air_quality`, `weather`, `pollen`
-- Live cities returns at least one cached row after a safety call
-
-## Known Limitations
-
-- Google Pollen API coverage is location-dependent.
-- Some regions may return pollen unavailable; backend degrades gracefully to:
-	- `pollen.level = "Unknown"`
-	- `pollen.types = null`
-- This does not fail the entire safety response.
-
-## Troubleshooting
-
-### 1. `check-safety` returns 404 city not found
-
-Likely geocoding/API key issue.
-
-Check:
-
-- Geocoding API enabled in Google Cloud
-- Billing enabled
-- Key restrictions allow backend server usage
-
-### 2. `check-safety` returns 502 weather/air unavailable
-
-Likely API enablement or quota issue.
-
-Check:
-
-- Weather API enabled
-- Air Quality API enabled
-- API key has permission and quota
-
-### 3. SpaceTimeDB publish returns 403 collaborator error
-
-You are logged in with an identity that does not own the target DB.
-
-Fix:
-
-```powershell
-spacetime login show
-spacetime list
-spacetime publish YOUR_OWN_DB_NAME -y
-```
-
-Then update `SPACETIMEDB_DB_NAME` in backend `.env`.
-
-### 4. SpaceTimeDB publish ABI/module errors
-
-Ensure module uses current dependency and wasm crate type:
-
-- `spacetimedb = { version = "2.1.0" }`
-- `[lib] crate-type = ["cdylib"]`
-
-### 5. Frontend build fails with Turbopack root/dist issues
-
-Keep `frontend/next.config.ts` simple unless there is a strong need for custom Turbopack root.
-
-## Development Notes for Teammates
-
-- Keep backend logic modular:
-	- `routes/` for API contracts
-	- `services/` for external integrations
-	- `utils/rules.py` for scoring rules
-- Prefer adding tests for:
-	- Rules (`air_safety`, `weather_safety`, `pollen_safety`, `overall_safety`)
-	- Service adapters (mock Google/SpaceTimeDB HTTP responses)
-- Rotate secrets immediately if a key is ever exposed.
-
-## Quick Start (TL;DR)
-
-```powershell
-# Backend
-./lifecheckai/backend/venv/Scripts/python.exe -m uvicorn lifecheckai.backend.app.main:app --host 127.0.0.1 --port 8000
-
-# Frontend
 cd lifecheckai/frontend
 npm run dev
 ```
 
 Open:
 
-- `http://127.0.0.1:8000/docs`
-- `http://localhost:3000`
+- Backend docs: `http://127.0.0.1:8000/docs`
+- Frontend: `http://localhost:3000`
+
+## Verification Quick Checks
+
+```powershell
+curl http://127.0.0.1:8000/health
+curl "http://127.0.0.1:8000/api/check-safety?city=Delhi"
+curl "http://127.0.0.1:8000/api/location-suggestions?q=maha&limit=8"
+curl http://127.0.0.1:8000/api/cities/live
+curl "http://127.0.0.1:8000/api/water/predict?state=Maharashtra"
+```
+
+## Notes and Limitations
+
+- Google API enablement and billing are required for live geocoding/air/weather/pollen.
+- Pollen coverage can vary by location; API may return sparse data in some regions.
+- With no Google key, backend falls back to mock/default coordinate behavior.
+- Map overlays require `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` with Maps JavaScript API enabled.
+
+## Security and Ops
+
+- Do not commit `.env` secrets.
+- Rotate keys if exposed.
+- Restrict production API keys by origin/IP and service scope.
+
+## Current Version Snapshot
+
+This README reflects the currently implemented feature set in the codebase as of April 2026.
 

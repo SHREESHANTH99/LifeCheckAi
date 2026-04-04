@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { MapPin, Navigation, Search, Loader2, Clock3, Sparkles, X } from "lucide-react";
 
 const RECENT_SEARCHES_KEY = "lifecheck_recent_searches";
@@ -25,6 +25,7 @@ interface SearchBarProps {
   className?: string;
   quickCities?: string[];
   showSuggestions?: boolean;
+  fetchSuggestions?: (query: string) => Promise<Array<{ value: string; subtitle?: string }>>;
 }
 
 export function SearchBar({
@@ -36,9 +37,14 @@ export function SearchBar({
   className = "",
   quickCities = [],
   showSuggestions = true,
+  fetchSuggestions,
 }: SearchBarProps) {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
+  const [remoteSuggestions, setRemoteSuggestions] = useState<Array<{ value: string; subtitle?: string }>>([]);
+  const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false);
+  const requestIdRef = useRef(0);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>(() => {
     if (typeof window === "undefined") return [];
     try {
@@ -61,6 +67,52 @@ export function SearchBar({
     });
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
+
+  const requestRemoteSuggestions = useCallback(
+    (inputValue: string) => {
+      if (!fetchSuggestions) {
+        setRemoteSuggestions([]);
+        return;
+      }
+
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+
+      const trimmed = inputValue.trim();
+      if (trimmed.length < 2) {
+        setRemoteSuggestions([]);
+        setIsFetchingSuggestions(false);
+        return;
+      }
+
+      setIsFetchingSuggestions(true);
+      const requestId = ++requestIdRef.current;
+      debounceTimerRef.current = setTimeout(async () => {
+        try {
+          const suggestions = await fetchSuggestions(trimmed);
+          if (requestIdRef.current !== requestId) return;
+          setRemoteSuggestions(suggestions.slice(0, 8));
+        } catch {
+          if (requestIdRef.current !== requestId) return;
+          setRemoteSuggestions([]);
+        } finally {
+          if (requestIdRef.current === requestId) {
+            setIsFetchingSuggestions(false);
+          }
+        }
+      }, 220);
+    },
+    [fetchSuggestions],
+  );
+
   const handleSubmit = useCallback(() => {
     const trimmed = query.trim();
     if (trimmed && !isLoading) {
@@ -71,10 +123,10 @@ export function SearchBar({
   }, [query, isLoading, onSearch, persistRecent]);
 
   const submitSuggestion = useCallback(
-    (city: string) => {
-      setQuery(city);
-      onSearch(city);
-      persistRecent(city);
+    (suggestion: { value: string }) => {
+      setQuery(suggestion.value);
+      onSearch(suggestion.value);
+      persistRecent(suggestion.value);
       setIsFocused(false);
     },
     [onSearch, persistRecent],
@@ -114,20 +166,43 @@ export function SearchBar({
       })
       .filter((item) => item.score > 0)
       .sort((a, b) => b.score - a.score)
-      .map((item) => item.city)
-      .slice(0, 8);
+      .slice(0, 8)
+      .map((item) => ({ value: item.city }));
 
-    return scored;
-  }, [quickCities, query, recentSearches]);
+    const remote = remoteSuggestions
+      .filter((entry) => entry.value)
+      .map((entry) => ({ value: entry.value, subtitle: entry.subtitle }));
+
+    const localByValue = new Set(scored.map((entry) => entry.value.toLowerCase()));
+    const mergedSuggestions = [
+      ...remote,
+      ...scored.filter((entry) => !localByValue.has(entry.value.toLowerCase())),
+    ];
+
+    const deduped = mergedSuggestions.filter(
+      (entry, index) =>
+        mergedSuggestions.findIndex((item) => item.value.toLowerCase() === entry.value.toLowerCase()) === index,
+    );
+
+    return deduped.slice(0, 10);
+  }, [quickCities, query, recentSearches, remoteSuggestions]);
 
   const groupedSuggestions = useMemo(() => {
     const recentSet = new Set(recentSearches.map((item) => item.toLowerCase()));
-    const recent = suggestions.filter((city) => recentSet.has(city.toLowerCase())).slice(0, 4);
-    const popular = suggestions.filter((city) => !recentSet.has(city.toLowerCase())).slice(0, 4);
-    return { recent, popular };
+    const recent = suggestions.filter((entry) => recentSet.has(entry.value.toLowerCase())).slice(0, 4);
+    const live = suggestions
+      .filter((entry) => !!entry.subtitle && !recentSet.has(entry.value.toLowerCase()))
+      .slice(0, 4);
+    const popular = suggestions
+      .filter((entry) => !entry.subtitle && !recentSet.has(entry.value.toLowerCase()))
+      .slice(0, 4);
+    return { recent, live, popular };
   }, [recentSearches, suggestions]);
 
-  const showDropdown = showSuggestions && isFocused && suggestions.length > 0;
+  const showDropdown =
+    showSuggestions &&
+    isFocused &&
+    (suggestions.length > 0 || isFetchingSuggestions || query.trim().length >= 2);
 
   return (
     <div className="relative w-full">
@@ -140,8 +215,15 @@ export function SearchBar({
         <input
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onFocus={() => setIsFocused(true)}
+          onChange={(e) => {
+            const nextValue = e.target.value;
+            setQuery(nextValue);
+            requestRemoteSuggestions(nextValue);
+          }}
+          onFocus={() => {
+            setIsFocused(true);
+            requestRemoteSuggestions(query);
+          }}
           onBlur={() => setTimeout(() => setIsFocused(false), 120)}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
@@ -189,21 +271,51 @@ export function SearchBar({
             <p className="text-[11px] text-text-muted">Press Enter to search</p>
           </div>
           <div className="space-y-3">
+            {isFetchingSuggestions && (
+              <div className="text-xs text-text-muted flex items-center gap-2">
+                <Loader2 size={12} className="animate-spin" /> Finding locations...
+              </div>
+            )}
+
             {groupedSuggestions.recent.length > 0 && (
               <div>
                 <p className="text-[11px] text-text-muted mb-1.5">Recent</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {groupedSuggestions.recent.map((city) => (
+                  {groupedSuggestions.recent.map((entry) => (
                     <button
-                      key={`recent-${city}`}
+                      key={`recent-${entry.value}`}
                       onMouseDown={(e) => {
                         e.preventDefault();
-                        submitSuggestion(city);
+                        submitSuggestion(entry);
                       }}
                       className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-border-default bg-bg-secondary/40 text-sm text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
                     >
-                      <span className="truncate">{city}</span>
+                      <span className="truncate">{entry.value}</span>
                       <Clock3 size={13} className="text-text-muted shrink-0" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {groupedSuggestions.live.length > 0 && (
+              <div>
+                <p className="text-[11px] text-text-muted mb-1.5">Location Matches</p>
+                <div className="grid grid-cols-1 gap-2">
+                  {groupedSuggestions.live.map((entry) => (
+                    <button
+                      key={`live-${entry.value}-${entry.subtitle || ""}`}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        submitSuggestion(entry);
+                      }}
+                      className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-border-default bg-bg-secondary/40 text-sm text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
+                    >
+                      <span className="min-w-0">
+                        <span className="truncate block text-text-primary">{entry.value}</span>
+                        {entry.subtitle && <span className="truncate block text-[11px] text-text-muted">{entry.subtitle}</span>}
+                      </span>
+                      <MapPin size={13} className="text-accent-cyan shrink-0" />
                     </button>
                   ))}
                 </div>
@@ -214,21 +326,25 @@ export function SearchBar({
               <div>
                 <p className="text-[11px] text-text-muted mb-1.5">Popular Picks</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {groupedSuggestions.popular.map((city) => (
+                  {groupedSuggestions.popular.map((entry) => (
                     <button
-                      key={`popular-${city}`}
+                      key={`popular-${entry.value}`}
                       onMouseDown={(e) => {
                         e.preventDefault();
-                        submitSuggestion(city);
+                        submitSuggestion(entry);
                       }}
                       className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-border-default bg-bg-secondary/40 text-sm text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
                     >
-                      <span className="truncate">{city}</span>
+                      <span className="truncate">{entry.value}</span>
                       <Sparkles size={13} className="text-accent-cyan shrink-0" />
                     </button>
                   ))}
                 </div>
               </div>
+            )}
+
+            {!isFetchingSuggestions && suggestions.length === 0 && query.trim().length >= 2 && (
+              <div className="text-xs text-text-muted">No location suggestions found. Press Enter to search directly.</div>
             )}
           </div>
         </div>

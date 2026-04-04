@@ -21,6 +21,7 @@ from lifecheckai.backend.app.services.db_service import (
 )
 from lifecheckai.backend.app.services.maps_service import get_coordinates
 from lifecheckai.backend.app.services.maps_service import get_place_from_coordinates
+from lifecheckai.backend.app.services.maps_service import suggest_locations
 from lifecheckai.backend.app.services.pollen_service import get_pollen
 from lifecheckai.backend.app.services.runtime_state import (
     record_alerts,
@@ -148,6 +149,19 @@ def live_cities():
     return {
         "count": len(cities),
         "cities": cities,
+    }
+
+
+@router.get("/location-suggestions")
+def location_suggestions(
+    q: str = Query(..., min_length=2, description="Partial city/location query"),
+    limit: int = Query(8, ge=1, le=12),
+):
+    suggestions = suggest_locations(q, limit)
+    return {
+        "query": q,
+        "count": len(suggestions),
+        "suggestions": suggestions,
     }
 
 

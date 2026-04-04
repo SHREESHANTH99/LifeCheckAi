@@ -29,19 +29,11 @@ import {
   ShieldAlert,
 } from "lucide-react";
 import Link from "next/link";
+import { INDIAN_STATE_NAMES } from "@/lib/indiaLocations";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
 const MONITORED_CITIES_KEY = "lifecheck_monitored_cities";
-const QUICK_CITY_OPTIONS = [
-  "Delhi",
-  "Mumbai",
-  "Bangalore",
-  "Chennai",
-  "Hyderabad",
-  "Kolkata",
-  "Pune",
-  "Ahmedabad",
-];
+const QUICK_CITY_OPTIONS = INDIAN_STATE_NAMES;
 
 type MonitoredStatusFilter = "ALL" | "SAFE" | "CAUTION" | "UNSAFE";
 type MonitoredSortMode = "risk" | "aqi" | "name";
@@ -55,6 +47,13 @@ interface MonitoredCitySnapshot {
   humidity: number | null;
   source: string;
   updatedAt: number;
+}
+
+interface LocationSuggestionResponse {
+  suggestions?: Array<{
+    city?: string;
+    formatted_address?: string;
+  }>;
 }
 
 function formatTime(date: Date | null): string {
@@ -294,6 +293,34 @@ function DashboardPageContent() {
     return merged.filter((cityName, index) => merged.findIndex((x) => x.toLowerCase() === cityName.toLowerCase()) === index);
   }, [monitoredCities]);
 
+  const fetchLocationSuggestions = useCallback(
+    async (query: string) => {
+      if (query.trim().length < 2) return [];
+
+      const response = await fetch(
+        `${API_BASE}/api/location-suggestions?q=${encodeURIComponent(query)}&limit=8`,
+      );
+      if (!response.ok) return [];
+
+      const payload = (await response.json()) as LocationSuggestionResponse;
+      const suggestions = payload.suggestions || [];
+      return suggestions
+        .map((entry) => {
+          const value = entry.city || entry.formatted_address || "";
+          if (!value) return null;
+          return {
+            value,
+            subtitle:
+              entry.formatted_address && entry.formatted_address !== value
+                ? entry.formatted_address
+                : undefined,
+          };
+        })
+        .filter((entry): entry is { value: string; subtitle?: string } => !!entry);
+    },
+    [],
+  );
+
   // Auto-search if city query param is present
   useEffect(() => {
     const cityParam = searchParams.get("city");
@@ -316,6 +343,7 @@ function DashboardPageContent() {
             isLoading={loading}
             isLocating={loading}
             quickCities={smartQuickCities}
+            fetchSuggestions={fetchLocationSuggestions}
           />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -349,6 +377,7 @@ function DashboardPageContent() {
             isLoading={loading}
             isLocating={loading}
             quickCities={smartQuickCities}
+            fetchSuggestions={fetchLocationSuggestions}
           />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -379,6 +408,7 @@ function DashboardPageContent() {
               isLoading={loading}
               isLocating={loading}
               quickCities={smartQuickCities}
+              fetchSuggestions={fetchLocationSuggestions}
             />
           </div>
           {data && (

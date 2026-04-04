@@ -21,6 +21,45 @@ MOCK_COORDS = {
     "hyderabad": {"lat": 17.3850, "lon": 78.4867, "formatted_address": "Hyderabad, Telangana, India"},
 }
 
+INDIA_STATES_AND_UTS = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal",
+    "Andaman and Nicobar Islands",
+    "Chandigarh",
+    "Dadra and Nagar Haveli and Daman and Diu",
+    "Delhi",
+    "Jammu and Kashmir",
+    "Ladakh",
+    "Lakshadweep",
+    "Puducherry",
+]
+
 
 def _clean_query(city: str) -> str:
     cleaned = re.sub(r"\s+", " ", city.strip())
@@ -251,3 +290,110 @@ def get_place_from_coordinates(lat: float, lon: float) -> dict | None:
         }
     except Exception:
         return None
+
+
+def suggest_locations(query: str, limit: int = 8) -> list[dict]:
+    cleaned_query = _clean_query(query)
+    if not cleaned_query:
+        return []
+
+    safe_limit = max(1, min(limit, 12))
+
+    state_fallback = [
+        {
+            "city": state,
+            "formatted_address": f"{state}, India",
+            "lat": None,
+            "lon": None,
+            "confidence": 0.45,
+        }
+        for state in INDIA_STATES_AND_UTS
+        if cleaned_query.lower() in state.lower()
+    ]
+
+    if not GOOGLE_API_KEY or GOOGLE_API_KEY == "dummy":
+        matches = []
+        for name, row in MOCK_COORDS.items():
+            if cleaned_query.lower() in name:
+                matches.append(
+                    {
+                        "city": name.title(),
+                        "formatted_address": row.get("formatted_address") or name.title(),
+                        "lat": row.get("lat"),
+                        "lon": row.get("lon"),
+                        "confidence": 0.5,
+                    }
+                )
+        return (state_fallback + matches)[:safe_limit]
+
+    params = {
+        "address": cleaned_query,
+        "key": GOOGLE_API_KEY,
+        "region": GEOCODING_REGION,
+    }
+    if GEOCODING_COUNTRY:
+        params["components"] = f"country:{GEOCODING_COUNTRY}"
+
+    data = _request_geocode(params)
+    if not data or data.get("status") != "OK":
+        return []
+
+    results = data.get("results") or []
+    ranked = sorted(results, key=lambda row: _result_score(row, cleaned_query), reverse=True)
+    suggestions: list[dict] = []
+
+    for result in ranked[: safe_limit * 2]:
+        geometry = (result.get("geometry") or {}).get("location") or {}
+        lat = geometry.get("lat")
+        lon = geometry.get("lng")
+        if lat is None or lon is None:
+            continue
+
+        components = result.get("address_components") or []
+        city_name = None
+        for component in components:
+            c_types = component.get("types") or []
+            if "locality" in c_types:
+                city_name = component.get("long_name")
+                break
+            if "administrative_area_level_2" in c_types and not city_name:
+                city_name = component.get("long_name")
+
+        formatted = _safe_str(result.get("formatted_address"))
+        city_value = _safe_str(city_name) or (formatted.split(",")[0].strip() if formatted else cleaned_query)
+        confidence = _confidence_from_result(result, cleaned_query)
+
+        suggestions.append(
+            {
+                "city": city_value,
+                "formatted_address": formatted or city_value,
+                "lat": lat,
+                "lon": lon,
+                "confidence": confidence,
+                "place_id": result.get("place_id"),
+            }
+        )
+
+    deduped = []
+    for item in suggestions:
+        signature = f"{item.get('city','').lower()}::{item.get('formatted_address','').lower()}"
+        if any(
+            f"{row.get('city','').lower()}::{row.get('formatted_address','').lower()}" == signature
+            for row in deduped
+        ):
+            continue
+        deduped.append(item)
+
+    if len(deduped) < safe_limit:
+        for state in state_fallback:
+            signature = f"{state.get('city', '').lower()}::{state.get('formatted_address', '').lower()}"
+            if any(
+                f"{row.get('city', '').lower()}::{row.get('formatted_address', '').lower()}" == signature
+                for row in deduped
+            ):
+                continue
+            deduped.append(state)
+            if len(deduped) >= safe_limit:
+                break
+
+    return deduped[:safe_limit]

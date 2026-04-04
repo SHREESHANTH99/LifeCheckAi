@@ -7,21 +7,12 @@ import { SearchBar } from "@/components/ui/SearchBar";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { Wind, Thermometer, ArrowRight, MapPin, RefreshCw, Radar, ShieldAlert, Layers3, Eye, EyeOff, AlertTriangle, Menu, PanelLeftClose } from "lucide-react";
 import Link from "next/link";
+import { INDIAN_STATE_LOCATIONS } from "@/lib/indiaLocations";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
+const MAP_MONITORED_CITIES_KEY = "lifecheck_map_monitored_cities";
 
-const baseMonitoredCities = [
-  { name: "Delhi", lat: 28.6139, lon: 77.209 },
-  { name: "Mumbai", lat: 19.076, lon: 72.8777 },
-  { name: "Bangalore", lat: 12.9716, lon: 77.5946 },
-  { name: "Chennai", lat: 13.0827, lon: 80.2707 },
-  { name: "Hyderabad", lat: 17.385, lon: 78.4867 },
-  { name: "Kolkata", lat: 22.5726, lon: 88.3639 },
-  { name: "Pune", lat: 18.5204, lon: 73.8567 },
-  { name: "Ahmedabad", lat: 23.0225, lon: 72.5714 },
-  { name: "Jaipur", lat: 26.9124, lon: 75.7873 },
-  { name: "Lucknow", lat: 26.8467, lon: 80.9462 },
-];
+const baseMonitoredCities = INDIAN_STATE_LOCATIONS;
 
 type CityStatus = "SAFE" | "CAUTION" | "UNSAFE" | "UNKNOWN";
 
@@ -44,6 +35,17 @@ interface LiveCityRow {
     air?: { aqi?: number };
     weather?: { temp_celsius?: number; temp?: number };
   };
+}
+
+interface SuggestedLocation {
+  city?: string;
+  formatted_address?: string;
+  lat?: number;
+  lon?: number;
+}
+
+interface LocationSuggestionResponse {
+  suggestions?: SuggestedLocation[];
 }
 
 interface GoogleLatLng {
@@ -163,6 +165,31 @@ function getRiskWeight(status: CityStatus, aqi: number | null): number {
 export default function MapPage() {
   const { data, search, loading } = useSafetyData();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [monitoredSeedCities, setMonitoredSeedCities] = useState<Array<{ name: string; lat: number; lon: number }>>(
+    () => {
+      if (typeof window === "undefined") return baseMonitoredCities;
+      try {
+        const raw = localStorage.getItem(MAP_MONITORED_CITIES_KEY);
+        if (!raw) return baseMonitoredCities;
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return baseMonitoredCities;
+
+        const valid = parsed
+          .map((entry) => {
+            if (!entry || typeof entry !== "object") return null;
+            const row = entry as { name?: string; lat?: number; lon?: number };
+            if (typeof row.name !== "string") return null;
+            if (typeof row.lat !== "number" || typeof row.lon !== "number") return null;
+            return { name: row.name, lat: row.lat, lon: row.lon };
+          })
+          .filter((entry): entry is { name: string; lat: number; lon: number } => !!entry);
+
+        return valid.length > 0 ? valid : baseMonitoredCities;
+      } catch {
+        return baseMonitoredCities;
+      }
+    },
+  );
   const [selectedCity, setSelectedCity] = useState<MonitoredCity | null>(null);
   const [sortMode, setSortMode] = useState<"risk" | "name">("risk");
   const [statusFilter, setStatusFilter] = useState<"ALL" | CityStatus>("ALL");
@@ -178,6 +205,26 @@ export default function MapPage() {
   const zoneOverlaysRef = useRef<GoogleOverlayInstance[]>([]);
 
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "";
+
+  const persistMonitoredCities = useCallback(
+    (entries: Array<{ name: string; lat: number; lon: number }>) => {
+      if (typeof window === "undefined") return;
+      localStorage.setItem(MAP_MONITORED_CITIES_KEY, JSON.stringify(entries));
+    },
+    [],
+  );
+
+  const upsertMonitoredCity = useCallback(
+    (entry: { name: string; lat: number; lon: number }) => {
+      setMonitoredSeedCities((prev) => {
+        const exists = prev.some((row) => row.name.toLowerCase() === entry.name.toLowerCase());
+        const next = exists ? prev : [entry, ...prev].slice(0, 20);
+        persistMonitoredCities(next);
+        return next;
+      });
+    },
+    [persistMonitoredCities],
+  );
 
   const refreshLiveCities = useCallback(async () => {
     setRefreshingLive(true);
@@ -227,7 +274,7 @@ export default function MapPage() {
   }, [refreshLiveCities]);
 
   const monitoredCities = useMemo<MonitoredCity[]>(() => {
-    return baseMonitoredCities.map((entry) => {
+    return monitoredSeedCities.map((entry) => {
       const live = liveMap[entry.name.toLowerCase()];
       return {
         ...entry,
@@ -237,7 +284,7 @@ export default function MapPage() {
         updatedAt: live?.updatedAt ?? null,
       };
     });
-  }, [liveMap]);
+  }, [liveMap, monitoredSeedCities]);
 
   const filteredCities = useMemo(() => {
     const filtered = statusFilter === "ALL" ? monitoredCities : monitoredCities.filter((entry) => entry.status === statusFilter);
@@ -367,6 +414,55 @@ export default function MapPage() {
     [search, monitoredCities]
   );
 
+  useEffect(() => {
+    if (!data?.city || !data?.coordinates) return;
+    const lat = data.coordinates.lat;
+    const lon = data.coordinates.lon;
+    if (typeof lat !== "number" || typeof lon !== "number") return;
+
+    const mapped: MonitoredCity = {
+      name: data.city,
+      lat,
+      lon,
+      status: data.overall?.verdict || "UNKNOWN",
+      aqi: data.air_quality?.aqi ?? null,
+      temp: data.weather?.temp_celsius ?? null,
+      updatedAt: Date.now(),
+    };
+
+    setSelectedCity(mapped);
+    setMapCenter({ lat, lon });
+    setMapZoom(11);
+    upsertMonitoredCity({ name: mapped.name, lat, lon });
+  }, [data, upsertMonitoredCity]);
+
+  const fetchLocationSuggestions = useCallback(
+    async (query: string) => {
+      if (query.trim().length < 2) return [];
+      const response = await fetch(
+        `${API_BASE}/api/location-suggestions?q=${encodeURIComponent(query)}&limit=8`,
+      );
+      if (!response.ok) return [];
+
+      const payload = (await response.json()) as LocationSuggestionResponse;
+      const suggestions = payload.suggestions || [];
+      return suggestions
+        .map((entry) => {
+          const value = entry.city || entry.formatted_address || "";
+          if (!value) return null;
+          return {
+            value,
+            subtitle:
+              entry.formatted_address && entry.formatted_address !== value
+                ? entry.formatted_address
+                : undefined,
+          };
+        })
+        .filter((entry): entry is { value: string; subtitle?: string } => !!entry);
+    },
+    [],
+  );
+
   return (
     <div className="min-h-screen flex lg:flex-row relative">
       {/* Sidebar backdrop */}
@@ -410,7 +506,8 @@ export default function MapPage() {
             onSearch={handleSearch}
             placeholder="Search city to jump on map..."
             isLoading={loading}
-            quickCities={baseMonitoredCities.map((entry) => entry.name)}
+            quickCities={monitoredSeedCities.map((entry) => entry.name)}
+            fetchSuggestions={fetchLocationSuggestions}
             className="!h-10"
           />
 
