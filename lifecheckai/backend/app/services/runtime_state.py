@@ -66,16 +66,20 @@ def get_alert_history(limit: int = 40) -> list[dict]:
 
 def record_snapshot(city: str, snapshot: dict) -> None:
     timestamp = datetime.now(timezone.utc).isoformat()
+    air = snapshot.get("air") if isinstance(snapshot.get("air"), dict) else {}
+    weather = snapshot.get("weather") if isinstance(snapshot.get("weather"), dict) else {}
+    water = snapshot.get("water") if isinstance(snapshot.get("water"), dict) else {}
+    overall = snapshot.get("overall") if isinstance(snapshot.get("overall"), dict) else {}
+
     with _lock:
         _snapshot_history[city.lower()].append(
             {
                 "timestamp": timestamp,
-                "aqi": snapshot.get("air", {}).get("aqi"),
-                "temperature": snapshot.get("weather", {}).get("temp"),
-                "water_tds": snapshot.get("water", {}).get("latest_tds")
-                or snapshot.get("water", {}).get("avg_tds"),
+                "aqi": air.get("aqi"),
+                "temperature": weather.get("temp"),
+                "water_tds": water.get("latest_tds") or water.get("avg_tds"),
                 "composite_score": snapshot.get("composite_score"),
-                "status": snapshot.get("overall", {}).get("verdict"),
+                "status": overall.get("verdict"),
             }
         )
 

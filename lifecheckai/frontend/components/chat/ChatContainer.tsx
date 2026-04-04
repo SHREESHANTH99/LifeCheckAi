@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { AlertTriangle, Bot, Loader2 } from 'lucide-react';
+import { AlertTriangle, Bot, Loader2, Mic, Volume2, Sparkles } from 'lucide-react';
 import { MessageList } from './MessageList';
 import { ChatInput } from './ChatInput';
 import { SuggestedPrompts } from './SuggestedPrompts';
@@ -7,6 +7,11 @@ import { ChatSidebar } from './ChatSidebar';
 import type { MemoryItem } from './ConversationMemory';
 import { ChatMessage } from './MessageBubble';
 import { useStreamingChat, type StreamOptions } from '@/hooks/useStreamingChat';
+import { useVoiceSettings } from '@/app/context/VoiceContext';
+import { useChatVoiceMode } from '@/hooks/useChatVoiceMode';
+import { VoiceWaveform } from '@/components/voice/VoiceWaveform';
+import { VolumeX } from 'lucide-react';
+import { speakText, stopSpeaking } from '@/lib/elevenlabs';
 
 interface SafetyData {
   city: string;
@@ -39,7 +44,11 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
   const [safetyError, setSafetyError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [insightsOpen, setInsightsOpen] = useState(false);
+  const [autoStartVoiceTick, setAutoStartVoiceTick] = useState(0);
   const activeAssistantIdRef = useRef<string | null>(null);
+  const voiceIntroPlayedRef = useRef(false);
+  const { settings, setChatVoiceModeEnabled } = useVoiceSettings();
+  const { isPlaying, audioState, speakResponse } = useChatVoiceMode();
 
   const starterPrompts = [
     'Is it safe to go outside in ' + (attachedCity || 'Delhi') + ' today?',
@@ -86,6 +95,31 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
   useEffect(() => {
     fetchSafetyData(attachedCity);
   }, [attachedCity, fetchSafetyData]);
+
+  useEffect(() => {
+    if (!settings.chatVoiceModeEnabled) {
+      voiceIntroPlayedRef.current = false;
+      return;
+    }
+
+    if (voiceIntroPlayedRef.current) {
+      return;
+    }
+
+    voiceIntroPlayedRef.current = true;
+    void speakText("Voice assistant is on. Ask your question.", {
+      rate: 1.02,
+      pitch: 1,
+      onEnd: () => {
+        setAutoStartVoiceTick((tick) => tick + 1);
+      },
+      onError: () => {
+        setAutoStartVoiceTick((tick) => tick + 1);
+      },
+    }).catch(() => {
+      setAutoStartVoiceTick((tick) => tick + 1);
+    });
+  }, [settings.chatVoiceModeEnabled]);
 
   const {
     streamMessage,
@@ -166,6 +200,13 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
           );
           activeAssistantIdRef.current = null;
 
+          if (settings.chatVoiceModeEnabled && finalText?.trim()) {
+            speakResponse(finalText).finally(() => {
+              // Auto arm voice input after assistant reply in voice mode.
+              setAutoStartVoiceTick((prev) => prev + 1);
+            });
+          }
+
           // Update memory with new city if detected
           if (attachedCity && !memory.some(m => m.type === 'city' && m.value === attachedCity)) {
             setMemory(prev => [
@@ -182,7 +223,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
 
       streamMessage(query, streamOptions);
     },
-    [attachedCity, profile, memory, streamMessage]
+    [attachedCity, profile, memory, streamMessage, settings.chatVoiceModeEnabled, speakResponse]
   );
 
   // Handle suggested prompt selection
@@ -228,6 +269,27 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
     setShowSuggestions(false);
   };
 
+  const toggleVoiceAssistant = () => {
+    const nextEnabled = !settings.chatVoiceModeEnabled;
+    setChatVoiceModeEnabled(nextEnabled);
+    if (nextEnabled) {
+      voiceIntroPlayedRef.current = false;
+    } else {
+      stopSpeaking();
+      setAutoStartVoiceTick(0);
+      voiceIntroPlayedRef.current = false;
+    }
+  };
+
+  const handleVoicePanelAction = () => {
+    if (settings.chatVoiceModeEnabled) {
+      toggleVoiceAssistant();
+      return;
+    }
+
+    toggleVoiceAssistant();
+  };
+
   return (
     <div className="min-h-screen px-4 py-8">
       <div className="mx-auto flex w-full max-w-7xl h-[calc(100vh-120px)] gap-6">
@@ -260,7 +322,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
 
         {/* Right Active Chat (2/3) */}
         <main className="flex-1 lg:w-2/3 flex flex-col glass rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(0,212,255,0.06)] border border-white/5 relative z-10">
-          <div className="border-b border-white/5 bg-[#0A0F1E]/80 backdrop-blur-md px-6 py-4 flex items-center justify-between z-20">
+          <div className="border-b border-white/5 bg-[#0A0F1E]/80 backdrop-blur-md px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between z-20">
             <div className="flex items-center gap-4">
                <div>
                  <div className="flex items-center gap-3">
@@ -276,13 +338,88 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
                  </div>
                </div>
             </div>
-            <button
-               onClick={handleClearChat}
-               className="rounded-full border border-danger/30 bg-danger/10 px-4 py-2 text-xs font-bold text-danger uppercase tracking-wider transition-colors hover:bg-danger hover:text-white cursor-pointer shadow-glow"
-             >
-               Clear
-             </button>
+            <div className="flex items-center gap-2 self-start md:self-auto">
+              <button
+                onClick={toggleVoiceAssistant}
+                className={`rounded-full border px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
+                  settings.chatVoiceModeEnabled
+                    ? 'border-accent-cyan/40 bg-accent-cyan/10 text-accent-cyan'
+                    : 'border-white/20 bg-white/5 text-text-secondary'
+                }`}
+                title={settings.chatVoiceModeEnabled ? 'Stop voice assistant' : 'Start voice assistant'}
+                aria-pressed={settings.chatVoiceModeEnabled}
+              >
+                <span className="inline-flex items-center gap-2">
+                  {settings.chatVoiceModeEnabled ? <Volume2 size={14} /> : <VolumeX size={14} />}
+                  {settings.chatVoiceModeEnabled ? 'Voice Assistant On' : 'Voice Assistant'}
+                </span>
+              </button>
+              <button
+                 onClick={handleClearChat}
+                 className="rounded-full border border-danger/30 bg-danger/10 px-4 py-2.5 text-xs font-bold text-danger uppercase tracking-wider transition-colors hover:bg-danger hover:text-white cursor-pointer shadow-glow"
+               >
+                 Clear
+               </button>
+            </div>
           </div>
+
+          {!messages.length && !isStreaming && (
+          <div className="border-b border-white/5 bg-[linear-gradient(135deg,rgba(8,16,31,0.96),rgba(6,12,25,0.88))] px-6 py-4">
+            <div className={`rounded-3xl border p-4 sm:p-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between ${
+              settings.chatVoiceModeEnabled
+                ? 'border-accent-cyan/20 bg-accent-cyan/5 shadow-[0_0_30px_rgba(0,212,255,0.08)]'
+                : 'border-white/10 bg-white/5'
+            }`}>
+              <div className="flex items-start gap-4">
+                <div className={`h-12 w-12 rounded-2xl flex items-center justify-center border ${
+                  settings.chatVoiceModeEnabled
+                    ? 'border-accent-cyan/30 bg-accent-cyan/10 text-accent-cyan'
+                    : 'border-white/10 bg-white/5 text-text-secondary'
+                }`}>
+                  {settings.chatVoiceModeEnabled ? <Volume2 size={22} /> : <Mic size={22} />}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <Sparkles size={14} className="text-accent-cyan" />
+                    <p className="text-xs font-bold uppercase tracking-[0.24em] text-text-muted">Voice Assistant</p>
+                  </div>
+                  <h3 className="mt-1 text-lg font-semibold text-white">
+                    {settings.chatVoiceModeEnabled ? 'Hands-free conversation is active' : 'Start a guided voice conversation'}
+                  </h3>
+                  <p className="mt-1 text-sm text-text-secondary max-w-2xl">
+                    {settings.chatVoiceModeEnabled
+                      ? 'The assistant will speak first, listen for your question, answer aloud, and re-open the mic for the next follow-up.'
+                      : 'Click the voice assistant to hear the prompt, then ask your question naturally. You can stop anytime.'}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 self-start sm:self-center">
+                <button
+                  onClick={handleVoicePanelAction}
+                  className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                    settings.chatVoiceModeEnabled
+                      ? 'bg-white/5 border border-white/10 text-white hover:bg-white/10'
+                      : 'bg-accent-cyan text-black hover:bg-cyan-400 shadow-[0_0_18px_rgba(0,212,255,0.22)]'
+                  }`}
+                >
+                  {settings.chatVoiceModeEnabled ? <VolumeX size={16} /> : <Mic size={16} />}
+                  {settings.chatVoiceModeEnabled ? 'Stop voice assistant' : 'Start voice assistant'}
+                </button>
+              </div>
+            </div>
+          </div>
+          )}
+
+          {settings.chatVoiceModeEnabled && (
+            <div className="px-6 py-3 border-b border-white/5 bg-[#0A0F1E]/70 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <span className="text-xs uppercase tracking-wider text-text-secondary flex items-center gap-2">
+                <span className={`h-2 w-2 rounded-full ${isPlaying ? 'bg-accent-cyan animate-pulse' : 'bg-safe animate-pulse'}`} />
+                Voice assistant {isPlaying ? 'speaking...' : 'listening for your question'}
+              </span>
+              <VoiceWaveform analyticsData={audioState} isPlaying={isPlaying} className="h-10 w-full max-w-[220px]" />
+            </div>
+          )}
 
           <div className="flex-1 overflow-y-auto bg-bg-primary/50 p-6 relative">
              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_60%_60%_at_50%_-20%,rgba(124,58,237,0.05),transparent)] z-0" />
@@ -335,13 +472,13 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
              </div>
           </div>
 
-          {showSuggestions && suggestedPrompts.length > 0 && (
-             <div className="bg-[#0A0F1E]/95 border-t border-white/5 px-6 py-4">
+           {showSuggestions && suggestedPrompts.length > 0 && (
+             <div className="bg-[#0A0F1E]/95 border-t border-white/5 px-6 py-3">
                  <SuggestedPrompts suggestions={suggestedPrompts} onSelect={handleSuggestedPrompt} isVisible={showSuggestions} />
              </div>
           )}
 
-          <div className="bg-[#0A0F1E] border-t border-white/5 p-6 z-20">
+           <div className="bg-[#0A0F1E] border-t border-white/5 p-5 z-20">
             <ChatInput
               value={inputValue}
               onChange={setInputValue}
@@ -350,6 +487,9 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
               isStreaming={isStreaming}
               attachedCity={attachedCity}
               onClearCity={() => setAttachedCity('')}
+              autoStartVoiceTick={autoStartVoiceTick}
+              voiceAssistantEnabled={settings.chatVoiceModeEnabled}
+              onVoiceAssistantToggle={toggleVoiceAssistant}
             />
           </div>
         </main>

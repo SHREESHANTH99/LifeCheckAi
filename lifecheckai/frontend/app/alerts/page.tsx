@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSafety } from "@/app/context/SafetyContext";
 import { useSafetyData } from "@/app/hooks/useSafetyData";
+import { useSharedCityState } from "@/hooks/useSharedCityState";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import {
   ShieldAlert,
@@ -150,6 +151,7 @@ const itemVariants = {
 export default function AlertsPage() {
   const { state } = useSafety();
   const { search, loading } = useSafetyData();
+  const { watcherCount, sharedAlerts } = useSharedCityState(state.safetyData?.city);
   const [activeFilter, setActiveFilter] = useState("all");
   const [selectedAlert, setSelectedAlert] = useState<AlertItem | null>(null);
   const [readAlertIds, setReadAlertIds] = useState<string[]>(() => {
@@ -253,6 +255,43 @@ export default function AlertsPage() {
             </div>
           )}
         </motion.div>
+
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="glass rounded-3xl p-6 mb-8 border border-white/5 shadow-glow"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+            <div>
+              <h2 className="text-lg font-bold text-white">Shared Alert Board</h2>
+              <p className="text-sm text-text-muted">Live community reports for {state.safetyData?.city || "the current city"}</p>
+            </div>
+            <div className="px-3 py-1.5 rounded-full bg-accent-cyan/10 border border-accent-cyan/20 text-accent-cyan text-xs font-bold uppercase tracking-wider">
+              👥 {watcherCount} watching
+            </div>
+          </div>
+
+          {sharedAlerts.length === 0 ? (
+            <div className="rounded-2xl border border-white/5 bg-white/5 p-6 text-sm text-text-secondary">
+              No community alerts have been shared for this city yet.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {sharedAlerts.slice(0, 6).map((alert) => (
+                <div key={alert.id} className="rounded-2xl border border-white/5 bg-white/5 p-4">
+                  <div className="flex items-center justify-between gap-3 mb-3">
+                    <span className="text-xs font-bold uppercase tracking-wider text-accent-cyan">{alert.severity}</span>
+                    <span className="text-[10px] text-text-muted uppercase tracking-wider">
+                      {new Date(alert.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                    </span>
+                  </div>
+                  <p className="text-sm font-semibold text-white mb-1">{alert.message}</p>
+                  <p className="text-xs text-text-secondary">Reported for {alert.city}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </motion.section>
 
         {/* Notification Section */}
         <motion.section

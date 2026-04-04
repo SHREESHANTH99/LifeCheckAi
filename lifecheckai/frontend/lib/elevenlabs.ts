@@ -1,5 +1,5 @@
 const ELEVENLABS_API_KEY = process.env.NEXT_PUBLIC_ELEVENLABS_API_KEY;
-const VOICE_ID = "pNInz6obpgDQGcFmaJgB";
+const VOICE_ID = process.env.NEXT_PUBLIC_ELEVENLABS_VOICE_ID || "pNInz6obpgDQGcFmaJgB";
 
 interface BriefingData {
   city: string;
@@ -9,7 +9,17 @@ interface BriefingData {
   pollen: { level: string; advice: string };
 }
 
+export interface SpeakOptions {
+  onStart?: () => void;
+  onEnd?: () => void;
+  onError?: (error: Error) => void;
+  rate?: number;
+  pitch?: number;
+  volume?: number;
+}
+
 let currentAudio: HTMLAudioElement | null = null;
+let currentSpeech: SpeechSynthesisUtterance | null = null;
 
 function getDayPart() {
   const hour = new Date().getHours();
@@ -30,58 +40,137 @@ function generateSafetyScript(data: BriefingData): string {
   ].join(" ");
 }
 
-export async function speakText(text: string): Promise<void> {
-  if (typeof window === "undefined") return;
-  if (!ELEVENLABS_API_KEY || !text.trim()) return;
+export async function speakText(text: string, options: SpeakOptions = {}): Promise<void> {
+  if (typeof window === "undefined" || !text.trim()) return;
 
   stopSpeaking();
 
-  const response = await fetch(
-    `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}/stream`,
-    {
-      method: "POST",
-      headers: {
-        "xi-api-key": ELEVENLABS_API_KEY,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        text,
-        model_id: "eleven_multilingual_v2",
-        voice_settings: {
-          stability: 0.5,
-          similarity_boost: 0.8,
+  try {
+    if (ELEVENLABS_API_KEY) {
+      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
+        method: "POST",
+        headers: {
+          "xi-api-key": ELEVENLABS_API_KEY,
+          "Content-Type": "application/json",
         },
-      }),
+        body: JSON.stringify({
+          text,
+          model_id: "eleven_multilingual_v2",
+          voice_settings: {
+            stability: 0.45,
+            similarity_boost: 0.85,
+            style: 0.25,
+            use_speaker_boost: true,
+          },
+        }),
+      });
+
+      if (response.ok) {
+        await playAudioBlob(await response.blob(), options);
+        return;
+      }
     }
-  ).catch(() => null);
+  } catch (error) {
+    options.onError?.(error instanceof Error ? error : new Error("ElevenLabs playback failed."));
+  }
 
-  if (!response?.ok) return;
+  await speakWithBrowserFallback(text, options);
+}
 
-  const blob = await response.blob();
+export async function speakSafetyBriefing(data: BriefingData, options: SpeakOptions = {}): Promise<void> {
+  await speakText(generateSafetyScript(data), options);
+}
+
+export function stopSpeaking(): void {
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    currentAudio = null;
+  }
+
+  if (currentSpeech) {
+    currentSpeech = null;
+  }
+
+  if (typeof window !== "undefined" && "speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+}
+
+async function playAudioBlob(blob: Blob, options: SpeakOptions): Promise<void> {
   const url = URL.createObjectURL(blob);
   const audio = new Audio(url);
   currentAudio = audio;
 
-  audio.onended = () => {
-    URL.revokeObjectURL(url);
-    if (currentAudio === audio) currentAudio = null;
-  };
-  audio.onerror = () => {
-    URL.revokeObjectURL(url);
-    if (currentAudio === audio) currentAudio = null;
-  };
+  return await new Promise<void>((resolve, reject) => {
+    audio.onplaying = () => {
+      options.onStart?.();
+    };
 
-  await audio.play().catch(() => {});
+    audio.onended = () => {
+      URL.revokeObjectURL(url);
+      if (currentAudio === audio) currentAudio = null;
+      options.onEnd?.();
+      resolve();
+    };
+
+    audio.onerror = () => {
+      URL.revokeObjectURL(url);
+      if (currentAudio === audio) currentAudio = null;
+      const error = new Error("Audio playback failed.");
+      options.onError?.(error);
+      reject(error);
+    };
+
+    audio.play().catch((error) => {
+      URL.revokeObjectURL(url);
+      if (currentAudio === audio) currentAudio = null;
+      reject(error instanceof Error ? error : new Error("Audio playback failed."));
+    });
+  });
 }
 
-export async function speakSafetyBriefing(data: BriefingData): Promise<void> {
-  const script = generateSafetyScript(data);
-  await speakText(script);
-}
+async function speakWithBrowserFallback(text: string, options: SpeakOptions = {}): Promise<void> {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+    const error = new Error("Browser speech synthesis is unavailable.");
+    options.onError?.(error);
+    throw error;
+  }
 
-export function stopSpeaking(): void {
-  if (!currentAudio) return;
-  currentAudio.pause();
-  currentAudio.currentTime = 0;
-  currentAudio = null;
+  return await new Promise<void>((resolve, reject) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    currentSpeech = utterance;
+    utterance.rate = options.rate ?? 1;
+    utterance.pitch = options.pitch ?? 1;
+    utterance.volume = options.volume ?? 1;
+
+    const voices = window.speechSynthesis.getVoices();
+    const preferredVoice = voices.find((voice) => /en/i.test(voice.lang) && /google|microsoft|natural/i.test(voice.name))
+      || voices.find((voice) => /en/i.test(voice.lang))
+      || voices[0];
+
+    if (preferredVoice) {
+      utterance.voice = preferredVoice;
+    }
+
+    utterance.onstart = () => {
+      options.onStart?.();
+    };
+
+    utterance.onend = () => {
+      if (currentSpeech === utterance) currentSpeech = null;
+      options.onEnd?.();
+      resolve();
+    };
+
+    utterance.onerror = () => {
+      if (currentSpeech === utterance) currentSpeech = null;
+      const error = new Error("Browser speech synthesis failed.");
+      options.onError?.(error);
+      reject(error);
+    };
+
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+  });
 }

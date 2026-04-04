@@ -17,6 +17,7 @@ from lifecheckai.backend.app.services.air_service import get_air_quality
 from lifecheckai.backend.app.services.db_service import (
     get_all_cities,
     get_city_data,
+    push_shared_alert,
     save_city_data,
 )
 from lifecheckai.backend.app.services.maps_service import get_coordinates
@@ -222,7 +223,7 @@ def _build_snapshot(
         weather_data.get("temp") if weather_data else None,
         weather_data.get("condition", "") if weather_data else "",
     )
-    pollen_result = pollen_safety(pollen_data)
+    pollen_result = pollen_safety(pollen_data) or {}
     verdict = overall_safety(air_result, weather_result, pollen_result)
 
     water_summary = analyze_trend(get_state_data(city, coords.get("formatted_address")))
@@ -255,6 +256,11 @@ def _build_snapshot(
     }
     alerts = generate_alerts(alert_seed)
     record_alerts(city, alerts)
+
+    for alert in alerts:
+        severity = str(alert.get("level", "info")).lower()
+        if severity in {"critical", "high"}:
+            push_shared_alert(city, severity, str(alert.get("message", "Safety alert")))
 
     timestamp = datetime.now(timezone.utc).isoformat()
 
@@ -293,9 +299,11 @@ def _build_snapshot(
 
 
 def _compute_composite_score(snapshot: dict) -> int:
-    air = snapshot.get("air", {})
-    weather = snapshot.get("weather", {})
-    water = snapshot.get("water", {})
+    air = snapshot.get("air") if isinstance(snapshot.get("air"), dict) else {}
+    weather = (
+        snapshot.get("weather") if isinstance(snapshot.get("weather"), dict) else {}
+    )
+    water = snapshot.get("water") if isinstance(snapshot.get("water"), dict) else {}
 
     air_score = 100
     aqi = air.get("aqi")

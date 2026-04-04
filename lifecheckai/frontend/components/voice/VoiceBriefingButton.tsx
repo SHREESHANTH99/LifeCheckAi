@@ -27,11 +27,15 @@ export function VoiceBriefingButton({ safetyData }: VoiceBriefingButtonProps) {
         return;
       }
       setState("loading");
-      speakSafetyBriefing(safetyData)
-        .then(() => setState("playing"))
-        .catch(() => {
+      speakSafetyBriefing(safetyData, {
+        onStart: () => setState("playing"),
+        onEnd: () => setState("idle"),
+      })
+        .then(() => setState("idle"))
+        .catch((err: unknown) => {
           setState("error");
-          showToast("warning", "Audio unavailable right now.");
+          const message = err instanceof Error ? err.message : "Audio unavailable right now.";
+          showToast("warning", message);
         });
     };
 
@@ -56,11 +60,15 @@ export function VoiceBriefingButton({ safetyData }: VoiceBriefingButtonProps) {
 
     setState("loading");
     try {
-      await speakSafetyBriefing(safetyData);
-      setState("playing");
-    } catch {
+      await speakSafetyBriefing(safetyData, {
+        onStart: () => setState("playing"),
+        onEnd: () => setState("idle"),
+      });
+      setState("idle");
+    } catch (err: unknown) {
       setState("error");
-      showToast("warning", "Audio unavailable");
+      const message = err instanceof Error ? err.message : "Audio unavailable";
+      showToast("warning", message);
     }
   };
 
