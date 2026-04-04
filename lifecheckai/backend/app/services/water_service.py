@@ -121,7 +121,7 @@ def resolve_state_name(place: str | None, formatted_address: str | None = None) 
 def _load_groundwater_records() -> list[dict]:
     records: list[dict] = []
 
-    for path in sorted(DATA_PATH.glob("water_quality_data_*.csv")):
+    for path in sorted(DATA_PATH.glob("water_quality_*_*.csv")):
         year_match = re.search(r"(\d{4})", path.stem)
         if not year_match:
             continue
@@ -363,7 +363,7 @@ def _load_all_param_records() -> list[dict]:
     """Load all CSV files and extract full 10-parameter records."""
     records: list[dict] = []
 
-    for path in sorted(DATA_PATH.glob("water_quality_data_*.csv")):
+    for path in sorted(DATA_PATH.glob("water_quality_*_*.csv")):
         year_match = re.search(r"(\d{4})", path.stem)
         if not year_match:
             continue

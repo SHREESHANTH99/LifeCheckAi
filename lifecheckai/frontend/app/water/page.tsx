@@ -95,13 +95,16 @@ const CHART_COLORS = [
 export default function WaterPage() {
   const [states, setStates] = useState<string[]>([]);
   const [selectedState, setSelectedState] = useState("");
-  const [locationQuery, setLocationQuery] = useState("");
+  const [availableStations, setAvailableStations] = useState<string[]>([]);
+  const [selectedStation, setSelectedStation] = useState("");
+  const [stationSearch, setStationSearch] = useState("");
   const [prediction, setPrediction] = useState<Prediction | null>(null);
   const [trends, setTrends] = useState<Trends | null>(null);
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [metrics, setMetrics] = useState<Metrics | null>(null);
-  const [loading, setLoading] = useState({ prediction: false, trends: false, analysis: false, metrics: false });
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [loading, setLoading] = useState({ prediction: false, trends: false, analysis: false, metrics: false, stations: false });
+  const [stateDropdownOpen, setStateDropdownOpen] = useState(false);
+  const [stationDropdownOpen, setStationDropdownOpen] = useState(false);
 
   /* Fetch states on mount */
   useEffect(() => {
@@ -115,11 +118,27 @@ export default function WaterPage() {
       .catch(() => {});
   }, []);
 
+  /* Fetch stations when state change */
+  useEffect(() => {
+    if (!selectedState) {
+      setAvailableStations([]);
+      return;
+    }
+    setLoading(p => ({ ...p, stations: true }));
+    fetch(`${API}/api/water/stations?state=${encodeURIComponent(selectedState)}`)
+      .then(r => r.json())
+      .then(d => {
+        setAvailableStations(d.stations || []);
+        setLoading(p => ({ ...p, stations: false }));
+      })
+      .catch(() => setLoading(p => ({ ...p, stations: false })));
+  }, [selectedState]);
+
   /* Fetch data for selected state */
-  const fetchStateData = useCallback(async (state: string, location?: string) => {
+  const fetchStateData = useCallback(async (state: string, station?: string) => {
     setSelectedState(state);
-    if (!location) setLocationQuery("");
-    setDropdownOpen(false);
+    setStateDropdownOpen(false);
+    setStationDropdownOpen(false);
     setPrediction(null);
     setTrends(null);
     setAnalysis(null);
@@ -129,9 +148,9 @@ export default function WaterPage() {
     try {
       let predUrl = `${API}/api/water/predict?state=${encodeURIComponent(state)}`;
       let trendsUrl = `${API}/api/water/trends?state=${encodeURIComponent(state)}`;
-      if (location) {
-        predUrl += `&location=${encodeURIComponent(location)}`;
-        trendsUrl += `&location=${encodeURIComponent(location)}`;
+      if (station) {
+        predUrl += `&location=${encodeURIComponent(station)}`;
+        trendsUrl += `&location=${encodeURIComponent(station)}`;
       }
 
       const [predRes, trendRes] = await Promise.all([
@@ -152,6 +171,10 @@ export default function WaterPage() {
     setLoading((p) => ({ ...p, analysis: false }));
   }, []);
 
+  const filteredStations = availableStations.filter(s => 
+    s.toLowerCase().includes(stationSearch.toLowerCase())
+  );
+
   /* ── UI ─────────────────────────────────────────────── */
   return (
     <div className="min-h-screen py-8 px-4 sm:px-8 max-w-7xl mx-auto">
@@ -166,32 +189,34 @@ export default function WaterPage() {
           </h1>
         </div>
         <p className="text-text-secondary text-sm sm:text-base ml-[52px]">
-          ML-powered drinkability prediction &amp; BIS IS 10500:2012 compliance analysis
+          Forcefully revealing supply-level water safety across India via direct Monitoring Points
         </p>
       </div>
 
       {/* Inputs Configuration */}
-      <div className="flex flex-col md:flex-row gap-4 mb-8 max-w-2xl bg-card p-4 rounded-xl border border-border-light shadow-sm">
+      <div className="flex flex-col md:flex-row gap-4 mb-8 max-w-3xl bg-card p-4 rounded-xl border border-border-light shadow-sm">
         {/* State Selector */}
         <div className="relative flex-1">
           <label className="block text-xs font-medium text-text-secondary mb-1">State <span className="text-unsafe">*</span></label>
           <button
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-lg border border-border-default text-left cursor-pointer hover:border-accent-blue/40 transition-colors"
+            onClick={() => setStateDropdownOpen(!stateDropdownOpen)}
+            className="w-full h-[42px] flex items-center justify-between gap-2 px-4 py-2 rounded-lg border border-border-default text-left cursor-pointer hover:border-accent-blue/40 transition-colors"
           >
-            <span className={selectedState ? "text-text-primary text-sm font-medium" : "text-text-muted text-sm"}>
-              {selectedState || "Select a state..."}
+            <span className={selectedState ? "text-text-primary text-sm font-medium truncate" : "text-text-muted text-sm"}>
+              {selectedState || "Select State..."}
             </span>
-            <ChevronDown size={16} className={`text-text-secondary transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
+            <ChevronDown size={14} className={`text-text-secondary transition-transform ${stateDropdownOpen ? "rotate-180" : ""}`} />
           </button>
-          {dropdownOpen && (
-            <div className="absolute top-full left-0 right-0 mt-2 max-h-64 overflow-y-auto rounded-lg card border border-border-light z-50 shadow-lg">
+          {stateDropdownOpen && (
+            <div className="absolute top-full left-0 right-0 mt-2 max-h-64 overflow-y-auto rounded-lg card border border-border-light z-[60] shadow-lg">
               {states.map((s) => (
                 <button
                   key={s}
                   onClick={() => {
                     setSelectedState(s);
-                    setDropdownOpen(false);
+                    setSelectedStation("");
+                    setStationSearch("");
+                    setStateDropdownOpen(false);
                   }}
                   className={`w-full text-left px-4 py-2 text-sm hover:bg-white/5 transition-colors cursor-pointer ${
                     s === selectedState ? "text-accent-blue font-medium bg-accent-blue/5" : "text-text-secondary"
@@ -204,31 +229,65 @@ export default function WaterPage() {
           )}
         </div>
 
-        {/* Location Input */}
-        <div className="flex-1 flex gap-2 items-end">
-          <div className="flex-1">
-            <label className="block text-xs font-medium text-text-secondary mb-1">District / City (Optional)</label>
+        {/* Station Selector */}
+        <div className="relative flex-[1.5]">
+          <label className="block text-xs font-medium text-text-secondary mb-1">Monitoring Location / Supply Point</label>
+          <div className="relative">
             <input
               type="text"
-              placeholder="e.g. Kakinada"
-              value={locationQuery}
-              onChange={(e) => setLocationQuery(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-lg border border-border-default bg-transparent text-sm text-text-primary focus:outline-none focus:border-accent-blue"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && selectedState) {
-                  fetchStateData(selectedState, locationQuery);
-                }
+              placeholder={loading.stations ? "Loading Supply Points..." : "e.g. Kolata Leather..."}
+              value={selectedStation || stationSearch}
+              onFocus={() => setStationDropdownOpen(true)}
+              onChange={(e) => {
+                setStationSearch(e.target.value);
+                setSelectedStation("");
+                setStationDropdownOpen(true);
               }}
+              className="w-full h-[42px] px-4 py-2 rounded-lg border border-border-default bg-transparent text-sm focus:outline-none focus:border-accent-blue/60 transition-colors pr-10"
+              disabled={!selectedState}
             />
+            {loading.stations ? (
+              <Loader2 size={16} className="absolute right-3 top-3 animate-spin text-text-muted" />
+            ) : (
+              <ChevronDown size={16} className="absolute right-3 top-3 text-text-muted pointer-events-none" />
+            )}
           </div>
-          <button
-            onClick={() => selectedState && fetchStateData(selectedState, locationQuery)}
-            disabled={!selectedState || loading.prediction}
-            className="px-5 py-2.5 bg-accent-blue text-white text-sm font-medium rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed h-[42px]"
-          >
-            Analyze
-          </button>
+          {stationDropdownOpen && selectedState && (
+            <div className="absolute top-full left-0 right-0 mt-2 max-h-64 overflow-y-auto rounded-lg card border border-border-light z-[60] shadow-lg">
+              {filteredStations.length > 0 ? (
+                filteredStations.map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => {
+                      setSelectedStation(s);
+                      setStationSearch("");
+                      setStationDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-3 text-xs hover:bg-white/5 border-b border-border-light/50 last:border-0 transition-colors cursor-pointer ${
+                      s === selectedStation ? "text-accent-blue font-medium bg-accent-blue/5" : "text-text-secondary"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <FlaskConical size={12} className="opacity-50" />
+                      {s}
+                    </div>
+                  </button>
+                ))
+              ) : (
+                <div className="p-4 text-xs text-text-muted text-center italic">No stations found for "{stationSearch}"</div>
+              )}
+            </div>
+          )}
         </div>
+
+        <button
+          onClick={() => fetchStateData(selectedState, selectedStation || stationSearch)}
+          disabled={!selectedState || loading.prediction}
+          className="md:self-end h-[42px] px-6 bg-accent-blue text-white rounded-lg text-sm font-semibold hover:bg-accent-blue/90 disabled:opacity-50 transition-all flex items-center justify-center gap-2 shadow-lg shadow-accent-blue/20"
+        >
+          {loading.prediction ? <Loader2 size={18} className="animate-spin" /> : <Activity size={18} />}
+          Analyze
+        </button>
       </div>
 
       {/* Results Grid */}
@@ -236,11 +295,18 @@ export default function WaterPage() {
         <div className="space-y-6">
           {prediction && prediction.matched_location && (
             <div className="bg-accent-blue/10 border border-accent-blue/20 text-accent-blue px-4 py-3 rounded-lg text-sm flex items-center gap-2">
-              <Info size={16} />
-              <span>
-                Showing location-aware prediction for <strong>{prediction.matched_location}</strong>
-                {prediction.distance_km !== null && prediction.distance_km > 0 && ` (${prediction.distance_km} km from query)`}.
-              </span>
+              <Info size={16} className="min-w-4 flex-shrink-0" />
+              <div>
+                <span>
+                  Showing location-aware prediction for <strong>{prediction.matched_location}</strong>
+                  {prediction.distance_km !== null && prediction.distance_km > 0 && ` (${prediction.distance_km} km from query)`}.
+                </span>
+                {prediction.nearby_stations && prediction.nearby_stations.length > 0 && (
+                  <div className="mt-1 text-xs opacity-90 border-t border-accent-blue/20 pt-1">
+                    <strong>Nearby Monitoring Stations Analyzed:</strong> {prediction.nearby_stations.join(", ")}
+                  </div>
+                )}
+              </div>
             </div>
           )}
           {/* Row 1: Prediction + Parameters */}
