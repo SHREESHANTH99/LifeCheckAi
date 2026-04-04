@@ -21,6 +21,9 @@ interface ChatInputProps {
   isStreaming?: boolean;
   attachedCity?: string;
   onClearCity?: () => void;
+  autoStartVoiceTick?: number;
+  voiceAssistantEnabled?: boolean;
+  onVoiceAssistantToggle?: () => void;
 }
 
 export const ChatInput: React.FC<ChatInputProps> = ({
@@ -31,6 +34,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   isStreaming,
   attachedCity = '',
   onClearCity,
+  autoStartVoiceTick = 0,
+  voiceAssistantEnabled = false,
+  onVoiceAssistantToggle,
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [inputHistory, setInputHistory] = useState<string[]>([]);
@@ -83,7 +89,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     }
   };
 
-  const handleVoiceClick = () => {
+  const startVoiceRecognition = () => {
     if (!onVoiceInput) return;
 
     const SpeechRecognitionCtor =
@@ -103,7 +109,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     const recognition = new SpeechRecognitionCtor() as SpeechRecognitionLike;
     recognition.lang = 'en-US';
     recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
+    (recognition as { maxAlternatives?: number }).maxAlternatives = 1;
 
     setIsListening(true);
 
@@ -126,8 +132,21 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     recognition.start();
   };
 
+  const handleVoiceClick = () => {
+    if (!voiceAssistantEnabled) {
+      onVoiceAssistantToggle?.();
+      return;
+    }
+    startVoiceRecognition();
+  };
+
+  useEffect(() => {
+    if (!autoStartVoiceTick || isStreaming || isListening) return;
+    startVoiceRecognition();
+  }, [autoStartVoiceTick, isStreaming, isListening]);
+
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       {/* Attached city chip */}
       {attachedCity && (
         <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/25 bg-blue-500/10 px-3 py-1.5 text-xs text-blue-100">
@@ -144,31 +163,48 @@ export const ChatInput: React.FC<ChatInputProps> = ({
       )}
 
       {/* Input container */}
-      <div className="flex gap-3 rounded-2xl border border-white/15 bg-slate-950/65 p-3 transition-all focus-within:border-blue-400/60">
+      <div className={`flex gap-3 rounded-3xl border p-3.5 transition-all backdrop-blur-md ${
+        voiceAssistantEnabled
+          ? 'border-accent-cyan/25 bg-[linear-gradient(145deg,rgba(8,16,31,0.92),rgba(9,14,29,0.7))] shadow-[0_0_28px_rgba(0,212,255,0.08)] focus-within:border-accent-cyan/60'
+          : 'border-white/15 bg-slate-950/65 focus-within:border-blue-400/60'
+      }`}>
         {/* Mic button */}
         <button
           type="button"
           onClick={handleVoiceClick}
-          className={`flex-shrink-0 w-9 h-9 rounded-xl transition-colors flex items-center justify-center ${
-            isListening
-              ? 'bg-red-500/20 text-red-300 ring-1 ring-red-400/30'
-              : 'hover:bg-white/10 text-blue-300'
+          className={`flex-shrink-0 w-12 h-12 rounded-2xl transition-all flex items-center justify-center border ${
+            voiceAssistantEnabled
+              ? isListening
+                ? 'bg-red-500/15 text-red-200 border-red-400/30 shadow-[0_0_20px_rgba(239,68,68,0.18)]'
+                : 'bg-accent-cyan/10 text-accent-cyan border-accent-cyan/25 hover:bg-accent-cyan/15'
+              : 'bg-white/5 text-text-secondary border-white/10 hover:border-accent-cyan/30 hover:text-accent-cyan'
           }`}
-          title={onVoiceInput ? 'Voice input' : 'Voice input unavailable'}
+          title={
+            voiceAssistantEnabled
+              ? (onVoiceInput ? 'Speak your question' : 'Voice input unavailable')
+              : 'Turn on voice assistant'
+          }
         >
-          <Mic className={`w-4 h-4 ${isListening ? 'animate-pulse' : ''}`} />
+          <div className="flex flex-col items-center gap-0.5 leading-none">
+            <Mic className={`w-4 h-4 ${isListening ? 'animate-pulse' : ''}`} />
+            <span className="text-[9px] font-semibold uppercase tracking-widest">
+              {voiceAssistantEnabled ? (isListening ? 'Listening' : 'Talk') : 'Voice'}
+            </span>
+          </div>
         </button>
 
         {/* Input area */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col justify-center">
           <textarea
             ref={textareaRef}
             value={value}
             onChange={(e) => onChange(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask about air quality, weather risk, water safety, or health guidance..."
+            placeholder={voiceAssistantEnabled ? "Ask your question or use the mic..." : "Ask about air quality, weather risk, water safety, or health guidance..."}
             disabled={isStreaming}
-            className="flex-1 bg-transparent text-white placeholder:text-slate-500 outline-none resize-none max-h-[120px] text-sm min-h-[20px] leading-relaxed"
+            className={`flex-1 bg-transparent outline-none resize-none max-h-[120px] text-sm min-h-[20px] leading-relaxed pr-1 ${
+              voiceAssistantEnabled ? 'text-slate-50 placeholder:text-slate-400' : 'text-white placeholder:text-slate-500'
+            }`}
             rows={1}
           />
           {value.length > 200 && (
@@ -184,7 +220,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
             disabled={!value.trim() || isStreaming}
             className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
               value.trim() && !isStreaming
-                ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/50'
+                ? 'bg-accent-cyan hover:bg-cyan-400 text-black shadow-lg shadow-cyan-500/25'
                 : 'bg-gray-700/50 text-gray-500 cursor-not-allowed'
             }`}
             title="Send message"
@@ -199,7 +235,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
       </div>
 
       {/* Keyboard hints */}
-      <div className="px-1 text-[11px] text-slate-400">
+      <div className="px-1 text-[11px] text-slate-500">
         Enter to send. Shift+Enter for a new line.
       </div>
     </div>

@@ -71,6 +71,32 @@ def save_city_data(city: str, data: dict) -> bool:
         return False
 
 
+def push_shared_alert(city: str, severity: str, message: str) -> bool:
+    """
+    Push a shared alert row into SpaceTimeDB for live multiplayer clients.
+    """
+    payload = {
+        "city": city.lower(),
+        "severity": severity.lower(),
+        "msg": message,
+    }
+
+    try:
+        res = requests.post(
+            f"{BASE}/call/push_alert",
+            json=payload,
+            timeout=5,
+        )
+        if res.status_code != 200:
+                        print(f"[SPACETIMEDB ALERT FAILED] {city}: {res.status_code} {res.text[:200]}")
+                        return False
+        return True
+
+    except Exception as e:
+        print(f"[SPACETIMEDB ALERT ERROR] {e}")
+        return False
+
+
 # ─────────────────────────────────────────
 # GET CACHED CITY DATA
 # ─────────────────────────────────────────

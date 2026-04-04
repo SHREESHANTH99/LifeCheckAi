@@ -2,6 +2,7 @@
 
 import { ThemeProvider } from "@/components/layout/ThemeContext";
 import { SafetyProvider } from "@/app/context/SafetyContext";
+import { VoiceProvider } from "@/app/context/VoiceContext";
 import { Navbar } from "@/components/layout/Navbar";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Footer } from "@/components/layout/Footer";
@@ -10,6 +11,14 @@ import { CommandPalette } from "@/components/command/CommandPalette";
 import { CommandPaletteProvider } from "@/hooks/useCommandPalette";
 import { useRouter, usePathname } from "next/navigation";
 import type { ReactNode } from "react";
+
+// Dynamic import of SpaceTimeDB provider with fallback
+const SpacetimeDBProvider = ({ children }: { children: ReactNode }) => {
+    // Note: SpaceTimeDB provider disabled for now as SDK compatibility needs resolution
+    // Hooks will gracefully handle fallback when not configured
+    return <>{children}</>;
+};
+  
 
 function LayoutShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -35,12 +44,16 @@ function LayoutShell({ children }: { children: ReactNode }) {
 
 export function ClientLayout({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider>
-      <SafetyProvider>
-      <CommandPaletteProvider>
-        <LayoutShell>{children}</LayoutShell>
-      </CommandPaletteProvider>
-      </SafetyProvider>
-    </ThemeProvider>
+    <SpacetimeDBProvider>
+      <ThemeProvider>
+        <VoiceProvider>
+          <SafetyProvider>
+            <CommandPaletteProvider>
+              <LayoutShell>{children}</LayoutShell>
+            </CommandPaletteProvider>
+          </SafetyProvider>
+        </VoiceProvider>
+      </ThemeProvider>
+    </SpacetimeDBProvider>
   );
 }

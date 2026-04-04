@@ -20,6 +20,9 @@ import { PersonalRiskCard } from "@/components/profile/PersonalRiskCard";
 import { calculatePersonalizedRisk } from "@/lib/profileRisk";
 import { SafetyTimeline } from "@/components/forecast/SafetyTimeline";
 import { VoiceBriefingButton } from "@/components/voice/VoiceBriefingButton";
+import { VoiceSettingsPanel } from "@/components/voice/VoiceSettingsPanel";
+import { useSharedCityState } from "@/hooks/useSharedCityState";
+import { useProactiveVoiceAlerts } from "@/hooks/useProactiveVoiceAlerts";
 import {
   Wind,
   Thermometer,
@@ -141,11 +144,20 @@ import { Suspense } from "react";
 function DashboardPageContent() {
   const { data, loading, error, city, search, refresh, lastUpdated, locateMe } = useSafetyData();
   const searchParams = useSearchParams();
+  const { watcherCount } = useSharedCityState(data?.city || city);
   const [monitoredCities, setMonitoredCities] = useState<string[]>([]);
   const [monitoredData, setMonitoredData] = useState<Record<string, MonitoredCitySnapshot>>({});
   const [monitoredLoading, setMonitoredLoading] = useState(false);
   const [statusFilter, setStatusFilter] = useState<MonitoredStatusFilter>("ALL");
   const [sortMode, setSortMode] = useState<MonitoredSortMode>("risk");
+
+  // Trigger proactive voice alerts when safety verdict changes
+  useProactiveVoiceAlerts(
+    data?.city,
+    data?.overall?.verdict,
+    data?.air_quality?.aqi,
+    data?.weather?.temp_celsius,
+  );
   const [selectedProfile, setSelectedProfile] = useState<HealthProfile>("general");
   const [profileConfig, setProfileConfig] = useState<ProfileConfig>(PROFILES[0]);
 
@@ -465,6 +477,9 @@ function DashboardPageContent() {
               <span className="text-text-primary font-semibold">{data.city}</span>
               <span className="text-text-muted">·</span>
               <span className="text-text-muted">Updated {formatTime(lastUpdated)}</span>
+              <span className="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent-cyan/20 bg-accent-cyan/10 text-accent-cyan text-xs font-semibold uppercase tracking-wider">
+                👥 {watcherCount} live
+              </span>
               <button
                 onClick={refresh}
                 className="p-2 rounded-lg hover:bg-white/5 text-text-muted hover:text-text-primary transition-colors cursor-pointer"
@@ -495,6 +510,10 @@ function DashboardPageContent() {
             />
           </motion.div>
 
+          <motion.div variants={itemVariants}>
+            <VoiceSettingsPanel />
+          </motion.div>
+
           {/* Bento Grid Layout */}
           <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
@@ -513,6 +532,9 @@ function DashboardPageContent() {
                 <div className="mt-6 flex flex-col items-center">
                     <StatusBadge status={data.overall?.verdict || "UNKNOWN"} />
                     <span className="text-sm text-text-secondary mt-3 text-center px-4">{data.overall?.summary}</span>
+                    <span className="mt-2 text-[10px] uppercase tracking-wider text-accent-cyan/80 font-bold">
+                      {watcherCount} people monitoring this city
+                    </span>
                 </div>
             </div>
 

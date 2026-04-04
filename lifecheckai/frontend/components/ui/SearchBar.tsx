@@ -28,6 +28,11 @@ interface SearchBarProps {
   fetchSuggestions?: (query: string) => Promise<Array<{ value: string; subtitle?: string }>>;
 }
 
+type SuggestionItem = {
+  value: string;
+  subtitle?: string;
+};
+
 export function SearchBar({
   onSearch,
   onUseCurrentLocation,
@@ -41,7 +46,7 @@ export function SearchBar({
 }: SearchBarProps) {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
-  const [remoteSuggestions, setRemoteSuggestions] = useState<Array<{ value: string; subtitle?: string }>>([]);
+  const [remoteSuggestions, setRemoteSuggestions] = useState<SuggestionItem[]>([]);
   const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false);
   const requestIdRef = useRef(0);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -171,7 +176,7 @@ export function SearchBar({
 
     const remote = remoteSuggestions
       .filter((entry) => entry.value)
-      .map((entry) => ({ value: entry.value, subtitle: entry.subtitle }));
+      .map((entry) => ({ value: entry.value, subtitle: entry.subtitle } as SuggestionItem));
 
     const localByValue = new Set(scored.map((entry) => entry.value.toLowerCase()));
     const mergedSuggestions: Array<{ value: string; subtitle?: string }> = [
