@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import json
+import asyncio
 
 from fastapi import APIRouter, Query
+from fastapi.responses import StreamingResponse
 
 from lifecheckai.backend.app.models.chat_model import (
     ChatLocation,
@@ -137,6 +139,138 @@ def ask(
     )
 
 
+@router.get("/ask/stream")
+@router.get("/api/ask/stream")
+async def ask_stream(
+    query: str = Query(..., description="Natural-language environment or safety question"),
+    city: str = Query("Delhi", description="City to check"),
+    profile: str = Query("general", description="User profile"),
+    memory: str = Query("[]", description="Conversation memory as JSON"),
+):
+    """Stream chat response using Server-Sent Events"""
+    
+    async def stream_generator():
+        try:
+            # Check if query is blocked
+            blocked_reason = _blocked_reason(query)
+            if blocked_reason:
+                yield f'data: {json.dumps({"type": "chunk", "text": "I cannot assist with that request. I can help with environmental safety guidance, risk interpretation, and official-health-aligned precautions for your city."})}\n\n'
+                yield f'data: {json.dumps({"type": "metadata", "action_type": "general", "safety_guard_triggered": True, "blocked_reason": blocked_reason, "location_extracted": city, "intent_detected": "general"})}\n\n'
+                yield f'data: {json.dumps({"type": "cards", "cards": []})}\n\n'
+                yield f'data: {json.dumps({"type": "suggestions", "suggestions": []})}\n\n'
+                yield 'data: {"type": "done"}\n\n'
+                return
+            
+            # Get safety snapshot
+            safety_snapshot = get_city_safety_snapshot(city, allow_partial=True)
+            normalized = _normalize_snapshot(safety_snapshot, city)
+            intent = detect_intent(query)
+            
+            # Check for critical conditions
+            critical = check_critical(normalized)
+            if critical:
+                text = critical["message"]
+                yield f'data: {json.dumps({"type": "chunk", "text": text})}\n\n'
+            else:
+                # Build prompt and get response from Gemini
+                profile_dict = {"type": profile} if profile else None
+                prompt = build_prompt(normalized, query, intent, profile_dict)
+                ai_sections = normalize_sections(generate_response(prompt))
+                sections = ai_sections or build_fallback_sections(
+                    normalized,
+                    query,
+                    intent,
+                    profile_dict,
+                )
+                text = render_sections(sections)
+                
+                # Stream the text (in real implementation, you'd stream Gemini response word by word)
+                # For now, send it as a single chunk
+                yield f'data: {json.dumps({"type": "chunk", "text": text})}\n\n'
+            
+            # Determine cards to inject
+            cards = _determine_cards_from_response(text, query)
+            suggestions = _generate_suggestions(query, intent, city)
+            
+            # Send metadata
+            yield f'data: {json.dumps({"type": "metadata", "action_type": _action_type_from_intent(intent), "safety_guard_triggered": False, "blocked_reason": None, "location_extracted": city, "intent_detected": intent})}\n\n'
+            
+            # Send cards
+            yield f'data: {json.dumps({"type": "cards", "cards": cards})}\n\n'
+            
+            # Send suggestions
+            yield f'data: {json.dumps({"type": "suggestions", "suggestions": suggestions})}\n\n'
+            
+            # Send done signal
+            yield 'data: {"type": "done"}\n\n'
+            
+        except Exception as e:
+            yield f'data: {json.dumps({"type": "error", "message": str(e)})}\n\n'
+    
+    return StreamingResponse(
+        stream_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
+
+
+def _determine_cards_from_response(response: str, query: str) -> list[str]:
+    """Determine which rich cards to inject based on response content"""
+    cards = []
+    text_lower = str(response).lower()
+    
+    if "aqi" in text_lower or "air" in text_lower or "pollution" in text_lower:
+        cards.append("aqi")
+    if "temperature" in text_lower or "weather" in text_lower or "cold" in text_lower or "hot" in text_lower:
+        cards.append("weather")
+    if "water" in text_lower or "groundwater" in text_lower:
+        cards.append("water")
+    if "vs" in query.lower() or "compare" in query.lower():
+        cards.append("comparison")
+    if "forecast" in text_lower or "hours" in text_lower:
+        cards.append("timeline")
+    
+    return cards[:3]  # Return max 3 cards
+
+
+def _generate_suggestions(query: str, intent: str, city: str) -> list[str]:
+    """Generate contextual follow-up suggestions"""
+    suggestions = []
+    query_lower = query.lower()
+    intent_lower = (intent or "").lower()
+    
+    if "aqi" in intent_lower or "air" in query_lower:
+        suggestions.extend([
+            "What causes high AQI?",
+            "Best time to go outside today?",
+            "How to protect from pollution?",
+        ])
+    elif "weather" in intent_lower:
+        suggestions.extend([
+            "When will temperature drop?",
+            "Heat safety tips?",
+            "Best indoor activities today?",
+        ])
+    elif "water" in intent_lower:
+        suggestions.extend([
+            "State water quality forecast?",
+            "Safe drinking water tips?",
+            "Groundwater trends analysis?",
+        ])
+    else:
+        suggestions.extend([
+            f"Compare {city} with another city?",
+            f"Full safety report for {city}?",
+            "What can you help me with?",
+        ])
+    
+    return suggestions[:3]
+
+
 def _action_type_from_intent(intent: str) -> str:
     normalized = (intent or "general").lower()
     if "air" in normalized or "aqi" in normalized:
@@ -147,6 +281,8 @@ def _action_type_from_intent(intent: str) -> str:
         return "health_advice"
     if "emergency" in normalized:
         return "emergency"
+    if "water" in normalized:
+        return "water_query"
     return "general"
 
 

@@ -1,152 +1,123 @@
 # LifeCheck AI
 
-LifeCheck AI is a full-stack environmental safety platform for India-wide location intelligence.
-It combines real-time air, weather, pollen, water-quality analytics, AI guidance, and map-based monitoring.
+LifeCheck AI is a full-stack environmental intelligence platform focused on India. It combines location-aware safety scoring, realtime monitoring, AI chat guidance, map-based risk visualization, and water quality ML analysis.
 
-## What Is Built
+## Implemented Features (April 2026)
 
-### Core capabilities
+### Safety Intelligence
 
-- Real-time safety snapshot per location (AQI, weather, pollen, overall verdict)
-- Geocoding + reverse geocoding (city/state/place resolution)
-- Browser geolocation safety lookup
-- Multi-city and state-scale monitoring with live map overlays
-- Alert feed and notification-style alert UX
-- AI chat assistant with safety-aware fallback mode
-- Water quality ML prediction + trends + Gemini analysis
-- Realtime cache via SpaceTimeDB and scheduler-driven warmup
+- City-level safety snapshot using AQI, weather, pollen, and risk scoring.
+- Browser geolocation flow with reverse geocoding and location-aware results.
+- Search suggestions with broad India coverage (city, district, state, UT support).
+- Live city cache support with source metadata and cache-hit indicators.
 
-### Coverage
+### Realtime Monitoring and Alerts
 
-- Dashboard and map search support broad location matching via `/api/location-suggestions`
-- India states and UTs seeded in frontend for professional quick-selection UX
-- Dynamic monitored locations are persisted and can grow beyond default seeds
+- Realtime snapshot feed for monitored locations.
+- Alerts stream and alert history endpoints.
+- Scheduler warmup for frequently monitored cities.
+- History endpoint for city trend lookup.
+
+### AI Chat Assistant
+
+- Structured response generation with intent detection and location extraction.
+- Safety guard that blocks unsafe requests and provides safe fallback guidance.
+- Critical-condition override path for immediate safety-first response.
+- Streaming endpoint for incremental chat rendering on the frontend.
+
+### Water Intelligence
+
+- State-level drinkability prediction with model confidence and probabilities.
+- Year-over-year trend analysis for water parameters.
+- BIS violations detection.
+- AI-generated contamination analysis and remediation guidance.
+- Dedicated reusable water component system in frontend.
+
+## Frontend Pages
+
+- /: Landing page with quick safety checks.
+- /dashboard: Location intelligence, metrics, and monitored-location workflow.
+- /map: Google Maps visualization with risk overlays and monitored location drawer.
+- /chat: AI assistant interface with location context.
+- /alerts: Alerts list, filtering, and status workflow.
+- /water: Water ML prediction, trends, violations, and AI analysis.
+
+## API Surface
+
+### Core
+
+- GET /api/check-safety?city=...
+- GET /api/check-safety-by-coordinates?lat=...&lon=...
+- GET /api/location-suggestions?q=...&limit=...
+- GET /api/cities/live
+- GET /api/history?cities=...&limit=...
+- GET /api/alerts/live
+- GET /realtime/snapshot
+
+### Chat
+
+- GET /api/ask?query=...
+- GET /api/ask/stream?query=...&city=...&profile=...&memory=...
+
+### Water
+
+- GET /api/water/states
+- GET /api/water/predict?state=...&location=...
+- GET /api/water/trends?state=...&location=...
+- GET /api/water/model-metrics
+- GET /api/water/analyze?state=...
+
+### Platform
+
+- GET /
+- GET /health
+- GET /test
 
 ## Tech Stack
-
-### Frontend
-
-- Next.js (App Router)
-- TypeScript + React
-- Framer Motion
-- Tailwind CSS
-- Recharts (water trends)
-- Lucide icons
 
 ### Backend
 
 - FastAPI
 - Pydantic
-- Requests/httpx
-- Scikit-learn, pandas, numpy, joblib (water ML)
-- Google APIs: Geocoding, Air Quality, Weather, Pollen
-- SpaceTimeDB (short-lived realtime cache)
+- requests/httpx
+- scikit-learn, pandas, numpy, joblib
+- Google Geocoding, Air Quality, Weather, Pollen APIs
+- SpaceTimeDB integration for short-lived cache
 
-## Project Layout
+### Frontend
+
+- Next.js (App Router)
+- React + TypeScript
+- Tailwind CSS
+- Framer Motion
+- Recharts + Chart.js
+- Zustand
+- Lucide icons
+
+## Repository Layout
 
 ```text
 lifecheck-ai/
-	lifecheckai/
-		backend/
-			requirements.txt
-			.env
-			app/
-				main.py
-				config.py
-				routes/
-				services/
-				models/
-				utils/
-		frontend/
-			package.json
-			app/
-			components/
-			lib/
-			types/
-	lifecheck-sbt/
-		server/
-			Cargo.toml
-			src/lib.rs
+  lifecheckai/
+    backend/
+      app/
+        main.py
+        config.py
+        routes/
+        services/
+        models/
+        utils/
+    frontend/
+      app/
+      components/
+      hooks/
+      lib/
+      types/
+  lifecheck-sbt/
+    server/
+      Cargo.toml
+      src/lib.rs
 ```
-
-## Backend Features (From Current Code)
-
-### Safety and geolocation
-
-- `GET /api/check-safety?city=...`
-	- Geocodes location, fetches weather/air/pollen, computes verdict, advisory and score
-	- Caches to SpaceTimeDB and returns `source` + `cache_hit`
-- `GET /api/check-safety-by-coordinates?lat=...&lon=...`
-	- Reverse-geocodes browser coordinates and returns full snapshot
-- `GET /api/location-suggestions?q=...&limit=...`
-	- Ranked location suggestions from geocoding + India state/UT fallback set
-- `GET /api/cities/live`
-	- Live cached city snapshots (used by map/dashboard monitored views)
-
-### Alerts / history / realtime
-
-- `GET /api/alerts/live`
-	- Active alerts + alert history
-- `GET /api/history?cities=...&limit=...`
-	- Snapshot history for one or more cities
-- `GET /realtime/snapshot`
-	- Realtime city snapshot feed for polling clients
-
-### AI chat
-
-- `GET /api/ask?query=...`
-	- Intent + location extraction
-	- Safety-guard critical override path
-	- Gemini-based sectioned answer with fallback rendering
-	- Confidence + source metadata in response
-
-### Water intelligence
-
-- `GET /api/water/states`
-- `GET /api/water/predict?state=...`
-- `GET /api/water/trends?state=...`
-- `GET /api/water/model-metrics`
-- `GET /api/water/analyze?state=...`
-
-### Platform endpoints
-
-- `GET /` backend status message
-- `GET /health` service health + scheduler status
-- `GET /test` basic health route
-
-## Frontend Features (From Current Code)
-
-### Pages
-
-- `/` modern landing page with city quick-check + feature cards
-- `/dashboard`
-	- Sticky advanced search with async suggestions
-	- Location intelligence panel
-	- Air/weather/pollen/UV metric system
-	- Monitored cities section with filtering/sorting/priority summaries
-- `/map`
-	- Google Maps JS integration
-	- True map-anchored zone overlays (safe/caution/unsafe circles + markers)
-	- Drawer-style monitored panel with hamburger toggle (desktop + mobile)
-	- Dynamic monitored locations and live city refresh
-- `/chat`
-	- AI conversation UI with city context and quick prompts
-- `/alerts`
-	- Alert feed + filters + top notifications section with unread tracking
-- `/water`
-	- State selector, ML prediction, BIS violation view, trends charts, AI analysis
-
-### Shared frontend behavior
-
-- Context state store for safety data and chat context
-- `useSafetyData` hook with normalization for multiple backend payload shapes
-- 60-second auto-polling + local cache fallback + toasts
-- `locateMe` support for browser geolocation
-- Advanced `SearchBar` with:
-	- Recent searches
-	- Ranked suggestions
-	- Grouped sections (Recent, Location Matches, Popular Picks)
-	- Debounced async suggestion provider support
 
 ## Setup
 
@@ -159,7 +130,7 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-Create/update `lifecheckai/backend/.env`:
+Create lifecheckai/backend/.env:
 
 ```env
 GOOGLE_API_KEY=YOUR_GOOGLE_API_KEY
@@ -167,10 +138,8 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_OR_SAME_AS_GOOGLE
 GEMINI_MODEL=gemini-2.5-flash
 GEOCODING_COUNTRY=IN
 GEOCODING_REGION=in
-
 SPACETIMEDB_HOST=https://maincloud.spacetimedb.com
 SPACETIMEDB_DB_NAME=YOUR_DB_NAME
-
 ENABLE_SCHEDULER=true
 SCHEDULER_INTERVAL_SECONDS=300
 SCHEDULER_CITIES=Delhi,Mumbai,Bangalore,Chennai
@@ -183,15 +152,15 @@ cd ../frontend
 npm install
 ```
 
-Create/update `lifecheckai/frontend/.env.local`:
+Create lifecheckai/frontend/.env.local:
 
 ```env
-NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
 NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
 NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=YOUR_BROWSER_MAPS_KEY
 ```
 
-### 3) SpaceTimeDB module (optional but recommended for realtime cache)
+### 3) SpaceTimeDB (Optional but Recommended)
 
 ```powershell
 cd ../../lifecheck-sbt/server
@@ -218,33 +187,42 @@ npm run dev
 
 Open:
 
-- Backend docs: `http://127.0.0.1:8000/docs`
-- Frontend: `http://localhost:3000`
+- Backend docs: http://127.0.0.1:8000/docs
+- Frontend app: http://localhost:3000
 
-## Verification Quick Checks
+## Quick Verification
 
 ```powershell
 curl http://127.0.0.1:8000/health
 curl "http://127.0.0.1:8000/api/check-safety?city=Delhi"
 curl "http://127.0.0.1:8000/api/location-suggestions?q=maha&limit=8"
 curl http://127.0.0.1:8000/api/cities/live
+curl "http://127.0.0.1:8000/api/ask?query=How%20safe%20is%20Delhi%20today"
 curl "http://127.0.0.1:8000/api/water/predict?state=Maharashtra"
 ```
 
-## Notes and Limitations
+## Water Module Documentation
 
-- Google API enablement and billing are required for live geocoding/air/weather/pollen.
-- Pollen coverage can vary by location; API may return sparse data in some regions.
-- With no Google key, backend falls back to mock/default coordinate behavior.
-- Map overlays require `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` with Maps JavaScript API enabled.
+Additional docs at repository root:
 
-## Security and Ops
+- ../INDEX.md
+- ../WATER_COMPONENTS_QUICK_START.md
+- ../WATER_COMPONENTS_SUMMARY.md
+- ../WATER_COMPONENTS_INTEGRATION_CHECKLIST.md
+- ../WATER_FEATURE_DOCUMENTATION.md
 
-- Do not commit `.env` secrets.
-- Rotate keys if exposed.
-- Restrict production API keys by origin/IP and service scope.
+Component-level docs:
 
-## Current Version Snapshot
+- frontend/components/water/README.md
 
-This README reflects the currently implemented feature set in the codebase as of April 2026.
+## Operational Notes
+
+- Google APIs must be enabled for live geocoding, weather, air, and pollen responses.
+- Pollen coverage may be sparse for some locations.
+- Without configured Google keys, some flows fallback to limited/default behavior.
+- Do not commit .env secrets.
+
+## Version
+
+This README reflects the implemented feature set in this repository as of April 2026.
 
