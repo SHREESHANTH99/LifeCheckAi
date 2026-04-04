@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: lifecheckai-backend
+    env: python
+    region: oregon
+    plan: starter
+    rootDir: .
+    buildCommand: pip install -r lifecheckai/backend/requirements.txt
+    startCommand: gunicorn -k uvicorn.workers.UvicornWorker -b 0.0.0.0:$PORT lifecheckai.backend.app.main:app
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: GEOCODING_COUNTRY
+        value: IN
+      - key: GEOCODING_REGION
+        value: in
+      - key: ENABLE_SCHEDULER
+        value: "true"
+      - key: SCHEDULER_INTERVAL_SECONDS
+        value: "300"
