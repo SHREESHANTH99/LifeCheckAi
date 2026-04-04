@@ -383,3 +383,120 @@ lifecheck-ai/
 ## 14) Current Status
 
 This README reflects the implemented project scope and integration tracks as of April 2026.
+
+## 15) Deployment Guide (Production-Safe)
+
+This repository is a monorepo-style layout, so deployment commands must match folder structure.
+
+### Recommended Hosting Split
+
+- Frontend (Next.js): Vercel
+- Backend (FastAPI): Render
+- Realtime shared state: SpaceTimeDB Cloud
+
+### Render Backend (No-Build-Issue Setup)
+
+Use these exact settings for the backend service:
+
+- Root Directory: leave empty (repo root)
+- Build Command: `pip install -r requirements.txt`
+- Start Command: `gunicorn -k uvicorn.workers.UvicornWorker -b 0.0.0.0:$PORT lifecheckai.backend.app.main:app`
+
+Why this works:
+
+- Root-level `requirements.txt` forwards to backend requirements.
+- Backend imports use `lifecheckai.backend.app...`, which resolve when running from repo root.
+
+### Render Python Version
+
+For better package compatibility and predictable startup behavior, pin Python to 3.11.x or 3.12.x.
+
+### Vercel Frontend
+
+- Project root: `lifecheckai/frontend`
+- Build: `npm run build`
+- Start: default Vercel Next.js runtime
+
+Required frontend environment variables:
+
+- `NEXT_PUBLIC_API_URL`
+- `NEXT_PUBLIC_API_BASE_URL`
+- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`
+- `NEXT_PUBLIC_ELEVENLABS_API_KEY`
+- `NEXT_PUBLIC_ELEVENLABS_VOICE_ID`
+- `NEXT_PUBLIC_SPACETIMEDB_HOST`
+- `NEXT_PUBLIC_SPACETIMEDB_DB_NAME`
+
+## 16) Common Deployment Errors and Exact Fixes
+
+### Error: `Could not open requirements file: requirements.txt`
+
+Cause: Build command runs at repo root without a root requirements file path.
+
+Fix:
+
+- Keep `pip install -r requirements.txt` (root shim exists), or
+- Use `pip install -r lifecheckai/backend/requirements.txt`
+
+### Error: `gunicorn: command not found`
+
+Cause: Gunicorn missing from backend dependencies.
+
+Fix:
+
+- Ensure `gunicorn==23.0.0` exists in backend requirements.
+
+### Error: `ModuleNotFoundError: No module named 'lifecheckai'`
+
+Cause: Start command import path does not match Root Directory.
+
+Fix (recommended):
+
+- Root Directory empty
+- Start with `lifecheckai.backend.app.main:app`
+
+Alternative (if Root Directory is `lifecheckai/backend`):
+
+- Start with `app.main:app`
+
+### Error: `unicorn: command not found`
+
+Cause: Start command typo.
+
+Fix:
+
+- Use `gunicorn`, not `unicorn`.
+
+## 17) Water Module Performance Notes (Why Fetch Can Feel Slow)
+
+Water analysis can feel slower than safety/AQI checks because it does heavier data work per request.
+
+### Why it is slower
+
+- State and station filtering runs against large multi-year groundwater datasets.
+- Prediction and trends are requested together for each analysis action.
+- Station matching includes fuzzy/ranked comparisons.
+- "Use My Location" adds reverse geocoding and nearby-station mapping.
+- Some responses include richer payloads (statuses, recommendations, trend arrays).
+
+### Current mitigations in the codebase
+
+- Cached dataset/frame and derived catalogs (`@lru_cache`) in water services.
+- Station lists are state-scoped before client filtering.
+- Prediction + trends requests are executed in parallel from frontend.
+- Nearby selection limits candidate stations before deeper processing.
+
+### Practical speed tips for users/operators
+
+- Select state first, then choose a monitoring location before Analyze.
+- Avoid repeated "Use My Location" clicks unless location changed.
+- Keep backend service on a paid instance for lower cold-start latency.
+- Keep frontend and backend in nearby regions.
+
+## 18) Security and Ops Checklist
+
+- Never commit live API keys to git.
+- Rotate keys immediately if they were exposed in any committed `.env` file.
+- Restrict backend CORS to trusted frontend domains in production.
+- Keep SpaceTimeDB host/db values in secret env vars.
+- Add health checks (`/health`) and monitor deploy logs each release.
