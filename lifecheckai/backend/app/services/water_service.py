@@ -173,7 +173,8 @@ def _score_station_name(query: str, station_name: str, station_code: str | None 
     token_overlap = len(query_tokens & station_tokens) / max(1, len(query_tokens))
     text_ratio = SequenceMatcher(None, normalized_query, normalized_station).ratio()
 
-    return round(max(text_ratio * 0.8 + token_overlap * 0.4, token_overlap * 0.9), 4)
+    score = float(max(text_ratio * 0.8 + token_overlap * 0.4, token_overlap * 0.9))
+    return float(f"{score:.4f}")
 
 
 def _dataset_paths() -> list[Path]:
@@ -300,9 +301,10 @@ def resolve_state_name(place: str | None, formatted_address: str | None = None) 
         if normalized_place in state_lookup:
             return state_lookup[normalized_place]
 
-        mapped_state = CITY_TO_STATE.get(place.strip().lower())
-        if mapped_state:
-            return mapped_state
+        if place:
+            mapped_state = CITY_TO_STATE.get(place.strip().lower())
+            if mapped_state:
+                return mapped_state
 
         close_match = get_close_matches(normalized_place, list(state_lookup.keys()), n=1, cutoff=0.75)
         if close_match:
@@ -389,7 +391,12 @@ def _rank_stations(state: str, queries: list[str], limit: int = 12) -> list[dict
             continue
         ranked.append((best_score, station))
 
-    ranked.sort(key=lambda item: (-item[0], item[1]["name"].lower()))
+    def _get_sort_key(item: Any) -> tuple[float, str]:
+        score, station = item
+        name = str(station.get("name", "")).lower()
+        return (-float(score), name)
+
+    ranked.sort(key=_get_sort_key)
     return [station for _, station in ranked[:limit]]
 
 

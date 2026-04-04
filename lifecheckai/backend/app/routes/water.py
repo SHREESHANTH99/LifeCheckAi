@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException, Query
 
-from lifecheckai.backend.app.services import ml_service
-from lifecheckai.backend.app.services.gemini_service import analyze_water_quality
-from lifecheckai.backend.app.services.water_service import (
+from ..services import ml_service
+from ..services.gemini_service import analyze_water_quality
+from ..services.water_service import (
     get_dataset_years,
     get_state_catalog,
     get_station_options,
