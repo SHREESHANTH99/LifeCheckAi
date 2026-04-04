@@ -13,7 +13,11 @@ from lifecheckai.backend.app.models.chat_model import (
     StructuredAnswer,
 )
 from lifecheckai.backend.app.routes.safety import get_city_safety_snapshot
-from lifecheckai.backend.app.services.gemini_service import generate_response, get_last_gemini_error
+from lifecheckai.backend.app.services.gemini_service import (
+    generate_response,
+    get_last_gemini_error,
+    get_last_llm_provider,
+)
 from lifecheckai.backend.app.services.water_service import resolve_state_name
 from lifecheckai.backend.app.utils.confidence import compute_confidence
 from lifecheckai.backend.app.utils.intent import detect_intent
@@ -114,6 +118,7 @@ def ask(
     prompt = build_prompt(normalized, query, intent, profile)
     ai_sections = normalize_sections(generate_response(prompt))
     used_ai = ai_sections is not None
+    ai_provider = get_last_llm_provider() if used_ai else None
     sections = ai_sections or build_fallback_sections(normalized, query, intent, profile)
     source_payload = _source_payload(normalized)
     if not used_ai:
@@ -129,7 +134,7 @@ def ask(
         structured_answer=StructuredAnswer(**sections),
         answer=render_sections(sections),
         model=ChatModelMeta(
-            provider="gemini" if used_ai else "fallback",
+            provider=ai_provider or ("fallback" if not used_ai else "gemini"),
             used_ai=used_ai,
             fallback_used=not used_ai,
         ),

@@ -4,10 +4,20 @@ import json
 import re
 
 import google.generativeai as genai
+import requests
 
-from lifecheckai.backend.app.config import GEMINI_API_KEY, GEMINI_MODEL, GOOGLE_API_KEY
+from lifecheckai.backend.app.config import (
+    DEEPSEEK_API_KEY,
+    DEEPSEEK_MODEL,
+    GEMINI_API_KEY,
+    GEMINI_MODEL,
+    GOOGLE_API_KEY,
+    GROQ_API_KEY,
+    GROQ_MODEL,
+)
 
 LAST_GEMINI_ERROR: str | None = None
+LAST_LLM_PROVIDER: str | None = None
 
 MODEL_CANDIDATES = [
     GEMINI_MODEL,
@@ -23,50 +33,78 @@ KEY_CANDIDATES = [
 
 def generate_response(prompt: str) -> dict | None:
     global LAST_GEMINI_ERROR
+    global LAST_LLM_PROVIDER
     LAST_GEMINI_ERROR = None
+    LAST_LLM_PROVIDER = None
 
     key_candidates = [key for key in _unique_key_candidates(KEY_CANDIDATES)]
-    if not key_candidates:
+    if key_candidates:
+        print("[GEMINI] CALLING GEMINI...")
+        for key_index, api_key in enumerate(key_candidates, start=1):
+            genai.configure(api_key=api_key)
+            for model_name in _unique_model_candidates(MODEL_CANDIDATES):
+                try:
+                    model = genai.GenerativeModel(model_name=model_name)
+                    response = model.generate_content(
+                        prompt,
+                        generation_config={
+                            "temperature": 0.9,
+                            "top_p": 0.95,
+                        },
+                    )
+
+                    text = _extract_text(response)
+                    if not text:
+                        print(f"[GEMINI WARN] Empty response text for model {model_name} (key#{key_index})")
+                        continue
+
+                    parsed = _parse_json_object(text)
+                    if parsed is None:
+                        print(f"[GEMINI WARN] Invalid JSON payload from model {model_name} (key#{key_index})")
+                        continue
+
+                    print(f"[GEMINI] RESPONSE RECEIVED via {model_name} (key#{key_index})")
+                    LAST_LLM_PROVIDER = "gemini"
+                    return parsed
+                except Exception as exc:
+                    LAST_GEMINI_ERROR = f"gemini key#{key_index} model={model_name}: {exc}"
+                    print(f"[GEMINI ERROR] {LAST_GEMINI_ERROR}")
+                    continue
+    else:
         LAST_GEMINI_ERROR = "Missing GEMINI_API_KEY"
         print(f"[GEMINI ERROR] {LAST_GEMINI_ERROR}")
-        return None
 
-    print("[GEMINI] CALLING GEMINI...")
-    for key_index, api_key in enumerate(key_candidates, start=1):
-        genai.configure(api_key=api_key)
-        for model_name in _unique_model_candidates(MODEL_CANDIDATES):
-            try:
-                model = genai.GenerativeModel(model_name=model_name)
-                response = model.generate_content(
-                    prompt,
-                    generation_config={
-                        "temperature": 0.9,
-                        "top_p": 0.95,
-                    },
-                )
+    groq_result = _generate_with_openai_compatible(
+        provider="groq",
+        api_key=GROQ_API_KEY,
+        model_name=GROQ_MODEL,
+        endpoint="https://api.groq.com/openai/v1/chat/completions",
+        prompt=prompt,
+    )
+    if groq_result is not None:
+        LAST_LLM_PROVIDER = "groq"
+        return groq_result
 
-                text = _extract_text(response)
-                if not text:
-                    print(f"[GEMINI WARN] Empty response text for model {model_name} (key#{key_index})")
-                    continue
-
-                parsed = _parse_json_object(text)
-                if parsed is None:
-                    print(f"[GEMINI WARN] Invalid JSON payload from model {model_name} (key#{key_index})")
-                    continue
-
-                print(f"[GEMINI] RESPONSE RECEIVED via {model_name} (key#{key_index})")
-                return parsed
-            except Exception as exc:
-                LAST_GEMINI_ERROR = f"key#{key_index} model={model_name}: {exc}"
-                print(f"[GEMINI ERROR] {LAST_GEMINI_ERROR}")
-                continue
+    deepseek_result = _generate_with_openai_compatible(
+        provider="deepseek",
+        api_key=DEEPSEEK_API_KEY,
+        model_name=DEEPSEEK_MODEL,
+        endpoint="https://api.deepseek.com/v1/chat/completions",
+        prompt=prompt,
+    )
+    if deepseek_result is not None:
+        LAST_LLM_PROVIDER = "deepseek"
+        return deepseek_result
 
     return None
 
 
 def get_last_gemini_error() -> str | None:
     return LAST_GEMINI_ERROR
+
+
+def get_last_llm_provider() -> str | None:
+    return LAST_LLM_PROVIDER
 
 
 def _extract_text(payload: object) -> str | None:
@@ -144,6 +182,104 @@ def _parse_json_object(raw_text: str) -> dict | None:
         return None
 
     return parsed if isinstance(parsed, dict) else None
+
+
+def _flatten_json_sections(data: dict) -> dict:
+    """Convert nested objects (from Groq/DeepSeek) into flat strings (required by normalize_sections)."""
+    if not isinstance(data, dict):
+        return data
+    
+    flattened = {}
+    for key, value in data.items():
+        if isinstance(value, str):
+            flattened[key] = value
+        elif isinstance(value, dict):
+            # Convert dict to readable string
+            parts = []
+            for k,v in value.items():
+                if isinstance(v, (int, float)):
+                    parts.append(f"{k}: {v}")
+                else:
+                    parts.append(f"{k}: {v}")
+            flattened[key] = ", ".join(parts) if parts else str(value)
+        elif isinstance(value, list):
+            flattened[key] = ", ".join(str(v) for v in value)
+        else:
+            flattened[key] = str(value)
+    
+    return flattened
+
+
+def _generate_with_openai_compatible(
+    provider: str,
+    api_key: str | None,
+    model_name: str,
+    endpoint: str,
+    prompt: str,
+) -> dict | None:
+    global LAST_GEMINI_ERROR
+
+    key = (api_key or "").strip()
+    if not key:
+        LAST_GEMINI_ERROR = f"{provider}: missing API key"
+        print(f"[{provider.upper()} WARN] missing API key")
+        return None
+
+    try:
+        response = requests.post(
+            endpoint,
+            headers={
+                "Authorization": f"Bearer {key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": model_name,
+                "temperature": 0.9,
+                "top_p": 0.95,
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "Return valid JSON only.",
+                    },
+                    {
+                        "role": "user",
+                        "content": prompt,
+                    },
+                ],
+            },
+            timeout=20,
+        )
+        response.raise_for_status()
+        payload = response.json()
+        content = (
+            payload.get("choices", [{}])[0]
+            .get("message", {})
+            .get("content", "")
+        )
+
+        parsed = _parse_json_object(content)
+        if parsed is None:
+            LAST_GEMINI_ERROR = f"{provider}: non-JSON response"
+            print(f"[{provider.upper()} WARN] non-JSON response")
+            return None
+
+        # Flatten nested objects for consistency with normalize_sections expectations
+        flattened = _flatten_json_sections(parsed)
+        print(f"[{provider.upper()}] Parsed response: {flattened}")
+        return flattened
+    except requests.exceptions.HTTPError as exc:
+        try:
+            error_detail = exc.response.json()
+            error_msg = error_detail.get("error", {}).get("message", str(exc))
+        except:
+            error_msg = str(exc)
+        LAST_GEMINI_ERROR = f"{provider} model={model_name}: {exc.response.status_code} - {error_msg}"
+        print(f"[{provider.upper()} ERROR] Status {exc.response.status_code}: {error_msg}")
+        return None
+    except Exception as exc:
+        LAST_GEMINI_ERROR = f"{provider} model={model_name}: {exc}"
+        print(f"[{provider.upper()} ERROR] {exc}")
+        return None
 
 
 def analyze_water_quality(state: str, params: dict, violations: list) -> dict | None:
