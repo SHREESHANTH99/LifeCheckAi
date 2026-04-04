@@ -142,7 +142,7 @@ def extract_state_from_text(text: str | None) -> str | None:
     return None
 
 
-def extract_location(query: str) -> str:
+def match_location(query: str) -> str | None:
     normalized = _normalize_text(query)
 
     for alias, canonical in LOCATION_MATCHES:
@@ -157,4 +157,12 @@ def extract_location(query: str) -> str:
             return candidate_state
         return candidate.title()
 
-    return "Delhi"
+    return None
+
+
+def extract_location(query: str, default: str = "Delhi") -> str:
+    matched = match_location(query)
+    if matched:
+        return matched
+
+    return default

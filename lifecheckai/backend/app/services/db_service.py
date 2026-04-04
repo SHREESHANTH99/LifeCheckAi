@@ -61,7 +61,10 @@ def save_city_data(city: str, data: dict) -> bool:
             json=payload,
             timeout=5
         )
-        return res.status_code == 200
+        if res.status_code != 200:
+            print(f"[SPACETIMEDB SAVE FAILED] {city}: {res.status_code} {res.text[:200]}")
+            return False
+        return True
 
     except Exception as e:
         print(f"[SPACETIMEDB SAVE ERROR] {e}")
@@ -95,7 +98,14 @@ def get_city_data(city: str) -> dict | None:
             print(f"[CACHE EXPIRED] {city} — {age}s old")
             return None
 
-        return json.loads(latest["data"])
+        snapshot = _parse_snapshot(latest.get("data"))
+        if not snapshot:
+            return None
+
+        normalized = _normalize_snapshot(snapshot, city.lower())
+        if normalized != snapshot:
+            save_city_data(city.lower(), normalized)
+        return normalized
 
     except Exception as e:
         print(f"[SPACETIMEDB GET ERROR] {e}")
@@ -114,19 +124,123 @@ def get_all_cities() -> list:
     try:
         rows = _query_rows("select id, city, data, timestamp from city_data")
         cutoff = int(time.time()) - CACHE_TTL_SECONDS
+        now = int(time.time())
+        latest_by_city: dict[str, dict] = {}
 
-        # Only return fresh data
-        fresh = [r for r in rows if r["timestamp"] >= cutoff]
+        for row in rows:
+            timestamp = int(row.get("timestamp", 0) or 0)
+            if timestamp < cutoff:
+                continue
 
-        return [
-            {
-                "city": r["city"],
-                "data": json.loads(r["data"]),
-                "age_seconds": int(time.time()) - r["timestamp"]
+            city_key = str(row.get("city", "")).strip().lower()
+            if not city_key:
+                continue
+
+            snapshot = _parse_snapshot(row.get("data"))
+            if not snapshot:
+                continue
+
+            normalized_snapshot = _normalize_snapshot(snapshot, city_key)
+            if normalized_snapshot != snapshot:
+                save_city_data(city_key, normalized_snapshot)
+            snapshot = normalized_snapshot
+
+            current = latest_by_city.get(city_key)
+            if current and current["timestamp"] >= timestamp:
+                continue
+
+            latest_by_city[city_key] = {
+                "city": _display_city_name(city_key, snapshot),
+                "data": snapshot,
+                "age_seconds": max(0, now - timestamp),
+                "timestamp": timestamp,
             }
-            for r in fresh
-        ]
+
+        return sorted(
+            [
+                {
+                    "city": row["city"],
+                    "data": row["data"],
+                    "age_seconds": row["age_seconds"],
+                }
+                for row in latest_by_city.values()
+            ],
+            key=lambda row: str(row["city"]).lower(),
+        )
 
     except Exception as e:
         print(f"[SPACETIMEDB LIST ERROR] {e}")
         return []
+
+
+def _parse_snapshot(raw: str | None) -> dict | None:
+    if not raw:
+        return None
+
+    try:
+        parsed = json.loads(raw)
+        return parsed if isinstance(parsed, dict) else None
+    except Exception:
+        return None
+
+
+def _display_city_name(city_key: str, snapshot: dict) -> str:
+    city_name = snapshot.get("city")
+    if isinstance(city_name, str) and city_name.strip():
+        if city_name.strip().islower():
+            formatted = snapshot.get("formatted_address")
+            if isinstance(formatted, str) and formatted.strip():
+                return formatted.split(",")[0].strip()
+        return city_name
+
+    formatted = snapshot.get("formatted_address")
+    if isinstance(formatted, str) and formatted.strip():
+        return formatted.split(",")[0].strip()
+
+    return city_key.title()
+
+
+def _normalize_snapshot(snapshot: dict, city_key: str) -> dict:
+    normalized = dict(snapshot)
+
+    if normalized.get("composite_score") is None:
+        normalized["composite_score"] = _compute_composite_score(normalized)
+
+    city_name = _display_city_name(city_key, normalized)
+    if normalized.get("city") != city_name:
+        normalized["city"] = city_name
+
+    return normalized
+
+
+def _compute_composite_score(snapshot: dict) -> int:
+    air = snapshot.get("air", {}) or {}
+    weather = snapshot.get("weather", {}) or {}
+    water = snapshot.get("water", {}) or {}
+
+    air_score = 100
+    aqi = air.get("aqi")
+    if aqi is not None:
+        air_score = max(0, min(100, 100 - int(aqi * 0.4)))
+
+    weather_score = 100
+    temp = weather.get("temp")
+    if temp is not None:
+        if temp >= 45:
+            weather_score = 20
+        elif temp >= 40:
+            weather_score = 50
+        elif temp <= 5:
+            weather_score = 55
+
+    water_score = 100
+    latest_tds = water.get("latest_tds") or water.get("avg_tds")
+    if latest_tds is not None:
+        if latest_tds > 3000:
+            water_score = 15
+        elif latest_tds > 2000:
+            water_score = 35
+        elif latest_tds > 500:
+            water_score = 70
+
+    return round((air_score * 0.6) + (weather_score * 0.2) + (water_score * 0.2))

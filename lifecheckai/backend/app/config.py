@@ -10,3 +10,13 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY") or GOOGLE_API_KEY
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 SPACETIMEDB_HOST = os.getenv("SPACETIMEDB_HOST")
 SPACETIMEDB_DB_NAME = os.getenv("SPACETIMEDB_DB_NAME", "lifecheck")
+ENABLE_SCHEDULER = os.getenv("ENABLE_SCHEDULER", "true").lower() == "true"
+SCHEDULER_INTERVAL_SECONDS = int(os.getenv("SCHEDULER_INTERVAL_SECONDS", "300"))
+SCHEDULER_CITIES = [
+    city.strip()
+    for city in os.getenv(
+        "SCHEDULER_CITIES",
+        "Delhi,Mumbai,Bangalore,Chennai",
+    ).split(",")
+    if city.strip()
+]

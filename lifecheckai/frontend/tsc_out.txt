@@ -1,0 +1,2 @@
+app/map/google-map.tsx(5,97): error TS2307: Cannot find module '../lib/severity' or its corresponding type declarations.
+app/map/google-map.tsx(6,46): error TS2307: Cannot find module '../lib/types' or its corresponding type declarations.

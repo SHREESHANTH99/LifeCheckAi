@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 
-SECTION_KEYS = ("summary", "air", "weather", "water", "recommendation")
+SECTION_KEYS = ("summary", "air", "weather", "water", "action")
 
 INTENT_FOCUS = {
     "water": "Focus heavily on groundwater safety and drinking suitability.",
@@ -12,32 +12,44 @@ INTENT_FOCUS = {
 }
 
 
-def build_prompt(data: dict, query: str, intent: str) -> str:
-    prompt_payload = {
-        "query": query,
-        "intent": intent,
-        "location": {
-            "requested": data.get("requested_location"),
-            "resolved_city": data.get("city"),
-            "groundwater_state": data.get("groundwater_state"),
-            "formatted_address": data.get("formatted_address"),
-        },
-        "overall": data.get("overall") or {},
-        "air": data.get("air") or {},
-        "weather": data.get("weather") or {},
-        "water": data.get("water") or {},
-    }
+def build_prompt(data: dict, query: str, intent: str, user_profile: dict | None) -> str:
+    profile_text = json.dumps(user_profile or {"type": "general"}, ensure_ascii=True, indent=2)
 
-    return (
-        "You are LifeCheck AI, a professional environmental safety advisor.\n"
-        "Use only the provided data. Do not guess or invent missing values.\n"
-        f"{INTENT_FOCUS.get(intent, INTENT_FOCUS['general'])}\n"
-        "Return only valid JSON with these exact keys: "
-        "summary, air, weather, water, recommendation.\n"
-        "Each value must be a short plain-text string, ideally 1-2 sentences.\n"
-        "Call out uncertainty clearly when data is missing.\n\n"
-        f"DATA:\n{json.dumps(prompt_payload, ensure_ascii=True, indent=2)}"
-    )
+    return f"""
+SYSTEM:
+You are LifeCheck AI, an expert environmental safety assistant.
+
+RULES:
+- Use ONLY provided data
+- No assumptions
+- Be practical and precise
+
+USER PROFILE:
+{profile_text}
+
+QUERY:
+{query}
+
+INTENT:
+{intent}
+
+INTENT FOCUS:
+{INTENT_FOCUS.get(intent, INTENT_FOCUS["general"])}
+
+DATA:
+{json.dumps(data, ensure_ascii=True, indent=2)}
+
+DECISION LOGIC:
+- AQI >150 -> Unsafe
+- Temp >40 -> Heat risk
+- TDS >500 -> Unsafe water
+
+OUTPUT FORMAT:
+Return only valid JSON with these exact keys:
+summary, air, weather, water, action
+
+Each field should be a short plain-text string with max 2 lines.
+""".strip()
 
 
 def normalize_sections(candidate: dict | None) -> dict | None:
@@ -54,7 +66,12 @@ def normalize_sections(candidate: dict | None) -> dict | None:
     return cleaned
 
 
-def build_fallback_sections(data: dict, query: str, intent: str) -> dict:
+def build_fallback_sections(
+    data: dict,
+    query: str,
+    intent: str,
+    user_profile: dict | None,
+) -> dict:
     air = data.get("air") or {}
     weather = data.get("weather") or {}
     water = data.get("water") or {}
@@ -96,21 +113,24 @@ def build_fallback_sections(data: dict, query: str, intent: str) -> dict:
         if advisory:
             water_text = f"{water_text} {advisory}"
 
-    recommendation_map = {
+    action_map = {
         "water": water.get("advisory") or "Prefer treated or lab-tested water before drinking groundwater directly.",
         "air": air.get("advice") or "Reduce exposure until air data improves.",
         "outdoor": overall.get("summary") or "Check air and heat stress before spending long periods outside.",
         "general": overall.get("summary") or "Use the strongest risk signal above as your decision driver.",
     }
 
-    recommendation = recommendation_map.get(intent, recommendation_map["general"])
+    action = _apply_profile_precautions(
+        action_map.get(intent, action_map["general"]),
+        user_profile,
+    )
 
     return {
         "summary": summary,
         "air": air_text,
         "weather": weather_text,
         "water": water_text,
-        "recommendation": recommendation,
+        "action": action,
     }
 
 
@@ -120,6 +140,20 @@ def render_sections(sections: dict) -> str:
         "air": "Air",
         "weather": "Weather",
         "water": "Water",
-        "recommendation": "Recommendation",
+        "action": "Action",
     }
     return "\n".join(f"{labels[key]}: {sections[key]}" for key in SECTION_KEYS)
+
+
+def _apply_profile_precautions(action: str, user_profile: dict | None) -> str:
+    if not user_profile:
+        return action
+
+    profile_type = str(user_profile.get("type", "")).strip().lower()
+    if profile_type == "asthma":
+        return f"{action} Avoid outdoor exposure spikes and keep rescue medication ready."
+
+    if profile_type in {"elderly", "senior"}:
+        return f"{action} Reduce prolonged exposure and prioritize assisted travel if conditions worsen."
+
+    return action
