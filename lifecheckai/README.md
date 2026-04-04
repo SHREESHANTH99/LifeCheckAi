@@ -1,149 +1,169 @@
 # LifeCheck AI
 
-LifeCheck AI is a full-stack environmental intelligence platform for India. It combines real-time safety scoring, location-aware environmental checks, AI chat guidance, map-based risk visualization, alerts, and water quality ML analysis.
+LifeCheck AI is a full-stack environmental intelligence platform focused on India-first safety decisions.
+It helps answer one practical question:
 
-The product is designed to answer one practical question: is it safe here, right now, and why?
+Is this location safe right now, and what should I do next?
 
-## What It Does
+The platform combines live environment signals, AI guidance, map intelligence, alerts, water-quality ML, realtime shared state, and voice-first interaction.
 
-LifeCheck AI brings together:
-- Live air quality, weather, and pollen intelligence
-- Location-aware safety scoring and advisories
-- AI-assisted guidance with safety guardrails
-- Live map visualization for monitored cities and user activity
-- Environmental alerts with unread tracking and filtering
-- Water quality prediction, trend analysis, and BIS compliance checks
-- Real-time cache and polling support for frequently monitored locations
+## 1) Product Scope
 
----
+LifeCheck AI is designed as a multi-surface system:
 
-## Core Features
+- Fast safety checks for city-level decisions
+- Guided dashboard for daily monitoring
+- Spatial risk understanding on maps
+- Streaming AI assistant for actionable guidance
+- Alerting workflow with severity and unread state
+- Water-quality prediction and compliance diagnostics
+- Realtime shared awareness and watcher presence
+- Voice-assisted interaction and spoken summaries
 
-### 1. Location Intelligence
+## 2) Feature Tracks (Detailed)
 
-- Search any Indian city, district, or state.
-- Use browser geolocation to check your current location.
-- Resolve locations through geocoding and reverse geocoding.
-- Support for broad India coverage, including states, cities, districts, and union territories.
-- Cached live snapshot support for faster repeated checks.
-- Source metadata so the UI can tell whether data is live or cached.
+This section describes each track and what is implemented.
 
-### 2. Safety Scoring and Environmental Snapshot
+### Track A: Location Intelligence
 
-For each location, the platform can provide:
-- Overall safety verdict
-- Safety score / risk summary
-- Air quality details
-- Weather conditions
-- Pollen context
-- UV context where available
-- Actionable advice based on the detected conditions
+- Search by city, district, state, and common India place names
+- Ranked suggestion endpoint for quick selection
+- Browser geolocation support for current-location checks
+- Reverse geocoding support in coordinate-based safety checks
+- Input normalization for stable city matching
+- Metadata indicating whether values are fresh, fallback, or cached
 
-The dashboard and landing page both use this safety layer to present a clear safe / caution / unsafe view.
+### Track B: Safety Snapshot and Risk Scoring
 
-### 3. AI Chat Assistant
+- Unified safety snapshot for a location
+- Verdict-oriented output (safe/caution/unsafe style interpretation)
+- Composite interpretation from:
+  - Air quality signal
+  - Weather signal
+  - Pollen signal
+  - UV signal where available
+- Human-readable advisory text for immediate action
+- Null-safe backend assembly to avoid crashes on missing provider fields
+- Snapshot persistence support for history and timeline displays
 
-The AI assistant is built around safety-aware environmental guidance.
+### Track C: AI Assistant (Chat)
 
-It supports:
-- Natural-language questions about safety, AQI, weather, water, and outdoor plans
-- Location extraction from the user query
-- Intent detection for different response modes
-- Safety guard logic that blocks unsafe or unsupported requests
-- Structured answers with sections such as summary, air, weather, water, and action
-- Streaming output for incremental frontend rendering
+- Natural language environmental guidance
+- Query-to-location extraction path
+- Intent-aware prompt shaping for safety use-cases
+- Streaming response mode for faster perceived latency
+- Guardrails for unsafe or unsupported requests
+- Structured response sections (summary, risks, actions)
+- Provider strategy:
+  - Gemini preferred when available
+  - Groq fallback for operational continuity
+  - DeepSeek fallback path
+  - Template fallback if providers fail
 
-AI provider behavior:
-- Gemini is tried first where available
-- Groq is used as the working AI fallback provider
-- DeepSeek is available as another fallback
-- If all providers fail, the system falls back to template-based responses
+### Track D: Dashboard Intelligence
 
-### 4. Dashboard
+- City search and monitored city workflow
+- Risk summary cards with core metrics
+- AQI and condition-focused visualization blocks
+- Personal risk profile support for interpretation context
+- Timeline-style view for trend awareness
+- Live refresh controls for monitored locations
+- Voice briefing entry points integrated into dashboard flow
 
-The dashboard is the main operations screen for location intelligence.
+### Track E: Map and Spatial Risk
 
-It includes:
-- Advanced search with recent and ranked location suggestions
-- Live safety snapshot for a selected city
-- AQI gauge and key environmental metrics
-- Personalized risk profile selection
-- Personal risk card for health-aware interpretation
-- Safety timeline for forecasting and trend visibility
-- Voice briefing support for quick spoken summaries
-- Monitored city workflows with local persistence
-- Sorting and filtering for monitored locations
-- Refreshable live snapshots for saved cities
+- Google Maps integration for location context
+- Marker and zone-style risk visualization
+- Monitored city visibility from map surface
+- User-activity and crowd-report style layer support
+- Sidebar/drawer interaction pattern for desktop/mobile parity
+- Zone visibility toggles for clutter control
 
-### 5. Map View
+### Track F: Alerts and Notification Workflow
 
-The map page provides spatial context for environmental risk.
+- Live alert feed generation from safety context
+- Category-aware filtering (air/weather/pollen/UV/water)
+- Severity-based styling to prioritize critical items
+- Local unread tracking persistence
+- Read and mark-as-read interaction model
+- Summary strip for high-priority status
 
-It includes:
-- Google Maps integration
-- Risk overlays and zone circles
-- City markers and live snapshot data
-- Sidebar / drawer layout for monitored cities
-- Crowd report markers
-- User presence markers
-- Live activity ticker
-- Toggleable zone visibility
-- Mobile and desktop-friendly map controls
+### Track G: Water Quality ML Intelligence
 
-### 6. Alerts Page
+- State-first filtering with optional district/city refinement
+- Drinkability prediction endpoint
+- Confidence and class-probability output
+- BIS IS 10500:2012 compliance/violation interpretation
+- Parameter-level exposure (pH, TDS, nitrate, fluoride, arsenic, etc.)
+- Historical trend support by state/location
+- AI-generated contamination analysis and remediation suggestions
+- Model metrics endpoint for transparency
 
-The alerts page turns the current safety snapshot into actionable alerts.
+### Track H: Realtime Shared State and Caching
 
-It includes:
-- Filterable alert feed
-- Categories such as air, weather, pollen, UV, and water
-- Severity-based visual styling
-- Unread tracking using local storage
-- Top notification summary
-- Read / mark-as-read interaction flow
+- SpaceTimeDB integration for shared city state patterns
+- Shared watcher-count behavior for selected city contexts
+- Shared alert board pattern for collaborative awareness
+- Realtime snapshot endpoint for current-state consumers
+- Polling support for continuously monitored cities
+- Scheduler warmup for important cities
 
-### 7. Water Quality Intelligence
+### Track I: Voice Assistant and Audio UX
 
-The water module is a dedicated ML-driven experience for water safety analysis.
+- Voice settings persisted in browser local storage
+- Default voice modes set to OFF for user control
+- Chat voice mode flow:
+  - Assistant intro prompt
+  - User speaks
+  - Assistant responds with voice
+  - Loop continues for conversational hands-free use
+- ElevenLabs TTS primary path
+- Browser speech-synthesis fallback when ElevenLabs is unavailable
+- Voice waveform feedback during active speech mode
+- Proactive spoken alert support
 
-It includes:
-- State selector with optional district / city refinement
-- Drinkability prediction
-- Confidence, probability, and sample metadata
-- BIS IS 10500:2012 violation detection
-- Year-over-year trend charts for key water parameters
-- AI-generated contamination analysis
-- Remediation guidance
-- Parameter cards for pH, TDS, conductivity, nitrate, fluoride, arsenic, and more
+## 3) User Journeys
 
-### 8. Realtime and Cache Support
+### Journey 1: Quick Safety Check
 
-LifeCheck AI is not just a static API consumer. It includes infrastructure for repeated live updates.
+1. User searches for a city.
+2. Backend aggregates signals and computes safety context.
+3. UI shows verdict, key metrics, and what to do now.
 
-It supports:
-- Live city snapshot polling
-- Realtime snapshot endpoint
-- SpaceTimeDB cache integration
-- Scheduler-driven warmup for monitored locations
-- Monitored city state persistence in the frontend
-- Cache-hit metadata for transparency
+### Journey 2: Ongoing Monitoring
 
----
+1. User adds city to monitored list.
+2. Scheduler and polling keep data fresh.
+3. Alerts surface elevated risk events.
+4. Timeline/history allows quick trend review.
 
-## Frontend Pages
+### Journey 3: Conversational Guidance
 
-- `/` Landing page with quick safety search and feature overview
-- `/dashboard` Main environmental intelligence dashboard
-- `/map` Map-based live risk visualization
-- `/chat` AI assistant with location-aware guidance
-- `/alerts` Environmental alerts, filters, and unread tracking
-- `/water` Water quality prediction, trends, and AI analysis
+1. User asks in chat: "Is it safe to run outside in Bangalore tonight?"
+2. Assistant infers location and context.
+3. Streamed answer gives risk + recommendation + precautions.
+4. Optional voice mode reads response and keeps the loop active.
 
----
+### Journey 4: Water Decision Support
 
-## Backend API Surface
+1. User selects state and location.
+2. Model predicts drinkability and confidence.
+3. BIS violations and contaminant clues are shown.
+4. AI explanation suggests mitigation actions.
 
-### Core Safety APIs
+## 4) Frontend Pages
+
+- `/` Landing page for fast entry and project overview
+- `/dashboard` Main intelligence screen
+- `/map` Spatial risk and city context
+- `/chat` Streaming AI assistant with voice features
+- `/alerts` Alert feed and unread workflow
+- `/water` Water ML analysis and trends
+
+## 5) Backend API Surface
+
+### Safety and Location
+
 - `GET /api/check-safety?city=...`
 - `GET /api/check-safety-by-coordinates?lat=...&lon=...`
 - `GET /api/location-suggestions?q=...&limit=...`
@@ -152,13 +172,16 @@ It supports:
 - `GET /realtime/snapshot`
 
 ### Alerts
+
 - `GET /api/alerts/live`
 
 ### Chat
+
 - `GET /api/ask?query=...`
 - `GET /api/ask/stream?query=...&city=...&profile=...&memory=...`
 
 ### Water
+
 - `GET /api/water/states`
 - `GET /api/water/predict?state=...&location=...`
 - `GET /api/water/trends?state=...&location=...`
@@ -166,104 +189,74 @@ It supports:
 - `GET /api/water/analyze?state=...`
 
 ### Platform
+
 - `GET /`
 - `GET /health`
 - `GET /test`
 
----
+## 6) Architecture Summary
 
-## Backend Architecture
+### Backend
 
-The backend is built with FastAPI and organized into routes, services, models, and utility layers.
+- Framework: FastAPI + Uvicorn
+- Route modules: safety, alerts, history, realtime, chat, water, test
+- Service modules: weather/air/pollen/maps/geocode, AI providers, DB/cache, ML
+- Scheduler: optional startup task for periodic warmup updates
+- Data behavior: defensive merging and null-safe snapshot recording
 
-### Main service areas
-- Safety and geolocation
-- Alerts and history
-- Realtime snapshot support
-- AI chat generation and prompt building
-- Water quality ML analysis
-- Scheduler-based warmup and cache management
+### Frontend
 
-### External integrations
-- Google Geocoding API
-- Google Weather / Air Quality / Pollen APIs
-- Gemini / Groq / DeepSeek AI providers
-- SpaceTimeDB for short-lived cache and monitored state support
-- Water quality ML model stored locally as a joblib artifact
+- Framework: Next.js App Router + React + TypeScript
+- Styling: Tailwind CSS
+- Motion and transitions: Framer Motion
+- Charts: Recharts + Chart.js
+- State: React hooks and Zustand where needed
+- Realtime integration: SpaceTimeDB client patterns + polling fallback
+- Voice: ElevenLabs API path + browser speech fallback
 
----
+### Realtime Server (Companion)
 
-## Frontend Architecture
+- Rust cdylib service using SpaceTimeDB
+- Shared state support for collaborative city awareness patterns
 
-The frontend is built with Next.js App Router, React, TypeScript, and Tailwind CSS.
+## 7) Technology Stack and Dependencies
 
-### UI/UX patterns used across the app
-- Glassmorphism cards and panels
-- Animated transitions
-- Loading cards and skeleton-style states
-- Responsive mobile / desktop layouts
-- Location-aware search and selection
-- Persistent local state for monitored items
-- Real-time data polling and refresh flows
+### Frontend (selected)
 
-### Shared frontend building blocks
-- Safety context and safety data hooks
-- Search bar with ranked suggestions and recent searches
-- Chat streaming components
-- Realtime user presence and crowd reporting components
-- Water-specific charts and display cards
-- Personalized risk cards and timeline components
+- next 16.2.2
+- react 19.2.4
+- typescript 5
+- tailwindcss 3.4.x
+- framer-motion 12.x
+- chart.js 4.x
+- react-chartjs-2 5.x
+- recharts 3.x
+- zustand 5.x
+- spacetimedb 2.1.0
 
----
+### Backend (selected)
 
-## Water Module Details
+- fastapi 0.135.x
+- uvicorn 0.42.x
+- httpx 0.28.x
+- pydantic 2.12.x
+- python-dotenv 1.2.x
+- requests 2.33.x
+- google-generativeai 0.8.x
+- spacetimedb-sdk 0.7.0
+- pandas 2.2+
+- scikit-learn 1.5+
+- joblib 1.4+
+- numpy 1.26+
 
-The water module currently supports:
+### Realtime Companion
 
-- State selection from available water-quality data
-- Optional district / city matching
-- ML prediction for drinkability
-- Confidence and class probabilities
-- BIS compliance checks
-- Parameter-by-parameter display
-- Historical trends
-- AI analysis of contamination and remediation
-- Model performance metrics
+- Rust 2021 edition
+- spacetimedb crate 2.1.0
 
-This module is designed as a separate analytical surface, not just a generic form.
+## 8) Environment Configuration
 
----
-
-## AI Behavior Notes
-
-### Chat provider behavior
-- Gemini is used where available
-- Groq currently acts as the working AI provider
-- DeepSeek is a fallback provider
-- If all providers fail, template fallback is used
-
-### Safety behavior
-- Unsafe or unsupported prompts can be blocked
-- The assistant prioritizes environmental safety guidance
-- Critical conditions can override normal generation
-
-### Output style
-The assistant returns structured, sectioned responses to keep answers readable and consistent.
-
----
-
-## Setup
-
-### 1. Backend
-
-```powershell
-cd lifecheckai/backend
-python -m venv venv
-./venv/Scripts/activate
-pip install -r requirements.txt
-```
-
-Create `lifecheckai/backend/.env`:
+### Backend .env (`lifecheckai/backend/.env`)
 
 ```env
 GOOGLE_API_KEY=YOUR_GOOGLE_API_KEY
@@ -282,24 +275,35 @@ SCHEDULER_INTERVAL_SECONDS=300
 SCHEDULER_CITIES=Delhi,Mumbai,Bangalore,Chennai
 ```
 
-### 2. Frontend
+### Frontend .env.local (`lifecheckai/frontend/.env.local`)
+
+```env
+NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=YOUR_BROWSER_MAPS_KEY
+NEXT_PUBLIC_ELEVENLABS_API_KEY=YOUR_ELEVENLABS_API_KEY
+NEXT_PUBLIC_ELEVENLABS_VOICE_ID=YOUR_ELEVENLABS_VOICE_ID
+```
+
+## 9) Local Setup
+
+### Backend
+
+```powershell
+cd lifecheckai/backend
+python -m venv venv
+./venv/Scripts/activate
+pip install -r requirements.txt
+```
+
+### Frontend
 
 ```powershell
 cd ../frontend
 npm install
 ```
 
-Create `lifecheckai/frontend/.env.local`:
-
-```env
-NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
-NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
-NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=YOUR_BROWSER_MAPS_KEY
-```
-
-### 3. Optional Realtime Cache
-
-If you are using SpaceTimeDB:
+### Optional SpaceTimeDB publish
 
 ```powershell
 cd ../../lifecheck-sbt/server
@@ -307,30 +311,27 @@ spacetime login
 spacetime publish YOUR_DB_NAME -y
 ```
 
----
+## 10) Run
 
-## Run the App
+### Start backend
 
-From the workspace root:
-
-### Backend
 ```powershell
 ./lifecheckai/backend/venv/Scripts/python.exe -m uvicorn lifecheckai.backend.app.main:app --reload
 ```
 
-### Frontend
+### Start frontend
+
 ```powershell
 cd lifecheckai/frontend
 npm run dev
 ```
 
-Open:
+### Open
+
 - Backend docs: http://127.0.0.1:8000/docs
-- Frontend: http://localhost:3000
+- Frontend app: http://localhost:3000
 
----
-
-## Quick Verification
+## 11) Verification Commands
 
 ```powershell
 curl http://127.0.0.1:8000/health
@@ -341,45 +342,44 @@ curl "http://127.0.0.1:8000/api/ask?query=How%20safe%20is%20Delhi%20today"
 curl "http://127.0.0.1:8000/api/water/predict?state=Maharashtra"
 ```
 
----
-
-## Repository Layout
+## 12) Repository Layout
 
 ```text
 lifecheck-ai/
-	lifecheckai/
-		backend/
-			app/
-				main.py
-				config.py
-				routes/
-				services/
-				models/
-				utils/
-		frontend/
-			app/
-			components/
-			hooks/
-			lib/
-			types/
-	lifecheck-sbt/
-		server/
-			Cargo.toml
-			src/lib.rs
+  lifecheckai/
+    backend/
+      app/
+        main.py
+        config.py
+        routes/
+        services/
+        models/
+        utils/
+      requirements.txt
+    frontend/
+      app/
+      components/
+      hooks/
+      lib/
+      types/
+      package.json
+    data/
+    models/
+  lifecheck-sbt/
+    server/
+      Cargo.toml
+      src/lib.rs
 ```
 
----
+## 13) Limitations and Operational Notes
 
-## Operational Notes
+- Full environmental coverage depends on valid third-party API keys.
+- Some providers may return sparse data for smaller regions.
+- Voice output quality and availability depend on browser/media permissions and API key validity.
+- If ElevenLabs key is missing or invalid, browser speech fallback is used.
+- Realtime shared-state features require SpaceTimeDB deployment and correct host/db configuration.
+- Never commit secrets to version control.
 
-- Google APIs must be enabled for full live geocoding, air quality, weather, and pollen coverage.
-- Pollen coverage may be sparse for some locations.
-- Without valid API keys, some features can fall back to limited or cached behavior.
-- Do not commit secret values to the repository.
+## 14) Current Status
 
----
-
-## Version
-
-This README reflects the implemented feature set available in April 2026.
-
+This README reflects the implemented project scope and integration tracks as of April 2026.
