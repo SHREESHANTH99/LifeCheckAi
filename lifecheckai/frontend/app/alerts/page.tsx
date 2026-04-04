@@ -16,6 +16,9 @@ import {
   Bell,
   BellRing,
   CheckCircle2,
+  X,
+  MapPin,
+  Clock3,
 } from "lucide-react";
 import type { AlertItem } from "@/types";
 
@@ -142,6 +145,7 @@ export default function AlertsPage() {
   const { state } = useSafety();
   const { search, loading } = useSafetyData();
   const [activeFilter, setActiveFilter] = useState("all");
+  const [selectedAlert, setSelectedAlert] = useState<AlertItem | null>(null);
   const [readAlertIds, setReadAlertIds] = useState<string[]>(() => {
     if (typeof window === "undefined") return [];
     try {
@@ -223,7 +227,7 @@ export default function AlertsPage() {
           className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8"
         >
           <div>
-            <h1 className="font-[family-name:var(--font-family-grotesk)] text-3xl font-bold text-text-primary mb-1">
+            <h1 className="font-family-grotesk text-3xl font-bold text-text-primary mb-1">
               Safety Alerts
             </h1>
             <p className="text-sm text-text-secondary">
@@ -289,6 +293,7 @@ export default function AlertsPage() {
                     onClick={() => {
                       setActiveFilter(item.category);
                       markAsRead(item.id);
+                      setSelectedAlert(item);
                     }}
                     className={`w-full text-left rounded-xl border p-3 transition-colors cursor-pointer ${
                       unread
@@ -306,7 +311,7 @@ export default function AlertsPage() {
                     <p className="text-xs text-text-secondary mt-2 line-clamp-2">{item.description}</p>
                     <div className="mt-3 flex items-center justify-between">
                       <StatusBadge status={item.severity} />
-                      <span className="text-[10px] text-text-muted">Tap to filter feed</span>
+                      <span className="text-[10px] text-text-muted">Tap to view details</span>
                     </div>
                   </button>
                 );
@@ -364,10 +369,14 @@ export default function AlertsPage() {
                 const style = severityStyles[alert.severity] || severityStyles.CAUTION;
                 const IconComp = categoryIcons[alert.category] || Wind;
                 return (
-                  <motion.div
+                  <motion.button
                     key={alert.id}
                     variants={itemVariants}
                     whileHover={{ y: -2, transition: { duration: 0.15 } }}
+                    onClick={() => {
+                      setSelectedAlert(alert);
+                      markAsRead(alert.id);
+                    }}
                     className={`card border-l-4 ${style.border} ${style.bg} flex flex-col sm:flex-row items-start gap-4 overflow-hidden`}
                   >
                     {/* Icon */}
@@ -398,12 +407,86 @@ export default function AlertsPage() {
                       <span className="text-[10px] text-text-muted">Just now</span>
                       <StatusBadge status={alert.severity} />
                     </div>
-                  </motion.div>
+                  </motion.button>
                 );
               })}
             </AnimatePresence>
           </motion.div>
         )}
+
+        <AnimatePresence>
+          {selectedAlert && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-black/45 backdrop-blur-sm p-4 flex items-center justify-center"
+              onClick={() => setSelectedAlert(null)}
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 20, scale: 0.96 }}
+                transition={{ duration: 0.2 }}
+                onClick={(event) => event.stopPropagation()}
+                className="w-full max-w-xl rounded-2xl border border-border-default glass p-5 sm:p-6"
+              >
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <div>
+                    <p className="text-xs uppercase tracking-wide text-text-muted mb-1">Alert Details</p>
+                    <h3 className="text-lg font-semibold text-text-primary leading-snug">{selectedAlert.title}</h3>
+                  </div>
+                  <button
+                    onClick={() => setSelectedAlert(null)}
+                    className="w-8 h-8 rounded-lg bg-white/5 text-text-secondary hover:text-text-primary transition-colors flex items-center justify-center cursor-pointer"
+                    aria-label="Close alert popup"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+
+                <p className="text-sm text-text-secondary leading-relaxed mb-4">{selectedAlert.description}</p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-5">
+                  <div className="rounded-lg border border-border-default bg-bg-secondary/40 px-3 py-2">
+                    <p className="text-[10px] text-text-muted mb-1">Severity</p>
+                    <StatusBadge status={selectedAlert.severity} />
+                  </div>
+                  <div className="rounded-lg border border-border-default bg-bg-secondary/40 px-3 py-2">
+                    <p className="text-[10px] text-text-muted mb-1">City</p>
+                    <p className="text-sm text-text-primary inline-flex items-center gap-1.5">
+                      <MapPin size={13} /> {selectedAlert.city}
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-border-default bg-bg-secondary/40 px-3 py-2">
+                    <p className="text-[10px] text-text-muted mb-1">Updated</p>
+                    <p className="text-sm text-text-primary inline-flex items-center gap-1.5">
+                      <Clock3 size={13} /> Just now
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between gap-2">
+                  <button
+                    onClick={() => {
+                      setActiveFilter(selectedAlert.category);
+                      setSelectedAlert(null);
+                    }}
+                    className="text-xs px-3 py-2 rounded-lg border border-border-default text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
+                  >
+                    Filter by {selectedAlert.category}
+                  </button>
+                  <button
+                    onClick={() => setSelectedAlert(null)}
+                    className="text-xs px-3 py-2 rounded-lg bg-accent-blue text-white hover:bg-accent-cyan transition-colors cursor-pointer"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
