@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Activity, Bot, Brain, CloudSun, Lock, MapPin, RefreshCw, ShieldCheck, Thermometer, Waves } from 'lucide-react';
+import { Activity, Brain, CloudSun, MapPin, RefreshCw, Thermometer, Waves } from 'lucide-react';
+import { AgentRulesPanel, type AgentAction as RulesAgentAction } from '@/components/agent/AgentRulesPanel';
 import { ConversationMemory, MemoryItem } from './ConversationMemory';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000';
@@ -181,6 +182,17 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
 
   const aqiMeta = getAqiMeta(currentAqi);
   const aqiBarWidth = Math.max(0, Math.min(((currentAqi || 0) / 300) * 100, 100));
+  const mappedAgentActions: RulesAgentAction[] = agentActions.map((action, idx) => {
+    const status = action.status.toLowerCase();
+    const isBlocked = status.includes('block') || status.includes('deny') || status.includes('unsafe');
+
+    return {
+      timestamp: new Date(Date.now() - idx * 1000),
+      actionType: action.type,
+      decision: isBlocked ? 'BLOCKED' : 'ALLOWED',
+      reason: action.status,
+    };
+  });
 
   const formattedUpdatedAt = lastUpdated
     ? lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
@@ -388,78 +400,13 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
       {activeTab === 'context' && contextContent}
 
       {activeTab === 'agent' && (
-        <div className="space-y-4 p-4">
-          <div className="rounded-2xl border border-white/10 bg-[linear-gradient(160deg,rgba(14,165,233,0.14),rgba(15,23,42,0.84))] p-4">
-            <div className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-200/80">
-              <Bot className="h-3.5 w-3.5" />
-              Agent Status
-            </div>
-            <div className="mt-2 text-sm text-slate-200">
-              Safety Guard is active and filters risky or non-medical-safe requests.
-            </div>
-            <div className="mt-3 inline-flex items-center gap-1 rounded-full border border-emerald-400/20 bg-emerald-500/10 px-2.5 py-1 text-[11px] text-emerald-200">
-              <ShieldCheck className="h-3.5 w-3.5" />
-              Protection enabled
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-4">
-            <div className="mb-2 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
-              <ShieldCheck className="h-3.5 w-3.5" />
-              Allowed
-            </div>
-            <div className="space-y-1 text-xs text-slate-200">
-              <div>Answer air quality questions</div>
-              <div>Provide weather safety advice</div>
-              <div>Share water quality information</div>
-              <div>Give preventive health guidance</div>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-red-400/20 bg-red-500/10 p-4">
-            <div className="mb-2 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-red-100/90">
-              <Lock className="h-3.5 w-3.5" />
-              Blocked
-            </div>
-            <div className="space-y-1 text-xs text-red-100/80">
-              <div>Medical diagnosis</div>
-              <div>Medication prescriptions</div>
-              <div>Guaranteed outcomes</div>
-              <div>Self-harm instructions</div>
-            </div>
-          </div>
-
-          {agentConfidence !== undefined && agentConfidence !== null && (
-            <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-4">
-              <div className="mb-2 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
-                <Activity className="h-3.5 w-3.5" />
-                Confidence
-              </div>
-              <div className="h-2 w-full overflow-hidden rounded-full bg-gray-700/30">
-                <div
-                  className="h-full bg-gradient-to-r from-emerald-400 to-cyan-300 transition-all"
-                  style={{ width: `${Math.min(agentConfidence, 100)}%` }}
-                />
-              </div>
-              <div className="mt-1 text-xs text-slate-300">{Math.round(agentConfidence)}%</div>
-            </div>
-          )}
-
-          {agentActions && agentActions.length > 0 && (
-            <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-4">
-              <div className="mb-2 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
-                <Activity className="h-3.5 w-3.5" />
-                Recent Actions
-              </div>
-              <div className="space-y-1 text-xs text-slate-300">
-                {agentActions.slice(0, 5).map((action, idx) => (
-                  <div key={idx} className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-2">
-                    {action.type}: {action.status}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+        <div className="p-4">
+          <AgentRulesPanel
+            actions={mappedAgentActions}
+            lastConfidence={agentConfidence ?? undefined}
+            isActive={safetyLoading}
+            className="w-full max-w-none static"
+          />
         </div>
       )}
 

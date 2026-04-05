@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, XCircle, Shield } from "lucide-react";
+import { Activity, CheckCircle2, Lock, Shield, ShieldCheck, XCircle } from "lucide-react";
 
 export interface AgentAction {
   timestamp: Date;
@@ -14,6 +14,7 @@ interface AgentRulesPanelProps {
   actions: AgentAction[];
   lastConfidence?: number;
   isActive: boolean;
+  className?: string;
 }
 
 const allowed = [
@@ -35,70 +36,119 @@ const blocked = [
   "Override official government warnings",
 ];
 
-export function AgentRulesPanel({ actions, lastConfidence, isActive }: AgentRulesPanelProps) {
-  const confidence = Math.round((lastConfidence || 0) * 100);
-  const confidenceColor = confidence > 80 ? "bg-safe" : confidence >= 50 ? "bg-caution" : "bg-unsafe";
+export function AgentRulesPanel({ actions, lastConfidence, isActive, className = "" }: AgentRulesPanelProps) {
+  const rawConfidence = lastConfidence ?? 0;
+  const normalizedConfidence = rawConfidence <= 1 ? rawConfidence * 100 : rawConfidence;
+  const confidence = Math.max(0, Math.min(100, Math.round(normalizedConfidence)));
+  const confidenceColor = confidence >= 80 ? "bg-safe" : confidence >= 50 ? "bg-caution" : "bg-unsafe";
+  const confidenceLabel = confidence >= 80 ? "High confidence" : confidence >= 50 ? "Moderate confidence" : "Low confidence";
+  const recentActions = actions.slice(0, 10);
+  const blockedCount = actions.filter((item) => item.decision === "BLOCKED").length;
+  const allowedCount = actions.length - blockedCount;
 
   return (
-    <aside className="w-[300px] shrink-0 rounded-xl border border-border-default bg-bg-card p-5 sticky top-20 h-fit">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold text-text-primary inline-flex items-center gap-2">
+    <aside className={`sticky top-20 h-fit w-[320px] shrink-0 rounded-2xl border border-border-default bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.14),rgba(10,16,33,0.94)_40%)] p-5 shadow-[0_18px_60px_rgba(2,8,23,0.45)] ${className}`}>
+      <div className="mb-4 flex items-center justify-between">
+        <h3 className="inline-flex items-center gap-2 text-sm font-semibold text-text-primary">
           <Shield size={16} className="text-accent-cyan" />
           Safety Agent Rules
         </h3>
-        <span className="text-[10px] border border-border-default px-2 py-0.5 rounded text-text-muted">ArmorIQ</span>
+        <span className="rounded-full border border-accent-cyan/30 bg-accent-cyan/10 px-2 py-0.5 text-[10px] uppercase tracking-wide text-accent-cyan">
+          ArmorIQ
+        </span>
+      </div>
+
+      <div className="mb-4 rounded-xl border border-white/10 bg-bg-card/70 p-3">
+        <div className="flex items-center justify-between">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-text-muted">Runtime Status</p>
+          <span
+            className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] uppercase ${
+              isActive
+                ? "border-safe/30 bg-safe/10 text-safe"
+                : "border-border-default bg-bg-muted text-text-secondary"
+            }`}
+          >
+            <Activity size={11} className={isActive ? "animate-pulse" : ""} />
+            {isActive ? "Analyzing" : "Idle"}
+          </span>
+        </div>
+
+        <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+          <div className="rounded-lg border border-border-default bg-bg-muted/60 px-2 py-1.5">
+            <div className="text-[10px] uppercase tracking-wide text-text-muted">Total</div>
+            <div className="text-sm font-semibold text-text-primary">{actions.length}</div>
+          </div>
+          <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2 py-1.5">
+            <div className="text-[10px] uppercase tracking-wide text-emerald-300">Allowed</div>
+            <div className="text-sm font-semibold text-emerald-200">{allowedCount}</div>
+          </div>
+          <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-2 py-1.5">
+            <div className="text-[10px] uppercase tracking-wide text-red-300">Blocked</div>
+            <div className="text-sm font-semibold text-red-200">{blockedCount}</div>
+          </div>
+        </div>
       </div>
 
       <section className="pb-4 border-b border-border-default">
-        <p className="text-xs uppercase tracking-widest text-text-muted mb-3">Agent Capabilities</p>
+        <p className="mb-3 text-xs uppercase tracking-widest text-text-muted">What ArmorIQ Can Do</p>
         <div className="space-y-2">
           {allowed.map((item) => (
-            <p key={item} className="text-sm text-green-400 inline-flex gap-2 items-start">
-              <CheckCircle2 size={14} className="mt-0.5" /> {item}
+            <p key={item} className="inline-flex items-start gap-2 text-sm text-emerald-300">
+              <ShieldCheck size={14} className="mt-0.5 shrink-0" />
+              <span>{item}</span>
             </p>
           ))}
         </div>
       </section>
 
       <section className="py-4 border-b border-border-default">
-        <p className="text-xs uppercase tracking-widest text-text-muted mb-3">Blocked Actions</p>
+        <p className="mb-3 text-xs uppercase tracking-widest text-text-muted">What ArmorIQ Will Block</p>
         <div className="space-y-2">
           {blocked.map((item) => (
-            <p key={item} className="text-sm text-red-400 inline-flex gap-2 items-start">
-              <XCircle size={14} className="mt-0.5" /> {item}
+            <p key={item} className="inline-flex items-start gap-2 text-sm text-red-300">
+              <Lock size={14} className="mt-0.5 shrink-0" />
+              <span>{item}</span>
             </p>
           ))}
         </div>
       </section>
 
       <section className="py-4 border-b border-border-default">
-        <div className="flex items-center justify-between mb-3">
+        <div className="mb-3 flex items-center justify-between">
           <p className="text-xs uppercase tracking-widest text-text-muted">Live Action Log</p>
-          {isActive && <span className="text-[10px] text-accent-cyan">Analyzing...</span>}
+          <span className="text-[10px] text-text-muted">Last {recentActions.length}</span>
         </div>
-        <div className="max-h-52 overflow-y-auto space-y-2">
-          {actions.length === 0 && <p className="text-xs text-text-muted">No actions yet. Start chatting.</p>}
+        <div className="max-h-56 space-y-2 overflow-y-auto pr-1">
+          {recentActions.length === 0 && (
+            <p className="rounded-lg border border-dashed border-border-default p-3 text-xs text-text-muted">
+              No actions yet. Send a message to see live rule decisions.
+            </p>
+          )}
           <AnimatePresence>
-            {actions.slice(0, 10).map((action, idx) => (
+            {recentActions.map((action, idx) => (
               <motion.div
                 key={`${action.timestamp.toISOString()}-${idx}`}
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -10 }}
-                className="text-xs font-family-mono border border-border-default rounded-lg p-2"
+                className="rounded-lg border border-border-default bg-bg-muted/50 p-2.5 text-xs"
               >
-                <p className="text-text-secondary">
+                <p className="font-family-mono text-text-secondary">
                   {action.timestamp.toLocaleTimeString()} · {action.actionType}
                 </p>
-                <span
-                  className={`mt-1 inline-block text-[10px] px-2 py-0.5 rounded border ${
-                    action.decision === "ALLOWED"
-                      ? "bg-green-950 text-green-400 border-green-800"
-                      : "bg-red-950 text-red-400 border-red-800"
-                  }`}
-                >
-                  {action.decision}
-                </span>
+                <div className="mt-1 flex items-center gap-2">
+                  <span
+                    className={`inline-flex items-center gap-1 rounded border px-2 py-0.5 text-[10px] ${
+                      action.decision === "ALLOWED"
+                        ? "border-emerald-700 bg-emerald-950 text-emerald-300"
+                        : "border-red-700 bg-red-950 text-red-300"
+                    }`}
+                  >
+                    {action.decision === "ALLOWED" ? <CheckCircle2 size={11} /> : <XCircle size={11} />}
+                    {action.decision}
+                  </span>
+                  {action.reason && <span className="text-[11px] text-text-muted">{action.reason}</span>}
+                </div>
               </motion.div>
             ))}
           </AnimatePresence>
@@ -106,13 +156,16 @@ export function AgentRulesPanel({ actions, lastConfidence, isActive }: AgentRule
       </section>
 
       <section className="pt-4">
-        <p className="text-xs uppercase tracking-widest text-text-muted mb-2">Confidence Score</p>
-        <p className="text-sm text-text-secondary mb-2">Last response confidence: {confidence}%</p>
-        <div className="w-full h-2 rounded-full bg-border-default overflow-hidden">
+        <div className="mb-2 flex items-center justify-between">
+          <p className="text-xs uppercase tracking-widest text-text-muted">Confidence Score</p>
+          <span className="text-xs text-text-secondary">{confidenceLabel}</span>
+        </div>
+        <p className="mb-2 text-sm text-text-secondary">Last response confidence: {confidence}%</p>
+        <div className="h-2 w-full overflow-hidden rounded-full bg-border-default">
           <motion.div
             className={`h-full ${confidenceColor}`}
             initial={{ width: 0 }}
-            animate={{ width: `${Math.max(0, Math.min(100, confidence))}%` }}
+            animate={{ width: `${confidence}%` }}
             transition={{ duration: 0.5 }}
           />
         </div>

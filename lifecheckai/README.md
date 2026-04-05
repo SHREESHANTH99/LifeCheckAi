@@ -500,3 +500,159 @@ Water analysis can feel slower than safety/AQI checks because it does heavier da
 - Restrict backend CORS to trusted frontend domains in production.
 - Keep SpaceTimeDB host/db values in secret env vars.
 - Add health checks (`/health`) and monitor deploy logs each release.
+
+## 19) SpaceTimeDB Dashboard Screenshots
+
+Use these paths for the three images you shared:
+
+- `lifecheckai/docs/images/tracks/spacetimedb-overview-1.png`
+- `lifecheckai/docs/images/tracks/spacetimedb-overview-2.png`
+- `lifecheckai/docs/images/tracks/spacetimedb-overview-3.png`
+
+After placing the files at those paths, this README will render them inline:
+
+![SpaceTimeDB Overview 1](docs/images/tracks/spacetimedb-overview-1.png)
+![SpaceTimeDB Overview 2](docs/images/tracks/spacetimedb-overview-2.png)
+![SpaceTimeDB Overview 3](docs/images/tracks/spacetimedb-overview-3.png)
+
+## 20) Track 1: SpaceTimeDB (Deep Dive)
+
+### Table-intro line
+
+"We use SpaceTimeDB as the multiplayer nervous system for live shared state, not as a generic database replacement."
+
+### Exactly what is implemented in this repository
+
+- Rust SpaceTimeDB module: `lifecheck-sbt/server/src/lib.rs`.
+- Deployed database: `lifecheckai06-56awo-own` on maincloud.
+- Current tables in module:
+  - `city_data` (latest cached city snapshot rows)
+  - `city_watcher` (session + city + joined timestamp)
+  - `shared_alert` (push alerts with severity/message/time)
+- Current reducers in module:
+  - `save_city_data`
+  - `join_city`
+  - `leave_city`
+  - `push_alert`
+
+### How those tables are used by frontend/backend
+
+- Frontend subscriptions are in `frontend/lib/spacetime-db.ts`.
+- Watcher presence is consumed in `frontend/hooks/useSharedCityState.ts` and shown on dashboard/alerts.
+- Backend writes to SpaceTimeDB in `backend/app/services/db_service.py`.
+- Alert fan-out path:
+  - safety scheduler/aggregation updates backend state
+  - backend calls `push_alert`
+  - subscribed clients can render new shared alerts immediately.
+
+### Crowd reports note (important architecture clarity)
+
+- Crowd reports are implemented today via FastAPI realtime routes (`backend/app/routes/realtime.py`) with in-memory stores + activity ring buffer.
+- Map components consume these APIs through `frontend/lib/spacetime.ts` and `frontend/hooks/useRealtime.ts`.
+- Upvote endpoint exists at `PUT /realtime/crowd-report/{report_id}/upvote`.
+- If needed for judging narrative, this can be presented as the next SpaceTimeDB migration target: move crowd reports + upvotes from in-memory route state into SpaceTimeDB reducers/tables.
+
+### Why SpaceTimeDB was chosen
+
+- Reducer-centric server logic in Rust avoids client-side rule drift.
+- Push subscriptions remove polling lag for shared state use-cases.
+- Strong schema and deterministic write path simplify multi-user consistency.
+- Fits the project need for live city watcher counts and shared alert propagation.
+
+### Demo script for judges
+
+1. Open dashboard for same city in two devices.
+2. Show watcher count increasing live without refresh.
+3. Trigger or simulate a shared alert write; show subscribed UI updating.
+4. Mention that crowd reports are currently realtime API based, with clear migration path already aligned with existing reducer pattern.
+
+## 21) Track 2: ArmorIQ (Deep Dive)
+
+### Table-intro line
+
+"ArmorIQ is implemented as both a backend safety gate and a visible trust panel in the UI."
+
+### User-visible implementation
+
+- The ArmorIQ rules panel is in chat sidebar Agent tab.
+- Wired component: `frontend/components/agent/AgentRulesPanel.tsx`.
+- Mounted from: `frontend/components/chat/ChatSidebar.tsx`.
+- It shows:
+  - Allowed capability list
+  - Blocked action list
+  - Live action log (allowed/blocked decisions)
+  - Confidence bar with high/moderate/low states.
+
+### Backend enforcement implementation
+
+- Chat endpoints run guard checks before model response is finalized.
+- Structured blocked responses include explicit safe fallback behavior.
+- Frontend renders blocked cases clearly (warning style bubble + safe redirection response).
+
+### Demo script for judges
+
+1. Ask safe query: "Is it safe to run in Delhi today?"
+2. Show ALLOWED action in log and confidence update.
+3. Ask blocked query around diagnosis/medication.
+4. Show BLOCKED state in log + safe fallback answer.
+5. Explain: guardrails are pre-response policy checks, not decorative UI.
+
+## 22) Track 3: Google Gemini (Deep Dive)
+
+### Table-intro line
+
+"Gemini is integrated in multiple feature paths, not a one-off chatbot add-on."
+
+### Meaningful integrations in this codebase
+
+- Chat reasoning + streaming responses with structured safety prompt strategy.
+- Water analysis narrative generation for contamination interpretation.
+- Forecast advisory language generation from computed trend arrays.
+- Intent/location extraction helpers for contextual answers.
+
+### Reliability architecture
+
+- Gemini is preferred model provider.
+- Fallback chain is configured so users still receive answers when provider failure occurs.
+- The product always returns actionable output, even under degraded AI availability.
+
+### Demo script for judges
+
+1. Start streaming chat request and show token flow.
+2. Open water page and show ML + narrative explanation behavior.
+3. Show forecast summary text generation.
+4. Explain fallback behavior and why it matters for safety products.
+
+## 23) Track 4: ElevenLabs (Deep Dive)
+
+### Table-intro line
+
+"Voice is a first-class interaction model here, not a decorative button."
+
+### Implemented voice surfaces
+
+- Dashboard spoken safety briefing.
+- Chat voice mode loop for hands-free interaction.
+- Proactive spoken alerts (opt-in behavior).
+- Browser speech fallback when ElevenLabs is unavailable.
+
+### Technical notes
+
+- Voice preferences persist in local storage.
+- Speech output strips markdown/noise before TTS.
+- Waveform/voice feedback is shown while playback is active.
+
+### Demo script for judges
+
+1. Trigger dashboard voice briefing.
+2. Enable chat voice mode and show speak-response cycle.
+3. Show fallback behavior when ElevenLabs key is absent.
+4. Emphasize usefulness for accessibility and low-attention contexts.
+
+## 24) Track Positioning Summary
+
+- SpaceTimeDB is load-bearing for shared watcher + shared alert state today.
+- ArmorIQ is both policy enforcement and transparent UI trust layer.
+- Gemini is used across chat, water, forecast, and intent workflows.
+- ElevenLabs powers practical voice-first interaction with graceful fallback.
+- Combined, these tracks produce a safety platform that is realtime, policy-safe, AI-assisted, and voice-usable.

@@ -10,7 +10,7 @@ pub struct CityData {
     pub timestamp: u64,
 }
 
-#[spacetimedb::table(public)]
+#[spacetimedb::table(accessor = city_watcher, public)]
 pub struct CityWatcher {
     #[primary_key]
     pub session_id: String,
@@ -18,7 +18,7 @@ pub struct CityWatcher {
     pub joined_at: u64,
 }
 
-#[spacetimedb::table(public)]
+#[spacetimedb::table(accessor = shared_alert, public)]
 pub struct SharedAlert {
     #[primary_key]
     #[auto_inc]
