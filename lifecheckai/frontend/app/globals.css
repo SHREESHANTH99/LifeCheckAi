@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,14 +7,13 @@
 :root, [data-theme="default"] {
   --color-bg-primary: #0A0F1E;
   --color-bg-secondary: #0D1426;
-  --color-bg-card: rgba(255, 255, 255, 0.04);
+  --color-bg-card: rgba(255, 255, 255, 0.03);
   --color-border-default: rgba(255, 255, 255, 0.08);
 
   --font-family-body: 'Inter', sans-serif;
   --font-family-mono: 'JetBrains Mono', monospace;
 
-  --color-accent-cyan: #00D4FF;
-  --color-accent-violet: #7C3AED;
+  --color-accent-cyan: #5FA8B8;
   
   --color-safe: #10B981;
   --color-warning: #F59E0B;
@@ -23,46 +22,6 @@
   --radius-default: 16px;
   --radius-sm: 10px;
   --radius-btn: 12px;
-}
-
-[data-theme="light"] {
-  --color-bg-primary: #FDFBF7;
-  --color-bg-secondary: #F3F0E6;
-  --color-bg-card: rgba(0, 0, 0, 0.05);
-  --color-border-default: rgba(0, 0, 0, 0.15);
-
-  --color-accent-cyan: #D97706; /* Amber/Yellowish glowing */
-  --color-accent-violet: #4F46E5; /* Indigo */
-}
-
-/* Light Theme Font Overrides */
-[data-theme="light"] body {
-  color: #111827;
-}
-[data-theme="light"] .text-white {
-  color: #111827 !important;
-}
-[data-theme="light"] .text-text-secondary, [data-theme="light"] .text-text-muted {
-  color: #6B7280 !important;
-}
-[data-theme="light"] .border-white\/5, [data-theme="light"] .border-white\/10, [data-theme="light"] .border-white\/20 {
-  border-color: rgba(0, 0, 0, 0.15) !important;
-}
-[data-theme="light"] .bg-white\/5, [data-theme="light"] .bg-white\/10 {
-  background-color: rgba(0, 0, 0, 0.05) !important;
-}
-[data-theme="light"] button.text-white:hover {
-  background-color: rgba(0, 0, 0, 0.1) !important;
-}
-
-[data-theme="violet"] {
-  --color-bg-primary: #070314;
-  --color-bg-secondary: #0D0524;
-  --color-bg-card: rgba(168, 85, 247, 0.06);
-  --color-border-default: rgba(168, 85, 247, 0.15);
-
-  --color-accent-cyan: #A855F7; /* Neon Violet */
-  --color-accent-violet: #EC4899; /* Hot Pink */
 }
 
 * {
@@ -79,15 +38,13 @@ html {
 body {
   font-family: var(--font-family-body);
   background-color: var(--color-bg-primary);
-  background-image: 
-    radial-gradient(ellipse 100% 60% at 50% 0%, color-mix(in srgb, var(--color-accent-cyan) 8%, transparent), transparent 70%),
-    radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 100% 100%, 20px 20px;
+  /* Muted background gradient, no heavy colors */
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
   color: #ffffff;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.4s ease;
 }
 
 h1, h2, h3, .heading {
@@ -105,12 +62,17 @@ h1, h2, h3, .heading {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-default);
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-out;
 }
 
 .glass:hover {
-  border-color: color-mix(in srgb, var(--color-accent-cyan) 30%, transparent);
-  box-shadow: 0 0 24px color-mix(in srgb, var(--color-accent-cyan) 15%, transparent);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+@layer utilities {
+  .interactive-base {
+    @apply transition-all duration-200 ease-out hover:scale-[1.02] hover:brightness-110 active:scale-[0.98];
+  }
 }
 
 /* Base button */
@@ -120,11 +82,11 @@ h1, h2, h3, .heading {
   border-radius: var(--radius-btn);
   padding: 0.5rem 1.5rem;
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: all 0.2s ease-out;
 }
 
 .btn-primary:hover {
-  box-shadow: 0 0 20px color-mix(in srgb, var(--color-accent-cyan) 50%, transparent);
+  filter: brightness(1.1);
   transform: translateY(-2px);
 }
 
@@ -135,7 +97,7 @@ h1, h2, h3, .heading {
   border-radius: var(--radius-btn);
   padding: 0.5rem 1.5rem;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all 0.2s ease-out;
 }
 
 /* ─── Scrollbar ─── */

@@ -212,7 +212,7 @@ export function SearchBar({
   return (
     <div className="relative w-full">
       <div
-        className={`relative flex items-center w-full h-14 rounded-full border border-border-default bg-bg-card transition-all duration-200 focus-within:border-accent-blue focus-within:shadow-[0_0_0_3px_rgba(59,130,246,0.15)] ${className}`}
+        className={`relative flex items-center w-full h-14 rounded-full border border-slate-700/80 bg-bg-card transition-all duration-200 focus-within:border-accent-cyan ${className}`}
       >
         <div className="flex items-center justify-center pl-5 text-accent-cyan">
           <MapPin size={20} />
@@ -247,7 +247,7 @@ export function SearchBar({
         <button
           onClick={handleSubmit}
           disabled={isLoading || !query.trim()}
-          className="flex items-center justify-center h-10 w-10 mr-2 rounded-full bg-gradient-to-r from-accent-blue to-accent-cyan text-white transition-all duration-200 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+          className="flex items-center justify-center h-10 w-10 mr-2 rounded-full bg-accent-cyan text-bg-primary interactive-base disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           aria-label="Search"
         >
           {isLoading ? (

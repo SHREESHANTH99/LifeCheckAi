@@ -1,6 +1,5 @@
 "use client";
 
-import { ThemeProvider } from "@/components/layout/ThemeContext";
 import { SafetyProvider } from "@/app/context/SafetyContext";
 import { VoiceProvider } from "@/app/context/VoiceContext";
 import { Navbar } from "@/components/layout/Navbar";
@@ -45,15 +44,13 @@ function LayoutShell({ children }: { children: ReactNode }) {
 export function ClientLayout({ children }: { children: ReactNode }) {
   return (
     <SpacetimeDBProvider>
-      <ThemeProvider>
-        <VoiceProvider>
-          <SafetyProvider>
-            <CommandPaletteProvider>
-              <LayoutShell>{children}</LayoutShell>
-            </CommandPaletteProvider>
-          </SafetyProvider>
-        </VoiceProvider>
-      </ThemeProvider>
+      <VoiceProvider>
+        <SafetyProvider>
+          <CommandPaletteProvider>
+            <LayoutShell>{children}</LayoutShell>
+          </CommandPaletteProvider>
+        </SafetyProvider>
+      </VoiceProvider>
     </SpacetimeDBProvider>
   );
 }

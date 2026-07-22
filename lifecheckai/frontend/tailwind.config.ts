@@ -20,8 +20,7 @@ const config: Config = {
         'text-secondary': '#9ca3af',
         'text-muted': '#6b7280',
         
-        'accent-cyan': '#00D4FF',
-        'accent-violet': '#7C3AED',
+        'accent-cyan': '#5FA8B8', /* Muted slate-cyan accent */
         
         'safe': '#10B981',
         'warning': '#F59E0B',
@@ -65,13 +64,6 @@ const config: Config = {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
         }
-      },
-      boxShadow: {
-        'glow-cyan': '0 0 24px rgba(0,212,255,0.15)',
-        'glow-violet': '0 0 24px rgba(124,58,237,0.15)',
-        'glow-red': '0 0 24px rgba(239,68,68,0.15)',
-        'glow-green': '0 0 24px rgba(16,185,129,0.15)',
-        'glow-warning': '0 0 24px rgba(245,158,11,0.15)',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
