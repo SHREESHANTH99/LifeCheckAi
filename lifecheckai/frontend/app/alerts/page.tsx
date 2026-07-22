@@ -6,6 +6,8 @@ import { useSafety } from "@/app/context/SafetyContext";
 import { useSafetyData } from "@/app/hooks/useSafetyData";
 import { useSharedCityState } from "@/hooks/useSharedCityState";
 import { StatusBadge } from "@/components/ui/StatusBadge";
+import { Card } from "@/components/ui/Card";
+import { SkeletonBase } from "@/components/ui/SkeletonBase";
 import {
   ShieldAlert,
   Wind,
@@ -238,10 +240,10 @@ export default function AlertsPage() {
           className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8"
         >
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white mb-1">
+            <h1 className="h1-display mb-1">
               Safety Timeline
             </h1>
-            <p className="text-sm text-text-muted uppercase tracking-wider">
+            <p className="caption-muted">
               Chronological Environmental Alerts
             </p>
           </div>
@@ -256,15 +258,11 @@ export default function AlertsPage() {
           )}
         </motion.div>
 
-        <motion.section
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="glass rounded-3xl p-6 mb-8 border border-white/5 shadow-glow"
-        >
+        <Card className="mb-8 border border-white/5 shadow-glow">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
             <div>
-              <h2 className="text-lg font-bold text-white">Shared Alert Board</h2>
-              <p className="text-sm text-text-muted">Live community reports for {state.safetyData?.city || "the current city"}</p>
+              <h2 className="h2-section">Shared Alert Board</h2>
+              <p className="body-base">Live community reports for {state.safetyData?.city || "the current city"}</p>
             </div>
             <div className="px-3 py-1.5 rounded-full bg-accent-cyan/10 border border-accent-cyan/20 text-accent-cyan text-xs font-bold uppercase tracking-wider">
               👥 {watcherCount} watching
@@ -291,17 +289,13 @@ export default function AlertsPage() {
               ))}
             </div>
           )}
-        </motion.section>
+        </Card>
 
         {/* Notification Section */}
-        <motion.section
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="glass rounded-3xl p-6 mb-8 border border-white/5 shadow-glow"
-        >
+        <Card className="mb-8 border border-white/5 shadow-glow">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
             <div>
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
+              <h2 className="h2-section flex items-center gap-2">
                 {unreadAlerts.length > 0 ? <BellRing size={18} className="text-accent-cyan" /> : <Bell size={18} className="text-text-muted" />}
                 Unread Diagnostics
               </h2>
@@ -359,7 +353,7 @@ export default function AlertsPage() {
               })}
             </div>
           )}
-        </motion.section>
+        </Card>
 
         {/* Filter Bar */}
         <div className="flex items-center gap-3 overflow-x-auto pb-4 mb-8 scrollbar-hide hide-scrollbar">
@@ -383,21 +377,19 @@ export default function AlertsPage() {
         {loading ? (
           <div className="flex flex-col gap-6">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-32 glass rounded-2xl border border-white/5 opacity-50 animate-pulse" />
+              <SkeletonBase key={i} className="h-32 border border-white/5 opacity-50" />
             ))}
           </div>
         ) : filteredAlerts.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center py-20 glass rounded-3xl border border-white/5 shadow-glow"
+          <Card
+            className="text-center py-20 border border-white/5 shadow-glow"
           >
             <ShieldAlert size={48} className="text-white/20 mx-auto mb-6" />
-            <h3 className="text-xl font-bold text-white mb-2">No Active Telemetry Alerts</h3>
-            <p className="text-sm text-text-secondary w-2/3 mx-auto leading-relaxed">
+            <h3 className="h3-card mb-2">No Active Telemetry Alerts</h3>
+            <p className="body-base w-2/3 mx-auto">
               Based on the latest data inputs, no critical alerts are matching this criteria for your monitored zones.
             </p>
-          </motion.div>
+          </Card>
         ) : (
           <motion.div
             variants={containerVariants}
@@ -432,7 +424,7 @@ export default function AlertsPage() {
                           setSelectedAlert(alert);
                           markAsRead(alert.id);
                         }}
-                        className={`flex-1 text-left glass rounded-3xl p-5 border ${style.border} ${style.bg} ${style.glow} hover:bg-white/5 transition-all w-full cursor-pointer overflow-hidden`}
+                        className={`flex-1 text-left glass rounded-card p-5 border ${style.border} ${style.bg} ${style.glow} hover:bg-white/5 transition-all w-full cursor-pointer overflow-hidden`}
                      >
                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                            <div className="flex-1">
@@ -474,12 +466,8 @@ export default function AlertsPage() {
               className="fixed inset-0 z-50 bg-[#0A0F1E]/80 backdrop-blur-md p-4 flex items-center justify-center"
               onClick={() => setSelectedAlert(null)}
             >
-              <motion.div
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 30, scale: 0.95 }}
-                onClick={(e) => e.stopPropagation()}
-                className="w-full max-w-2xl glass rounded-3xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden"
+              <Card
+                className="w-full max-w-2xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden !p-0"
               >
                 <div className="p-6 border-b border-white/10 flex items-start justify-between bg-black/20">
                   <div className="flex items-center gap-3">
@@ -524,7 +512,7 @@ export default function AlertsPage() {
                        Acknowledge Protocol
                     </button>
                 </div>
-              </motion.div>
+              </Card>
             </motion.div>
           )}
         </AnimatePresence>

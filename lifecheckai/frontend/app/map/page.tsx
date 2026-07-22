@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSafetyData } from "@/app/hooks/useSafetyData";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { StatusBadge } from "@/components/ui/StatusBadge";
+import { Card } from "@/components/ui/Card";
 import { Wind, Thermometer, ArrowRight, MapPin, RefreshCw, Radar, ShieldAlert, Layers3, Eye, EyeOff, AlertTriangle, Menu, PanelLeftClose } from "lucide-react";
 import Link from "next/link";
 import { INDIAN_STATE_LOCATIONS } from "@/lib/indiaLocations";
@@ -559,23 +560,24 @@ export default function MapPage() {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass !bg-black/30 backdrop-blur-lg rounded-2xl p-4 shadow-[0_8px_32px_color-mix(in_srgb,var(--color-accent-cyan)_15%,transparent)] border border-white/20"
         >
-          <SearchBar
-            onSearch={handleSearch}
-            placeholder="Search city to focus map..."
-            isLoading={loading}
-            quickCities={monitoredSeedCities.map((entry) => entry.name)}
-            fetchSuggestions={fetchLocationSuggestions}
-          />
-          <div className="mt-4 flex items-center justify-between">
-            <p className="text-[10px] uppercase font-bold tracking-wider text-text-muted">Currently Tracking</p>
-            <p className="text-sm font-bold text-accent-cyan font-mono">{summary.total} Cities</p>
-          </div>
-          <div className="flex gap-2 mt-2">
-            <span className="px-2 py-1 bg-unsafe/10 border border-unsafe/20 rounded-md text-[10px] uppercase text-unsafe font-bold">Unsafe: {summary.unsafe}</span>
-            <span className="px-2 py-1 bg-warning/10 border border-warning/20 rounded-md text-[10px] uppercase text-warning font-bold">Watch: {summary.caution}</span>
-          </div>
+          <Card className="!bg-black/30 backdrop-blur-lg shadow-[0_8px_32px_color-mix(in_srgb,var(--color-accent-cyan)_15%,transparent)] border-white/20 p-4">
+            <SearchBar
+              onSearch={handleSearch}
+              placeholder="Search city to focus map..."
+              isLoading={loading}
+              quickCities={monitoredSeedCities.map((entry) => entry.name)}
+              fetchSuggestions={fetchLocationSuggestions}
+            />
+            <div className="mt-4 flex items-center justify-between">
+              <p className="caption-muted">Currently Tracking</p>
+              <p className="text-sm font-bold text-accent-cyan font-mono">{summary.total} Cities</p>
+            </div>
+            <div className="flex gap-2 mt-2">
+              <span className="px-2 py-1 bg-unsafe/10 border border-unsafe/20 rounded-md text-[10px] uppercase text-unsafe font-bold">Unsafe: {summary.unsafe}</span>
+              <span className="px-2 py-1 bg-warning/10 border border-warning/20 rounded-md text-[10px] uppercase text-warning font-bold">Watch: {summary.caution}</span>
+            </div>
+          </Card>
         </motion.div>
       </div>
 
@@ -584,31 +586,32 @@ export default function MapPage() {
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="glass !bg-black/30 backdrop-blur-lg rounded-2xl p-4 border border-white/20 shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
         >
-          <p className="text-[10px] uppercase font-bold tracking-widest text-white mb-3 flex items-center gap-2">
-            <Layers3 size={14} className="text-accent-cyan" /> Map Legend
-          </p>
-          <div className="flex flex-col gap-3">
-             <div className="flex items-center gap-3">
-               <span className="w-3 h-3 rounded-full bg-safe shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-               <span className="text-xs text-text-secondary font-medium uppercase tracking-wide">Safe Conditions</span>
-             </div>
-             <div className="flex items-center gap-3">
-               <span className="w-3 h-3 rounded-full bg-warning shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
-               <span className="text-xs text-text-secondary font-medium uppercase tracking-wide">Moderate Risk</span>
-             </div>
-             <div className="flex items-center gap-3">
-               <span className="w-3 h-3 rounded-full bg-unsafe shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
-               <span className="text-xs text-text-secondary font-medium uppercase tracking-wide">High Danger</span>
-             </div>
-          </div>
-          <button
-              onClick={() => setShowZones((prev) => !prev)}
-              className="mt-4 w-full flex items-center justify-center gap-2 rounded-lg bg-white/5 py-2 text-xs text-text-secondary hover:text-white transition-colors cursor-pointer border border-white/5"
-            >
-              <Radar size={12} /> Toggle Zones
-          </button>
+          <Card className="!bg-black/30 backdrop-blur-lg border-white/20 shadow-[0_4px_24px_rgba(0,0,0,0.5)] p-4">
+            <p className="caption-muted text-white mb-3 flex items-center gap-2">
+              <Layers3 size={14} className="text-accent-cyan" /> Map Legend
+            </p>
+            <div className="flex flex-col gap-3">
+               <div className="flex items-center gap-3">
+                 <span className="w-3 h-3 rounded-full bg-safe shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                 <span className="text-xs text-text-secondary font-medium uppercase tracking-wide">Safe Conditions</span>
+               </div>
+               <div className="flex items-center gap-3">
+                 <span className="w-3 h-3 rounded-full bg-warning shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
+                 <span className="text-xs text-text-secondary font-medium uppercase tracking-wide">Moderate Risk</span>
+               </div>
+               <div className="flex items-center gap-3">
+                 <span className="w-3 h-3 rounded-full bg-unsafe shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
+                 <span className="text-xs text-text-secondary font-medium uppercase tracking-wide">High Danger</span>
+               </div>
+            </div>
+            <button
+                onClick={() => setShowZones((prev) => !prev)}
+                className="mt-4 w-full flex items-center justify-center gap-2 rounded-lg bg-white/5 py-2 text-xs text-text-secondary hover:text-white transition-colors cursor-pointer border border-white/5"
+              >
+                <Radar size={12} /> Toggle Zones
+            </button>
+          </Card>
         </motion.div>
       </div>
 
@@ -625,7 +628,7 @@ export default function MapPage() {
             {/* Header */}
             <div className="p-6 border-b border-white/10 flex justify-between items-start">
                <div>
-                  <h2 className="text-2xl font-bold text-white mb-2 tracking-tight">{selectedCity.name}</h2>
+                  <h2 className="h2-section mb-2">{selectedCity.name}</h2>
                   <div className="flex items-center gap-2">
                      <StatusBadge status={selectedCity.status} />
                      <span className="text-[10px] text-text-muted px-2 py-0.5 rounded-full border border-border-default uppercase">
@@ -643,31 +646,31 @@ export default function MapPage() {
                 
                 {/* Metric Cards */}
                 <div className="grid grid-cols-2 gap-3">
-                   <div className="glass p-4 rounded-xl border border-white/5 flex flex-col gap-2">
+                   <Card className="p-4 border-white/5 flex flex-col gap-2">
                       <div className="flex items-center gap-2">
                           <Wind className="text-accent-cyan" size={16} />
-                          <span className="text-[10px] text-text-muted uppercase font-bold tracking-wider">AQI Score</span>
+                          <span className="caption-muted">AQI Score</span>
                       </div>
                       <span className="text-2xl font-mono text-white mt-1">{selectedCity.aqi ?? "—"}</span>
-                   </div>
-                   <div className="glass p-4 rounded-xl border border-white/5 flex flex-col gap-2">
+                   </Card>
+                   <Card className="p-4 border-white/5 flex flex-col gap-2">
                       <div className="flex items-center gap-2">
                           <Thermometer className="text-accent-violet" size={16} />
-                          <span className="text-[10px] text-text-muted uppercase font-bold tracking-wider">Temp</span>
+                          <span className="caption-muted">Temp</span>
                       </div>
                       <span className="text-2xl font-mono text-white mt-1">{selectedCity.temp != null ? `${Math.round(selectedCity.temp)}°C` : "—"}</span>
-                   </div>
+                   </Card>
                 </div>
 
                 {data?.city === selectedCity.name ? (
-                  <div className="glass p-5 rounded-2xl border border-white/5 shadow-glow-cyan text-sm text-text-secondary leading-relaxed">
+                  <Card className="p-5 border-white/5 shadow-glow-cyan body-base">
                      {data.overall?.summary || "Real-time conditions are available."}
-                  </div>
+                  </Card>
                 ) : (
-                  <div className="glass p-5 rounded-2xl border border-white/5 text-sm text-text-muted flex flex-col items-center justify-center text-center gap-3">
+                  <Card className="p-5 border-white/5 body-base flex flex-col items-center justify-center text-center gap-3">
                      <ShieldAlert size={24} className="opacity-50" />
                      Load full real-time data to see complete analysis, safety score rings, and AI insights.
-                  </div>
+                  </Card>
                 )}
             </div>
 

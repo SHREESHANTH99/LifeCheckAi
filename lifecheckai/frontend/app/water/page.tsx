@@ -31,6 +31,8 @@ import {
 } from "recharts";
 
 import { WaterWave } from "@/components/ui/WaterWave";
+import { Card } from "@/components/ui/Card";
+import { WaterSkeleton } from "@/components/water/WaterSkeleton";
 import {
   WATER_PARAMETER_META,
   fetchWaterModelMetrics,
@@ -79,20 +81,20 @@ function SectionCard({
   children: React.ReactNode;
 }) {
   return (
-    <section className="glass rounded-3xl p-5 sm:p-6">
+    <Card>
       <div className="mb-5 flex items-start justify-between gap-4">
         <div className="flex items-center gap-2 text-white">
           <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
             {icon}
           </span>
           <div>
-            <h2 className="text-lg font-semibold">{title}</h2>
-            {subtitle ? <p className="mt-0.5 text-sm text-text-secondary">{subtitle}</p> : null}
+            <h2 className="h3-card">{title}</h2>
+            {subtitle ? <p className="mt-0.5 caption-muted">{subtitle}</p> : null}
           </div>
         </div>
       </div>
       {children}
-    </section>
+    </Card>
   );
 }
 
@@ -106,8 +108,8 @@ function MiniStat({
   tone?: string;
 }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-      <p className="text-[11px] uppercase tracking-[0.22em] text-text-muted">{label}</p>
+    <div className="rounded-card border border-white/10 bg-white/5 p-4">
+      <p className="caption-muted">{label}</p>
       <p className={`mt-2 text-2xl font-semibold ${tone}`}>{value}</p>
     </div>
   );
@@ -115,12 +117,12 @@ function MiniStat({
 
 function LoadingPanel({ label }: { label: string }) {
   return (
-    <div className="flex min-h-[200px] items-center justify-center rounded-3xl border border-white/10 bg-white/5">
+    <Card className="flex min-h-[200px] items-center justify-center border-none">
       <div className="flex items-center gap-3 text-text-secondary">
         <Loader2 className="h-5 w-5 animate-spin" />
         <span>{label}</span>
       </div>
-    </div>
+    </Card>
   );
 }
 
@@ -394,7 +396,7 @@ export default function WaterPage() {
   return (
     <div className="min-h-screen bg-bg-primary px-4 py-8 sm:px-8">
       <div className="mx-auto max-w-7xl space-y-6">
-        <section className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[radial-gradient(circle_at_top_left,_rgba(0,212,255,0.18),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(124,58,237,0.18),_transparent_35%),linear-gradient(135deg,_rgba(17,24,39,0.95),_rgba(10,15,30,0.98))] p-6 sm:p-8">
+        <Card className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(0,212,255,0.18),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(124,58,237,0.18),_transparent_35%),linear-gradient(135deg,_rgba(17,24,39,0.95),_rgba(10,15,30,0.98))]">
           <div className="absolute inset-y-0 right-0 hidden w-1/3 bg-[radial-gradient(circle_at_center,_rgba(0,212,255,0.16),_transparent_55%)] lg:block" />
           <div className="relative grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
             <div>
@@ -403,13 +405,13 @@ export default function WaterPage() {
                   <Droplets className="h-7 w-7 text-accent-cyan" />
                 </div>
                 <div>
-                  <p className="text-[11px] uppercase tracking-[0.24em] text-accent-cyan">Water Quality Intelligence</p>
-                  <h1 className="text-3xl font-semibold text-white sm:text-4xl">
+                  <p className="caption-muted text-accent-cyan">Water Quality Intelligence</p>
+                  <h1 className="h1-display mt-1">
                     State-aware water safety, monitoring locations, and year-wise mineral trends
                   </h1>
                 </div>
               </div>
-              <p className="max-w-3xl text-sm leading-7 text-text-secondary sm:text-base">
+              <p className="max-w-3xl body-base mt-2">
                 Pick a state, refine it to a monitoring location, or use your current location.
                 The page now reads the eight available groundwater datasets directly from the backend,
                 recommends station matches for the selected state, and scores drinkability with a Random Forest model.
@@ -420,7 +422,7 @@ export default function WaterPage() {
               <MiniStat label="States Covered" value={String(states?.length || 0)} tone="text-white" />
             </div>
           </div>
-        </section>
+        </Card>
 
         <SectionCard
           title="Search Water Data"
@@ -586,7 +588,7 @@ export default function WaterPage() {
         ) : null}
 
         {bootLoading ? (
-          <LoadingPanel label="Loading water intelligence..." />
+          <WaterSkeleton />
         ) : prediction ? (
           <>
             <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
@@ -716,7 +718,7 @@ export default function WaterPage() {
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="text-xs uppercase tracking-[0.18em] opacity-80">{parameter.label}</p>
+                        <p className="caption-muted opacity-80">{parameter.label}</p>
                         <p className="mt-3 text-2xl font-semibold">
                           {formatWaterValue(parameter.param, parameter.value)}
                         </p>
@@ -724,7 +726,7 @@ export default function WaterPage() {
                       </div>
                       <FlagBadge status={parameter.status} />
                     </div>
-                    <p className="mt-4 text-sm leading-6 opacity-90">{parameter.message}</p>
+                    <p className="body-base mt-4 opacity-90">{parameter.message}</p>
                   </div>
                 ))}
               </div>

@@ -12,6 +12,7 @@ import { useChatVoiceMode } from '@/hooks/useChatVoiceMode';
 import { VoiceWaveform } from '@/components/voice/VoiceWaveform';
 import { VolumeX } from 'lucide-react';
 import { speakText, stopSpeaking } from '@/lib/elevenlabs';
+import { Card } from '@/components/ui/Card';
 
 interface SafetyData {
   city: string;
@@ -295,13 +296,13 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
       <div className="mx-auto flex w-full max-w-7xl h-[calc(100vh-120px)] gap-6">
         
         {/* Left Sidebar (1/3) */}
-        <aside className="hidden lg:flex w-1/3 flex-col glass rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(124,58,237,0.06)] border border-white/5 relative z-10">
-            <div className="p-5 border-b border-white/5 bg-[#0A0F1E]/80 backdrop-blur-md">
-                <h2 className="text-xl font-bold text-white flex items-center gap-2 tracking-tight">
+        <aside className="hidden lg:flex w-1/3 flex-col rounded-card overflow-hidden shadow-[0_0_40px_rgba(124,58,237,0.06)] border border-border-default bg-bg-card relative z-10">
+            <div className="p-5 border-b border-border-default bg-[#0A0F1E]/80 backdrop-blur-md">
+                <h2 className="h2-section flex items-center gap-2">
                     <Bot className="text-accent-violet" size={24} /> 
                     Safety Intelligence
                 </h2>
-                <p className="text-xs text-text-muted mt-1 uppercase tracking-wider">Context & Memory</p>
+                <p className="caption-muted mt-1">Context & Memory</p>
             </div>
             <div className="flex-1 overflow-hidden relative">
                 <ChatSidebar
@@ -321,12 +322,12 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
         </aside>
 
         {/* Right Active Chat (2/3) */}
-        <main className="flex-1 lg:w-2/3 flex flex-col glass rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(0,212,255,0.06)] border border-white/5 relative z-10">
-          <div className="border-b border-white/5 bg-[#0A0F1E]/80 backdrop-blur-md px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between z-20">
+        <main className="flex-1 lg:w-2/3 flex flex-col rounded-card overflow-hidden shadow-[0_0_40px_rgba(0,212,255,0.06)] border border-border-default bg-bg-card relative z-10">
+          <div className="border-b border-border-default bg-[#0A0F1E]/80 backdrop-blur-md px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between z-20">
             <div className="flex items-center gap-4">
                <div>
                  <div className="flex items-center gap-3">
-                   <h1 className="text-lg font-bold tracking-tight text-white">Active Session</h1>
+                   <h1 className="h3-card">Active Session</h1>
                    <span className="rounded-full border border-safe/30 bg-safe/10 px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider text-safe flex items-center gap-1.5 shadow-[0_0_12px_rgba(16,185,129,0.3)]">
                      <span className="w-1.5 h-1.5 rounded-full bg-safe animate-pulse" /> Live
                    </span>
@@ -383,15 +384,15 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
                         <Bot size={40} className="text-accent-violet" />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-bold text-white mb-2">How can I assist your safety today?</h2>
-                        <p className="text-text-secondary max-w-sm mx-auto text-sm">Ask me about specific risks, air quality patterns, or tailored advice for your current profile.</p>
+                        <h2 className="h2-section mb-2">How can I assist your safety today?</h2>
+                        <p className="body-base max-w-sm mx-auto">Ask me about specific risks, air quality patterns, or tailored advice for your current profile.</p>
                     </div>
                     <div className="flex flex-wrap items-center justify-center gap-3 mt-4 max-w-lg">
                         {starterPrompts.slice(0, 3).map((prompt) => (
                         <button
                             key={prompt}
                             onClick={() => handleSendMessage(prompt)}
-                            className="rounded-full glass px-4 py-2 text-xs text-text-primary transition-all hover:border-accent-cyan hover:text-accent-cyan cursor-pointer shadow-glow"
+                            className="rounded-full bg-white/5 border border-white/10 px-4 py-2 text-xs text-text-primary transition-all hover:border-accent-cyan hover:text-accent-cyan cursor-pointer shadow-glow"
                         >
                             {prompt}
                         </button>
@@ -401,23 +402,23 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
                 )}
 
                 {error && (
-                  <div className="my-4 rounded-2xl glass !bg-warning/10 border border-warning/30 p-4 text-sm text-white flex items-start gap-3 shadow-glow">
+                  <Card className="my-4 !bg-warning/10 border-warning/30 p-4 text-sm text-white flex items-start gap-3 shadow-glow">
                       <AlertTriangle className="w-5 h-5 flex-shrink-0 text-warning" />
                       <div>
                         <div className="font-bold text-warning mb-1 uppercase tracking-wider text-xs">Connection Warning</div>
                         <div>{error}</div>
                       </div>
-                  </div>
+                  </Card>
                 )}
 
                 {safetyError && (
-                  <div className="my-4 rounded-2xl glass !bg-danger/10 border border-danger/30 p-4 text-sm text-white flex items-start gap-3 shadow-glow">
+                  <Card className="my-4 !bg-danger/10 border-danger/30 p-4 text-sm text-white flex items-start gap-3 shadow-glow">
                       <AlertTriangle className="w-5 h-5 flex-shrink-0 text-danger" />
                       <div>
                          <div className="font-bold text-danger mb-1 uppercase tracking-wider text-xs">Data Fallback Active</div>
                          <div>{safetyError}</div>
                       </div>
-                  </div>
+                  </Card>
                 )}
 
                 <MessageList messages={messages} isLoading={false} />

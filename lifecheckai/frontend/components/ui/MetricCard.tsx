@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { AnimatedNumber } from "./AnimatedNumber";
+import { Card } from "./Card";
 
 type StatusType = "safe" | "caution" | "warning" | "unsafe" | "danger" | "unknown";
 
@@ -39,8 +40,8 @@ export function MetricCard({
   const numValue = isNumeric ? Number(value) : 0;
 
   return (
-    <div
-      className={`glass p-5 relative flex flex-col group ${className} border-l-4 ${borderColors[status]}`}
+    <Card
+      className={`relative flex flex-col group ${className} border-l-4 ${borderColors[status]}`}
     >
       {isLive && (
         <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-safe/10 border border-safe/30 px-2 py-0.5 rounded-full z-10">
@@ -73,6 +74,6 @@ export function MetricCard({
       {sublabel && (
         <p className="text-sm text-text-secondary mt-3 line-clamp-2">{sublabel}</p>
       )}
-    </div>
+    </Card>
   );
 }

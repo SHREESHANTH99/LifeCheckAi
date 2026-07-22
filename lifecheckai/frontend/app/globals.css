@@ -71,7 +71,27 @@ h1, h2, h3, .heading {
 
 @layer utilities {
   .interactive-base {
-    @apply transition-all duration-200 ease-out hover:scale-[1.02] hover:brightness-110 active:scale-[0.98];
+    @apply transition-all duration-200 ease-out hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan/40;
+  }
+  
+  .h1-display {
+    @apply text-3xl sm:text-4xl font-bold tracking-tight text-white leading-tight;
+  }
+  
+  .h2-section {
+    @apply text-xl sm:text-2xl font-bold text-white tracking-tight leading-snug;
+  }
+
+  .h3-card {
+    @apply text-lg font-bold text-white leading-snug;
+  }
+
+  .body-base {
+    @apply text-sm sm:text-base text-text-secondary leading-relaxed;
+  }
+
+  .caption-muted {
+    @apply text-xs font-semibold uppercase tracking-wider text-text-muted;
   }
 }
 

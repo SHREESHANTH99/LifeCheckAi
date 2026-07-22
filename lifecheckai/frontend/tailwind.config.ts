@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      borderRadius: {
+        'card': '1rem',
+        'button': '0.75rem',
+      },
       colors: {
         'bg-primary': '#0A0F1E',
         'bg-secondary': '#0D1426',

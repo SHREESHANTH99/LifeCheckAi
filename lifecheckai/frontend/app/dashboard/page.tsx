@@ -8,6 +8,7 @@ import { SearchBar } from "@/components/ui/SearchBar";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { AQIGauge } from "@/components/ui/AQIGauge";
 import { MetricCard } from "@/components/ui/MetricCard";
+import { Card } from "@/components/ui/Card";
 import { LoadingPulse } from "@/components/ui/LoadingPulse";
 import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
 import { SafetyScoreRing } from "@/components/ui/SafetyScoreRing";
@@ -410,17 +411,19 @@ function DashboardPageContent() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="card border-unsafe/30 mt-8 text-center py-12"
+            className="mt-8"
           >
-            <AlertTriangle size={48} className="text-unsafe mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-text-primary mb-2">Error</h3>
-            <p className="text-text-secondary mb-6">{error}</p>
-            <button
-              onClick={refresh}
-              className="px-6 py-3 rounded-full bg-accent-blue text-white text-sm font-medium hover:opacity-90 transition-opacity cursor-pointer"
-            >
-              Try Again
-            </button>
+            <Card className="border-unsafe/30 text-center py-12">
+              <AlertTriangle size={48} className="text-unsafe mx-auto mb-4" />
+              <h3 className="h3-card mb-2">Error</h3>
+              <p className="body-base mb-6">{error}</p>
+              <button
+                onClick={refresh}
+                className="btn-primary"
+              >
+                Try Again
+              </button>
+            </Card>
           </motion.div>
         </div>
       </div>
@@ -444,13 +447,15 @@ function DashboardPageContent() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="card mt-8 text-center py-16"
+            className="mt-8"
           >
-            <Wind size={48} className="text-text-muted mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-text-primary mb-2">Search a City</h3>
-            <p className="text-text-secondary">
-              Enter any city name above to view real-time safety conditions.
-            </p>
+            <Card className="text-center py-16">
+              <Wind size={48} className="text-text-muted mx-auto mb-4" />
+              <h3 className="h3-card mb-2">Search a City</h3>
+              <p className="body-base">
+                Enter any city name above to view real-time safety conditions.
+              </p>
+            </Card>
           </motion.div>
         </div>
       </div>
@@ -518,7 +523,7 @@ function DashboardPageContent() {
           {/* Bento Grid Layout */}
           <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
-            <div className="glass p-6 flex flex-col items-center justify-center group relative border-l-4 border-l-accent-violet">
+            <Card className="flex flex-col items-center justify-center group relative border-l-4 border-l-accent-violet">
                 {overallStatus !== "unknown" && (
                   <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-safe/10 border border-safe/30 px-2 py-0.5 rounded-full z-10">
                     <span className="relative flex h-2 w-2">
@@ -528,16 +533,16 @@ function DashboardPageContent() {
                     <span className="text-[9px] font-bold text-safe uppercase tracking-wider">Live</span>
                   </div>
                 )}
-                <h3 className="text-lg font-semibold text-white mb-6">Overall Safety Score</h3>
+                <h3 className="h3-card mb-6">Overall Safety Score</h3>
                 <SafetyScoreRing score={safetyScore} size="lg" />
                 <div className="mt-6 flex flex-col items-center">
                     <StatusBadge status={data.overall?.verdict || "UNKNOWN"} />
-                    <span className="text-sm text-text-secondary mt-3 text-center px-4">{data.overall?.summary}</span>
-                    <span className="mt-2 text-[10px] uppercase tracking-wider text-accent-cyan/80 font-bold">
+                    <span className="body-base mt-3 text-center px-4">{data.overall?.summary}</span>
+                    <span className="caption-muted mt-2 text-accent-cyan/80">
                       {watcherCount} people monitoring this city
                     </span>
                 </div>
-            </div>
+            </Card>
 
             <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
               <MetricCard
@@ -585,10 +590,11 @@ function DashboardPageContent() {
             </motion.div>
           )}
 
-          <motion.div variants={itemVariants} className="glass p-6 border-l-4 border-l-accent-cyan">
+          <motion.div variants={itemVariants}>
+            <Card className="border-l-4 border-l-accent-cyan">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 pb-4 border-b border-border-default">
               <div>
-                <h3 className="font-family-grotesk text-lg font-semibold text-white flex items-center gap-2">
+                <h3 className="h3-card flex items-center gap-2">
                   <Radar size={18} className="text-accent-cyan" />
                   Monitored Territories
                 </h3>
@@ -596,7 +602,7 @@ function DashboardPageContent() {
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => data?.city && addMonitoredCity(data.city)}
-                  className="btn-primary flex items-center gap-2 px-4 py-2 cursor-pointer"
+                  className="btn-primary flex items-center gap-2"
                 >
                   <Plus size={16} /> Track Current
                 </button>
@@ -647,6 +653,7 @@ function DashboardPageContent() {
                 ))}
               </div>
             )}
+            </Card>
           </motion.div>
           
           <motion.div variants={itemVariants}>
