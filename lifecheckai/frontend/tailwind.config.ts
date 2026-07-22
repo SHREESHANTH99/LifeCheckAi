@@ -38,6 +38,7 @@ const config: Config = {
         'slide-up': 'slideUp 0.4s ease-out',
         'bounce-dot': 'bounceDot 1.4s infinite ease-in-out both',
         'orb-pulse': 'orbPulse 4s ease-in-out infinite',
+        'marquee': 'marquee 25s linear infinite',
       },
       keyframes: {
         float: {
@@ -59,6 +60,10 @@ const config: Config = {
         orbPulse: {
           '0%, 100%': { opacity: '0.8', transform: 'scale(1)' },
           '50%': { opacity: '1', transform: 'scale(1.05)' },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
         }
       },
       boxShadow: {

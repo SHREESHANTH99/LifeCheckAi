@@ -4,7 +4,6 @@ import { ThemeProvider } from "@/components/layout/ThemeContext";
 import { SafetyProvider } from "@/app/context/SafetyContext";
 import { VoiceProvider } from "@/app/context/VoiceContext";
 import { Navbar } from "@/components/layout/Navbar";
-import { Sidebar } from "@/components/layout/Sidebar";
 import { Footer } from "@/components/layout/Footer";
 import { ToastContainer } from "@/components/ui/Toast";
 import { CommandPalette } from "@/components/command/CommandPalette";
@@ -24,11 +23,12 @@ function LayoutShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const isLanding = pathname === "/";
+  const navMode = isLanding ? "marketing" : "app";
 
   return (
     <>
-      {isLanding ? <Navbar /> : <Sidebar />}
-      <main className={`${isLanding ? 'pt-16' : 'pl-[64px]'} min-h-screen transition-all duration-300`}>
+      <Navbar mode={navMode} />
+      <main className="pt-16 min-h-screen transition-all duration-300">
         {children}
       </main>
       {isLanding && <Footer />}

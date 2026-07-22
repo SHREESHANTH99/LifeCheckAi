@@ -9,6 +9,7 @@ import { StatusBadge } from "@/components/ui/StatusBadge";
 import { AQIGauge } from "@/components/ui/AQIGauge";
 import { MetricCard } from "@/components/ui/MetricCard";
 import { LoadingPulse } from "@/components/ui/LoadingPulse";
+import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
 import { SafetyScoreRing } from "@/components/ui/SafetyScoreRing";
 import {
   HealthProfileSelector,
@@ -660,7 +661,7 @@ function DashboardPageContent() {
 
 export default function DashboardPage() {
   return (
-    <Suspense fallback={<LoadingPulse inline text="Loading dashboard..." />}>
+    <Suspense fallback={<DashboardSkeleton />}>
       <DashboardPageContent />
     </Suspense>
   );

@@ -2,35 +2,23 @@
 
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { useSafetyData } from "@/app/hooks/useSafetyData";
-import { Wind, ShieldAlert, Sparkles, Activity } from "lucide-react";
+import { Wind, ShieldAlert, Sparkles, Activity, Zap, BarChart3, CloudRain } from "lucide-react";
 
 const popularCities = ["Mumbai", "Delhi", "Bangalore", "Chennai", "Hyderabad", "Kolkata"];
 
-const features = [
-  {
-    icon: <Wind size={28} style={{ color: "var(--color-accent-cyan)", filter: "drop-shadow(0 0 8px var(--color-accent-cyan))" }} />,
-    color: "text-accent-cyan",
-    border: "border-l-accent-cyan",
-    title: "Air Quality Matrix",
-    description: "Real-time AQI with full pollutant breakdown and gradient mapping.",
-  },
-  {
-    icon: <ShieldAlert size={28} style={{ color: "var(--color-accent-violet)", filter: "drop-shadow(0 0 8px var(--color-accent-violet))" }} />,
-    color: "text-accent-violet",
-    border: "border-l-accent-violet",
-    title: "Risk Analysis",
-    description: "Multi-layered real-time environmental safety alerts via vector logic.",
-  },
-  {
-    icon: <Sparkles size={28} style={{ color: "var(--color-safe)", filter: "drop-shadow(0 0 8px var(--color-safe))" }} />,
-    color: "text-safe",
-    border: "border-l-[var(--color-safe)]",
-    title: "Gemini Intelligence",
-    description: "Hyperlocal contextual advice powered by Google Gemini AI.",
-  },
-];
+const MarqueeContent = () => (
+  <div className="flex gap-16 font-mono text-sm tracking-widest text-text-muted px-8">
+    <span>14 CITIES MONITORED</span>
+    <span className="text-accent-cyan">•</span>
+    <span>99.2% UPTIME</span>
+    <span className="text-accent-violet">•</span>
+    <span>3.2M CHECKS</span>
+    <span className="text-safe">•</span>
+  </div>
+);
 
 export default function HomePage() {
   const router = useRouter();
@@ -44,8 +32,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* ─── Hero Section ─── */}
-      <section className="relative min-h-[90vh] flex flex-col items-center justify-center px-4">
-        {/* Animated Background Orb (simulating Delhi's average AQI color - yellow/orange) */}
+      <section className="relative min-h-[95vh] flex flex-col items-center justify-start pt-32 px-4 pb-20">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
           <motion.div
             animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.4, 0.3] }}
@@ -54,9 +41,7 @@ export default function HomePage() {
           />
         </div>
 
-        {/* Content */}
         <div className="relative z-10 flex flex-col items-center text-center max-w-4xl w-full">
-          {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -72,9 +57,9 @@ export default function HomePage() {
             transition={{ delay: 0.1 }}
             className="text-5xl sm:text-7xl font-bold leading-tight mb-6 tracking-tight"
           >
-            Omnipresent Safety. <br />
+            Know if it's safe to <br />
             <span className="bg-gradient-to-r from-accent-cyan to-accent-violet bg-clip-text text-transparent">
-              Hyperlocal Analysis.
+              go outside, right now.
             </span>
           </motion.h1>
 
@@ -84,16 +69,15 @@ export default function HomePage() {
             transition={{ delay: 0.2 }}
             className="text-lg text-text-secondary max-w-2xl mb-12"
           >
-            Real-time air quality, safety scores, weather anomalies, and holistic risk evaluation powered by sophisticated AI.
+            Real-time air quality, weather anomalies, pollen levels, and localized safety scores for any Indian city.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="w-full max-w-2xl"
+            className="w-full max-w-2xl mb-16"
           >
-            {/* The SearchBar has glass styles via its own component hopefully, if not we wrap it */}
             <div className="relative w-full shadow-glow-cyan rounded-2xl">
               <SearchBar
                 onSearch={handleSearch}
@@ -114,48 +98,122 @@ export default function HomePage() {
               ))}
             </div>
           </motion.div>
+
+          {/* Hero Mockup */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
+            className="w-full max-w-5xl rounded-xl border border-white/10 glass overflow-hidden shadow-2xl relative"
+          >
+            <div className="bg-white/5 h-8 w-full border-b border-white/5 flex items-center px-4 gap-2">
+              <div className="w-3 h-3 rounded-full bg-danger/80" />
+              <div className="w-3 h-3 rounded-full bg-warning/80" />
+              <div className="w-3 h-3 rounded-full bg-safe/80" />
+            </div>
+            <div className="relative w-full aspect-[16/9] bg-bg-primary/80">
+              <Image 
+                src="/dashboard-mockup.png" 
+                alt="LifeCheck AI Dashboard Preview"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* ─── Animated Ticker ─── */}
-      <div className="w-full border-y border-border-default bg-white/5 backdrop-blur-sm py-3 overflow-hidden flex whitespace-nowrap">
-        <motion.div
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ ease: "linear", duration: 15, repeat: Infinity }}
-          className="flex items-center gap-16 px-8 flex-nowrap"
-        >
-          {Array(4).fill(0).map((_, i) => (
-            <div key={i} className="flex gap-16 font-mono text-sm tracking-widest text-text-muted">
-              <span>14 CITIES MONITORED</span>
-              <span className="text-accent-cyan">•</span>
-              <span>99.2% UPTIME</span>
-              <span className="text-accent-violet">•</span>
-              <span>3.2M CHECKS</span>
-              <span className="text-safe">•</span>
-            </div>
-          ))}
-        </motion.div>
+      <div className="w-full border-y border-border-default bg-white/5 backdrop-blur-sm py-3 overflow-hidden flex whitespace-nowrap group">
+        <div className="flex animate-marquee group-hover:[animation-play-state:paused] will-change-transform w-max">
+          <MarqueeContent />
+          <MarqueeContent />
+          <MarqueeContent />
+          <MarqueeContent />
+          {/* Duplicates for seamless loop, screen readers ignore */}
+          <div className="flex" aria-hidden="true">
+            <MarqueeContent />
+            <MarqueeContent />
+            <MarqueeContent />
+            <MarqueeContent />
+          </div>
+        </div>
       </div>
 
       {/* ─── Features Below Fold ─── */}
       <section id="features" className="py-24 px-4 relative z-10 max-w-7xl mx-auto border-t border-white/5">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {features.map((feature, i) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className={`glass p-8 border-l-2 ${feature.border} group`}
-            >
-              <div className={`w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 ${feature.color} shadow-glow`}>
-                {feature.icon}
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="glass p-8 border-t-2 border-t-accent-cyan flex flex-col h-full group hover:-translate-y-1 transition-transform"
+          >
+            <div className="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center mb-6 text-accent-cyan shadow-glow-cyan">
+              <Wind size={24} />
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-3">Air Quality Matrix</h3>
+            <p className="text-text-secondary leading-relaxed flex-1">
+              Real-time AQI with full pollutant breakdown (PM2.5, PM10, CO, Ozone) and severity mapping.
+            </p>
+            <div className="mt-8 p-4 rounded-lg bg-bg-primary/50 border border-white/5 flex items-center justify-between">
+              <span className="text-sm text-text-muted">Current AQI</span>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl font-bold text-accent-cyan">42</span>
+                <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-safe/20 text-safe">Good</span>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
-              <p className="text-text-secondary leading-relaxed">{feature.description}</p>
-            </motion.div>
-          ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="glass p-8 border-t-2 border-t-accent-violet flex flex-col h-full group hover:-translate-y-1 transition-transform"
+          >
+            <div className="w-12 h-12 rounded-xl bg-accent-violet/10 flex items-center justify-center mb-6 text-accent-violet shadow-glow-violet">
+              <ShieldAlert size={24} />
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-3">Risk Analysis</h3>
+            <p className="text-text-secondary leading-relaxed flex-1">
+              Multi-layered safety alerts combining heat waves, extreme UV index, and regional weather anomalies.
+            </p>
+            <div className="mt-8 p-4 rounded-lg bg-bg-primary/50 border border-white/5 flex items-center gap-4">
+               <div className="w-10 h-10 rounded-full border-[3px] border-warning flex items-center justify-center">
+                 <span className="text-xs font-bold text-warning">85</span>
+               </div>
+               <div className="flex flex-col">
+                 <span className="text-sm font-semibold text-white">Caution Advised</span>
+                 <span className="text-[10px] text-text-muted uppercase">Heatwave Warning</span>
+               </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="glass p-8 border-t-2 border-t-safe flex flex-col h-full group hover:-translate-y-1 transition-transform"
+          >
+            <div className="w-12 h-12 rounded-xl bg-safe/10 flex items-center justify-center mb-6 text-safe shadow-glow-green">
+              <Sparkles size={24} />
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-3">Gemini Intelligence</h3>
+            <p className="text-text-secondary leading-relaxed flex-1">
+              Hyperlocal contextual advice powered by Google Gemini AI, tailored to your specific health profile.
+            </p>
+            <div className="mt-8 p-3 rounded-lg bg-bg-primary/50 border border-white/5 flex gap-3 items-start">
+               <Sparkles size={16} className="text-safe mt-0.5 shrink-0" />
+               <p className="text-xs text-text-secondary italic">
+                 "Given the high pollen count today, wear an N95 mask if you have asthma before heading out."
+               </p>
+            </div>
+          </motion.div>
+
         </div>
       </section>
 
@@ -164,31 +222,51 @@ export default function HomePage() {
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-white mb-4">Powered by Advanced Technologies</h2>
           <p className="text-text-secondary max-w-xl mx-auto">
-            A robust software architecture built for speed, accuracy, and absolute scale.
+            A precise, verifiable software architecture built for speed and accuracy.
           </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
            <div className="glass p-6 rounded-3xl border border-white/10 hover:border-[var(--color-accent-cyan)] transition-colors group">
-              <div className="text-[10px] uppercase font-bold tracking-widest text-[#00D4FF] mb-2 drop-shadow-sm">Frontend Architecture</div>
+              <div className="flex items-center gap-2 mb-4">
+                <Zap size={18} className="text-accent-cyan" />
+                <div className="text-[10px] uppercase font-bold tracking-widest text-accent-cyan">Frontend</div>
+              </div>
               <h3 className="text-xl font-bold text-white mb-2">Next.js 14 App Router</h3>
-              <p className="text-sm text-text-secondary leading-relaxed group-hover:text-white/80 transition-colors">Server-side rendering, heavily optimized edge networks, complex routing states for immediate dashboard load times.</p>
+              <ul className="text-sm text-text-secondary space-y-2 group-hover:text-white/80 transition-colors">
+                <li>• Server-side rendering (SSR)</li>
+                <li>• Edge network caching</li>
+                <li>• Sub-100ms LCP on Dashboard</li>
+              </ul>
            </div>
            
            <div className="glass p-6 rounded-3xl border border-white/10 hover:border-[var(--color-accent-violet)] transition-colors group">
-              <div className="text-[10px] uppercase font-bold tracking-widest text-[#7C3AED] mb-2 drop-shadow-sm">Artificial Intelligence</div>
-              <h3 className="text-xl font-bold text-white mb-2">Google Gemini Pro</h3>
-              <p className="text-sm text-text-secondary leading-relaxed group-hover:text-white/80 transition-colors">Underpinning our core Chat interface allowing realtime, localized contextual advice that parses telemetry data natively.</p>
+              <div className="flex items-center gap-2 mb-4">
+                <BarChart3 size={18} className="text-accent-violet" />
+                <div className="text-[10px] uppercase font-bold tracking-widest text-accent-violet">AI Engine</div>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Google Gemini 1.5 Pro</h3>
+              <ul className="text-sm text-text-secondary space-y-2 group-hover:text-white/80 transition-colors">
+                <li>• Real-time telemetry parsing</li>
+                <li>• 1M+ token context window</li>
+                <li>• Contextual health profiling</li>
+              </ul>
            </div>
 
            <div className="glass p-6 rounded-3xl border border-white/10 hover:border-[var(--color-safe)] transition-colors group">
-              <div className="text-[10px] uppercase font-bold tracking-widest text-[#10B981] mb-2 drop-shadow-sm">Predictive Systems</div>
-              <h3 className="text-xl font-bold text-white mb-2">Python ML Integrations</h3>
-              <p className="text-sm text-text-secondary leading-relaxed group-hover:text-white/80 transition-colors">Scikit-learn random forests calculating BIS IS 10500:2012 water drinkability probabilities over massive datasets.</p>
+              <div className="flex items-center gap-2 mb-4">
+                <CloudRain size={18} className="text-safe" />
+                <div className="text-[10px] uppercase font-bold tracking-widest text-safe">Data Layer</div>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Aggregated APIs</h3>
+              <ul className="text-sm text-text-secondary space-y-2 group-hover:text-white/80 transition-colors">
+                <li>• OpenWeatherMap live feeds</li>
+                <li>• WAQI sensor networks</li>
+                <li>• 15-minute sync intervals</li>
+              </ul>
            </div>
         </div>
       </section>
-
     </div>
   );
 }
