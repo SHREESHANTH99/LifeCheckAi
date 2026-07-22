@@ -116,7 +116,7 @@ export default function HomePage() {
             viewport={{ once: true }}
             className="glass p-8 flex flex-col h-full interactive-base"
           >
-            <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 text-accent-cyan border border-white/10">
+            <div className="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center mb-6 text-white border border-accent-cyan/20">
               <Wind size={24} />
             </div>
             <h3 className="text-xl font-semibold text-white mb-3">Air Quality Matrix</h3>
@@ -139,7 +139,7 @@ export default function HomePage() {
             transition={{ delay: 0.1 }}
             className="glass p-8 flex flex-col h-full interactive-base"
           >
-            <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 text-text-primary border border-white/10">
+            <div className="w-12 h-12 rounded-xl bg-warning/10 flex items-center justify-center mb-6 text-white border border-warning/20">
               <ShieldAlert size={24} />
             </div>
             <h3 className="text-xl font-semibold text-white mb-3">Risk Analysis</h3>
@@ -164,7 +164,7 @@ export default function HomePage() {
             transition={{ delay: 0.2 }}
             className="glass p-8 flex flex-col h-full interactive-base"
           >
-            <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 text-text-primary border border-white/10">
+            <div className="w-12 h-12 rounded-xl bg-purple-500/15 flex items-center justify-center mb-6 text-white border border-purple-500/20">
               <Sparkles size={24} />
             </div>
             <h3 className="text-xl font-semibold text-white mb-3">Gemini Intelligence</h3>

@@ -32,18 +32,25 @@ export function LiveActivityTicker({ city, lat, lon }: LiveActivityTickerProps) 
 
   return (
     <div className="hidden md:flex fixed bottom-0 left-0 right-0 z-40 h-9 border-t border-border-default bg-[rgba(10,15,30,0.95)] items-center overflow-hidden">
-      <div className="px-3 inline-flex items-center gap-2 shrink-0 border-r border-border-default h-full">
+      <div className="px-3 inline-flex items-center gap-2 shrink-0 border-r border-border-default h-full bg-[rgba(10,15,30,0.95)] relative z-10">
         <span className="w-2 h-2 rounded-full bg-safe animate-pulse" />
         <span className="text-[11px] text-safe">LIVE</span>
         <span className="text-[11px] text-text-secondary">👥 {activeUserCount}</span>
       </div>
-      <motion.div
-        className="whitespace-nowrap text-xs text-text-secondary pl-4"
-        animate={{ x: ["0%", "-100%"] }}
-        transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
-      >
-        {line} &nbsp;&nbsp;&nbsp; {line}
-      </motion.div>
+      
+      {!activityFeed.length ? (
+        <div className="whitespace-nowrap text-xs text-text-secondary pl-4 flex-1">
+          {line}
+        </div>
+      ) : (
+        <motion.div
+          className="whitespace-nowrap text-xs text-text-secondary pl-4 flex-1"
+          animate={{ x: ["0%", "-100%"] }}
+          transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
+        >
+          {line} &nbsp;&nbsp;&nbsp; {line}
+        </motion.div>
+      )}
     </div>
   );
 }

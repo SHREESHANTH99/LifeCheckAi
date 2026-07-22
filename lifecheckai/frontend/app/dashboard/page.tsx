@@ -523,7 +523,7 @@ function DashboardPageContent() {
           {/* Bento Grid Layout */}
           <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
-            <Card className="flex flex-col items-center justify-center group relative border-l-4 border-l-accent-violet">
+            <Card className={`flex flex-col items-center justify-center group relative border-l-4 ${overallStatus === "safe" ? "border-l-safe" : overallStatus === "caution" ? "border-l-warning" : overallStatus === "unsafe" ? "border-l-danger" : "border-l-border-default"}`}>
                 {overallStatus !== "unknown" && (
                   <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-safe/10 border border-safe/30 px-2 py-0.5 rounded-full z-10">
                     <span className="relative flex h-2 w-2">
@@ -563,19 +563,21 @@ function DashboardPageContent() {
                 isLive
               />
               <MetricCard
-                icon={<Flower2 size={20} />}
+                icon={<Flower2 size={20} className={!data.pollen?.level ? "opacity-40" : ""} />}
                 label="Pollen Risk"
-                value={data.pollen?.level || "—"}
-                status={data.pollen?.level?.toLowerCase() === "low" ? "safe" : data.pollen?.level?.toLowerCase() === "moderate" ? "warning" : data.pollen?.level?.toLowerCase() === "high" ? "danger" : "unknown"}
+                value={data.pollen?.level || "Not available for this city"}
+                status={!data.pollen?.level ? "unknown" : data.pollen.level.toLowerCase() === "low" ? "safe" : data.pollen.level.toLowerCase() === "moderate" ? "warning" : data.pollen.level.toLowerCase() === "high" ? "danger" : "unknown"}
                 sublabel={data.pollen?.advice || ""}
+                className={!data.pollen?.level ? "text-text-muted" : ""}
               />
               <MetricCard
-                icon={<Sun size={20} />}
+                icon={<Sun size={20} className={!data.weather?.uv_index ? "opacity-40" : ""} />}
                 label="UV Severity"
-                value={data.weather?.uv_index ?? "—"}
+                value={data.weather?.uv_index ?? "Not available for this city"}
                 status={!data.weather?.uv_index ? "unknown" : data.weather.uv_index <= 2 ? "safe" : data.weather.uv_index <= 5 ? "warning" : "danger"}
-                sublabel={getUVLabel(data.weather?.uv_index)}
-                isLive
+                sublabel={!data.weather?.uv_index ? "" : getUVLabel(data.weather.uv_index)}
+                isLive={!!data.weather?.uv_index}
+                className={!data.weather?.uv_index ? "text-text-muted" : ""}
               />
             </div>
           </motion.div>

@@ -558,7 +558,7 @@ export default function WaterPage() {
             <button
               onClick={() => runAnalysis()}
               disabled={!selectedState || analysisLoading}
-              className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-accent-cyan to-accent-violet px-5 text-sm font-semibold text-black transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 lg:self-end"
+              className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-accent-cyan px-5 text-sm font-semibold text-bg-primary transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50 lg:self-end"
             >
               {analysisLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Waves className="h-4 w-4" />}
               Analyze

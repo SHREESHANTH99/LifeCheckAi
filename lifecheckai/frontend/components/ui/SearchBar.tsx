@@ -270,7 +270,7 @@ export function SearchBar({
       </div>
 
       {showDropdown && (
-        <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-40 card p-3">
+        <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-[60] bg-bg-primary rounded-xl border border-border-default p-3 shadow-[0_8px_30px_rgba(0,0,0,0.6)]">
           <div className="flex items-center justify-between mb-2">
             <p className="text-[11px] uppercase tracking-wide text-text-muted">Suggestions</p>
             <p className="text-[11px] text-text-muted">Press Enter to search</p>

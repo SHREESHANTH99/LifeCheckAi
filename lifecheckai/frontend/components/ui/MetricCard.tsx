@@ -18,12 +18,12 @@ interface MetricCardProps {
 }
 
 const borderColors: Record<StatusType, string> = {
-  safe: "border-safe",
-  caution: "border-warning",
-  warning: "border-warning",
-  unsafe: "border-danger",
-  danger: "border-danger",
-  unknown: "border-border-default",
+  safe: "border-l-safe",
+  caution: "border-l-warning",
+  warning: "border-l-warning",
+  unsafe: "border-l-danger",
+  danger: "border-l-danger",
+  unknown: "border-l-border-default",
 };
 
 export function MetricCard({

@@ -88,7 +88,7 @@ export function VoiceBriefingButton({ safetyData }: VoiceBriefingButtonProps) {
       whileTap={{ scale: 0.96 }}
       onClick={onClick}
       disabled={disabled}
-      className={`fixed z-50 bottom-24 right-6 min-w-14 min-h-14 rounded-full border flex items-center justify-center gap-2 px-4 ${
+      className={`fixed z-[70] bottom-6 right-6 min-w-14 min-h-14 rounded-full border flex items-center justify-center gap-2 px-4 ${
         state === "error"
           ? "border-unsafe/50 text-unsafe bg-unsafe/10"
           : "border-accent-blue/60 text-accent-cyan bg-bg-card/95"

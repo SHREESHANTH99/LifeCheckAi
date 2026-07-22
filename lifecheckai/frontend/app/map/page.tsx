@@ -675,7 +675,13 @@ export default function MapPage() {
             </div>
 
             {/* Footer */}
-             <div className="p-6 border-t border-border-default pb-8">
+             <div className="p-6 border-t border-border-default pb-8 flex flex-col gap-2">
+                <button
+                    onClick={() => setCrowdModalOpen(true)}
+                    className="w-full flex items-center justify-center gap-2 px-5 py-4 rounded-xl border border-white/20 text-white font-bold uppercase tracking-wider text-sm hover:bg-white/10 transition-colors cursor-pointer"
+                >
+                  <ShieldAlert size={16} /> Report Risk
+                </button>
                 <Link
                   href={`/dashboard?city=${encodeURIComponent(selectedCity.name)}`}
                   className="w-full flex items-center justify-center gap-2 px-5 py-4 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-violet text-black font-bold uppercase tracking-wider text-sm hover:opacity-90 transition-opacity"
@@ -695,15 +701,7 @@ export default function MapPage() {
         city={selectedCity?.name || data?.city || "Unknown"}
         onSubmit={addCrowdReport}
       />
-
       <LiveActivityTicker city={selectedCity?.name || data?.city} lat={mapCenter.lat} lon={mapCenter.lon} />
-
-      <button
-          onClick={() => setCrowdModalOpen(true)}
-          className="fixed z-[65] bottom-16 right-6 lg:bottom-12 lg:right-12 min-h-12 px-6 rounded-full glass !bg-black/30 backdrop-blur-lg border border-white/20 text-white text-sm font-bold shadow-[0_0_20px_color-mix(in_srgb,var(--color-accent-violet)_50%,transparent)] hover:!bg-white/10 hover:scale-105 transition-all cursor-pointer flex items-center gap-2 uppercase tracking-wide"
-        >
-          <ShieldAlert size={16} /> Report Risk
-      </button>
 
     </div>  );
 }
