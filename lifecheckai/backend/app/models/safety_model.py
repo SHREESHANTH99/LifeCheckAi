@@ -65,6 +65,7 @@ class SafetyResponse(BaseModel):
     prediction: str | None = None
     pollen: dict[str, Any] | None = None
     data_incomplete: bool = False
+    realtime_sync: str | None = None
 
 
 class AlertFeedResponse(BaseModel):

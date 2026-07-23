@@ -16,7 +16,7 @@ from lifecheckai.backend.app.config import (
     GROQ_MODEL,
 )
 
-LAST_GEMINI_ERROR: str | None = None
+LAST_PROVIDER_ERRORS: dict[str, str | None] = {"gemini": None, "groq": None, "deepseek": None}
 LAST_LLM_PROVIDER: str | None = None
 
 MODEL_CANDIDATES = [
@@ -32,9 +32,9 @@ KEY_CANDIDATES = [
 
 
 def generate_response(prompt: str) -> dict | None:
-    global LAST_GEMINI_ERROR
+    global LAST_PROVIDER_ERRORS
     global LAST_LLM_PROVIDER
-    LAST_GEMINI_ERROR = None
+    LAST_PROVIDER_ERRORS = {"gemini": None, "groq": None, "deepseek": None}
     LAST_LLM_PROVIDER = None
 
     key_candidates = [key for key in _unique_key_candidates(KEY_CANDIDATES)]
@@ -67,12 +67,12 @@ def generate_response(prompt: str) -> dict | None:
                     LAST_LLM_PROVIDER = "gemini"
                     return parsed
                 except Exception as exc:
-                    LAST_GEMINI_ERROR = f"gemini key#{key_index} model={model_name}: {exc}"
-                    print(f"[GEMINI ERROR] {LAST_GEMINI_ERROR}")
+                    LAST_PROVIDER_ERRORS["gemini"] = f"key#{key_index} model={model_name}: {exc}"
+                    print(f"[GEMINI ERROR] {LAST_PROVIDER_ERRORS['gemini']}")
                     continue
     else:
-        LAST_GEMINI_ERROR = "Missing GEMINI_API_KEY"
-        print(f"[GEMINI ERROR] {LAST_GEMINI_ERROR}")
+        LAST_PROVIDER_ERRORS["gemini"] = "Missing GEMINI_API_KEY"
+        print(f"[GEMINI ERROR] {LAST_PROVIDER_ERRORS['gemini']}")
 
     groq_result = _generate_with_openai_compatible(
         provider="groq",
@@ -99,8 +99,8 @@ def generate_response(prompt: str) -> dict | None:
     return None
 
 
-def get_last_gemini_error() -> str | None:
-    return LAST_GEMINI_ERROR
+def get_last_provider_errors() -> dict[str, str | None]:
+    return LAST_PROVIDER_ERRORS
 
 
 def get_last_llm_provider() -> str | None:
@@ -217,11 +217,11 @@ def _generate_with_openai_compatible(
     endpoint: str,
     prompt: str,
 ) -> dict | None:
-    global LAST_GEMINI_ERROR
+    global LAST_PROVIDER_ERRORS
 
     key = (api_key or "").strip()
     if not key:
-        LAST_GEMINI_ERROR = f"{provider}: missing API key"
+        LAST_PROVIDER_ERRORS[provider] = "missing API key"
         print(f"[{provider.upper()} WARN] missing API key")
         return None
 
@@ -259,7 +259,7 @@ def _generate_with_openai_compatible(
 
         parsed = _parse_json_object(content)
         if parsed is None:
-            LAST_GEMINI_ERROR = f"{provider}: non-JSON response"
+            LAST_PROVIDER_ERRORS[provider] = "non-JSON response"
             print(f"[{provider.upper()} WARN] non-JSON response")
             return None
 
@@ -273,11 +273,11 @@ def _generate_with_openai_compatible(
             error_msg = error_detail.get("error", {}).get("message", str(exc))
         except:
             error_msg = str(exc)
-        LAST_GEMINI_ERROR = f"{provider} model={model_name}: {exc.response.status_code} - {error_msg}"
+        LAST_PROVIDER_ERRORS[provider] = f"model={model_name}: {exc.response.status_code} - {error_msg}"
         print(f"[{provider.upper()} ERROR] Status {exc.response.status_code}: {error_msg}")
         return None
     except Exception as exc:
-        LAST_GEMINI_ERROR = f"{provider} model={model_name}: {exc}"
+        LAST_PROVIDER_ERRORS[provider] = f"model={model_name}: {exc}"
         print(f"[{provider.upper()} ERROR] {exc}")
         return None
 

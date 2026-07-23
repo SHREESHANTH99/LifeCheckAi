@@ -61,6 +61,8 @@ export interface SafetyData {
   pollen: Pollen;
   source: "live" | "realtime_cache";
   cache_hit: boolean;
+  data_incomplete?: boolean;
+  realtime_sync?: string;
 }
 
 export interface Message {

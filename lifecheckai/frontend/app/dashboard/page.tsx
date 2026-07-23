@@ -567,11 +567,18 @@ function DashboardPageContent() {
 
           {/* Typographic Hero */}
           <motion.div variants={itemVariants} className="mb-4 mt-6">
-            {data.data_incomplete && (
-              <div className="mb-4 inline-flex items-center gap-2 bg-warning/10 border border-warning/30 text-warning px-3 py-1.5 rounded-lg text-sm font-medium">
-                <AlertTriangle size={16} /> Limited data — verdict may be incomplete
-              </div>
-            )}
+            <div className="flex flex-col gap-2 mb-4">
+              {data.data_incomplete && (
+                <div className="inline-flex items-center gap-2 bg-warning/10 border border-warning/30 text-warning px-3 py-1.5 rounded-lg text-sm font-medium w-fit">
+                  <AlertTriangle size={16} /> Limited data — verdict may be incomplete
+                </div>
+              )}
+              {data.realtime_sync === "degraded" && (
+                <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 text-text-muted px-3 py-1.5 rounded-lg text-sm font-medium w-fit">
+                  <Activity size={16} className="opacity-70" /> Data may be delayed
+                </div>
+              )}
+            </div>
             <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4 mb-2">
               <h1 className={`text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight ${overallStatus === "safe" ? "text-safe" : overallStatus === "caution" ? "text-warning" : "text-danger"} ${data.data_incomplete ? "opacity-75" : ""}`}>
                 {data.overall?.verdict === "SAFE" ? `Safe to go outside in ${data.city}` : data.overall?.verdict === "CAUTION" ? `Caution advised in ${data.city}` : `Unsafe conditions in ${data.city}`}

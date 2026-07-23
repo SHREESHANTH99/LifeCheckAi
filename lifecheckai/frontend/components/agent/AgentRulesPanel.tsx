@@ -17,26 +17,22 @@ interface AgentRulesPanelProps {
   className?: string;
 }
 
-const allowed = [
-  "Answer air quality questions",
-  "Provide weather safety advice",
-  "Recommend precautions for health conditions",
-  "Explain AQI pollutant sources",
-  "Suggest safe outdoor activity windows",
-  "Alert about government health warnings",
-  "Provide emergency contact information",
-];
-
-const blocked = [
-  "Provide medical diagnosis",
-  "Guarantee predictions beyond 6 hours",
-  "Share personal user data",
-  "Make political statements about pollution",
-  "Recommend specific medications",
-  "Override official government warnings",
-];
+import { useState, useEffect } from "react";
 
 export function AgentRulesPanel({ actions, lastConfidence, isActive, className = "" }: AgentRulesPanelProps) {
+  const [allowed, setAllowed] = useState<string[]>([]);
+  const [blocked, setBlocked] = useState<string[]>([]);
+
+  useEffect(() => {
+    const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
+    fetch(`${API_BASE}/api/safety-rules`)
+      .then(res => res.json())
+      .then(data => {
+        setAllowed(data.allowed_capabilities || []);
+        setBlocked(data.blocked_actions || []);
+      })
+      .catch(err => console.error("Failed to fetch safety rules:", err));
+  }, []);
   const rawConfidence = lastConfidence ?? 0;
   const normalizedConfidence = rawConfidence <= 1 ? rawConfidence * 100 : rawConfidence;
   const confidence = Math.max(0, Math.min(100, Math.round(normalizedConfidence)));

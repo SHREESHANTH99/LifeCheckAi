@@ -20,6 +20,7 @@ from lifecheckai.backend.app.services.db_service import (
     push_shared_alert,
     save_city_data,
 )
+import time
 from lifecheckai.backend.app.services.maps_service import get_coordinates
 from lifecheckai.backend.app.services.maps_service import get_place_from_coordinates
 from lifecheckai.backend.app.services.maps_service import suggest_locations
@@ -42,6 +43,19 @@ from lifecheckai.backend.app.utils.rules import (
 
 router = APIRouter(prefix="/api", tags=["Safety"])
 
+def _robust_save(city_key: str, data: dict) -> bool:
+    if save_city_data(city_key, data):
+        return True
+    
+    print(f"[WARNING] SpaceTimeDB save failed for {city_key}. Retrying...")
+    time.sleep(0.5)
+    
+    if save_city_data(city_key, data):
+        return True
+        
+    print(f"[ERROR] SpaceTimeDB save completely failed for {city_key}")
+    return False
+
 
 def get_city_safety_snapshot(city: str, allow_partial: bool = False) -> dict:
     city_key = city.strip().lower()
@@ -49,11 +63,14 @@ def get_city_safety_snapshot(city: str, allow_partial: bool = False) -> dict:
     cached = get_city_data(city_key)
     if cached and _is_v2_snapshot(cached):
         normalized_cached = _normalize_snapshot_payload(cached, city)
+        sync_degraded = False
         if normalized_cached != cached:
-            save_city_data(city_key, normalized_cached)
+            if not _robust_save(city_key, normalized_cached):
+                sync_degraded = True
         return {
             "source": "realtime_cache",
             "cache_hit": True,
+            "realtime_sync": "degraded" if sync_degraded else "ok",
             **normalized_cached,
         }
 
@@ -83,12 +100,15 @@ def get_city_safety_snapshot(city: str, allow_partial: bool = False) -> dict:
         pollen_data=pollen_data,
     )
 
+    sync_degraded = False
     if air_data and weather_data:
-        save_city_data(city_key, result)
+        if not _robust_save(city_key, result):
+            sync_degraded = True
 
     return {
         "source": "live",
         "cache_hit": False,
+        "realtime_sync": "degraded" if sync_degraded else "ok",
         **result,
     }
 
@@ -194,7 +214,7 @@ def _load_live_cities() -> list[dict]:
         city_name = str(row.get("city") or snapshot.get("city") or "").strip()
         normalized_snapshot = _normalize_snapshot_payload(snapshot, city_name)
         if normalized_snapshot != snapshot and city_name:
-            save_city_data(city_name.lower(), normalized_snapshot)
+            _robust_save(city_name.lower(), normalized_snapshot)
 
         normalized.append(
             {

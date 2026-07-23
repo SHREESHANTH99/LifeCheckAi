@@ -15,7 +15,7 @@ from lifecheckai.backend.app.models.chat_model import (
 from lifecheckai.backend.app.routes.safety import get_city_safety_snapshot
 from lifecheckai.backend.app.services.gemini_service import (
     generate_response,
-    get_last_gemini_error,
+    get_last_provider_errors,
     get_last_llm_provider,
 )
 from lifecheckai.backend.app.services.water_service import resolve_state_name
@@ -122,7 +122,7 @@ def ask(
     sections = ai_sections or build_fallback_sections(normalized, query, intent, profile)
     source_payload = _source_payload(normalized)
     if not used_ai:
-        source_payload["ai_error"] = get_last_gemini_error()
+        source_payload["ai_errors"] = get_last_provider_errors()
 
     return ChatResponse(
         query=query,
@@ -316,16 +316,34 @@ def _action_type_from_intent(intent: str) -> str:
 
 def _blocked_reason(query: str) -> str | None:
     text = query.lower()
-    rules = [
-        (["diagnose", "diagnosis", "what disease"], "Medical diagnosis requests are blocked."),
-        (["guarantee", "100% sure", "certain prediction"], "Guaranteed predictions are blocked."),
-        (["medication", "dose", "tablet", "prescribe"], "Medication recommendations are blocked."),
-        (["self-harm", "kill myself", "suicide"], "Self-harm related requests are blocked."),
-    ]
-    for keywords, reason in rules:
+    for keywords, reason in BLOCKED_ACTIONS:
         if any(keyword in text for keyword in keywords):
             return reason
     return None
+
+ALLOWED_CAPABILITIES = [
+    "Answer air quality questions",
+    "Provide weather safety advice",
+    "Recommend precautions for health conditions",
+    "Explain AQI pollutant sources",
+    "Suggest safe outdoor activity windows",
+    "Alert about government health warnings",
+    "Provide emergency contact information",
+]
+
+BLOCKED_ACTIONS = [
+    (["diagnose", "diagnosis", "what disease"], "Medical diagnosis requests are blocked."),
+    (["guarantee", "100% sure", "certain prediction"], "Guaranteed predictions are blocked."),
+    (["medication", "dose", "tablet", "prescribe"], "Medication recommendations are blocked."),
+    (["self-harm", "kill myself", "suicide"], "Self-harm related requests are blocked."),
+]
+
+@router.get("/api/safety-rules")
+def get_safety_rules():
+    return {
+        "allowed_capabilities": ALLOWED_CAPABILITIES,
+        "blocked_actions": [reason for _, reason in BLOCKED_ACTIONS],
+    }
 
 
 def _normalize_snapshot(snapshot: dict, requested_location: str) -> dict:
