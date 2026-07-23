@@ -64,6 +64,7 @@ class SafetyResponse(BaseModel):
     alerts: list[AlertItem] = Field(default_factory=list)
     prediction: str | None = None
     pollen: dict[str, Any] | None = None
+    data_incomplete: bool = False
 
 
 class AlertFeedResponse(BaseModel):
