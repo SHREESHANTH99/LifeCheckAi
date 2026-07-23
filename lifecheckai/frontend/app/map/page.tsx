@@ -61,6 +61,7 @@ interface GoogleLatLng {
 
 interface GoogleMapInstance {
   setCenter: (latLng: GoogleLatLng) => void;
+  panTo: (latLng: GoogleLatLng) => void;
   setZoom: (zoom: number) => void;
 }
 
