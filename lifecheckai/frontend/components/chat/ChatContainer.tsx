@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { AlertTriangle, Bot, Loader2, Mic, Volume2, Sparkles } from 'lucide-react';
+import { AlertTriangle, Bot, Loader2, Mic, Volume2, Sparkles, BarChart2, Shield, Brain, X } from 'lucide-react';
 import { MessageList } from './MessageList';
 import { ChatInput } from './ChatInput';
 import { SuggestedPrompts } from './SuggestedPrompts';
-import { ChatSidebar } from './ChatSidebar';
+import { ChatSidebar, type Tab } from './ChatSidebar';
 import type { MemoryItem } from './ConversationMemory';
 import { ChatMessage } from './MessageBubble';
 import { useStreamingChat, type StreamOptions } from '@/hooks/useStreamingChat';
@@ -46,6 +46,8 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [insightsOpen, setInsightsOpen] = useState(false);
   const [autoStartVoiceTick, setAutoStartVoiceTick] = useState(0);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeSidebarTab, setActiveSidebarTab] = useState<Tab>('context');
   const activeAssistantIdRef = useRef<string | null>(null);
   const voiceIntroPlayedRef = useRef(false);
   const { settings, setChatVoiceModeEnabled } = useVoiceSettings();
@@ -311,38 +313,91 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
     toggleVoiceAssistant();
   };
 
+  const handleRailClick = (tab: Tab) => {
+    if (isSidebarOpen && activeSidebarTab === tab) {
+      setIsSidebarOpen(false);
+    } else {
+      setActiveSidebarTab(tab);
+      setIsSidebarOpen(true);
+    }
+  };
+
   return (
     <div className="min-h-screen px-4 py-8">
-      <div className="mx-auto flex w-full max-w-7xl h-[calc(100vh-120px)] gap-6">
+      <div className="mx-auto flex w-full max-w-7xl h-[calc(100vh-120px)] gap-6 relative">
         
-        {/* Left Sidebar (1/3) */}
-        <aside className="hidden lg:flex w-1/3 flex-col rounded-card overflow-hidden shadow-[0_0_40px_rgba(124,58,237,0.06)] border border-border-default bg-bg-card relative z-10">
-            <div className="p-5 border-b border-border-default bg-[#0A0F1E]/80 backdrop-blur-md">
-                <h2 className="h2-section flex items-center gap-2">
-                    <Bot className="text-accent-violet" size={24} /> 
-                    Safety Intelligence
-                </h2>
-                <p className="caption-muted mt-1">Context & Memory</p>
-            </div>
-            <div className="flex-1 overflow-hidden relative">
-                <ChatSidebar
-                  safetyData={safetyData}
-                  safetyLoading={safetyLoading}
-                  safetyError={safetyError}
-                  lastUpdated={lastUpdated}
-                  currentCity={attachedCity}
-                  memory={memory}
-                  onMemoryRemove={handleMemoryRemove}
-                  onMemoryClear={handleMemoryClear}
-                  onCitySubmit={handleCitySubmit}
-                  onRefresh={handleRefreshSafety}
-                  embedded={true}
-                />
-            </div>
+        {/* Left Icon Rail (~56px width) */}
+        <aside className="hidden lg:flex w-14 flex-col items-center py-4 gap-4 rounded-card border border-border-default bg-[#0A0F1E] shadow-[0_0_40px_rgba(124,58,237,0.06)] z-20">
+            <button
+               onClick={() => handleRailClick('context')}
+               className={`p-2.5 rounded-xl transition-all cursor-pointer ${
+                 isSidebarOpen && activeSidebarTab === 'context'
+                   ? 'bg-accent-cyan/20 text-accent-cyan'
+                   : 'text-slate-400 hover:text-white hover:bg-white/5'
+               }`}
+               title="Context & Safety Data"
+            >
+               <BarChart2 size={20} />
+            </button>
+            <button
+               onClick={() => handleRailClick('agent')}
+               className={`p-2.5 rounded-xl transition-all cursor-pointer ${
+                 isSidebarOpen && activeSidebarTab === 'agent'
+                   ? 'bg-accent-cyan/20 text-accent-cyan'
+                   : 'text-slate-400 hover:text-white hover:bg-white/5'
+               }`}
+               title="Agent Rules"
+            >
+               <Shield size={20} />
+            </button>
+            <button
+               onClick={() => handleRailClick('memory')}
+               className={`p-2.5 rounded-xl transition-all cursor-pointer ${
+                 isSidebarOpen && activeSidebarTab === 'memory'
+                   ? 'bg-accent-cyan/20 text-accent-cyan'
+                   : 'text-slate-400 hover:text-white hover:bg-white/5'
+               }`}
+               title="Conversation Memory"
+            >
+               <Brain size={20} />
+            </button>
         </aside>
 
-        {/* Right Active Chat (2/3) */}
-        <main className="flex-1 lg:w-2/3 flex flex-col rounded-card overflow-hidden shadow-[0_0_40px_rgba(0,212,255,0.06)] border border-border-default bg-bg-card relative z-10">
+        {/* Overlay Panel (Slides out next to rail) */}
+        {isSidebarOpen && (
+          <>
+            {/* Click-outside backdrop (mobile/tablet mostly, or just to dismiss) */}
+            <div className="fixed inset-0 z-30 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
+            
+            <div className="absolute left-0 lg:left-20 top-0 bottom-0 w-80 lg:w-[340px] bg-[#0A0F1E] border border-border-default rounded-card shadow-2xl z-40 flex flex-col animate-slide-right overflow-hidden">
+               <div className="flex items-center justify-between p-4 border-b border-white/10 bg-[#0A0F1E]/80 backdrop-blur-md">
+                  <span className="font-semibold text-white capitalize text-sm tracking-wide">{activeSidebarTab}</span>
+                  <button onClick={() => setIsSidebarOpen(false)} className="text-slate-400 hover:text-white cursor-pointer transition-colors p-1">
+                     <X size={18} />
+                  </button>
+               </div>
+               <div className="flex-1 overflow-hidden relative">
+                  <ChatSidebar
+                    safetyData={safetyData}
+                    safetyLoading={safetyLoading}
+                    safetyError={safetyError}
+                    lastUpdated={lastUpdated}
+                    currentCity={attachedCity}
+                    memory={memory}
+                    onMemoryRemove={handleMemoryRemove}
+                    onMemoryClear={handleMemoryClear}
+                    onCitySubmit={handleCitySubmit}
+                    onRefresh={handleRefreshSafety}
+                    embedded={true}
+                    activeTab={activeSidebarTab}
+                  />
+               </div>
+            </div>
+          </>
+        )}
+
+        {/* Main Chat Area (Expands to fill remaining space) */}
+        <main className="flex-1 w-full flex flex-col rounded-card overflow-hidden shadow-[0_0_40px_rgba(0,212,255,0.06)] border border-border-default bg-bg-card relative z-10 transition-all duration-300">
           <div className="border-b border-border-default bg-[#0A0F1E]/80 backdrop-blur-md px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between z-20">
             <div className="flex items-center gap-4">
                <div>

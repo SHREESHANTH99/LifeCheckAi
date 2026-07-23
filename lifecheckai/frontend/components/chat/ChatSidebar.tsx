@@ -38,9 +38,10 @@ interface ChatSidebarProps {
   embedded?: boolean;
   isMobile?: boolean;
   onClose?: () => void;
+  activeTab: Tab;
 }
 
-type Tab = 'context' | 'agent' | 'memory';
+export type Tab = 'context' | 'agent' | 'memory';
 
 export const ChatSidebar: React.FC<ChatSidebarProps> = ({
   safetyData,
@@ -58,8 +59,8 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
   embedded = false,
   isMobile = false,
   onClose,
+  activeTab,
 }) => {
-  const [activeTab, setActiveTab] = useState<Tab>('context');
   const [cityDraft, setCityDraft] = useState(currentCity || safetyData?.city || 'Delhi');
   const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
   const [loadingCitySuggestions, setLoadingCitySuggestions] = useState(false);
@@ -360,43 +361,8 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
     </div>
   );
 
-  const tabButtons = (
-    <div className="flex bg-white/5 rounded-xl p-1 mx-4 mt-4 border border-white/10">
-      <button
-        onClick={() => setActiveTab('context')}
-        className={`flex-1 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-          activeTab === 'context'
-            ? 'bg-accent-cyan/15 text-accent-cyan shadow-sm'
-            : 'text-slate-400 hover:text-white hover:bg-white/5'
-        }`}
-      >
-        Context
-      </button>
-      <button
-        onClick={() => setActiveTab('agent')}
-        className={`flex-1 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-          activeTab === 'agent'
-            ? 'bg-accent-cyan/15 text-accent-cyan shadow-sm'
-            : 'text-slate-400 hover:text-white hover:bg-white/5'
-        }`}
-      >
-        Agent
-      </button>
-      <button
-        onClick={() => setActiveTab('memory')}
-        className={`flex-1 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-          activeTab === 'memory'
-            ? 'bg-accent-cyan/15 text-accent-cyan shadow-sm'
-            : 'text-slate-400 hover:text-white hover:bg-white/5'
-        }`}
-      >
-        Memory
-      </button>
-    </div>
-  );
-
-  const tabContent = (
-    <div className={embedded ? 'max-h-[68vh] overflow-y-auto' : 'flex-1 overflow-y-auto'}>
+  return (
+    <div className="flex-1 overflow-y-auto w-full h-full">
       {activeTab === 'context' && contextContent}
 
       {activeTab === 'agent' && (
@@ -432,57 +398,5 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
         </div>
       )}
     </div>
-  );
-
-  if (embedded) {
-    return (
-      <div className="mx-3 mb-3 overflow-hidden rounded-2xl border border-white/10 bg-[#091121] sm:mx-4">
-        <div className="overflow-x-auto">{tabButtons}</div>
-        <div>{tabContent}</div>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      {/* Desktop sidebar */}
-      {!isMobile && (
-        <aside className="hidden w-80 flex-col border-l border-border bg-gradient-to-b from-[#0b1222] via-[#09142b] to-[#060c18] lg:flex">
-          {/* Tabs */}
-          {tabButtons}
-
-          {/* Tab content */}
-          {tabContent}
-        </aside>
-      )}
-
-      {/* Mobile bottom sheet */}
-      {isMobile && (
-        <div className="fixed inset-0 z-50 flex flex-col">
-          {/* Overlay */}
-          <div
-            className="flex-1 bg-black/50"
-            onClick={onClose}
-          />
-
-          {/* Bottom sheet */}
-          <div className="bg-gray-900 border-t border-border rounded-t-2xl max-h-[80vh] overflow-y-auto">
-            <div className="sticky top-0 bg-gray-900 border-b border-border p-4 flex items-center justify-between">
-              <div className="text-sm font-semibold text-white">Context &amp; Info</div>
-              <button
-                onClick={onClose}
-                className="text-muted-foreground hover:text-white"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="p-4 space-y-4">
-              {contextContent}
-            </div>
-          </div>
-        </div>
-      )}
-    </>
   );
 };
