@@ -481,7 +481,7 @@ export default function MapPage() {
 
   useEffect(() => {
     if (mapInstanceRef.current && mapCenter) {
-      mapInstanceRef.current.panTo(mapCenter);
+      mapInstanceRef.current.panTo({ lat: mapCenter.lat, lng: mapCenter.lon });
       mapInstanceRef.current.setZoom(mapZoom);
     }
   }, [mapCenter, mapZoom]);
