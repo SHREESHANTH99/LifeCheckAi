@@ -147,6 +147,7 @@ def _mock_payload(city: str) -> dict | None:
         row = MOCK_COORDS[key]
         return {
             **row,
+            "geocoding_fallback": True,
             "geocoding": {
                 "provider": "mock",
                 "match": "city_seed",
@@ -160,6 +161,7 @@ def _mock_payload(city: str) -> dict | None:
             "lat": 20.0,
             "lon": 78.0,
             "formatted_address": city,
+            "geocoding_fallback": True,
             "geocoding": {
                 "provider": "mock",
                 "match": "unknown_seed",

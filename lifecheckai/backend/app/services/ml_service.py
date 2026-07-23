@@ -368,6 +368,11 @@ def _ensure_model() -> dict[str, Any]:
     return _model_bundle or {}
 
 
+def warm_up_model() -> None:
+    """Load model into memory eagerly."""
+    _ensure_model()
+
+
 def _aggregate_selection_frame(selection: dict) -> tuple[pd.Series, int, pd.DataFrame]:
     frame = selection["frame"]
     latest_year = int(frame["Year"].dropna().max())
@@ -522,6 +527,12 @@ def _build_prediction(selection: dict) -> dict | None:
             "name": matched_station["name"],
         }
 
+    sample_count = int(len(latest_frame))
+    low_sample_warning = False
+    if sample_count < 5:
+        low_sample_warning = True
+        confidence = confidence * max(0.5, sample_count / 5.0)
+
     return {
         "state": selection["state"],
         "scope": selection["scope"],
@@ -532,8 +543,9 @@ def _build_prediction(selection: dict) -> dict | None:
         "nearby_stations": selection.get("nearby_stations", []),
         "year": latest_year,
         "available_years": sorted(int(year) for year in selection["frame"]["Year"].dropna().astype(int).unique().tolist()),
-        "sample_count": int(len(latest_frame)),
+        "sample_count": sample_count,
         "station_count": int(latest_frame["station_key"].nunique()) if "station_key" in latest_frame.columns else None,
+        "low_sample_warning": low_sample_warning,
         "prediction": prediction,
         "confidence": round(confidence * 100, 2),
         "drinkable_probability": round(drinkable_probability * 100, 2),

@@ -10,6 +10,7 @@ from lifecheckai.backend.app.routes import realtime
 from lifecheckai.backend.app.routes import safety, test
 from lifecheckai.backend.app.routes import water
 from lifecheckai.backend.app.services.scheduler import scheduler
+from lifecheckai.backend.app.services.ml_service import warm_up_model
 
 app = FastAPI(
     title="LifeCheck AI API",
@@ -58,5 +59,9 @@ def health():
 
 @app.on_event("startup")
 async def start_scheduler():
+    # Warm up ML model eagerly so first user doesn't wait
+    import asyncio
+    await asyncio.to_thread(warm_up_model)
+
     if ENABLE_SCHEDULER:
         asyncio.create_task(scheduler())

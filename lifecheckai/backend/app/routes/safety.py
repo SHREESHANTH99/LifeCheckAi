@@ -207,22 +207,34 @@ def _load_live_cities() -> list[dict]:
 
     normalized: list[dict] = []
     for row in cities:
-        snapshot = row.get("data")
-        if not isinstance(snapshot, dict) or not _is_v2_snapshot(snapshot):
-            continue
+        try:
+            snapshot = row.get("data")
+            if not isinstance(snapshot, dict) or not _is_v2_snapshot(snapshot):
+                continue
 
-        city_name = str(row.get("city") or snapshot.get("city") or "").strip()
-        normalized_snapshot = _normalize_snapshot_payload(snapshot, city_name)
-        if normalized_snapshot != snapshot and city_name:
-            _robust_save(city_name.lower(), normalized_snapshot)
+            city_name = str(row.get("city") or snapshot.get("city") or "").strip()
+            normalized_snapshot = _normalize_snapshot_payload(snapshot, city_name)
+            if normalized_snapshot != snapshot and city_name:
+                _robust_save(city_name.lower(), normalized_snapshot)
 
-        normalized.append(
-            {
-                "city": normalized_snapshot.get("city") or city_name,
-                "data": normalized_snapshot,
-                "age_seconds": row.get("age_seconds", 0),
-            }
-        )
+            normalized.append(
+                {
+                    "city": normalized_snapshot.get("city") or city_name,
+                    "data": normalized_snapshot,
+                    "age_seconds": row.get("age_seconds", 0),
+                }
+            )
+        except Exception as exc:
+            print(f"[LIVE CITIES ROW ERROR] Failed to normalize {row.get('city')}: {exc}")
+            # Add degraded data so frontend knows the city is failing instead of dropping it or crashing
+            city_name = str(row.get("city") or "Unknown").strip()
+            if city_name:
+                normalized.append({
+                    "city": city_name,
+                    "data": {"city": city_name, "error": True, "realtime_sync": "degraded"},
+                    "age_seconds": row.get("age_seconds", 0),
+                    "error": True
+                })
 
     return sorted(
         normalized,

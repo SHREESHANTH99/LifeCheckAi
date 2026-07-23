@@ -5,8 +5,25 @@ from collections import deque
 from typing import Any
 from uuid import uuid4
 
+from pydantic import BaseModel, Field
 from fastapi import APIRouter, Body, Path, Query
 from lifecheckai.backend.app.services.db_service import get_all_cities
+
+class PresencePayload(BaseModel):
+    sessionId: str = Field(default="anonymous")
+    city: str = Field(default="Unknown")
+    lat: float = Field(default=0.0)
+    lon: float = Field(default=0.0)
+    timestamp: int | None = None
+    avatar: str = Field(default="🛡️")
+
+class CrowdReportPayload(BaseModel):
+    sessionId: str = Field(default="anonymous")
+    city: str = Field(default="Unknown")
+    lat: float = Field(default=0.0)
+    lon: float = Field(default=0.0)
+    type: str = Field(default="road_block")
+    description: str = Field(default="")
 
 router = APIRouter(prefix="/realtime", tags=["Realtime"])
 
@@ -65,23 +82,22 @@ def _purge_expired_reports() -> None:
 
 
 @router.post("/presence")
-def post_presence(payload: dict[str, Any] = Body(default_factory=dict)):
+def post_presence(payload: PresencePayload):
     try:
-        session_id = str(payload.get("sessionId") or "anonymous")
+        session_id = payload.sessionId
         row = {
             "sessionId": session_id,
-            "city": str(payload.get("city") or "Unknown"),
-            "lat": float(payload.get("lat") or 0),
-            "lon": float(payload.get("lon") or 0),
-            "timestamp": int(payload.get("timestamp") or _now_ms()),
-            "avatar": str(payload.get("avatar") or "🛡️"),
+            "city": payload.city,
+            "lat": payload.lat,
+            "lon": payload.lon,
+            "timestamp": payload.timestamp or _now_ms(),
+            "avatar": payload.avatar,
         }
         presence_store[session_id] = row
         _add_activity("city_check", row["city"], session_id, row["avatar"], f"{row['city']} checked")
         return {"ok": True}
     except Exception:
         return {"ok": True}
-
 
 @router.get("/presence")
 def get_presence():
@@ -93,16 +109,16 @@ def get_presence():
 
 
 @router.post("/crowd-report")
-def post_crowd_report(payload: dict[str, Any] = Body(default_factory=dict)):
+def post_crowd_report(payload: CrowdReportPayload):
     try:
         row = {
             "id": str(uuid4()),
-            "sessionId": str(payload.get("sessionId") or "anonymous"),
-            "city": str(payload.get("city") or "Unknown"),
-            "lat": float(payload.get("lat") or 0),
-            "lon": float(payload.get("lon") or 0),
-            "type": str(payload.get("type") or "road_block"),
-            "description": str(payload.get("description") or ""),
+            "sessionId": payload.sessionId,
+            "city": payload.city,
+            "lat": payload.lat,
+            "lon": payload.lon,
+            "type": payload.type,
+            "description": payload.description,
             "upvotes": 0,
             "timestamp": _now_ms(),
         }
