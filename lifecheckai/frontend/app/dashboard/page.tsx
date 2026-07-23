@@ -7,11 +7,9 @@ import { useSafetyData } from "@/app/hooks/useSafetyData";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { AQIGauge } from "@/components/ui/AQIGauge";
-import { MetricCard } from "@/components/ui/MetricCard";
 import { Card } from "@/components/ui/Card";
 import { LoadingPulse } from "@/components/ui/LoadingPulse";
 import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
-import { SafetyScoreRing } from "@/components/ui/SafetyScoreRing";
 import {
   HealthProfileSelector,
   type HealthProfile,
@@ -61,6 +59,7 @@ interface MonitoredCitySnapshot {
   aqi: number | null;
   temp: number | null;
   humidity: number | null;
+  pollenLevel: string;
   source: string;
   updatedAt: number;
 }
@@ -153,16 +152,25 @@ function normalizeCityName(value: string): string {
   return value.trim().replace(/\s+/g, " ");
 }
 
-function getRiskScore(snapshot: MonitoredCitySnapshot): number {
-  const verdictWeight: Record<MonitoredCitySnapshot["verdict"], number> = {
-    SAFE: 10,
-    CAUTION: 50,
-    UNSAFE: 85,
-    UNKNOWN: 5,
-  };
+function calculateUniversalSafetyScore(
+  aqi: number | null | undefined, 
+  temp: number | null | undefined, 
+  pollenLevel: string | undefined
+): number {
+  const safeAqi = aqi ?? 100;
+  const safeTemp = temp ?? 28;
+  const pLevel = (pollenLevel || "").toLowerCase();
+  const pollenPenalty = pLevel === "high" ? 15 : pLevel === "moderate" ? 8 : 0;
+  const baseScore = 100 - safeAqi / 5;
+  const heatPenalty = safeTemp > 40 ? 20 : safeTemp > 35 ? 10 : 0;
+  return Math.max(0, Math.min(100, Math.round(baseScore - heatPenalty - pollenPenalty)));
+}
 
-  const aqiPenalty = snapshot.aqi != null ? Math.min(snapshot.aqi / 3, 40) : 0;
-  return verdictWeight[snapshot.verdict] + aqiPenalty;
+function getStatusDotColor(status: string | undefined): string {
+  if (status === "safe") return "bg-safe";
+  if (status === "warning") return "bg-warning";
+  if (status === "danger") return "bg-danger";
+  return "bg-text-muted";
 }
 
 const containerVariants = {
@@ -249,6 +257,7 @@ function DashboardPageContent() {
           : typeof weather?.humidity === "number"
             ? weather.humidity
             : null,
+      pollenLevel: payload.pollen?.level || "",
       source: payload.source || "live",
       updatedAt: Date.now(),
     };
@@ -271,6 +280,7 @@ function DashboardPageContent() {
                 aqi: null,
                 temp: null,
                 humidity: null,
+                pollenLevel: "",
                 source: "cache",
                 updatedAt: Date.now(),
               } as MonitoredCitySnapshot;
@@ -334,7 +344,7 @@ function DashboardPageContent() {
       if (sortMode === "aqi") {
         return (b.aqi ?? -1) - (a.aqi ?? -1);
       }
-      return getRiskScore(b) - getRiskScore(a);
+      return calculateUniversalSafetyScore(a.aqi, a.temp, a.pollenLevel) - calculateUniversalSafetyScore(b.aqi, b.temp, b.pollenLevel);
     });
 
     return sorted;
@@ -344,7 +354,7 @@ function DashboardPageContent() {
     const all = Object.values(monitoredData);
     const unsafeCount = all.filter((item) => item.verdict === "UNSAFE").length;
     const cautionCount = all.filter((item) => item.verdict === "CAUTION").length;
-    const topRisk = [...all].sort((a, b) => getRiskScore(b) - getRiskScore(a))[0];
+    const topRisk = [...all].sort((a, b) => calculateUniversalSafetyScore(a.aqi, a.temp, a.pollenLevel) - calculateUniversalSafetyScore(b.aqi, b.temp, b.pollenLevel))[0];
     return { total: all.length, unsafeCount, cautionCount, topRisk };
   }, [monitoredData]);
 
@@ -408,13 +418,11 @@ function DashboardPageContent() {
 
   const safetyScore = useMemo(() => {
     if (!data) return 0;
-    const aqi = data.air_quality?.aqi ?? 100;
-    const temp = data.weather?.temp_celsius ?? 28;
-    const pollenLevel = String(data.pollen?.level || "").toLowerCase();
-    const pollenPenalty = pollenLevel === "high" ? 15 : pollenLevel === "moderate" ? 8 : 0;
-    const baseScore = 100 - aqi / 5;
-    const heatPenalty = temp > 40 ? 20 : temp > 35 ? 10 : 0;
-    return Math.max(0, Math.min(100, Math.round(baseScore - heatPenalty - pollenPenalty)));
+    return calculateUniversalSafetyScore(
+      data.air_quality?.aqi,
+      data.weather?.temp_celsius,
+      data.pollen?.level
+    );
   }, [data]);
 
   const personalRisk = useMemo(() => {
@@ -557,68 +565,75 @@ function DashboardPageContent() {
             </div>
           </motion.div>
 
-          {/* Bento Grid Layout */}
-          <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-            
-            <Card className={`lg:col-span-2 flex flex-col items-center justify-center group relative border-l-4 h-full py-10 ${overallStatus === "safe" ? "border-l-safe" : overallStatus === "caution" ? "border-l-warning" : overallStatus === "unsafe" ? "border-l-danger" : "border-l-border-default"}`}>
-                {overallStatus !== "unknown" && (
-                  <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-safe/10 border border-safe/30 px-2 py-0.5 rounded-full z-10">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-safe opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-safe" />
-                    </span>
-                    <span className="text-[9px] font-bold text-safe uppercase tracking-wider">Live</span>
-                  </div>
-                )}
-                <h3 className="h3-card mb-8">Overall Safety Score</h3>
-                <div className="scale-110 mb-2">
-                  <SafetyScoreRing score={safetyScore} size="lg" />
-                </div>
-                <div className="mt-8 flex flex-col items-center">
-                    <StatusBadge status={data.overall?.verdict || "UNKNOWN"} />
-                    <span className="text-lg font-medium mt-4 text-center px-4 max-w-sm text-slate-200 leading-snug">{data.overall?.summary}</span>
-                    <span className="caption-muted mt-4 text-accent-cyan/80 font-medium tracking-wide">
-                      {watcherCount} people monitoring this city
-                    </span>
-                </div>
-            </Card>
-
-            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-6 h-full">
-              <MetricCard
-                icon={<Wind size={20} />}
-                label="Air Quality Index"
-                value={data.air_quality?.aqi ?? "—"}
-                status={getAqiStatus(data.air_quality?.category)}
-                sublabel={data.air_quality?.category || "Fetching..."}
-                isLive
-              />
-              <MetricCard
-                icon={<Thermometer size={20} />}
-                label="Temperature"
-                value={data.weather?.temp_celsius != null ? `${Math.round(data.weather.temp_celsius)}` : "—"}
-                unit="°C"
-                status={getTempStatus(data.weather?.temp_celsius)}
-                sublabel={data.weather?.feels_like != null ? `Feels like ${Math.round(data.weather.feels_like)}°C` : ""}
-                isLive
-              />
-              <MetricCard
-                icon={<Flower2 size={20} className={!data.pollen?.level ? "opacity-40" : ""} />}
-                label="Pollen Risk"
-                value={data.pollen?.level || "Not available for this city"}
-                status={getPollenStatus(data.pollen?.level)}
-                sublabel={data.pollen?.advice || ""}
-                className={!data.pollen?.level ? "text-text-muted" : ""}
-              />
-              <MetricCard
-                icon={<Sun size={20} className={!data.weather?.uv_index ? "opacity-40" : ""} />}
-                label="UV Severity"
-                value={data.weather?.uv_index ?? "Not available for this city"}
-                status={getUvStatus(data.weather?.uv_index)}
-                sublabel={!data.weather?.uv_index ? "" : getUVLabel(data.weather.uv_index)}
-                isLive={!!data.weather?.uv_index}
-                className={!data.weather?.uv_index ? "text-text-muted" : ""}
-              />
+          {/* Typographic Hero */}
+          <motion.div variants={itemVariants} className="mb-4 mt-6">
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4 mb-2">
+              <h1 className={`text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight ${overallStatus === "safe" ? "text-safe" : overallStatus === "caution" ? "text-warning" : "text-danger"}`}>
+                {data.overall?.verdict === "SAFE" ? `Safe to go outside in ${data.city}` : data.overall?.verdict === "CAUTION" ? `Caution advised in ${data.city}` : `Unsafe conditions in ${data.city}`}
+              </h1>
+              <span className="text-2xl font-bold text-text-muted mt-2 sm:mt-0">{safetyScore} <span className="text-sm font-normal">Score</span></span>
             </div>
+            <p className="text-lg sm:text-xl text-text-secondary font-medium max-w-3xl leading-snug">{data.overall?.summary}</p>
+          </motion.div>
+
+          {/* Unified Stat Rail */}
+          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-white/10 rounded-2xl bg-bg-card border border-white/5 overflow-hidden">
+             {/* AQI Stat */}
+             <div className="flex-1 p-5 flex flex-col justify-between hover:bg-white/5 transition-colors">
+               <div className="flex items-center gap-2 text-text-secondary mb-3">
+                 <Wind size={16} /> <span className="text-sm font-medium">Air Quality</span>
+               </div>
+               <div className="flex items-baseline gap-1">
+                 <span className="text-4xl font-mono font-bold text-white">{data.air_quality?.aqi ?? "—"}</span>
+               </div>
+               <div className="flex items-center gap-2 mt-2">
+                 <div className={`w-2 h-2 rounded-full ${getStatusDotColor(getAqiStatus(data.air_quality?.category))}`} />
+                 <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold truncate">{data.air_quality?.category || "Unknown"}</span>
+               </div>
+             </div>
+
+             {/* Temp Stat */}
+             <div className="flex-1 p-5 flex flex-col justify-between hover:bg-white/5 transition-colors">
+               <div className="flex items-center gap-2 text-text-secondary mb-3">
+                 <Thermometer size={16} /> <span className="text-sm font-medium">Temperature</span>
+               </div>
+               <div className="flex items-baseline gap-1">
+                 <span className="text-4xl font-mono font-bold text-white">{data.weather?.temp_celsius != null ? `${Math.round(data.weather.temp_celsius)}` : "—"}</span>
+                 <span className="text-sm text-text-muted">°C</span>
+               </div>
+               <div className="flex items-center gap-2 mt-2">
+                 <div className={`w-2 h-2 rounded-full ${getStatusDotColor(getTempStatus(data.weather?.temp_celsius))}`} />
+                 <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold truncate">{data.weather?.feels_like != null ? `Feels like ${Math.round(data.weather.feels_like)}°C` : "Unknown"}</span>
+               </div>
+             </div>
+
+             {/* Pollen Stat */}
+             <div className="flex-1 p-5 flex flex-col justify-between hover:bg-white/5 transition-colors">
+               <div className="flex items-center gap-2 text-text-secondary mb-3">
+                 <Flower2 size={16} /> <span className="text-sm font-medium">Pollen Risk</span>
+               </div>
+               <div className="flex items-baseline gap-1">
+                 <span className="text-2xl sm:text-3xl font-mono font-bold text-white capitalize truncate">{data.pollen?.level || "N/A"}</span>
+               </div>
+               <div className="flex items-center gap-2 mt-2">
+                 <div className={`w-2 h-2 rounded-full ${getStatusDotColor(getPollenStatus(data.pollen?.level))}`} />
+                 <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold truncate">{data.pollen?.advice || "No advice available"}</span>
+               </div>
+             </div>
+
+             {/* UV Stat */}
+             <div className="flex-1 p-5 flex flex-col justify-between hover:bg-white/5 transition-colors">
+               <div className="flex items-center gap-2 text-text-secondary mb-3">
+                 <Sun size={16} /> <span className="text-sm font-medium">UV Severity</span>
+               </div>
+               <div className="flex items-baseline gap-1">
+                 <span className="text-4xl font-mono font-bold text-white">{data.weather?.uv_index ?? "—"}</span>
+               </div>
+               <div className="flex items-center gap-2 mt-2">
+                 <div className={`w-2 h-2 rounded-full ${getStatusDotColor(getUvStatus(data.weather?.uv_index))}`} />
+                 <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold truncate">{!data.weather?.uv_index ? "Unknown" : getUVLabel(data.weather.uv_index)}</span>
+               </div>
+             </div>
           </motion.div>
 
           {selectedProfile !== "general" && personalRisk && (
@@ -631,80 +646,50 @@ function DashboardPageContent() {
             </motion.div>
           )}
 
-          <motion.div variants={itemVariants}>
-            <Card className="border-l-4 border-l-accent-cyan">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 pb-4 border-b border-border-default">
-              <div>
-                <h3 className="h3-card flex items-center gap-2">
-                  <Radar size={18} className="text-accent-cyan" />
-                  Monitored Territories
-                </h3>
-              </div>
-              <div className="flex items-center gap-3">
-                <button
+          {/* Monitored Territories Demoted */}
+          <motion.div variants={itemVariants} className="mt-8 pt-8 border-t border-border-default">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider flex items-center gap-2">
+                <Radar size={16} /> Monitored Territories
+              </h3>
+              <button
                   onClick={() => data?.city && addMonitoredCity(data.city)}
-                  className="btn-primary flex items-center gap-2"
+                  className="text-xs font-semibold uppercase tracking-wider flex items-center gap-1 text-accent-cyan hover:text-white transition-colors cursor-pointer"
                 >
-                  <Plus size={16} /> Track Current
-                </button>
-              </div>
+                  <Plus size={14} /> Track City
+              </button>
             </div>
 
             {monitoredEntries.length === 0 ? (
-              <div className="p-8 border border-dashed border-border-default rounded-2xl text-center text-text-secondary">
+              <div className="text-sm text-text-muted italic">
                 You are not tracking any additional locations yet.
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              <div className="flex flex-wrap gap-3">
                 {monitoredEntries.map((entry) => {
-                  const ringScore = 100 - (getRiskScore(entry) * 0.8);
-                  
                   return (
-                  <div key={entry.city} className="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-accent-cyan hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,212,255,0.1)] transition-all flex flex-col justify-between group cursor-default">
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h4 className="text-sm font-bold text-white mb-0.5 truncate max-w-[120px]">{entry.city}</h4>
-                        <p className="text-[9px] text-text-muted tracking-wide">UPDATED {formatTime(new Date(entry.updatedAt)).toUpperCase()}</p>
-                      </div>
-                      <div className="scale-75 origin-top-right -mr-2 -mt-2">
-                         <SafetyScoreRing score={Math.max(0, ringScore)} size="sm" />
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                         <div className="flex flex-col">
-                           <span className="text-[9px] uppercase text-text-muted font-semibold tracking-wider">AQI</span>
-                           <span className="font-mono text-sm font-bold text-white">{entry.aqi ?? "—"}</span>
-                         </div>
-                         <div className="w-[1px] h-6 bg-white/10" />
-                         <div className="flex flex-col">
-                           <span className="text-[9px] uppercase text-text-muted font-semibold tracking-wider">Temp</span>
-                           <span className="font-mono text-sm font-bold text-white">{entry.temp != null ? `${Math.round(entry.temp)}°` : "—"}</span>
-                         </div>
-                      </div>
-                      <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button
-                          onClick={() => search(entry.city)}
-                          className="w-7 h-7 rounded-full bg-white/10 hover:bg-accent-cyan hover:text-black flex items-center justify-center transition-colors text-text-secondary cursor-pointer"
-                          title="View Details"
-                        >
-                          <MapPin size={12} />
-                        </button>
-                        <button
-                          onClick={() => removeMonitoredCity(entry.city)}
-                          className="w-7 h-7 rounded-full bg-white/10 hover:bg-danger text-text-secondary hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                    <div 
+                      key={entry.city} 
+                      onClick={() => search(entry.city)}
+                      className="flex items-center gap-3 px-4 py-2 rounded-full bg-bg-card border border-white/5 hover:border-white/20 transition-all cursor-pointer group"
+                    >
+                      <div className={`w-2 h-2 rounded-full ${getStatusDotColor(getStatusColor(entry.verdict))}`} />
+                      <span className="text-sm font-semibold text-white">{entry.city}</span>
+                      <div className="w-px h-3 bg-white/20" />
+                      <span className="text-xs font-mono text-text-muted">{entry.aqi ?? "—"} AQI</span>
+                      <span className="text-xs font-mono text-text-muted">{entry.temp != null ? `${Math.round(entry.temp)}°C` : "—"}</span>
+                      <button
+                          onClick={(e) => { e.stopPropagation(); removeMonitoredCity(entry.city); }}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity ml-1 text-text-muted hover:text-danger cursor-pointer"
                           title="Remove City"
                         >
                           <Trash2 size={12} />
-                        </button>
-                      </div>
+                      </button>
                     </div>
-                  </div>
-                )})}
+                  );
+                })}
               </div>
             )}
-            </Card>
           </motion.div>
           
           <motion.div variants={itemVariants}>
