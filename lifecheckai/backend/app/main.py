@@ -21,7 +21,7 @@ import os
 
 ALLOWED_ORIGINS = [
     origin.strip() 
-    for origin in os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",") 
+    for origin in os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,https://life-check-ai.vercel.app").split(",") 
     if origin.strip()
 ]
 
