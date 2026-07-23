@@ -4,12 +4,16 @@ import React, { useState } from "react";
 import { useVoiceSettings } from "@/app/context/VoiceContext";
 import { Volume2, Mic2, Volume, ChevronDown, ChevronUp } from "lucide-react";
 
-export const VoiceSettingsPanel: React.FC = () => {
+interface VoiceSettingsPanelProps {
+  embedded?: boolean;
+}
+
+export const VoiceSettingsPanel: React.FC<VoiceSettingsPanelProps> = ({ embedded = false }) => {
   const { settings, setProactiveAlertsEnabled, setChatVoiceModeEnabled } = useVoiceSettings();
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="glass rounded-2xl border border-white/5 mt-4 overflow-hidden">
+    <div className={embedded ? "w-full" : "glass rounded-2xl border border-white/5 mt-4 overflow-hidden"}>
       <button 
         onClick={() => setIsExpanded(!isExpanded)}
         className="w-full flex items-center justify-between p-4 bg-bg-card hover:bg-white/5 transition-colors cursor-pointer"

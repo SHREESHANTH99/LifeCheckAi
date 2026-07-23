@@ -116,6 +116,39 @@ function getPollenRingColor(category: string | undefined): string {
   return "border-unsafe";
 }
 
+function getAqiStatus(category: string | undefined): "safe" | "warning" | "danger" | "unknown" {
+  if (!category) return "unknown";
+  const cat = category.toLowerCase();
+  if (cat.includes("good")) return "safe";
+  if (cat.includes("moderate")) return "warning";
+  if (cat.includes("unhealthy") || cat.includes("severe") || cat.includes("hazardous")) return "danger";
+  return "unknown";
+}
+
+function getTempStatus(temp: number | undefined): "safe" | "warning" | "danger" | "unknown" {
+  if (temp === undefined || temp === null) return "unknown";
+  if (temp >= 40) return "danger";
+  if (temp >= 35) return "warning";
+  return "safe";
+}
+
+function getPollenStatus(category: string | undefined): "safe" | "warning" | "danger" | "unknown" {
+  if (!category) return "unknown";
+  const c = category.toLowerCase();
+  if (c === "low" || c === "none") return "safe";
+  if (c === "moderate" || c === "medium") return "warning";
+  if (c === "high" || c === "very high") return "danger";
+  return "unknown";
+}
+
+function getUvStatus(uv: number | undefined): "safe" | "warning" | "danger" | "unknown" {
+  if (uv === undefined || uv === null) return "unknown";
+  if (uv <= 2) return "safe";
+  if (uv <= 5) return "warning";
+  if (uv <= 7) return "danger";
+  return "danger";
+}
+
 function normalizeCityName(value: string): string {
   return value.trim().replace(/\s+/g, " ");
 }
@@ -507,23 +540,27 @@ function DashboardPageContent() {
           animate="visible"
           className="max-w-7xl mx-auto px-4 sm:px-8 py-8 flex flex-col gap-6"
         >
-          <motion.div variants={itemVariants}>
-            <HealthProfileSelector
-              onProfileChange={(profile, config) => {
-                setSelectedProfile(profile);
-                setProfileConfig(config);
-              }}
-            />
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <VoiceSettingsPanel />
+          <motion.div variants={itemVariants} className="card !p-0 overflow-hidden mb-2">
+            <div className="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-border-default">
+              <div className="flex-1 p-4 bg-bg-card">
+                <HealthProfileSelector
+                  onProfileChange={(profile, config) => {
+                    setSelectedProfile(profile);
+                    setProfileConfig(config);
+                  }}
+                  embedded={true}
+                />
+              </div>
+              <div className="flex-1 p-4 bg-bg-card">
+                <VoiceSettingsPanel embedded={true} />
+              </div>
+            </div>
           </motion.div>
 
           {/* Bento Grid Layout */}
-          <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-5 gap-6">
             
-            <Card className={`flex flex-col items-center justify-center group relative border-l-4 ${overallStatus === "safe" ? "border-l-safe" : overallStatus === "caution" ? "border-l-warning" : overallStatus === "unsafe" ? "border-l-danger" : "border-l-border-default"}`}>
+            <Card className={`lg:col-span-2 flex flex-col items-center justify-center group relative border-l-4 h-full py-10 ${overallStatus === "safe" ? "border-l-safe" : overallStatus === "caution" ? "border-l-warning" : overallStatus === "unsafe" ? "border-l-danger" : "border-l-border-default"}`}>
                 {overallStatus !== "unknown" && (
                   <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-safe/10 border border-safe/30 px-2 py-0.5 rounded-full z-10">
                     <span className="relative flex h-2 w-2">
@@ -533,23 +570,25 @@ function DashboardPageContent() {
                     <span className="text-[9px] font-bold text-safe uppercase tracking-wider">Live</span>
                   </div>
                 )}
-                <h3 className="h3-card mb-6">Overall Safety Score</h3>
-                <SafetyScoreRing score={safetyScore} size="lg" />
-                <div className="mt-6 flex flex-col items-center">
+                <h3 className="h3-card mb-8">Overall Safety Score</h3>
+                <div className="scale-110 mb-2">
+                  <SafetyScoreRing score={safetyScore} size="lg" />
+                </div>
+                <div className="mt-8 flex flex-col items-center">
                     <StatusBadge status={data.overall?.verdict || "UNKNOWN"} />
-                    <span className="body-base mt-3 text-center px-4">{data.overall?.summary}</span>
-                    <span className="caption-muted mt-2 text-accent-cyan/80">
+                    <span className="text-lg font-medium mt-4 text-center px-4 max-w-sm text-slate-200 leading-snug">{data.overall?.summary}</span>
+                    <span className="caption-muted mt-4 text-accent-cyan/80 font-medium tracking-wide">
                       {watcherCount} people monitoring this city
                     </span>
                 </div>
             </Card>
 
-            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-6 h-full">
               <MetricCard
                 icon={<Wind size={20} />}
                 label="Air Quality Index"
                 value={data.air_quality?.aqi ?? "—"}
-                status={(data.air_quality?.aqi ?? 999) <= 50 ? "safe" : (data.air_quality?.aqi ?? 999) <= 100 ? "warning" : "danger"}
+                status={getAqiStatus(data.air_quality?.category)}
                 sublabel={data.air_quality?.category || "Fetching..."}
                 isLive
               />
@@ -558,7 +597,7 @@ function DashboardPageContent() {
                 label="Temperature"
                 value={data.weather?.temp_celsius != null ? `${Math.round(data.weather.temp_celsius)}` : "—"}
                 unit="°C"
-                status={!data.weather?.temp_celsius ? "unknown" : data.weather.temp_celsius > 40 ? "danger" : data.weather.temp_celsius > 35 ? "warning" : "safe"}
+                status={getTempStatus(data.weather?.temp_celsius)}
                 sublabel={data.weather?.feels_like != null ? `Feels like ${Math.round(data.weather.feels_like)}°C` : ""}
                 isLive
               />
@@ -566,7 +605,7 @@ function DashboardPageContent() {
                 icon={<Flower2 size={20} className={!data.pollen?.level ? "opacity-40" : ""} />}
                 label="Pollen Risk"
                 value={data.pollen?.level || "Not available for this city"}
-                status={!data.pollen?.level ? "unknown" : data.pollen.level.toLowerCase() === "low" ? "safe" : data.pollen.level.toLowerCase() === "moderate" ? "warning" : data.pollen.level.toLowerCase() === "high" ? "danger" : "unknown"}
+                status={getPollenStatus(data.pollen?.level)}
                 sublabel={data.pollen?.advice || ""}
                 className={!data.pollen?.level ? "text-text-muted" : ""}
               />
@@ -574,7 +613,7 @@ function DashboardPageContent() {
                 icon={<Sun size={20} className={!data.weather?.uv_index ? "opacity-40" : ""} />}
                 label="UV Severity"
                 value={data.weather?.uv_index ?? "Not available for this city"}
-                status={!data.weather?.uv_index ? "unknown" : data.weather.uv_index <= 2 ? "safe" : data.weather.uv_index <= 5 ? "warning" : "danger"}
+                status={getUvStatus(data.weather?.uv_index)}
                 sublabel={!data.weather?.uv_index ? "" : getUVLabel(data.weather.uv_index)}
                 isLive={!!data.weather?.uv_index}
                 className={!data.weather?.uv_index ? "text-text-muted" : ""}
@@ -616,43 +655,53 @@ function DashboardPageContent() {
                 You are not tracking any additional locations yet.
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {monitoredEntries.map((entry) => (
-                  <div key={entry.city} className="p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-accent-cyan hover:-translate-y-1 transition-all overflow-hidden relative group">
-                    <div className="flex justify-between items-start mb-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {monitoredEntries.map((entry) => {
+                  const ringScore = 100 - (getRiskScore(entry) * 0.8);
+                  
+                  return (
+                  <div key={entry.city} className="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-accent-cyan hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,212,255,0.1)] transition-all flex flex-col justify-between group cursor-default">
+                    <div className="flex justify-between items-start mb-4">
                       <div>
-                        <h4 className="text-base font-bold text-white mb-1">{entry.city}</h4>
-                        <p className="text-[10px] text-text-muted">UPDATED {formatTime(new Date(entry.updatedAt))}</p>
+                        <h4 className="text-sm font-bold text-white mb-0.5 truncate max-w-[120px]">{entry.city}</h4>
+                        <p className="text-[9px] text-text-muted tracking-wide">UPDATED {formatTime(new Date(entry.updatedAt)).toUpperCase()}</p>
                       </div>
-                      <StatusBadge status={entry.verdict} />
+                      <div className="scale-75 origin-top-right -mr-2 -mt-2">
+                         <SafetyScoreRing score={Math.max(0, ringScore)} size="sm" />
+                      </div>
                     </div>
                     
-                    <div className="flex items-center justify-between mt-5 pt-4 border-t border-white/5">
-                      <div className="flex flex-col">
-                        <span className="text-[10px] uppercase text-text-muted">AQI</span>
-                        <span className="font-mono text-sm font-bold text-accent-cyan">{entry.aqi ?? "—"}</span>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                         <div className="flex flex-col">
+                           <span className="text-[9px] uppercase text-text-muted font-semibold tracking-wider">AQI</span>
+                           <span className="font-mono text-sm font-bold text-white">{entry.aqi ?? "—"}</span>
+                         </div>
+                         <div className="w-[1px] h-6 bg-white/10" />
+                         <div className="flex flex-col">
+                           <span className="text-[9px] uppercase text-text-muted font-semibold tracking-wider">Temp</span>
+                           <span className="font-mono text-sm font-bold text-white">{entry.temp != null ? `${Math.round(entry.temp)}°` : "—"}</span>
+                         </div>
                       </div>
-                      <div className="flex flex-col">
-                        <span className="text-[10px] uppercase text-text-muted">Temp</span>
-                        <span className="font-mono text-sm font-bold text-accent-cyan">{entry.temp != null ? `${Math.round(entry.temp)}°` : "—"}</span>
-                      </div>
-                       <div className="flex gap-2">
+                      <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
                           onClick={() => search(entry.city)}
-                          className="w-8 h-8 rounded-full bg-white/5 hover:bg-accent-cyan hover:text-black flex items-center justify-center transition-colors text-text-secondary cursor-pointer"
+                          className="w-7 h-7 rounded-full bg-white/10 hover:bg-accent-cyan hover:text-black flex items-center justify-center transition-colors text-text-secondary cursor-pointer"
+                          title="View Details"
                         >
-                          <MapPin size={14} />
+                          <MapPin size={12} />
                         </button>
                         <button
                           onClick={() => removeMonitoredCity(entry.city)}
-                          className="w-8 h-8 rounded-full bg-white/5 hover:bg-danger text-text-secondary hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                          className="w-7 h-7 rounded-full bg-white/10 hover:bg-danger text-text-secondary hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                          title="Remove City"
                         >
-                          <Trash2 size={14} />
+                          <Trash2 size={12} />
                         </button>
                       </div>
                     </div>
                   </div>
-                ))}
+                )})}
               </div>
             )}
             </Card>

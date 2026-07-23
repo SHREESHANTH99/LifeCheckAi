@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Clock3 } from "lucide-react";
+import { Clock3, CheckCircle, AlertTriangle, XCircle } from "lucide-react";
 import type { SafetyData } from "@/types";
 import { generateForecast, getTrendSummary } from "@/lib/forecast";
 
@@ -18,37 +18,49 @@ export function SafetyTimeline({ currentData }: SafetyTimelineProps) {
 
   return (
     <div className="card">
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center gap-3 mb-5 border-b border-border-default pb-4">
         <h3 className="font-family-grotesk text-lg font-semibold text-text-primary inline-flex items-center gap-2">
           <Clock3 size={18} className="text-accent-cyan" /> 6-Hour Safety Forecast
         </h3>
-        <span className="text-[10px] border border-accent-purple/30 text-accent-purple px-2 py-1 rounded">AI Predicted</span>
+        <span className="text-[10px] border border-accent-purple/30 bg-accent-purple/10 text-accent-purple px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider">
+          AI Predicted
+        </span>
       </div>
 
       <div className="grid grid-cols-7 gap-2">
         {forecast.map((hour, idx) => {
           const barColor =
-            hour.verdict === "SAFE" ? "bg-safe" : hour.verdict === "CAUTION" ? "bg-caution" : "bg-unsafe";
+            hour.verdict === "SAFE" ? "bg-safe" : hour.verdict === "CAUTION" ? "bg-warning" : "bg-danger";
+            
+          const Icon = hour.verdict === "SAFE" ? CheckCircle : hour.verdict === "CAUTION" ? AlertTriangle : XCircle;
+          const iconColor = hour.verdict === "SAFE" ? "text-safe" : hour.verdict === "CAUTION" ? "text-warning" : "text-danger";
+
           return (
             <button
               key={hour.label}
               onClick={() => setSelectedHour(idx)}
-              className={`rounded-xl border p-2 min-h-28 flex flex-col items-center justify-between cursor-pointer ${
-                idx === selectedHour ? "border-accent-blue bg-accent-blue/10" : "border-border-default bg-bg-secondary/40"
+              className={`rounded-xl border p-2 min-h-28 flex flex-col items-center justify-between transition-all cursor-pointer ${
+                hour.bestWindow
+                  ? "border-accent-cyan shadow-[0_0_15px_rgba(0,212,255,0.15)] bg-accent-cyan/5"
+                  : idx === selectedHour
+                  ? "border-accent-blue bg-accent-blue/10"
+                  : "border-border-default bg-bg-secondary/40 hover:border-border-light"
               }`}
             >
-              <span className="text-xs">{hour.verdict === "SAFE" ? "✅" : hour.verdict === "CAUTION" ? "⚠️" : "❌"}</span>
-              <div className="h-14 w-4 rounded bg-border-default/40 flex items-end overflow-hidden">
+              <div className={`flex items-center justify-center w-6 h-6 rounded-full bg-bg-card border border-border-default ${iconColor}`}>
+                 <Icon size={12} />
+              </div>
+              <div className="h-14 w-4 rounded bg-border-default/40 flex items-end overflow-hidden mt-2">
                 <motion.span
                   className={`w-full ${barColor}`}
                   initial={{ height: 0 }}
-                  animate={{ height: `${Math.max(8, Math.min(100, (hour.aqi / 300) * 100))}%` }}
+                  animate={{ height: `${Math.max(15, Math.min(100, (hour.aqi / 300) * 100))}%` }}
                 />
               </div>
-              <div className="text-center">
-                <p className="text-[10px] text-text-muted">{hour.label}</p>
-                <p className="text-xs text-text-primary">{Math.round(hour.temperature)}°</p>
-                {hour.bestWindow && <p className="text-[10px] text-safe">⭐ Best</p>}
+              <div className="text-center mt-2">
+                <p className="text-[10px] text-text-muted font-medium">{hour.label}</p>
+                <p className="text-xs font-bold text-text-primary">{Math.round(hour.temperature)}°</p>
+                {hour.bestWindow && <p className="text-[9px] text-accent-cyan font-bold uppercase tracking-wider mt-1">Best</p>}
               </div>
             </button>
           );

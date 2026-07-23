@@ -35,9 +35,10 @@ export const PROFILES: ProfileConfig[] = [
 
 interface HealthProfileSelectorProps {
   onProfileChange: (profile: HealthProfile, config: ProfileConfig) => void;
+  embedded?: boolean;
 }
 
-export function HealthProfileSelector({ onProfileChange }: HealthProfileSelectorProps) {
+export function HealthProfileSelector({ onProfileChange, embedded = false }: HealthProfileSelectorProps) {
   const [expanded, setExpanded] = useState(false);
   const [selected, setSelected] = useState<HealthProfile>(() => {
     if (typeof window === "undefined") return "general";
@@ -69,7 +70,7 @@ export function HealthProfileSelector({ onProfileChange }: HealthProfileSelector
   }, []);
 
   return (
-    <div className="card">
+    <div className={embedded ? "w-full" : "card"}>
       <div className="flex items-center justify-between gap-3">
         <p className="text-sm text-text-secondary">
           Your Profile: <span className="text-text-primary font-semibold">{current.emoji} {current.label}</span>
