@@ -6,7 +6,7 @@ import { useSafetyData } from "@/app/hooks/useSafetyData";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { Card } from "@/components/ui/Card";
-import { Wind, Thermometer, ArrowRight, MapPin, RefreshCw, Radar, ShieldAlert, Layers3, Eye, EyeOff, AlertTriangle, Menu, PanelLeftClose } from "lucide-react";
+import { Wind, Thermometer, ArrowRight, MapPin, RefreshCw, Radar, ShieldAlert, Layers3, Eye, EyeOff, AlertTriangle, Menu, PanelLeftClose, X } from "lucide-react";
 import Link from "next/link";
 import { INDIAN_STATE_LOCATIONS } from "@/lib/indiaLocations";
 import { useRealtime } from "@/hooks/useRealtime";
@@ -478,6 +478,13 @@ export default function MapPage() {
     upsertMonitoredCity({ name: mapped.name, lat, lon });
   }, [data, upsertMonitoredCity]);
 
+  useEffect(() => {
+    if (mapInstanceRef.current && mapCenter) {
+      mapInstanceRef.current.panTo(mapCenter);
+      mapInstanceRef.current.setZoom(mapZoom);
+    }
+  }, [mapCenter, mapZoom]);
+
   const fetchLocationSuggestions = useCallback(
     async (query: string) => {
       if (query.trim().length < 2) return [];
@@ -636,8 +643,8 @@ export default function MapPage() {
                      </span>
                   </div>
                </div>
-               <button onClick={() => setSelectedCity(null)} className="p-2 rounded-full hover:bg-white/10 text-white transition-colors cursor-pointer">
-                  <ArrowRight size={18} />
+               <button onClick={() => setSelectedCity(null)} className="p-2 rounded-full hover:bg-white/10 text-white transition-colors cursor-pointer" title="Close Sidebar">
+                  <X size={18} />
                </button>
             </div>
 
