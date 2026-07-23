@@ -298,16 +298,16 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
 
             <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
               <div className="rounded-xl border border-white/10 bg-slate-900/70 px-2.5 py-2">
-                <div className="text-[10px] uppercase tracking-[0.16em] text-slate-500">AQI</div>
-                <div className="mt-1 text-lg font-semibold text-white">{currentAqi ?? '--'}</div>
+                <div className="text-[10px] uppercase tracking-[0.16em] text-slate-500 font-mono">AQI</div>
+                <div className="mt-1 text-lg font-semibold text-white font-mono">{currentAqi ?? '--'}</div>
               </div>
               <div className="rounded-xl border border-white/10 bg-slate-900/70 px-2.5 py-2">
-                <div className="text-[10px] uppercase tracking-[0.16em] text-slate-500">Temp</div>
-                <div className="mt-1 text-lg font-semibold text-white">{currentTemp !== undefined ? `${currentTemp}°` : '--'}</div>
+                <div className="text-[10px] uppercase tracking-[0.16em] text-slate-500 font-mono">Temp</div>
+                <div className="mt-1 text-lg font-semibold text-white font-mono">{currentTemp !== undefined ? `${currentTemp}°` : '--'}</div>
               </div>
               <div className="rounded-xl border border-white/10 bg-slate-900/70 px-2.5 py-2">
-                <div className="text-[10px] uppercase tracking-[0.16em] text-slate-500">Risk</div>
-                <div className="mt-1 truncate text-sm font-semibold text-white">{safetyData.verdict || 'Unknown'}</div>
+                <div className="text-[10px] uppercase tracking-[0.16em] text-slate-500 font-mono">Risk</div>
+                <div className="mt-1 truncate text-sm font-semibold text-white font-mono">{safetyData.verdict || 'Unknown'}</div>
               </div>
             </div>
 
@@ -361,36 +361,36 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
   );
 
   const tabButtons = (
-    <div className="flex border-b border-border">
+    <div className="flex bg-white/5 rounded-xl p-1 mx-4 mt-4 border border-white/10">
       <button
         onClick={() => setActiveTab('context')}
-        className={`flex-1 px-3 py-2 text-xs font-semibold transition-all ${
+        className={`flex-1 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
           activeTab === 'context'
-            ? 'border-b-2 border-accent-blue text-white'
-            : 'text-muted-foreground hover:text-white'
+            ? 'bg-accent-cyan/15 text-accent-cyan shadow-sm'
+            : 'text-slate-400 hover:text-white hover:bg-white/5'
         }`}
       >
-        📊 Context
+        Context
       </button>
       <button
         onClick={() => setActiveTab('agent')}
-        className={`flex-1 px-3 py-2 text-xs font-semibold transition-all ${
+        className={`flex-1 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
           activeTab === 'agent'
-            ? 'border-b-2 border-accent-blue text-white'
-            : 'text-muted-foreground hover:text-white'
+            ? 'bg-accent-cyan/15 text-accent-cyan shadow-sm'
+            : 'text-slate-400 hover:text-white hover:bg-white/5'
         }`}
       >
-        🛡️ Agent
+        Agent
       </button>
       <button
         onClick={() => setActiveTab('memory')}
-        className={`flex-1 px-3 py-2 text-xs font-semibold transition-all ${
+        className={`flex-1 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
           activeTab === 'memory'
-            ? 'border-b-2 border-accent-blue text-white'
-            : 'text-muted-foreground hover:text-white'
+            ? 'bg-accent-cyan/15 text-accent-cyan shadow-sm'
+            : 'text-slate-400 hover:text-white hover:bg-white/5'
         }`}
       >
-        🧠 Memory
+        Memory
       </button>
     </div>
   );

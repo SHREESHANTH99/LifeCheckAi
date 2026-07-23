@@ -147,20 +147,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
 
   return (
     <div className="space-y-3">
-      {/* Attached city chip */}
-      {attachedCity && (
-        <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/25 bg-blue-500/10 px-3 py-1.5 text-xs text-blue-100">
-          <span>📍 Checking: {attachedCity}</span>
-          {onClearCity && (
-            <button
-              onClick={onClearCity}
-              className="hover:text-blue-300 transition-colors font-bold"
-            >
-              ×
-            </button>
-          )}
-        </div>
-      )}
+
 
       {/* Input container */}
       <div className={`flex gap-3 rounded-3xl border p-3.5 transition-all backdrop-blur-md ${

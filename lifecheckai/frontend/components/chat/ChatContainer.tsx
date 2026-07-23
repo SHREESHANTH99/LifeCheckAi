@@ -51,12 +51,32 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
   const { settings, setChatVoiceModeEnabled } = useVoiceSettings();
   const { isPlaying, audioState, speakResponse } = useChatVoiceMode();
 
-  const starterPrompts = [
-    'Is it safe to go outside in ' + (attachedCity || 'Delhi') + ' today?',
-    'Give me a full air and weather risk summary.',
-    'What should I do if AQI rises tonight?',
-    'Summarize water safety trends for my state.',
-  ];
+  const dynamicPrompts = React.useMemo(() => {
+    if (!safetyData) return [
+      'Is it safe to go outside in ' + (attachedCity || 'Delhi') + ' today?',
+      'Give me a full air and weather risk summary.',
+      'What should I do if AQI rises tonight?',
+    ];
+    
+    const prompts = [];
+    if (safetyData.aqi && safetyData.aqi > 100) {
+      prompts.push(`Why is the air quality ${safetyData.verdict?.toLowerCase()} right now in ${safetyData.city}?`);
+      prompts.push('What precautions should I take for the current AQI?');
+    } else {
+      prompts.push(`Give me a full air and weather risk summary for ${safetyData.city}.`);
+    }
+    
+    if (safetyData.temperature && safetyData.temperature > 35) {
+      prompts.push(`Is it safe to exercise outside in this heat?`);
+    } else if (safetyData.temperature && safetyData.temperature < 10) {
+      prompts.push(`How long is it safe to be outdoors in this cold?`);
+    } else {
+      prompts.push(`Any weather risks I should be aware of today?`);
+    }
+    
+    prompts.push('Summarize water safety trends for my state.');
+    return prompts.slice(0, 3);
+  }, [safetyData, attachedCity]);
 
   const fetchSafetyData = useCallback(async (city: string) => {
     const trimmedCity = city.trim() || 'Delhi';
@@ -333,7 +353,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
                    </span>
                  </div>
                  <div className="mt-1 text-xs text-text-secondary flex items-center gap-2">
-                    <span>Target: <span className="text-accent-cyan font-mono">{attachedCity || 'Delhi'}</span></span>
+                    <span>Target: <span className="text-accent-cyan font-mono text-[13px]">{attachedCity || 'Delhi'}</span></span>
                     <span className="text-white/20">|</span>
                     <span>Memory span: {memory.length} items</span>
                  </div>
@@ -377,22 +397,50 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
           <div className="flex-1 overflow-y-auto bg-bg-primary/50 p-6 relative">
              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_60%_60%_at_50%_-20%,rgba(124,58,237,0.05),transparent)] z-0" />
             
-             <div className="relative z-10">
+             <div className="relative z-10 w-full max-w-3xl mx-auto flex flex-col min-h-full">
                 {!messages.length && !isStreaming && (
-                  <div className="flex flex-col items-center justify-center mt-20 text-center gap-6 animate-fade-in">
-                    <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-glow-violet">
-                        <Bot size={40} className="text-accent-violet" />
+                  <div className="flex flex-col items-center justify-center mt-12 text-center gap-6 animate-fade-in my-auto pb-12">
+                    {safetyData ? (
+                      <div className="flex flex-col items-center gap-4">
+                        <div className="flex items-center gap-5 bg-white/5 border border-white/10 rounded-3xl p-6 shadow-glow">
+                          <div className="text-right">
+                            <div className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-mono">Live Snapshot</div>
+                            <h2 className="text-3xl font-bold text-white tracking-tight mt-1 font-mono">{safetyData.city}</h2>
+                          </div>
+                          <div className="h-14 w-px bg-white/10" />
+                          <div className="flex gap-5">
+                            <div className="text-center">
+                              <div className="text-3xl font-semibold text-white font-mono">{safetyData.aqi ?? '--'}</div>
+                              <div className="text-[10px] uppercase tracking-widest text-slate-500 font-mono">AQI</div>
+                            </div>
+                            <div className="text-center">
+                              <div className="text-3xl font-semibold text-white font-mono">{safetyData.temperature !== undefined ? `${safetyData.temperature}°` : '--'}</div>
+                              <div className="text-[10px] uppercase tracking-widest text-slate-500 font-mono">Temp</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-slate-300 shadow-sm">
+                          {safetyData.verdict || 'Unknown Risk'}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-glow-violet">
+                          <Bot size={40} className="text-accent-violet" />
+                      </div>
+                    )}
+
+                    <div className="mt-2">
+                        <p className="body-base max-w-md mx-auto text-slate-400">
+                          {safetyData ? `I'm analyzing the latest environmental patterns for ${safetyData.city}. How can I assist you?` : "Ask me about specific risks, air quality patterns, or tailored advice."}
+                        </p>
                     </div>
-                    <div>
-                        <h2 className="h2-section mb-2">How can I assist your safety today?</h2>
-                        <p className="body-base max-w-sm mx-auto">Ask me about specific risks, air quality patterns, or tailored advice for your current profile.</p>
-                    </div>
-                    <div className="flex flex-wrap items-center justify-center gap-3 mt-4 max-w-lg">
-                        {starterPrompts.slice(0, 3).map((prompt) => (
+
+                    <div className="flex flex-wrap items-center justify-center gap-3 mt-2 max-w-xl">
+                        {dynamicPrompts.map((prompt) => (
                         <button
                             key={prompt}
                             onClick={() => handleSendMessage(prompt)}
-                            className="rounded-full bg-white/5 border border-white/10 px-4 py-2 text-xs text-text-primary transition-all hover:border-accent-cyan hover:text-accent-cyan cursor-pointer shadow-glow"
+                            className="rounded-full bg-white/5 border border-white/10 px-4 py-2 text-xs text-slate-300 transition-all hover:border-accent-cyan hover:bg-accent-cyan/10 hover:text-white cursor-pointer shadow-sm text-left max-w-full truncate"
                         >
                             {prompt}
                         </button>
@@ -427,23 +475,27 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
 
            {showSuggestions && suggestedPrompts.length > 0 && (
              <div className="bg-[#0A0F1E]/95 border-t border-white/5 px-6 py-3">
-                 <SuggestedPrompts suggestions={suggestedPrompts} onSelect={handleSuggestedPrompt} isVisible={showSuggestions} />
+                 <div className="max-w-3xl mx-auto w-full">
+                     <SuggestedPrompts suggestions={suggestedPrompts} onSelect={handleSuggestedPrompt} isVisible={showSuggestions} />
+                 </div>
              </div>
           )}
 
            <div className="bg-[#0A0F1E] border-t border-white/5 p-5 z-20">
-            <ChatInput
-              value={inputValue}
-              onChange={setInputValue}
-              onSend={handleSendMessage}
-              onVoiceInput={handleVoiceInput}
-              isStreaming={isStreaming}
-              attachedCity={attachedCity}
-              onClearCity={() => setAttachedCity('')}
-              autoStartVoiceTick={autoStartVoiceTick}
-              voiceAssistantEnabled={settings.chatVoiceModeEnabled}
-              onVoiceAssistantToggle={toggleVoiceAssistant}
-            />
+            <div className="max-w-3xl mx-auto w-full">
+              <ChatInput
+                value={inputValue}
+                onChange={setInputValue}
+                onSend={handleSendMessage}
+                onVoiceInput={handleVoiceInput}
+                isStreaming={isStreaming}
+                attachedCity={attachedCity}
+                onClearCity={() => setAttachedCity('')}
+                autoStartVoiceTick={autoStartVoiceTick}
+                voiceAssistantEnabled={settings.chatVoiceModeEnabled}
+                onVoiceAssistantToggle={toggleVoiceAssistant}
+              />
+            </div>
           </div>
         </main>
       </div>
