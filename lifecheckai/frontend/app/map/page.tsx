@@ -417,6 +417,7 @@ export default function MapPage() {
         radius: baseRadius * 0.7,
         fillColor: statusColor,
         fillOpacity: 0.1,
+        strokeColor: 'transparent',
         strokeOpacity: 0,
         strokeWeight: 0,
       });
@@ -427,6 +428,7 @@ export default function MapPage() {
         radius: baseRadius * 0.4,
         fillColor: statusColor,
         fillOpacity: 0.15,
+        strokeColor: 'transparent',
         strokeOpacity: 0,
         strokeWeight: 0,
       });
