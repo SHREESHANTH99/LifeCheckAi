@@ -9,6 +9,7 @@ import { StatusBadge } from "@/components/ui/StatusBadge";
 import { AQIGauge } from "@/components/ui/AQIGauge";
 import { Card } from "@/components/ui/Card";
 import { LoadingPulse } from "@/components/ui/LoadingPulse";
+import { CountUp } from "@/components/ui/CountUp";
 import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
 import {
   HealthProfileSelector,
@@ -584,7 +585,9 @@ function DashboardPageContent() {
               <h1 className={`text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight ${overallStatus === "safe" ? "text-safe" : overallStatus === "caution" ? "text-warning" : "text-danger"} ${data.data_incomplete ? "opacity-75" : ""}`}>
                 {data.overall?.verdict === "SAFE" ? `Safe to go outside in ${data.city}` : data.overall?.verdict === "CAUTION" ? `Caution advised in ${data.city}` : `Unsafe conditions in ${data.city}`}
               </h1>
-              <span className="text-2xl font-bold text-text-muted mt-2 sm:mt-0">{safetyScore} <span className="text-sm font-normal">Score</span></span>
+              <span className="text-2xl font-bold text-text-muted mt-2 sm:mt-0">
+                <CountUp key={data.city} to={safetyScore} duration={0.8} /> <span className="text-sm font-normal">Score</span>
+              </span>
             </div>
             <p className="text-lg sm:text-xl text-text-secondary font-medium max-w-3xl leading-snug">{data.overall?.summary}</p>
           </motion.div>
@@ -597,7 +600,9 @@ function DashboardPageContent() {
                  <Wind size={16} /> <span className="text-sm font-medium">Air Quality</span>
                </div>
                <div className="flex items-baseline gap-1">
-                 <span className="text-4xl font-mono font-bold text-white">{data.air_quality?.aqi ?? "—"}</span>
+                 <span className="text-4xl font-mono font-bold text-white">
+                   {data.air_quality?.aqi != null ? <CountUp key={`aqi-${data.city}`} to={data.air_quality.aqi} duration={0.8} /> : "—"}
+                 </span>
                </div>
                <div className="flex items-center gap-2 mt-2">
                  <div className={`w-2 h-2 rounded-full ${getStatusDotColor(getAqiStatus(data.air_quality?.category))}`} />
@@ -611,7 +616,9 @@ function DashboardPageContent() {
                  <Thermometer size={16} /> <span className="text-sm font-medium">Temperature</span>
                </div>
                <div className="flex items-baseline gap-1">
-                 <span className="text-4xl font-mono font-bold text-white">{data.weather?.temp_celsius != null ? `${Math.round(data.weather.temp_celsius)}` : "—"}</span>
+                 <span className="text-4xl font-mono font-bold text-white">
+                   {data.weather?.temp_celsius != null ? <CountUp key={`temp-${data.city}`} to={Math.round(data.weather.temp_celsius)} duration={0.8} /> : "—"}
+                 </span>
                  <span className="text-sm text-text-muted">°C</span>
                </div>
                <div className="flex items-center gap-2 mt-2">

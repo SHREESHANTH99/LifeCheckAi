@@ -33,6 +33,7 @@ import {
 import { WaterWave } from "@/components/ui/WaterWave";
 import { Card } from "@/components/ui/Card";
 import { WaterSkeleton } from "@/components/water/WaterSkeleton";
+import { CountUp } from "@/components/ui/CountUp";
 import {
   WATER_PARAMETER_META,
   fetchWaterModelMetrics,
@@ -104,7 +105,7 @@ function MiniStat({
   tone = "text-white",
 }: {
   label: string;
-  value: string;
+  value: React.ReactNode;
   tone?: string;
 }) {
   return (
@@ -619,7 +620,11 @@ export default function WaterPage() {
                   </div>
 
                   <div className="grid gap-3 sm:grid-cols-2">
-                    <MiniStat label="Drinkable Prob." value={`${prediction.drinkable_probability.toFixed(1)}%`} tone="text-safe" />
+                    <MiniStat 
+                      label="Drinkable Prob." 
+                      value={<><CountUp key={`drink-${prediction.state}`} to={Number(prediction.drinkable_probability.toFixed(1))} duration={0.8} />%</>} 
+                      tone="text-safe" 
+                    />
                     <MiniStat label="Risk Level" value={prediction.risk_level} tone="text-warning" />
                     <MiniStat label="Samples Used" value={String(prediction.sample_count)} tone="text-white" />
                     <MiniStat
@@ -801,6 +806,8 @@ export default function WaterPage() {
                           strokeWidth={3}
                           dot={{ r: 4, fill: WATER_PARAMETER_META[activeParameter]?.accent || "#00D4FF" }}
                           activeDot={{ r: 6 }}
+                          isAnimationActive={true}
+                          animationDuration={800}
                         />
                       </LineChart>
                     </ResponsiveContainer>
@@ -862,7 +869,7 @@ export default function WaterPage() {
                       }}
                     />
                     <ReferenceLine x={100} stroke="#f59e0b" strokeDasharray="5 5" />
-                    <Bar dataKey="ratio" radius={[0, 12, 12, 0]}>
+                    <Bar dataKey="ratio" radius={[0, 12, 12, 0]} isAnimationActive={true} animationDuration={800}>
                       {comparisonChartData.map((entry) => (
                         <Cell key={entry.name} fill={getBarTone(entry.status as WaterFlagStatus)} />
                       ))}
