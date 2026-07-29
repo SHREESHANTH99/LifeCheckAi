@@ -75,7 +75,7 @@ export function HealthProfileSelector({ onProfileChange, embedded = false }: Hea
         <p className="text-sm text-text-secondary">
           Your Profile: <span className="text-text-primary font-semibold">{current.emoji} {current.label}</span>
         </p>
-        <button onClick={() => setExpanded((prev) => !prev)} className="text-sm text-accent-blue hover:text-accent-cyan cursor-pointer min-h-11 px-2">
+        <button onClick={() => setExpanded((prev) => !prev)} className="text-sm text-accent-blue hover:text-accent-primary cursor-pointer min-h-11 px-2">
           {expanded ? "Close" : "Change"}
         </button>
       </div>

@@ -46,7 +46,7 @@ export function PersonalRiskCard({ risk, profile, onChangeProfile }: PersonalRis
         </div>
       )}
 
-      <button onClick={onChangeProfile} className="mt-4 text-sm text-accent-blue hover:text-accent-cyan cursor-pointer min-h-11 px-1">
+      <button onClick={onChangeProfile} className="mt-4 text-sm text-accent-blue hover:text-accent-primary cursor-pointer min-h-11 px-1">
         Change Profile
       </button>
     </motion.div>

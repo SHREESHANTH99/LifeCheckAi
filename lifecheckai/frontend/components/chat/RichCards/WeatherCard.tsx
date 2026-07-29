@@ -40,7 +40,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({
           <div className="text-xs text-muted-foreground">Humidity</div>
         </div>
         <div className="text-center">
-          <div className="text-3xl font-bold text-cyan-400">{windSpeed}</div>
+          <div className="text-3xl font-bold text-slate-400">{windSpeed}</div>
           <div className="text-xs text-muted-foreground">km/h Wind</div>
         </div>
       </div>

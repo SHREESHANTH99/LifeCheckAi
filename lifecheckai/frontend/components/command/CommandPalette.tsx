@@ -121,7 +121,7 @@ export function CommandPalette({
       id: "page-dashboard",
       label: "Dashboard",
       subtitle: "View safety metrics",
-      icon: <LayoutDashboard size={16} className="text-accent-cyan" />,
+      icon: <LayoutDashboard size={16} className="text-accent-primary" />,
       run: () => router.push("/dashboard"),
     },
     {
@@ -159,7 +159,7 @@ export function CommandPalette({
       id: "action-voice",
       label: "Play Voice Briefing",
       subtitle: "Speak latest safety snapshot",
-      icon: <Mic size={16} className="text-accent-cyan" />,
+      icon: <Mic size={16} className="text-accent-primary" />,
       run: onVoiceBriefing,
       shortcut: isMac ? "Cmd+B" : "Ctrl+B",
     },
@@ -192,7 +192,7 @@ export function CommandPalette({
     id: `city-${entry.value}-${index}`,
     label: entry.value,
     subtitle: entry.subtitle || "Check safety",
-    icon: <ArrowRight size={16} className="text-accent-cyan" />,
+    icon: <ArrowRight size={16} className="text-accent-primary" />,
     run: () => onCitySelect(entry.value),
   }));
 

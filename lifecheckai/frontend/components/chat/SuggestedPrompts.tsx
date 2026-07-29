@@ -34,12 +34,12 @@ export const SuggestedPrompts: React.FC<SuggestedPromptsProps> = ({ suggestions,
             <button
               key={idx}
               onClick={() => onSelect(prompt)}
-              className="flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/5 hover:border-accent-cyan/40 hover:bg-accent-cyan/10 hover:text-white text-xs text-slate-300 transition-all whitespace-nowrap shadow-sm cursor-pointer"
+              className="flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/5 hover:border-accent-primary/40 hover:bg-accent-primary/10 hover:text-white text-xs text-slate-300 transition-all whitespace-nowrap shadow-sm cursor-pointer"
               style={{
                 animation: `slideInFromRight 300ms ease-out ${idx * 50}ms backwards`,
               }}
             >
-              <Icon className="w-3.5 h-3.5 text-accent-cyan opacity-80" />
+              <Icon className="w-3.5 h-3.5 text-accent-primary opacity-80" />
               {prompt}
             </button>
           );

@@ -6,7 +6,8 @@ const nextConfig: NextConfig = {
   },
   env: {
     RESTART_TRIGGER: "2"
-  }
+  },
+  devIndicators: false
 };
 
 export default nextConfig;

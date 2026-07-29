@@ -212,12 +212,13 @@ export function SearchBar({
   return (
     <div className="relative w-full">
       <div
-        className={`relative flex items-center w-full h-14 rounded-full border border-slate-700/80 bg-bg-card transition-all duration-200 focus-within:border-accent-cyan ${className}`}
+        className={`relative flex items-center w-full h-14 rounded-full border border-slate-700/80 bg-bg-card transition-all duration-200 focus-within:border-accent-primary/40 focus-within:ring-1 focus-within:ring-accent-primary/40 ${className}`}
       >
-        <div className="flex items-center justify-center pl-5 text-accent-cyan">
+        <div className="flex items-center justify-center pl-5 text-white">
           <MapPin size={20} />
         </div>
         <input
+          suppressHydrationWarning
           type="text"
           value={query}
           onChange={(e) => {
@@ -237,6 +238,7 @@ export function SearchBar({
         />
         {query.trim() && !isLoading && (
           <button
+            suppressHydrationWarning
             onClick={() => setQuery("")}
             className="flex items-center justify-center h-8 w-8 rounded-full text-text-muted hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
             aria-label="Clear search"
@@ -245,9 +247,10 @@ export function SearchBar({
           </button>
         )}
         <button
+          suppressHydrationWarning
           onClick={handleSubmit}
           disabled={isLoading || !query.trim()}
-          className="flex items-center justify-center h-10 w-10 mr-2 rounded-full bg-accent-cyan text-bg-primary interactive-base disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+          className="flex items-center justify-center h-10 w-10 mr-2 rounded-full bg-accent-primary text-white hover:brightness-110 hover:scale-105 active:scale-95 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-md"
           aria-label="Search"
         >
           {isLoading ? (
@@ -258,9 +261,10 @@ export function SearchBar({
         </button>
         {onUseCurrentLocation && (
           <button
+            suppressHydrationWarning
             onClick={onUseCurrentLocation}
             disabled={isLoading || isLocating}
-            className="flex items-center justify-center h-10 w-10 mr-2 rounded-full border border-border-default text-text-secondary hover:text-text-primary hover:border-accent-cyan transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex items-center justify-center h-10 w-10 mr-2 rounded-full border-2 border-slate-700/80 text-white hover:border-accent-primary/40 hover:bg-white/5 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
             aria-label="Use current location"
             title="Use current location"
           >
@@ -320,7 +324,7 @@ export function SearchBar({
                         <span className="truncate block text-text-primary">{entry.value}</span>
                         {entry.subtitle && <span className="truncate block text-[11px] text-text-muted">{entry.subtitle}</span>}
                       </span>
-                      <MapPin size={13} className="text-accent-cyan shrink-0" />
+                      <MapPin size={13} className="text-accent-primary shrink-0" />
                     </button>
                   ))}
                 </div>
@@ -341,7 +345,7 @@ export function SearchBar({
                       className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-border-default bg-bg-secondary/40 text-sm text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
                     >
                       <span className="truncate">{entry.value}</span>
-                      <Sparkles size={13} className="text-accent-cyan shrink-0" />
+                      <Sparkles size={13} className="text-accent-primary shrink-0" />
                     </button>
                   ))}
                 </div>

@@ -46,10 +46,10 @@ export function AgentRulesPanel({ actions, lastConfidence, isActive, className =
     <aside className={`sticky top-20 h-fit w-[320px] shrink-0 rounded-2xl border border-border-default bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.14),rgba(10,16,33,0.94)_40%)] p-5 shadow-[0_18px_60px_rgba(2,8,23,0.45)] ${className}`}>
       <div className="mb-4 flex items-center justify-between">
         <h3 className="inline-flex items-center gap-2 text-sm font-semibold text-text-primary">
-          <Shield size={16} className="text-accent-cyan" />
+          <Shield size={16} className="text-accent-primary" />
           Safety Agent Rules
         </h3>
-        <span className="rounded-full border border-accent-cyan/30 bg-accent-cyan/10 px-2 py-0.5 text-[10px] uppercase tracking-wide text-accent-cyan">
+        <span className="rounded-full border border-accent-primary/30 bg-accent-primary/10 px-2 py-0.5 text-[10px] uppercase tracking-wide text-accent-primary">
           ArmorIQ
         </span>
       </div>

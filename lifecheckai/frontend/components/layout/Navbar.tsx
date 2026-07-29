@@ -3,19 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Droplets, Map as MapIcon, MessageSquare, Bell } from "lucide-react";
+import { LogoMark } from "@/components/ui/LogoMark";
 
-export function Logo({ className = "", size = 24 }: { className?: string; size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-      <path d="M12 2L3 6V11.2C3 16.3 6.9 20.9 12 22C17.1 20.9 21 16.3 21 11.2V6L12 2Z" fill="var(--color-accent-cyan)" />
-      <path d="M12 4.5L5 7.5V11.5C5 15.3 8 18.8 12 19.5C16 18.8 19 15.3 19 11.5V7.5L12 4.5Z" fill="var(--color-bg-primary)" stroke="var(--color-accent-cyan)" strokeWidth="2" strokeLinejoin="round" />
-      <circle cx="12" cy="11.5" r="3" fill="var(--color-accent-cyan)" />
-    </svg>
-  );
-}
 
 const marketingLinks = [
-  { href: "/dashboard", label: "Product" },
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/#features", label: "Features" },
   { href: "/#technology", label: "Technology" },
 ];
@@ -36,11 +28,11 @@ export function Navbar({ mode = "marketing" }: { mode?: "marketing" | "app" }) {
       <div className="max-w-7xl mx-auto h-full px-4 sm:px-8 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 shrink-0 interactive-base">
-          <div className="w-9 h-9 rounded-xl border border-accent-cyan/30 flex items-center justify-center overflow-hidden bg-bg-secondary">
-            <Logo size={20} />
+          <div className="w-9 h-9 rounded-xl border border-accent-primary/30 flex items-center justify-center overflow-hidden bg-bg-secondary">
+            <LogoMark size={24} className="text-text-primary" />
           </div>
           <span className="font-bold text-lg text-text-primary tracking-wide hidden sm:block">
-            LifeCheck <span className="text-accent-cyan">AI</span>
+            LifeCheck <span className="text-accent-primary">AI</span>
           </span>
         </Link>
 
@@ -51,7 +43,7 @@ export function Navbar({ mode = "marketing" }: { mode?: "marketing" | "app" }) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-text-secondary hover:text-accent-cyan interactive-base px-3 py-2"
+                className="text-sm font-medium text-text-secondary hover:text-accent-primary interactive-base px-3 py-2"
               >
                 {link.label}
               </Link>
@@ -66,7 +58,7 @@ export function Navbar({ mode = "marketing" }: { mode?: "marketing" | "app" }) {
                   href={link.href}
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg interactive-base text-sm font-medium ${
                     isActive
-                      ? "bg-white/10 text-accent-cyan border-b-2 border-accent-cyan"
+                      ? "bg-white/10 text-accent-primary border-b-2 border-accent-primary"
                       : "text-text-secondary hover:bg-white/5 hover:text-text-primary"
                   }`}
                 >
@@ -78,16 +70,8 @@ export function Navbar({ mode = "marketing" }: { mode?: "marketing" | "app" }) {
           )}
         </div>
 
-        {/* Right CTA */}
+        {/* Right CTA placeholder to maintain layout balance if needed, or remove completely */}
         <div className="flex items-center gap-4 shrink-0">
-          {mode === "marketing" && (
-            <Link
-              href="/dashboard"
-              className="bg-accent-cyan text-bg-primary rounded-full px-5 py-2 text-sm font-semibold interactive-base"
-            >
-              Open App
-            </Link>
-          )}
         </div>
       </div>
     </nav>

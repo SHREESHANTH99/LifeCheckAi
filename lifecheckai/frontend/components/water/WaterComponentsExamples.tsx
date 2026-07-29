@@ -283,7 +283,7 @@ export function IntegratedWaterPage() {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-slate-500 flex items-center justify-center">
             <Droplets size={22} className="text-white" />
           </div>
           <h1 className="text-3xl font-bold">Water Quality Intelligence</h1>

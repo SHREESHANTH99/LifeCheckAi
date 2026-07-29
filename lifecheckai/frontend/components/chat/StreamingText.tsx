@@ -68,9 +68,9 @@ export const StreamingText: React.FC<StreamingTextProps> = ({ text, isStreaming 
     return (
       <div className="flex items-center gap-3 text-sm text-text-secondary">
         <span className="inline-flex gap-1.5">
-          <span className="h-2 w-2 rounded-full bg-accent-violet animate-pulse shadow-[0_0_8px_rgba(124,58,237,0.8)]" />
-          <span className="h-2 w-2 rounded-full bg-accent-violet animate-pulse shadow-[0_0_8px_rgba(124,58,237,0.8)] [animation-delay:150ms]" />
-          <span className="h-2 w-2 rounded-full bg-accent-violet animate-pulse shadow-[0_0_8px_rgba(124,58,237,0.8)] [animation-delay:300ms]" />
+          <span className="h-2 w-2 rounded-full bg-accent-primary animate-pulse shadow-[0_0_8px_rgba(79,168,196,0.8)]" />
+          <span className="h-2 w-2 rounded-full bg-accent-primary animate-pulse shadow-[0_0_8px_rgba(79,168,196,0.8)] [animation-delay:150ms]" />
+          <span className="h-2 w-2 rounded-full bg-accent-primary animate-pulse shadow-[0_0_8px_rgba(79,168,196,0.8)] [animation-delay:300ms]" />
         </span>
         <span className="tracking-wide">Synthesizing environmental intelligence...</span>
       </div>
@@ -81,8 +81,9 @@ export const StreamingText: React.FC<StreamingTextProps> = ({ text, isStreaming 
     <div className="space-y-3">
       {lines.map((line, idx) => renderLine(line, idx))}
       {isStreaming && (
-        <span className="inline-block h-4 w-1.5 bg-accent-violet animate-pulse align-middle ml-1 shadow-[0_0_8px_rgba(124,58,237,0.8)]" />
+        <span className="inline-block h-4 w-1.5 bg-accent-primary animate-pulse align-middle ml-1 shadow-[0_0_8px_rgba(79,168,196,0.8)]" />
       )}
     </div>
   );
 };
+

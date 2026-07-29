@@ -5,15 +5,15 @@
 @tailwind utilities;
 
 :root, [data-theme="default"] {
-  --color-bg-primary: #0A0F1E;
-  --color-bg-secondary: #0D1426;
-  --color-bg-card: rgba(255, 255, 255, 0.03);
-  --color-border-default: rgba(255, 255, 255, 0.08);
+  --color-bg-primary: #18181b;
+  --color-bg-secondary: #1c1c1f;
+  --color-bg-card: #18181b;
+  --color-border-default: #3f3f46;
 
   --font-family-body: 'Inter', sans-serif;
   --font-family-mono: 'JetBrains Mono', monospace;
 
-  --color-accent-cyan: #5FA8B8;
+  --color-accent-primary: #4FA8C4;
   
   --color-safe: #10B981;
   --color-warning: #F59E0B;
@@ -38,13 +38,23 @@ html {
 body {
   font-family: var(--font-family-body);
   background-color: var(--color-bg-primary);
-  /* Muted background gradient, no heavy colors */
-  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 20px 20px;
   color: #ffffff;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  mix-blend-mode: overlay;
 }
 
 h1, h2, h3, .heading {
@@ -71,7 +81,7 @@ h1, h2, h3, .heading {
 
 @layer utilities {
   .interactive-base {
-    @apply transition-all duration-200 ease-out hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan/40;
+    @apply transition-all duration-200 ease-out hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary/40;
   }
   
   .h1-display {
@@ -97,7 +107,7 @@ h1, h2, h3, .heading {
 
 /* Base button */
 .btn-primary {
-  background-color: var(--color-accent-cyan);
+  background-color: var(--color-accent-primary);
   color: var(--color-bg-primary);
   border-radius: var(--radius-btn);
   padding: 0.5rem 1.5rem;
@@ -128,15 +138,17 @@ h1, h2, h3, .heading {
   background: var(--color-bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--color-accent-cyan) 30%, transparent);
+  background: color-mix(in srgb, var(--color-accent-primary) 30%, transparent);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in srgb, var(--color-accent-cyan) 60%, transparent);
+  background: color-mix(in srgb, var(--color-accent-primary) 60%, transparent);
 }
 
 /* ─── Selection ─── */
 ::selection {
-  background: color-mix(in srgb, var(--color-accent-cyan) 30%, transparent);
+  background: color-mix(in srgb, var(--color-accent-primary) 30%, transparent);
   color: white;
 }
+
+/* trigger recompile */

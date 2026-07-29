@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { AlertTriangle, Bot, Loader2, Mic, Volume2, Sparkles, BarChart2, Shield, Brain, X } from 'lucide-react';
+import { AlertTriangle, Bot, Loader2, Mic, Volume2, Sparkles, BarChart2, Shield, Brain, X, Wind, Thermometer, Droplets } from 'lucide-react';
 import { MessageList } from './MessageList';
 import { ChatInput } from './ChatInput';
 import { SuggestedPrompts } from './SuggestedPrompts';
@@ -326,41 +326,48 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
     <div className="min-h-screen px-4 py-8">
       <div className="mx-auto flex w-full max-w-7xl h-[calc(100vh-120px)] gap-6 relative">
         
-        {/* Left Icon Rail (~56px width) */}
-        <aside className="hidden lg:flex w-14 flex-col items-center py-4 gap-4 rounded-card border border-border-default bg-[#0A0F1E] shadow-[0_0_40px_rgba(124,58,237,0.06)] z-20">
-            <button
-               onClick={() => handleRailClick('context')}
-               className={`p-2.5 rounded-xl transition-all cursor-pointer ${
-                 isSidebarOpen && activeSidebarTab === 'context'
-                   ? 'bg-accent-cyan/20 text-accent-cyan'
-                   : 'text-slate-400 hover:text-white hover:bg-white/5'
-               }`}
-               title="Context & Safety Data"
-            >
-               <BarChart2 size={20} />
-            </button>
-            <button
-               onClick={() => handleRailClick('agent')}
-               className={`p-2.5 rounded-xl transition-all cursor-pointer ${
-                 isSidebarOpen && activeSidebarTab === 'agent'
-                   ? 'bg-accent-cyan/20 text-accent-cyan'
-                   : 'text-slate-400 hover:text-white hover:bg-white/5'
-               }`}
-               title="Agent Rules"
-            >
-               <Shield size={20} />
-            </button>
-            <button
-               onClick={() => handleRailClick('memory')}
-               className={`p-2.5 rounded-xl transition-all cursor-pointer ${
-                 isSidebarOpen && activeSidebarTab === 'memory'
-                   ? 'bg-accent-cyan/20 text-accent-cyan'
-                   : 'text-slate-400 hover:text-white hover:bg-white/5'
-               }`}
-               title="Conversation Memory"
-            >
-               <Brain size={20} />
-            </button>
+        {/* Left Icon Rail (~64px width) */}
+        <aside className="hidden lg:flex w-16 flex-col items-center pb-4 rounded-card border border-border-default bg-bg-card shadow-[0_0_40px_rgba(79,168,196,0.06)] z-20 overflow-hidden">
+            {/* Header spacer to align with active session header */}
+            <div className="w-full h-[73px] border-b border-border-default mb-4 flex-shrink-0 bg-bg-card/80 backdrop-blur-md" />
+            
+            <div className="flex flex-col items-center w-full gap-2">
+              <button
+                 onClick={() => handleRailClick('context')}
+                 className={`w-full flex justify-center py-3 transition-all cursor-pointer ${
+                   isSidebarOpen && activeSidebarTab === 'context'
+                     ? 'bg-accent-primary/10 text-accent-primary border-l-2 border-accent-primary'
+                     : 'text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent'
+                 }`}
+                 title="Context & Safety Data"
+              >
+                 <BarChart2 size={20} />
+              </button>
+              <button
+                 onClick={() => handleRailClick('agent')}
+                 className={`w-full flex justify-center py-3 transition-all cursor-pointer ${
+                   isSidebarOpen && activeSidebarTab === 'agent'
+                     ? 'bg-accent-primary/10 text-accent-primary border-l-2 border-accent-primary'
+                     : 'text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent'
+                 }`}
+                 title="Agent Rules"
+              >
+                 <Shield size={20} />
+              </button>
+              <button
+                 onClick={() => handleRailClick('memory')}
+                 className={`w-full flex justify-center py-3 transition-all cursor-pointer ${
+                   isSidebarOpen && activeSidebarTab === 'memory'
+                     ? 'bg-accent-primary/10 text-accent-primary border-l-2 border-accent-primary'
+                     : 'text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent'
+                 }`}
+                 title="Conversation Memory"
+              >
+                 <Brain size={20} />
+              </button>
+
+              <div className="h-px w-8 bg-border-default my-2" />
+            </div>
         </aside>
 
         {/* Overlay Panel (Slides out next to rail) */}
@@ -369,8 +376,8 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
             {/* Click-outside backdrop (mobile/tablet mostly, or just to dismiss) */}
             <div className="fixed inset-0 z-30 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
             
-            <div className="absolute left-0 lg:left-20 top-0 bottom-0 w-80 lg:w-[340px] bg-[#0A0F1E] border border-border-default rounded-card shadow-2xl z-40 flex flex-col animate-slide-right overflow-hidden">
-               <div className="flex items-center justify-between p-4 border-b border-white/10 bg-[#0A0F1E]/80 backdrop-blur-md">
+            <div className="absolute left-0 lg:left-20 top-0 bottom-0 w-80 lg:w-[340px] bg-bg-card border border-border-default rounded-card shadow-2xl z-40 flex flex-col animate-slide-right overflow-hidden">
+               <div className="flex items-center justify-between p-4 border-b border-white/10 bg-bg-card/80 backdrop-blur-md">
                   <span className="font-semibold text-white capitalize text-sm tracking-wide">{activeSidebarTab}</span>
                   <button onClick={() => setIsSidebarOpen(false)} className="text-slate-400 hover:text-white cursor-pointer transition-colors p-1">
                      <X size={18} />
@@ -397,8 +404,8 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
         )}
 
         {/* Main Chat Area (Expands to fill remaining space) */}
-        <main className="flex-1 w-full flex flex-col rounded-card overflow-hidden shadow-[0_0_40px_rgba(0,212,255,0.06)] border border-border-default bg-bg-card relative z-10 transition-all duration-300">
-          <div className="border-b border-border-default bg-[#0A0F1E]/80 backdrop-blur-md px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between z-20">
+        <main className="flex-1 w-full flex flex-col rounded-card overflow-hidden shadow-[0_0_40px_rgba(255,255,255,0.06)] border border-border-default bg-bg-card relative z-10 transition-all duration-300">
+          <div className="border-b border-border-default bg-bg-card/80 backdrop-blur-md px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between z-20">
             <div className="flex items-center gap-4">
                <div>
                  <div className="flex items-center gap-3">
@@ -408,7 +415,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
                    </span>
                  </div>
                  <div className="mt-1 text-xs text-text-secondary flex items-center gap-2">
-                    <span>Target: <span className="text-accent-cyan font-mono text-[13px]">{attachedCity || 'Delhi'}</span></span>
+                    <span>Target: <span className="text-accent-primary font-mono text-[13px]">{attachedCity || 'Delhi'}</span></span>
                     <span className="text-white/20">|</span>
                     <span>Memory span: {memory.length} items</span>
                  </div>
@@ -419,7 +426,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
                 onClick={toggleVoiceAssistant}
                 className={`rounded-full border px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
                   settings.chatVoiceModeEnabled
-                    ? 'border-accent-cyan/40 bg-accent-cyan/10 text-accent-cyan'
+                    ? 'border-accent-primary/40 bg-accent-primary/10 text-accent-primary'
                     : 'border-white/20 bg-white/5 text-text-secondary'
                 }`}
                 title={settings.chatVoiceModeEnabled ? 'Stop voice assistant' : 'Start voice assistant'}
@@ -440,9 +447,9 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
           </div>
 
           {settings.chatVoiceModeEnabled && (
-            <div className="px-6 py-3 border-b border-white/5 bg-[#0A0F1E]/70 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="px-6 py-3 border-b border-white/5 bg-bg-card/70 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <span className="text-xs uppercase tracking-wider text-text-secondary flex items-center gap-2">
-                <span className={`h-2 w-2 rounded-full ${isPlaying ? 'bg-accent-cyan animate-pulse' : 'bg-safe animate-pulse'}`} />
+                <span className={`h-2 w-2 rounded-full ${isPlaying ? 'bg-accent-primary animate-pulse' : 'bg-safe animate-pulse'}`} />
                 Voice assistant {isPlaying ? 'speaking...' : 'listening for your question'}
               </span>
               <VoiceWaveform analyticsData={audioState} isPlaying={isPlaying} className="h-10 w-full max-w-[220px]" />
@@ -450,11 +457,11 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
           )}
 
           <div className="flex-1 overflow-y-auto bg-bg-primary/50 p-6 relative">
-             <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_60%_60%_at_50%_-20%,rgba(124,58,237,0.05),transparent)] z-0" />
+             <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_60%_60%_at_50%_-20%,rgba(79,168,196,0.05),transparent)] z-0" />
             
-             <div className="relative z-10 w-full max-w-3xl mx-auto flex flex-col min-h-full">
+             <div className="relative z-10 w-full max-w-3xl mx-auto flex flex-col min-h-full pb-8">
                 {!messages.length && !isStreaming && (
-                  <div className="flex flex-col items-center justify-center mt-12 text-center gap-6 animate-fade-in my-auto pb-12">
+                  <div className="flex flex-col items-center justify-center mt-8 mb-8 text-center gap-8 animate-fade-in">
                     {safetyData ? (
                       <div className="flex flex-col items-center gap-4">
                         <div className="flex items-center gap-5 bg-white/5 border border-white/10 rounded-3xl p-6 shadow-glow">
@@ -480,7 +487,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
                       </div>
                     ) : (
                       <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-glow-violet">
-                          <Bot size={40} className="text-accent-violet" />
+                          <Bot size={40} className="text-accent-primary" />
                       </div>
                     )}
 
@@ -490,16 +497,26 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
                         </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-center gap-3 mt-2 max-w-xl">
-                        {dynamicPrompts.map((prompt) => (
-                        <button
-                            key={prompt}
-                            onClick={() => handleSendMessage(prompt)}
-                            className="rounded-full bg-white/5 border border-white/10 px-4 py-2 text-xs text-slate-300 transition-all hover:border-accent-cyan hover:bg-accent-cyan/10 hover:text-white cursor-pointer shadow-sm text-left max-w-full truncate"
-                        >
-                            {prompt}
-                        </button>
-                        ))}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4 w-full max-w-xl">
+                        {dynamicPrompts.map((prompt) => {
+                          const lower = prompt.toLowerCase();
+                          const isAir = lower.includes('air') || lower.includes('aqi');
+                          const isTemp = lower.includes('heat') || lower.includes('cold') || lower.includes('weather');
+                          const Icon = isAir ? Wind : isTemp ? Thermometer : Droplets;
+                          
+                          return (
+                            <button
+                                key={prompt}
+                                onClick={() => handleSendMessage(prompt)}
+                                className="flex items-center gap-3 bg-white/5 border border-white/10 p-3 rounded-xl text-xs text-slate-300 transition-all hover:border-accent-primary hover:bg-accent-primary/10 hover:text-white cursor-pointer shadow-sm text-left w-full group"
+                            >
+                                <div className="p-2 rounded-lg bg-black/20 text-accent-primary group-hover:scale-110 transition-transform">
+                                  <Icon size={16} />
+                                </div>
+                                <span className="flex-1">{prompt}</span>
+                            </button>
+                          );
+                        })}
                     </div>
                   </div>
                 )}
@@ -529,14 +546,14 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
           </div>
 
            {showSuggestions && suggestedPrompts.length > 0 && (
-             <div className="bg-[#0A0F1E]/95 border-t border-white/5 px-6 py-3">
+             <div className="bg-bg-card/95 border-t border-white/5 px-6 py-3 shrink-0">
                  <div className="max-w-3xl mx-auto w-full">
                      <SuggestedPrompts suggestions={suggestedPrompts} onSelect={handleSuggestedPrompt} isVisible={showSuggestions} />
                  </div>
              </div>
           )}
 
-           <div className="bg-[#0A0F1E] border-t border-white/5 p-5 z-20">
+           <div className="bg-bg-card border-t border-white/5 p-5 z-20 shrink-0">
             <div className="max-w-3xl mx-auto w-full">
               <ChatInput
                 value={inputValue}
@@ -557,3 +574,4 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
     </div>
   );
 };
+

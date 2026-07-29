@@ -9,7 +9,7 @@ export function Footer() {
         
         {/* Logo and Tagline */}
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-accent-cyan flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-accent-primary flex items-center justify-center">
             <Shield size={18} className="text-bg-primary" />
           </div>
           <div className="flex flex-col">

@@ -229,7 +229,7 @@ export default function AlertsPage() {
 
   return (
     <div className="min-h-screen px-4 sm:px-8 lg:px-16 py-8 relative">
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(0,212,255,0.05),transparent_40%)] z-0" />
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.05),transparent_40%)] z-0" />
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_bottom_left,rgba(124,58,237,0.05),transparent_40%)] z-0" />
       
       <div className="max-w-4xl mx-auto relative z-10">
@@ -264,7 +264,7 @@ export default function AlertsPage() {
               <h2 className="h2-section">Shared Alert Board</h2>
               <p className="body-base">Live community reports for {state.safetyData?.city || "the current city"}</p>
             </div>
-            <div className="px-3 py-1.5 rounded-full bg-accent-cyan/10 border border-accent-cyan/20 text-accent-cyan text-xs font-bold uppercase tracking-wider">
+            <div className="px-3 py-1.5 rounded-full bg-accent-primary/10 border border-accent-primary/20 text-accent-primary text-xs font-bold uppercase tracking-wider">
               👥 {watcherCount} watching
             </div>
           </div>
@@ -278,7 +278,7 @@ export default function AlertsPage() {
               {sharedAlerts.slice(0, 6).map((alert) => (
                 <div key={alert.id} className="rounded-2xl border border-white/5 bg-white/5 p-4">
                   <div className="flex items-center justify-between gap-3 mb-3">
-                    <span className="text-xs font-bold uppercase tracking-wider text-accent-cyan">{alert.severity}</span>
+                    <span className="text-xs font-bold uppercase tracking-wider text-accent-primary">{alert.severity}</span>
                     <span className="text-[10px] text-text-muted uppercase tracking-wider">
                       {new Date(alert.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                     </span>
@@ -296,14 +296,14 @@ export default function AlertsPage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
             <div>
               <h2 className="h2-section flex items-center gap-2">
-                {unreadAlerts.length > 0 ? <BellRing size={18} className="text-accent-cyan" /> : <Bell size={18} className="text-text-muted" />}
+                {unreadAlerts.length > 0 ? <BellRing size={18} className="text-accent-primary" /> : <Bell size={18} className="text-text-muted" />}
                 Unread Diagnostics
               </h2>
             </div>
             <div className="flex items-center gap-3">
               <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
                 unreadAlerts.length > 0
-                  ? "bg-accent-cyan/10 border-accent-cyan/30 text-accent-cyan"
+                  ? "bg-accent-primary/10 border-accent-primary/30 text-accent-primary"
                   : "bg-safe/10 border-safe/30 text-safe"
               }`}>
                 {unreadAlerts.length} Dispatch(s)
@@ -336,16 +336,16 @@ export default function AlertsPage() {
                     }}
                     className={`w-full text-left rounded-2xl glass p-4 transition-all hover:-translate-y-1 cursor-pointer ${
                       unread
-                        ? "border border-accent-cyan/30 shadow-[0_0_15px_rgba(0,212,255,0.1)]"
+                        ? "border border-accent-primary/30 shadow-[0_0_15px_rgba(255,255,255,0.1)]"
                         : "border border-white/5 opacity-80"
                     }`}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <p className="text-[10px] text-accent-cyan font-bold uppercase tracking-wider mb-1">{item.category} Vector</p>
+                        <p className="text-[10px] text-accent-primary font-bold uppercase tracking-wider mb-1">{item.category} Vector</p>
                         <p className="text-sm text-white font-semibold line-clamp-1">{item.title}</p>
                       </div>
-                      {unread && <span className="w-2 h-2 rounded-full bg-accent-cyan shadow-[0_0_8px_rgba(0,212,255,0.8)] shrink-0 mt-1" />}
+                      {unread && <span className="w-2 h-2 rounded-full bg-accent-primary shadow-[0_0_8px_rgba(255,255,255,0.8)] shrink-0 mt-1" />}
                     </div>
                     <p className="text-xs text-text-secondary mt-3 line-clamp-2 leading-relaxed">{item.description}</p>
                   </button>
@@ -472,7 +472,7 @@ export default function AlertsPage() {
                 <div className="p-6 border-b border-white/10 flex items-start justify-between bg-black/20">
                   <div className="flex items-center gap-3">
                      <div className="w-10 h-10 rounded-full glass border border-white/10 flex items-center justify-center">
-                        <MapPin size={18} className="text-accent-cyan" />
+                        <MapPin size={18} className="text-accent-primary" />
                      </div>
                      <div>
                         <p className="text-[10px] uppercase tracking-widest text-accent-violet font-bold mb-0.5">Emergency Dispatch</p>
@@ -501,7 +501,7 @@ export default function AlertsPage() {
                        </div>
                        <div className="glass rounded-2xl p-4 flex flex-col items-center justify-center gap-2 border border-white/5">
                            <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold">Vector</span>
-                           <span className="text-sm font-bold text-accent-cyan uppercase">{selectedAlert.category}</span>
+                           <span className="text-sm font-bold text-accent-primary uppercase">{selectedAlert.category}</span>
                        </div>
                     </div>
 

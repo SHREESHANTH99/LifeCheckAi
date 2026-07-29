@@ -13,20 +13,20 @@ const config: Config = {
         'button': '0.75rem',
       },
       colors: {
-        'bg-primary': '#0A0F1E',
-        'bg-secondary': '#0D1426',
-        'bg-card': '#111827',
-        'bg-card-hover': '#1A2235',
-        'border-default': 'rgba(255,255,255,0.08)',
-        'border-light': 'rgba(255,255,255,0.15)',
+        'bg-primary': '#18181b', /* neutral-900 */
+        'bg-secondary': '#1c1c1f', /* neutral-800/900 range */
+        'bg-card': '#18181b', /* neutral-900 */
+        'bg-card-hover': '#27272a', /* neutral-800 */
+        'border-default': '#3f3f46', /* neutral-700 */
+        'border-light': '#52525b', /* neutral-600 */
         
-        'text-primary': '#ffffff',
+        'text-primary': '#F5F5F5',
         'text-secondary': '#9ca3af',
         'text-muted': '#6b7280',
         
-        'accent-cyan': '#5FA8B8', /* Muted slate-cyan accent */
+        'accent-primary': '#4FA8C4', /* Muted teal-blue accent */
         
-        'safe': '#10B981',
+        'safe': '#10B981', /* Restored to functional green */
         'warning': '#F59E0B',
         'danger': '#EF4444',
       },

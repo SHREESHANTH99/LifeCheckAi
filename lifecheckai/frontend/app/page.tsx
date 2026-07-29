@@ -33,14 +33,22 @@ export default function HomePage() {
     <div className="min-h-screen relative overflow-hidden">
       {/* ─── Hero Section ─── */}
       <section className="relative min-h-[70vh] flex flex-col items-center justify-center pt-32 px-4 pb-20">
+        {/* Static Directional Light Beam */}
+        {/* Static Directional Light Beam */}
+        <div 
+          className="absolute top-[-20%] right-[-10%] w-[80vw] h-[800px] opacity-[0.15] pointer-events-none blur-[80px] z-0"
+          style={{
+            background: "linear-gradient(210deg, rgba(245, 245, 245, 0.8) 0%, transparent 70%)"
+          }}
+        />
         <div className="relative z-10 flex flex-col items-center text-center max-w-4xl w-full">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, ease: "easeOut" }}
-            className="mb-6 px-4 py-1.5 rounded-full border border-border-light bg-bg-card/50 text-xs sm:text-sm font-medium tracking-wide flex items-center justify-center gap-2"
+            className="mb-6 px-4 py-1.5 rounded-full border border-slate-700/80 bg-white/5 text-white text-xs sm:text-sm font-semibold tracking-wide flex items-center justify-center gap-2 shadow-sm"
           >
-            <Activity size={14} className="text-accent-cyan" />
+            <div className="w-2 h-2 rounded-full bg-accent-primary shadow-[0_0_8px_rgba(79,168,196,0.8)]" />
             ENVIRONMENTAL INTELLIGENCE PLATFORM
           </motion.div>
 
@@ -51,7 +59,7 @@ export default function HomePage() {
             className="text-5xl sm:text-7xl font-extrabold text-slate-100 leading-tight mb-6 tracking-tight"
           >
             Know if it's safe to <br />
-            go outside, <span className="text-accent-cyan">right now.</span>
+            go outside, <span className="text-accent-primary">right now.</span>
           </motion.h1>
 
           <motion.p
@@ -80,9 +88,10 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
               {popularCities.map((city) => (
                 <button
+                  suppressHydrationWarning
                   key={city}
                   onClick={() => handleSearch(city)}
-                  className="px-4 py-1.5 rounded-full border border-slate-700/80 hover:border-accent-cyan text-sm text-text-muted cursor-pointer interactive-base"
+                  className="px-4 py-1.5 rounded-full border border-slate-700/80 hover:border-accent-primary/40 text-sm text-white bg-white/5 hover:bg-white/10 cursor-pointer transition-colors"
                 >
                   {city}
                 </button>
@@ -119,8 +128,8 @@ export default function HomePage() {
             transition={{ duration: 0.35, ease: "easeOut", delay: 0 }}
             className="h-full"
           >
-            <SpotlightCard spotlightColor="rgba(0, 212, 255, 0.08)" className="glass p-8 flex flex-col h-full interactive-base rounded-3xl">
-              <div className="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center mb-6 text-white border border-accent-cyan/20">
+            <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.08)" className="glass p-8 flex flex-col h-full interactive-base rounded-3xl">
+              <div className="w-12 h-12 rounded-xl bg-accent-primary/10 flex items-center justify-center mb-6 text-white border border-accent-primary/20">
                 <Wind size={24} />
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">Air Quality Matrix</h3>
@@ -130,7 +139,7 @@ export default function HomePage() {
               <div className="mt-8 p-4 rounded-lg bg-bg-primary/50 border border-border-light flex items-center justify-between">
                 <span className="text-sm text-text-muted">Current AQI</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl font-bold text-accent-cyan">42</span>
+                  <span className="text-2xl font-bold text-accent-primary">42</span>
                   <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-white/10 text-text-primary">Good</span>
                 </div>
               </div>
@@ -144,7 +153,7 @@ export default function HomePage() {
             transition={{ duration: 0.35, ease: "easeOut", delay: 0.08 }}
             className="h-full"
           >
-            <SpotlightCard spotlightColor="rgba(0, 212, 255, 0.08)" className="glass p-8 flex flex-col h-full interactive-base rounded-3xl">
+            <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.08)" className="glass p-8 flex flex-col h-full interactive-base rounded-3xl">
               <div className="w-12 h-12 rounded-xl bg-warning/10 flex items-center justify-center mb-6 text-white border border-warning/20">
                 <ShieldAlert size={24} />
               </div>
@@ -171,7 +180,7 @@ export default function HomePage() {
             transition={{ duration: 0.35, ease: "easeOut", delay: 0.16 }}
             className="h-full"
           >
-            <SpotlightCard spotlightColor="rgba(0, 212, 255, 0.08)" className="glass p-8 flex flex-col h-full interactive-base rounded-3xl">
+            <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.08)" className="glass p-8 flex flex-col h-full interactive-base rounded-3xl">
               <div className="w-12 h-12 rounded-xl bg-purple-500/15 flex items-center justify-center mb-6 text-white border border-purple-500/20">
                 <Sparkles size={24} />
               </div>
@@ -206,7 +215,7 @@ export default function HomePage() {
              whileInView={{ opacity: 1, y: 0 }}
              viewport={{ once: true }}
              transition={{ duration: 0.35, ease: "easeOut", delay: 0 }}
-             className="glass p-6 border border-border-default hover:border-accent-cyan interactive-base rounded-2xl"
+             className="glass p-6 border border-border-default hover:border-accent-primary interactive-base rounded-2xl"
            >
               <div className="flex items-center gap-2 mb-4">
                 <Zap size={18} className="text-text-muted" />
@@ -225,7 +234,7 @@ export default function HomePage() {
              whileInView={{ opacity: 1, y: 0 }}
              viewport={{ once: true }}
              transition={{ duration: 0.35, ease: "easeOut", delay: 0.08 }}
-             className="glass p-6 border border-border-default hover:border-accent-cyan interactive-base rounded-2xl"
+             className="glass p-6 border border-border-default hover:border-accent-primary interactive-base rounded-2xl"
            >
               <div className="flex items-center gap-2 mb-4">
                 <BarChart3 size={18} className="text-text-muted" />
@@ -244,7 +253,7 @@ export default function HomePage() {
              whileInView={{ opacity: 1, y: 0 }}
              viewport={{ once: true }}
              transition={{ duration: 0.35, ease: "easeOut", delay: 0.16 }}
-             className="glass p-6 border border-border-default hover:border-accent-cyan interactive-base rounded-2xl"
+             className="glass p-6 border border-border-default hover:border-accent-primary interactive-base rounded-2xl"
            >
               <div className="flex items-center gap-2 mb-4">
                 <CloudRain size={18} className="text-text-muted" />

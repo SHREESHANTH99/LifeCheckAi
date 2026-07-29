@@ -19,7 +19,7 @@ export const VoiceSettingsPanel: React.FC<VoiceSettingsPanelProps> = ({ embedded
         className="w-full flex items-center justify-between p-4 bg-bg-card hover:bg-white/5 transition-colors cursor-pointer"
       >
         <h3 className="text-sm font-bold text-white flex items-center gap-2">
-          <Volume2 size={16} className="text-accent-cyan" />
+          <Volume2 size={16} className="text-accent-primary" />
           Voice Settings
         </h3>
         {isExpanded ? <ChevronUp size={16} className="text-text-muted" /> : <ChevronDown size={16} className="text-text-muted" />}
@@ -30,8 +30,8 @@ export const VoiceSettingsPanel: React.FC<VoiceSettingsPanelProps> = ({ embedded
           {/* Proactive Alerts Toggle */}
           <div className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 transition-colors">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-accent-cyan/10">
-                <Mic2 size={16} className="text-accent-cyan" />
+              <div className="p-2 rounded-lg bg-accent-primary/10">
+                <Mic2 size={16} className="text-accent-primary" />
               </div>
               <div className="flex-1">
                 <h4 className="text-sm font-semibold text-white">Proactive Voice Alerts</h4>
@@ -44,7 +44,7 @@ export const VoiceSettingsPanel: React.FC<VoiceSettingsPanelProps> = ({ embedded
               onClick={() => setProactiveAlertsEnabled(!settings.proactiveAlertsEnabled)}
               className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 transition-colors ${
                 settings.proactiveAlertsEnabled
-                  ? "bg-accent-cyan border-accent-cyan"
+                  ? "bg-accent-primary border-accent-primary"
                   : "border-text-muted bg-white/10"
               }`}
             >
@@ -85,7 +85,7 @@ export const VoiceSettingsPanel: React.FC<VoiceSettingsPanelProps> = ({ embedded
             </button>
           </div>
           
-          <div className="mt-2 p-3 rounded-lg bg-accent-cyan/5 border border-accent-cyan/20 text-xs text-text-secondary">
+          <div className="mt-2 p-3 rounded-lg bg-accent-primary/5 border border-accent-primary/20 text-xs text-text-secondary">
             💡 <strong>Tip:</strong> Voice features require ElevenLabs API key configured in environment variables.
           </div>
         </div>

@@ -96,7 +96,7 @@ export function CrowdReportModal({ isOpen, onClose, lat, lon, city, onSubmit }: 
             <button
               onClick={submit}
               disabled={submitting}
-              className="mt-4 w-full min-h-11 rounded-xl bg-gradient-to-r from-accent-blue to-accent-cyan text-white text-sm font-semibold cursor-pointer disabled:opacity-50"
+              className="mt-4 w-full min-h-11 rounded-xl bg-gradient-to-r from-accent-blue to-accent-primary text-white text-sm font-semibold cursor-pointer disabled:opacity-50"
             >
               {submitting ? "Submitting..." : "Submit Report"}
             </button>

@@ -54,7 +54,7 @@ export function MetricCard({
       )}
 
       <div className="flex items-center gap-3 mb-4">
-        <div className="text-text-secondary w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/5 transition-colors group-hover:border-accent-cyan/40">
+        <div className="text-text-secondary w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/5 transition-colors group-hover:border-accent-primary/40">
           {icon}
         </div>
         <span className="text-sm font-medium text-text-primary capitalize tracking-wide">

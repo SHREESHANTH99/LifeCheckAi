@@ -152,8 +152,8 @@ export const ChatInput: React.FC<ChatInputProps> = ({
       {/* Input container */}
       <div className={`flex gap-3 rounded-3xl border p-3.5 transition-all backdrop-blur-md ${
         voiceAssistantEnabled
-          ? 'border-accent-cyan/25 bg-[linear-gradient(145deg,rgba(8,16,31,0.92),rgba(9,14,29,0.7))] shadow-[0_0_28px_rgba(0,212,255,0.08)] focus-within:border-accent-cyan/60'
-          : 'border-white/15 bg-slate-950/65 focus-within:border-blue-400/60'
+          ? 'border-accent-primary/25 bg-bg-card/90 shadow-[0_0_28px_rgba(255,255,255,0.08)] focus-within:border-accent-primary/60'
+          : 'border-white/15 bg-bg-card/65 focus-within:border-accent-primary/60'
       }`}>
         {/* Mic button */}
         <button
@@ -163,8 +163,8 @@ export const ChatInput: React.FC<ChatInputProps> = ({
             voiceAssistantEnabled
               ? isListening
                 ? 'bg-red-500/15 text-red-200 border-red-400/30 shadow-[0_0_20px_rgba(239,68,68,0.18)]'
-                : 'bg-accent-cyan/10 text-accent-cyan border-accent-cyan/25 hover:bg-accent-cyan/15'
-              : 'bg-white/5 text-text-secondary border-white/10 hover:border-accent-cyan/30 hover:text-accent-cyan'
+                : 'bg-accent-primary/10 text-accent-primary border-accent-primary/25 hover:bg-accent-primary/15'
+              : 'bg-white/5 text-text-secondary border-white/10 hover:border-accent-primary/30 hover:text-accent-primary'
           }`}
           title={
             voiceAssistantEnabled
@@ -207,7 +207,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
             disabled={!value.trim() || isStreaming}
             className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
               value.trim() && !isStreaming
-                ? 'bg-accent-cyan hover:bg-cyan-400 text-black shadow-lg shadow-cyan-500/25'
+                ? 'bg-accent-primary hover:bg-slate-400 text-black shadow-lg shadow-slate-500/25'
                 : 'bg-gray-700/50 text-gray-500 cursor-not-allowed'
             }`}
             title="Send message"

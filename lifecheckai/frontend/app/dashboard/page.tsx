@@ -526,7 +526,7 @@ function DashboardPageContent() {
               <span className="text-text-primary font-semibold">{data.city}</span>
               <span className="text-text-muted">·</span>
               <span className="text-text-muted">Updated {formatTime(lastUpdated)}</span>
-              <span className="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent-cyan/20 bg-accent-cyan/10 text-accent-cyan text-xs font-semibold uppercase tracking-wider">
+              <span className="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent-primary/20 bg-accent-primary/10 text-accent-primary text-xs font-semibold uppercase tracking-wider">
                 👥 {watcherCount} live
               </span>
               <button
@@ -674,7 +674,7 @@ function DashboardPageContent() {
               </h3>
               <button
                   onClick={() => data?.city && addMonitoredCity(data.city)}
-                  className="text-xs font-semibold uppercase tracking-wider flex items-center gap-1 text-accent-cyan hover:text-white transition-colors cursor-pointer"
+                  className="text-xs font-semibold uppercase tracking-wider flex items-center gap-1 text-accent-primary hover:text-white transition-colors cursor-pointer"
                 >
                   <Plus size={14} /> Track City
               </button>

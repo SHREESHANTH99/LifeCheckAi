@@ -99,60 +99,76 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
   if (message.type === 'user') {
     return (
       <div className="flex justify-end my-4 animate-fade-in group">
-        <div className="max-w-xs md:max-w-md">
-          <div className="bg-gradient-to-br from-accent-cyan to-[#00aaff] text-black font-semibold tracking-wide rounded-2xl rounded-tr-sm px-5 py-3 text-sm shadow-[0_4px_24px_rgba(0,212,255,0.3)] break-words">
+        <div className="max-w-[85%] md:max-w-[70%] flex flex-col items-end">
+          <div className="bg-accent-primary text-bg-primary font-semibold tracking-wide rounded-2xl rounded-tr-sm px-5 py-3 text-sm shadow-md break-words">
             {message.content}
           </div>
-          <div className="text-xs text-text-muted mt-1 text-right font-mono">{formatTime(message.timestamp)}</div>
+          <div className="text-[11px] text-text-muted mt-1.5 font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+            {formatTime(message.timestamp)}
+          </div>
         </div>
       </div>
     );
   }
 
+  const isGenerating = message.isStreaming && message.content === 'Analyzing live safety context...';
+
   return (
-    <div className="flex justify-start my-4 animate-fade-in">
-      <div className="max-w-xs md:max-w-xl lg:max-w-3xl w-full">
-        <div className="flex gap-4">
-          <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-accent-violet shadow-[0_0_15px_rgba(124,58,237,0.4)]">
-            <Bot className="w-5 h-5" />
+    <div className="flex justify-start my-4 animate-fade-in group">
+      <div className="max-w-[90%] md:max-w-[80%] lg:max-w-[70%] w-full">
+        <div className="flex gap-3">
+          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-bg-card border border-border-default flex items-center justify-center text-accent-primary shadow-sm mt-1">
+            <Bot className="w-4 h-4" />
           </div>
-          <div className="glass w-full !bg-[#0A0F1E]/80 border border-accent-violet/30 rounded-2xl rounded-tl-sm px-6 py-5 flex-1 shadow-[inset_0_4px_24px_rgba(124,58,237,0.05),0_8px_32px_rgba(0,0,0,0.4)]">
-            <StreamingText text={message.content} isStreaming={message.isStreaming || false} />
+          <div className="bg-white/5 border border-white/10 rounded-2xl rounded-tl-sm px-5 py-3.5 flex-1 shadow-sm text-sm text-text-primary leading-relaxed break-words">
+            {isGenerating ? (
+              <div className="flex gap-1 items-center h-5">
+                <div className="w-1.5 h-1.5 bg-accent-primary rounded-full animate-bounce" />
+                <div className="w-1.5 h-1.5 bg-accent-primary rounded-full animate-bounce" style={{ animationDelay: '0.15s' }} />
+                <div className="w-1.5 h-1.5 bg-accent-primary rounded-full animate-bounce" style={{ animationDelay: '0.3s' }} />
+              </div>
+            ) : (
+              <StreamingText text={message.content} isStreaming={message.isStreaming || false} />
+            )}
           </div>
         </div>
 
-        <div className="text-xs text-text-muted mt-2 ml-[56px] font-mono">{formatTime(message.timestamp)}</div>
+        <div className="flex items-center gap-3 mt-1.5 ml-[44px]">
+          <div className="text-[11px] text-text-muted font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+            {formatTime(message.timestamp)}
+          </div>
 
-        {!message.isStreaming && (
-          <div className="flex gap-2 mt-2 ml-[56px] text-text-muted">
-            <button
-              onClick={handleCopy}
-              className="flex items-center gap-1.5 text-xs hover:text-white transition-colors px-2 py-1.5 hover:bg-white/5 rounded cursor-pointer"
-            >
-              <Copy className="w-3.5 h-3.5" />
-              {copied ? 'Copied!' : 'Copy'}
-            </button>
-            {onSpeak && (
+          {!message.isStreaming && (
+            <div className="flex gap-1 text-text-muted opacity-0 group-hover:opacity-100 transition-opacity">
               <button
-                onClick={() => onSpeak(message.content)}
+                onClick={handleCopy}
                 className="flex items-center gap-1.5 text-xs hover:text-white transition-colors px-2 py-1.5 hover:bg-white/5 rounded cursor-pointer"
               >
-                <Volume2 className="w-3.5 h-3.5" />
-                Read
+                <Copy className="w-3.5 h-3.5" />
+                {copied ? 'Copied!' : 'Copy'}
               </button>
-            )}
-            {onLike && (
-              <button onClick={onLike} className="flex items-center gap-1.5 text-xs hover:text-accent-cyan p-1.5 hover:bg-white/5 rounded cursor-pointer">
-                <ThumbsUp className="w-3.5 h-3.5" />
-              </button>
-            )}
-            {onDislike && (
-              <button onClick={onDislike} className="flex items-center gap-1.5 text-xs hover:text-danger p-1.5 hover:bg-white/5 rounded cursor-pointer">
-                <ThumbsDown className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
-        )}
+              {onSpeak && (
+                <button
+                  onClick={() => onSpeak(message.content)}
+                  className="flex items-center gap-1.5 text-xs hover:text-white transition-colors px-2 py-1.5 hover:bg-white/5 rounded cursor-pointer"
+                >
+                  <Volume2 className="w-3.5 h-3.5" />
+                  Read
+                </button>
+              )}
+              {onLike && (
+                <button onClick={onLike} className="flex items-center gap-1.5 text-xs hover:text-accent-primary p-1.5 hover:bg-white/5 rounded cursor-pointer">
+                  <ThumbsUp className="w-3.5 h-3.5" />
+                </button>
+              )}
+              {onDislike && (
+                <button onClick={onDislike} className="flex items-center gap-1.5 text-xs hover:text-danger p-1.5 hover:bg-white/5 rounded cursor-pointer">
+                  <ThumbsDown className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

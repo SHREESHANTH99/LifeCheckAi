@@ -20,7 +20,7 @@ export function SafetyTimeline({ currentData }: SafetyTimelineProps) {
     <div className="card">
       <div className="flex items-center gap-3 mb-5 border-b border-border-default pb-4">
         <h3 className="font-family-grotesk text-lg font-semibold text-text-primary inline-flex items-center gap-2">
-          <Clock3 size={18} className="text-accent-cyan" /> 6-Hour Safety Forecast
+          <Clock3 size={18} className="text-accent-primary" /> 6-Hour Safety Forecast
         </h3>
         <span className="text-[10px] border border-accent-purple/30 bg-accent-purple/10 text-accent-purple px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider">
           AI Predicted
@@ -41,7 +41,7 @@ export function SafetyTimeline({ currentData }: SafetyTimelineProps) {
               onClick={() => setSelectedHour(idx)}
               className={`rounded-xl border p-2 min-h-28 flex flex-col items-center justify-between transition-all cursor-pointer ${
                 hour.bestWindow
-                  ? "border-accent-cyan shadow-[0_0_15px_rgba(0,212,255,0.15)] bg-accent-cyan/5"
+                  ? "border-accent-primary shadow-[0_0_15px_rgba(255,255,255,0.15)] bg-accent-primary/5"
                   : idx === selectedHour
                   ? "border-accent-blue bg-accent-blue/10"
                   : "border-border-default bg-bg-secondary/40 hover:border-border-light"
@@ -60,7 +60,7 @@ export function SafetyTimeline({ currentData }: SafetyTimelineProps) {
               <div className="text-center mt-2">
                 <p className="text-[10px] text-text-muted font-medium">{hour.label}</p>
                 <p className="text-xs font-bold text-text-primary">{Math.round(hour.temperature)}°</p>
-                {hour.bestWindow && <p className="text-[9px] text-accent-cyan font-bold uppercase tracking-wider mt-1">Best</p>}
+                {hour.bestWindow && <p className="text-[9px] text-accent-primary font-bold uppercase tracking-wider mt-1">Best</p>}
               </div>
             </button>
           );

@@ -14,6 +14,7 @@ import { UserPresenceMarkers } from "@/components/realtime/UserPresenceMarkers";
 import { CrowdReportMarkers } from "@/components/realtime/CrowdReportMarkers";
 import { CrowdReportModal } from "@/components/realtime/CrowdReportModal";
 import { LiveActivityTicker } from "@/components/realtime/LiveActivityTicker";
+import { VoiceBriefingButton } from "@/components/voice/VoiceBriefingButton";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
 const MAP_MONITORED_CITIES_KEY = "lifecheck_map_monitored_cities";
@@ -396,15 +397,38 @@ export default function MapPage() {
             ? "#f59e0b"
             : "#ef4444";
 
-      const circle = new googleApi.maps.Circle({
+      const baseRadius = cityItem.status === "UNSAFE" ? 55000 : cityItem.status === "CAUTION" ? 42000 : 30000;
+
+      // Simulate a radial gradient using nested circles
+      const circleOuter = new googleApi.maps.Circle({
         map,
         center: { lat: cityItem.lat, lng: cityItem.lon },
-        radius: cityItem.status === "UNSAFE" ? 55000 : cityItem.status === "CAUTION" ? 42000 : 30000,
+        radius: baseRadius,
         fillColor: statusColor,
-        fillOpacity: 0.18,
+        fillOpacity: 0.05,
         strokeColor: statusColor,
-        strokeOpacity: 0.7,
+        strokeOpacity: 0.6,
         strokeWeight: 1.5,
+      });
+      
+      const circleMiddle = new googleApi.maps.Circle({
+        map,
+        center: { lat: cityItem.lat, lng: cityItem.lon },
+        radius: baseRadius * 0.7,
+        fillColor: statusColor,
+        fillOpacity: 0.1,
+        strokeOpacity: 0,
+        strokeWeight: 0,
+      });
+
+      const circleInner = new googleApi.maps.Circle({
+        map,
+        center: { lat: cityItem.lat, lng: cityItem.lon },
+        radius: baseRadius * 0.4,
+        fillColor: statusColor,
+        fillOpacity: 0.15,
+        strokeOpacity: 0,
+        strokeWeight: 0,
       });
 
       const marker = new googleApi.maps.Marker({
@@ -428,7 +452,7 @@ export default function MapPage() {
         zIndex: 20,
       });
 
-      zoneOverlaysRef.current.push(circle, marker);
+      zoneOverlaysRef.current.push(circleOuter, circleMiddle, circleInner, marker);
     });
   }, [monitoredCities, showZones]);
 
@@ -530,7 +554,7 @@ export default function MapPage() {
   }, [locateMe, refresh, refreshLiveCities]);
 
   return (
-    <div className="h-screen w-full relative overflow-hidden flex bg-[#0A0F1E]">
+    <div className="h-screen w-full relative overflow-hidden flex bg-bg-primary">
       {/* Background Map Container */}
       <div className="absolute inset-0">
         {apiKey ? (
@@ -542,7 +566,7 @@ export default function MapPage() {
               className="w-full h-full"
             />
             {mapInitError && (
-              <div className="absolute inset-0 bg-[#0A0F1E]/80 flex items-center justify-center">
+              <div className="absolute inset-0 bg-bg-primary/80 flex items-center justify-center">
                 <div className="text-center px-6 glass p-6 rounded-2xl">
                   <p className="text-sm text-unsafe">{mapInitError}</p>
                   <p className="text-xs text-text-muted mt-2">Please verify your Google Maps key.</p>
@@ -553,23 +577,26 @@ export default function MapPage() {
             <CrowdReportMarkers reports={crowdReports} map={mapInstanceRef.current as unknown} />
           </div>
         ) : (
-          <div className="w-full h-full bg-[#0A0F1E] flex items-center justify-center">
-            <div className="text-center glass p-8 rounded-2xl relative z-20">
+          <div className="w-full h-full bg-bg-primary flex items-center justify-center">
+            <div className="text-center bg-bg-card border border-border-default p-8 rounded-2xl relative z-20">
               <MapPin size={48} className="text-text-muted mx-auto mb-4" />
               <p className="text-white">Map requires Google Maps API key.</p>
-              <p className="text-accent-cyan text-sm mt-2">Add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to .env.local</p>
+              <p className="text-accent-primary text-sm mt-2">Add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to .env.local</p>
             </div>
           </div>
         )}
       </div>
 
-      {/* Floating Glass Search Bar (Top Left) */}
-      <div className="absolute top-20 left-4 lg:left-[170px] z-[40] w-[min(92vw,22rem)] transition-all duration-300">
+      {/* Left Sidebar (Search + Legend Unified) */}
+      <div className="absolute top-20 left-4 lg:left-[170px] bottom-[4.5rem] z-[40] w-[min(92vw,22rem)] flex flex-col gap-4 pointer-events-none">
+        
+        {/* Search Panel */}
         <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="pointer-events-auto"
         >
-          <Card className="!bg-black/30 backdrop-blur-lg shadow-[0_8px_32px_color-mix(in_srgb,var(--color-accent-cyan)_15%,transparent)] border-white/20 p-4">
+          <Card className="bg-bg-card border-border-default shadow-lg p-4">
             <SearchBar
               onSearch={handleSearch}
               placeholder="Search city to focus map..."
@@ -579,7 +606,7 @@ export default function MapPage() {
             />
             <div className="mt-4 flex items-center justify-between">
               <p className="caption-muted">Currently Tracking</p>
-              <p className="text-sm font-bold text-accent-cyan font-mono">{summary.total} Cities</p>
+              <p className="text-sm font-bold text-accent-primary font-mono">{summary.total} Cities</p>
             </div>
             <div className="flex gap-2 mt-2">
               <span className="px-2 py-1 bg-unsafe/10 border border-unsafe/20 rounded-md text-[10px] uppercase text-unsafe font-bold">Unsafe: {summary.unsafe}</span>
@@ -587,17 +614,18 @@ export default function MapPage() {
             </div>
           </Card>
         </motion.div>
-      </div>
 
-      {/* Floating Glass Legend (Bottom Left) */}
-      <div className="absolute bottom-6 left-4 lg:left-[170px] z-[40] transition-all duration-300">
+        <div className="flex-1" />
+
+        {/* Legend */}
         <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="pointer-events-auto"
         >
-          <Card className="!bg-black/30 backdrop-blur-lg border-white/20 shadow-[0_4px_24px_rgba(0,0,0,0.5)] p-4">
-            <p className="caption-muted text-white mb-3 flex items-center gap-2">
-              <Layers3 size={14} className="text-accent-cyan" /> Map Legend
+          <Card className="bg-bg-card border-border-default shadow-lg p-4">
+            <p className="caption-muted text-text-primary mb-3 flex items-center gap-2">
+              <Layers3 size={14} className="text-accent-primary" /> Map Legend
             </p>
             <div className="flex flex-col gap-3">
                <div className="flex items-center gap-3">
@@ -615,7 +643,7 @@ export default function MapPage() {
             </div>
             <button
                 onClick={() => setShowZones((prev) => !prev)}
-                className="mt-4 w-full flex items-center justify-center gap-2 rounded-lg bg-white/5 py-2 text-xs text-text-secondary hover:text-white transition-colors cursor-pointer border border-white/5"
+                className="mt-4 w-full flex items-center justify-center gap-2 rounded-lg bg-bg-primary py-2 text-xs text-text-secondary hover:text-text-primary transition-colors cursor-pointer border border-border-default"
               >
                 <Radar size={12} /> Toggle Zones
             </button>
@@ -631,10 +659,10 @@ export default function MapPage() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 350, damping: 30 }}
-            className="absolute top-16 bottom-0 right-0 z-[60] w-[min(100vw,24rem)] glass !bg-black/40 backdrop-blur-xl border-l border-white/20 shadow-[-20px_0_40px_rgba(0,0,0,0.5)] flex flex-col pointer-events-auto"
+            className="absolute top-16 bottom-0 right-0 z-[60] w-[min(100vw,24rem)] bg-bg-card border-l border-border-default shadow-[-20px_0_40px_rgba(0,0,0,0.3)] flex flex-col pointer-events-auto"
           >
             {/* Header */}
-            <div className="p-6 border-b border-white/10 flex justify-between items-start">
+            <div className="p-6 border-b border-border-default flex justify-between items-start">
                <div>
                   <h2 className="h2-section mb-2">{selectedCity.name}</h2>
                   <div className="flex items-center gap-2">
@@ -644,7 +672,7 @@ export default function MapPage() {
                      </span>
                   </div>
                </div>
-               <button onClick={() => setSelectedCity(null)} className="p-2 rounded-full hover:bg-white/10 text-white transition-colors cursor-pointer" title="Close Sidebar">
+               <button onClick={() => setSelectedCity(null)} className="p-2 rounded-full hover:bg-bg-primary text-text-primary transition-colors cursor-pointer" title="Close Sidebar">
                   <X size={18} />
                </button>
             </div>
@@ -654,14 +682,14 @@ export default function MapPage() {
                 
                 {/* Metric Cards */}
                 <div className="grid grid-cols-2 gap-3">
-                   <Card className="p-4 border-white/5 flex flex-col gap-2">
+                   <Card className="p-4 border-border-default flex flex-col gap-2">
                       <div className="flex items-center gap-2">
-                          <Wind className="text-accent-cyan" size={16} />
+                          <Wind className="text-accent-primary" size={16} />
                           <span className="caption-muted">AQI Score</span>
                       </div>
                       <span className="text-2xl font-mono text-white mt-1">{selectedCity.aqi ?? "—"}</span>
                    </Card>
-                   <Card className="p-4 border-white/5 flex flex-col gap-2">
+                   <Card className="p-4 border-border-default flex flex-col gap-2">
                       <div className="flex items-center gap-2">
                           <Thermometer className="text-accent-violet" size={16} />
                           <span className="caption-muted">Temp</span>
@@ -671,11 +699,11 @@ export default function MapPage() {
                 </div>
 
                 {data?.city === selectedCity.name ? (
-                  <Card className="p-5 border-white/5 shadow-glow-cyan body-base">
+                  <Card className={`p-5 border-border-default shadow-sm body-base ${selectedCity.status === 'UNSAFE' ? 'bg-danger/10 border-danger/20 text-danger-light' : selectedCity.status === 'CAUTION' ? 'bg-warning/10 border-warning/20 text-warning-light' : 'bg-safe/10 border-safe/20 text-safe-light'}`}>
                      {data.overall?.summary || "Real-time conditions are available."}
                   </Card>
                 ) : (
-                  <Card className="p-5 border-white/5 body-base flex flex-col items-center justify-center text-center gap-3">
+                  <Card className="p-5 border-border-default body-base flex flex-col items-center justify-center text-center gap-3">
                      <ShieldAlert size={24} className="opacity-50" />
                      Load full real-time data to see complete analysis, safety score rings, and AI insights.
                   </Card>
@@ -683,18 +711,18 @@ export default function MapPage() {
             </div>
 
             {/* Footer */}
-             <div className="p-6 border-t border-border-default pb-8 flex flex-col gap-2">
+             <div className="p-6 border-t border-border-default pb-8 flex flex-col gap-3 shrink-0">
                 <button
                     onClick={() => setCrowdModalOpen(true)}
-                    className="w-full flex items-center justify-center gap-2 px-5 py-4 rounded-xl border border-white/20 text-white font-bold uppercase tracking-wider text-sm hover:bg-white/10 transition-colors cursor-pointer"
+                    className="w-full flex items-center justify-center gap-2 px-5 py-4 rounded-xl border border-border-default text-text-primary font-bold uppercase tracking-wider text-sm hover:border-accent-primary/40 hover:bg-white/5 transition-colors cursor-pointer"
                 >
                   <ShieldAlert size={16} /> Report Risk
                 </button>
                 <Link
                   href={`/dashboard?city=${encodeURIComponent(selectedCity.name)}`}
-                  className="w-full flex items-center justify-center gap-2 px-5 py-4 rounded-xl bg-gradient-to-r from-accent-cyan to-accent-violet text-black font-bold uppercase tracking-wider text-sm hover:opacity-90 transition-opacity"
+                  className="w-full flex items-center justify-center gap-2 px-5 py-4 rounded-xl bg-accent-primary text-bg-primary font-bold uppercase tracking-wider text-sm hover:brightness-110 transition-all shadow-md"
                 >
-                  View Full Dashboard <ArrowRight size={16} />
+                  View Full Details <ArrowRight size={16} />
                 </Link>
              </div>
           </motion.div>
@@ -710,6 +738,7 @@ export default function MapPage() {
         onSubmit={addCrowdReport}
       />
       <LiveActivityTicker city={selectedCity?.name || data?.city} lat={mapCenter.lat} lon={mapCenter.lon} />
+      <VoiceBriefingButton safetyData={data || null} />
 
     </div>  );
 }

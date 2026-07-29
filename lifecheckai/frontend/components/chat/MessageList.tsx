@@ -78,7 +78,7 @@ export const MessageList: React.FC<MessageListProps> = ({
   return (
     <div
       onScroll={handleScroll}
-      className="flex-1 overflow-y-auto space-y-2 px-4 py-4 relative"
+      className="flex-1 overflow-y-auto space-y-4 px-4 py-4 relative"
     >
       {/* Empty state */}
       {messages.length === 0 && !isLoading && (

@@ -146,7 +146,7 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
     if (aqi <= 50) {
       return {
         label: 'Good',
-        tone: 'text-emerald-200 bg-emerald-500/20 border-emerald-400/20',
+        tone: 'text-accent-primary bg-accent-primary/10 border-accent-primary/20',
       };
     }
     if (aqi <= 100) {
@@ -206,11 +206,11 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-300">Current City</div>
             <div className="mt-2 flex items-center gap-2 text-xl font-semibold text-white">
-              <MapPin className="h-4 w-4 text-blue-200" />
+              <MapPin className="h-4 w-4 text-accent-primary/80" />
               <span>{safetyData?.city || currentCity || 'Delhi'}</span>
             </div>
           </div>
-          <span className="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[11px] text-blue-100">
+          <span className="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[11px] text-accent-primary/60">
             Live Context
           </span>
         </div>
@@ -231,11 +231,11 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
                 }
               }}
               placeholder="Type a city, e.g. Chennai"
-              className="w-full rounded-xl border border-white/15 bg-slate-950/80 px-3 py-2 text-sm text-white outline-none transition-colors placeholder:text-slate-500 focus:border-blue-400/50"
+              className="w-full rounded-xl border border-white/15 bg-bg-card/80 px-3 py-2 text-sm text-white outline-none transition-colors placeholder:text-slate-500 focus:border-accent-primary/50"
             />
 
             {showCitySuggestions && (citySuggestions.length > 0 || loadingCitySuggestions) && (
-              <div className="absolute z-20 mt-2 w-full overflow-hidden rounded-xl border border-white/15 bg-slate-950/95 shadow-2xl">
+              <div className="absolute z-20 mt-2 w-full overflow-hidden rounded-xl border border-white/15 bg-bg-card/95 shadow-2xl">
                 {loadingCitySuggestions && (
                   <div className="px-3 py-2 text-xs text-slate-400">Loading suggestions...</div>
                 )}
@@ -259,7 +259,7 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
             <button
               type="button"
               onClick={handleSubmitCity}
-              className="flex-1 rounded-xl bg-blue-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-500"
+              className="flex-1 rounded-xl bg-accent-primary text-bg-primary px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-primary/90"
             >
               Apply
             </button>
@@ -286,7 +286,7 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
 
       {safetyData ? (
         <div className="grid gap-3">
-          <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-4">
+          <div className="rounded-2xl border border-white/10 bg-bg-card/70 p-4">
             <div className="flex items-center justify-between">
               <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
                 <Activity className="h-3.5 w-3.5" />
@@ -298,15 +298,15 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
             </div>
 
             <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
-              <div className="rounded-xl border border-white/10 bg-slate-900/70 px-2.5 py-2">
+              <div className="rounded-xl border border-white/10 bg-bg-card/70 px-2.5 py-2">
                 <div className="text-[10px] uppercase tracking-[0.16em] text-slate-500 font-mono">AQI</div>
                 <div className="mt-1 text-lg font-semibold text-white font-mono">{currentAqi ?? '--'}</div>
               </div>
-              <div className="rounded-xl border border-white/10 bg-slate-900/70 px-2.5 py-2">
+              <div className="rounded-xl border border-white/10 bg-bg-card/70 px-2.5 py-2">
                 <div className="text-[10px] uppercase tracking-[0.16em] text-slate-500 font-mono">Temp</div>
                 <div className="mt-1 text-lg font-semibold text-white font-mono">{currentTemp !== undefined ? `${currentTemp}°` : '--'}</div>
               </div>
-              <div className="rounded-xl border border-white/10 bg-slate-900/70 px-2.5 py-2">
+              <div className="rounded-xl border border-white/10 bg-bg-card/70 px-2.5 py-2">
                 <div className="text-[10px] uppercase tracking-[0.16em] text-slate-500 font-mono">Risk</div>
                 <div className="mt-1 truncate text-sm font-semibold text-white font-mono">{safetyData.verdict || 'Unknown'}</div>
               </div>
@@ -329,13 +329,13 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(8,47,73,0.45),rgba(3,7,18,0.82))] p-4">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200/80">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-200/80">
               <CloudSun className="h-3.5 w-3.5" />
               Environmental Summary
             </div>
             <div className="mt-2 space-y-2 text-sm text-slate-200">
               <div className="inline-flex items-center gap-2">
-                <Waves className="h-4 w-4 text-blue-300" />
+                <Waves className="h-4 w-4 text-accent-primary" />
                 <span>Air quality is currently marked as {aqiMeta.label.toLowerCase()}.</span>
               </div>
               <div className="inline-flex items-center gap-2">
@@ -349,12 +349,12 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
             </div>
           </div>
 
-          <div className="rounded-2xl border border-emerald-400/20 bg-emerald-500/10 p-4 text-sm text-emerald-100">
+          <div className="rounded-2xl border border-accent-primary/20 bg-accent-primary/10 p-4 text-sm text-slate-300">
             {getRiskText(safetyData.verdict)}
           </div>
         </div>
       ) : (
-        <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-4 text-sm text-slate-400">
+        <div className="rounded-2xl border border-white/10 bg-bg-card/70 p-4 text-sm text-slate-400">
           No data loaded yet. Use the city editor above to start.
         </div>
       )}
@@ -379,7 +379,7 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
       {activeTab === 'memory' && (
         <div className="space-y-3 p-4">
           <div className="rounded-2xl border border-white/10 bg-[linear-gradient(160deg,rgba(34,197,94,0.14),rgba(15,23,42,0.84))] p-4">
-            <div className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-200/80">
+            <div className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent-primary">
               <Brain className="h-3.5 w-3.5" />
               Memory Context
             </div>
@@ -387,7 +387,7 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
               Saved chat context helps the assistant keep your city and safety preferences in scope.
             </div>
           </div>
-          <div className="rounded-2xl border border-white/10 bg-slate-950/70">
+          <div className="rounded-2xl border border-white/10 bg-bg-card/70">
             <ConversationMemory
               memory={memory}
               onRemove={onMemoryRemove}
@@ -400,3 +400,4 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
     </div>
   );
 };
+

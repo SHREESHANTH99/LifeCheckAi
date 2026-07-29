@@ -397,16 +397,16 @@ export default function WaterPage() {
   return (
     <div className="min-h-screen bg-bg-primary px-4 py-8 sm:px-8">
       <div className="mx-auto max-w-7xl space-y-6">
-        <Card className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(0,212,255,0.18),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(124,58,237,0.18),_transparent_35%),linear-gradient(135deg,_rgba(17,24,39,0.95),_rgba(10,15,30,0.98))]">
-          <div className="absolute inset-y-0 right-0 hidden w-1/3 bg-[radial-gradient(circle_at_center,_rgba(0,212,255,0.16),_transparent_55%)] lg:block" />
+        <Card className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.18),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(124,58,237,0.18),_transparent_35%),linear-gradient(135deg,_rgba(17,24,39,0.95),_rgba(10,15,30,0.98))]">
+          <div className="absolute inset-y-0 right-0 hidden w-1/3 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.16),_transparent_55%)] lg:block" />
           <div className="relative grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
             <div>
               <div className="mb-4 flex items-center gap-3">
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/15 bg-white/10">
-                  <Droplets className="h-7 w-7 text-accent-cyan" />
+                  <Droplets className="h-7 w-7 text-accent-primary" />
                 </div>
                 <div>
-                  <p className="caption-muted text-accent-cyan">Water Quality Intelligence</p>
+                  <p className="caption-muted text-accent-primary">Water Quality Intelligence</p>
                   <h1 className="h1-display mt-1">
                     State-aware water safety, monitoring locations, and year-wise mineral trends
                   </h1>
@@ -428,7 +428,7 @@ export default function WaterPage() {
         <SectionCard
           title="Search Water Data"
           subtitle="State selection powers the monitoring-location recommendations automatically."
-          icon={<Search className="h-5 w-5 text-accent-cyan" />}
+          icon={<Search className="h-5 w-5 text-accent-primary" />}
         >
           <div className="grid gap-4 lg:grid-cols-[0.95fr_1.25fr_auto_auto]">
             <div className="relative space-y-2">
@@ -446,7 +446,7 @@ export default function WaterPage() {
                     setStateQuery(event.target.value);
                     setStateMenuOpen(true);
                   }}
-                  className="h-12 w-full rounded-2xl border border-white/10 bg-white/5 px-4 text-sm text-white outline-none transition focus:border-accent-cyan"
+                  className="h-12 w-full rounded-2xl border border-white/10 bg-white/5 px-4 text-sm text-white outline-none transition focus:border-accent-primary"
                 />
                 <Search className="absolute right-4 top-3.5 h-5 w-5 text-text-muted" />
               </div>
@@ -511,7 +511,7 @@ export default function WaterPage() {
                     setStationQuery(event.target.value);
                     setStationMenuOpen(true);
                   }}
-                  className="h-12 w-full rounded-2xl border border-white/10 bg-white/5 px-4 pr-12 text-sm text-white outline-none transition focus:border-accent-cyan disabled:cursor-not-allowed disabled:opacity-50"
+                  className="h-12 w-full rounded-2xl border border-white/10 bg-white/5 px-4 pr-12 text-sm text-white outline-none transition focus:border-accent-primary disabled:cursor-not-allowed disabled:opacity-50"
                 />
                 {stationsLoading ? (
                   <Loader2 className="absolute right-4 top-3.5 h-5 w-5 animate-spin text-text-muted" />
@@ -559,7 +559,7 @@ export default function WaterPage() {
             <button
               onClick={() => runAnalysis()}
               disabled={!selectedState || analysisLoading}
-              className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-accent-cyan px-5 text-sm font-semibold text-bg-primary transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50 lg:self-end"
+              className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-accent-primary px-5 text-sm font-semibold text-bg-primary transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50 lg:self-end"
             >
               {analysisLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Waves className="h-4 w-4" />}
               Analyze
@@ -568,7 +568,7 @@ export default function WaterPage() {
             <button
               onClick={handleUseMyLocation}
               disabled={nearbyLoading}
-              className="flex h-12 items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-5 text-sm font-semibold text-white transition hover:border-accent-cyan/40 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50 lg:self-end"
+              className="flex h-12 items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-5 text-sm font-semibold text-white transition hover:border-accent-primary/40 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50 lg:self-end"
             >
               {nearbyLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Navigation className="h-4 w-4" />}
               Use My Location
@@ -583,7 +583,7 @@ export default function WaterPage() {
         ) : null}
 
         {locationNotice ? (
-          <div className="rounded-2xl border border-accent-cyan/20 bg-accent-cyan/10 px-4 py-3 text-sm text-accent-cyan">
+          <div className="rounded-2xl border border-accent-primary/20 bg-accent-primary/10 px-4 py-3 text-sm text-accent-primary">
             {locationNotice}
           </div>
         ) : null}
@@ -636,7 +636,7 @@ export default function WaterPage() {
                             ? "Nearby"
                             : "Exact Station"
                       }
-                      tone="text-accent-cyan"
+                      tone="text-accent-primary"
                     />
                   </div>
                 </div>
@@ -698,7 +698,7 @@ export default function WaterPage() {
                                 stationId: station.id,
                               });
                             }}
-                            className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-left text-xs text-white transition hover:border-accent-cyan/40 hover:bg-white/10"
+                            className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-left text-xs text-white transition hover:border-accent-primary/40 hover:bg-white/10"
                           >
                             {station.name}
                           </button>
@@ -713,7 +713,7 @@ export default function WaterPage() {
             <SectionCard
               title="Mineral And Safety Flags"
               subtitle="Normal, caution, and critical bands are shown per parameter."
-              icon={<FlaskConical className="h-5 w-5 text-accent-cyan" />}
+              icon={<FlaskConical className="h-5 w-5 text-accent-primary" />}
             >
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
                 {visibleParameters.map((parameter) => (
@@ -742,7 +742,7 @@ export default function WaterPage() {
             <SectionCard
               title="How This Flow Works"
               subtitle="The water page now follows the clean data pipeline end-to-end."
-              icon={<Droplets className="h-5 w-5 text-accent-cyan" />}
+              icon={<Droplets className="h-5 w-5 text-accent-primary" />}
             >
               <div className="space-y-3 text-sm leading-7 text-text-secondary">
                 <p>1. Pick a state to unlock that state’s monitoring locations.</p>
@@ -760,7 +760,7 @@ export default function WaterPage() {
             <SectionCard
               title="Year-wise Trend Explorer"
               subtitle="Switch between parameters to inspect the yearly groundwater profile."
-              icon={<TrendingUp className="h-5 w-5 text-accent-cyan" />}
+              icon={<TrendingUp className="h-5 w-5 text-accent-primary" />}
             >
               {analysisLoading && !trends ? (
                 <LoadingPanel label="Loading yearly trends..." />
@@ -775,8 +775,8 @@ export default function WaterPage() {
                           onClick={() => setActiveParameter(parameter)}
                           className={`rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] transition ${
                             activeParameter === parameter
-                              ? "border-accent-cyan bg-accent-cyan/15 text-accent-cyan"
-                              : "border-white/10 bg-white/5 text-text-secondary hover:border-accent-cyan/30 hover:text-white"
+                              ? "border-accent-primary bg-accent-primary/15 text-accent-primary"
+                              : "border-white/10 bg-white/5 text-text-secondary hover:border-accent-primary/30 hover:text-white"
                           }`}
                         >
                           {WATER_PARAMETER_META[parameter]?.label || parameter}

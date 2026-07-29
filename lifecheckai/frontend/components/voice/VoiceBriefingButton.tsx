@@ -91,7 +91,7 @@ export function VoiceBriefingButton({ safetyData }: VoiceBriefingButtonProps) {
       className={`fixed z-[70] bottom-6 right-6 min-w-14 min-h-14 rounded-full border flex items-center justify-center gap-2 px-4 ${
         state === "error"
           ? "border-unsafe/50 text-unsafe bg-unsafe/10"
-          : "border-accent-blue/60 text-accent-cyan bg-bg-card/95"
+          : "border-accent-blue/60 text-accent-primary bg-bg-card/95"
       } ${disabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"}`}
       title="Listen to Safety Briefing"
       aria-label="Listen to Safety Briefing"
@@ -111,7 +111,7 @@ export function VoiceBriefingButton({ safetyData }: VoiceBriefingButtonProps) {
           {[0, 1, 2].map((bar) => (
             <motion.span
               key={bar}
-              className="w-1 rounded-full bg-accent-cyan"
+              className="w-1 rounded-full bg-accent-primary"
               animate={{ height: [6, 14, 8, 12, 6] }}
               transition={{ duration: 0.9, repeat: Infinity, delay: bar * 0.12 }}
             />
