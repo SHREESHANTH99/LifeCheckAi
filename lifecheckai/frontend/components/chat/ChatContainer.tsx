@@ -331,13 +331,13 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
             {/* Header spacer to align with active session header */}
             <div className="w-full h-[73px] border-b border-border-default mb-4 flex-shrink-0 bg-bg-card/80 backdrop-blur-md" />
             
-            <div className="flex flex-col items-center w-full gap-2">
+            <div className="flex flex-col items-center w-full gap-1">
               <button
                  onClick={() => handleRailClick('context')}
-                 className={`w-full flex justify-center py-3 transition-all cursor-pointer ${
+                 className={`w-full flex justify-center py-3 transition-all cursor-pointer border-l-2 ${
                    isSidebarOpen && activeSidebarTab === 'context'
-                     ? 'bg-accent-primary/10 text-accent-primary border-l-2 border-accent-primary'
-                     : 'text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent'
+                     ? 'bg-accent-primary/10 text-white opacity-100 border-accent-primary'
+                     : 'text-slate-400 opacity-50 hover:opacity-80 hover:bg-white/5 border-transparent'
                  }`}
                  title="Context & Safety Data"
               >
@@ -345,10 +345,10 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
               </button>
               <button
                  onClick={() => handleRailClick('agent')}
-                 className={`w-full flex justify-center py-3 transition-all cursor-pointer ${
+                 className={`w-full flex justify-center py-3 transition-all cursor-pointer border-l-2 ${
                    isSidebarOpen && activeSidebarTab === 'agent'
-                     ? 'bg-accent-primary/10 text-accent-primary border-l-2 border-accent-primary'
-                     : 'text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent'
+                     ? 'bg-accent-primary/10 text-white opacity-100 border-accent-primary'
+                     : 'text-slate-400 opacity-50 hover:opacity-80 hover:bg-white/5 border-transparent'
                  }`}
                  title="Agent Rules"
               >
@@ -356,10 +356,10 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
               </button>
               <button
                  onClick={() => handleRailClick('memory')}
-                 className={`w-full flex justify-center py-3 transition-all cursor-pointer ${
+                 className={`w-full flex justify-center py-3 transition-all cursor-pointer border-l-2 ${
                    isSidebarOpen && activeSidebarTab === 'memory'
-                     ? 'bg-accent-primary/10 text-accent-primary border-l-2 border-accent-primary'
-                     : 'text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent'
+                     ? 'bg-accent-primary/10 text-white opacity-100 border-accent-primary'
+                     : 'text-slate-400 opacity-50 hover:opacity-80 hover:bg-white/5 border-transparent'
                  }`}
                  title="Conversation Memory"
               >
@@ -405,11 +405,10 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
 
         {/* Main Chat Area (Expands to fill remaining space) */}
         <main className="flex-1 w-full flex flex-col rounded-card overflow-hidden shadow-[0_0_40px_rgba(255,255,255,0.06)] border border-border-default bg-bg-card relative z-10 transition-all duration-300">
-          <div className="border-b border-border-default bg-bg-card/80 backdrop-blur-md px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between z-20">
-            <div className="flex items-center gap-4">
-               <div>
+          <div className="border-b border-border-default bg-bg-card/80 backdrop-blur-md px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between z-20 shrink-0">
+            <div className="flex flex-col">
                  <div className="flex items-center gap-3">
-                   <h1 className="h3-card">Active Session</h1>
+                   <h1 className="text-lg font-bold text-white leading-snug">Active Session</h1>
                    <span className="rounded-full border border-safe/30 bg-safe/10 px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider text-safe flex items-center gap-1.5 shadow-[0_0_12px_rgba(16,185,129,0.3)]">
                      <span className="w-1.5 h-1.5 rounded-full bg-safe animate-pulse" /> Live
                    </span>
@@ -419,15 +418,14 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
                     <span className="text-white/20">|</span>
                     <span>Memory span: {memory.length} items</span>
                  </div>
-               </div>
             </div>
             <div className="flex items-center gap-2 self-start md:self-auto">
               <button
                 onClick={toggleVoiceAssistant}
-                className={`rounded-full border px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
+                className={`rounded-full border px-4 h-9 flex items-center text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
                   settings.chatVoiceModeEnabled
                     ? 'border-accent-primary/40 bg-accent-primary/10 text-accent-primary'
-                    : 'border-white/20 bg-white/5 text-text-secondary'
+                    : 'border-white/20 bg-white/5 text-text-secondary hover:text-white hover:border-white/40'
                 }`}
                 title={settings.chatVoiceModeEnabled ? 'Stop voice assistant' : 'Start voice assistant'}
                 aria-pressed={settings.chatVoiceModeEnabled}
@@ -439,7 +437,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
               </button>
               <button
                  onClick={handleClearChat}
-                 className="rounded-full border border-danger/30 bg-danger/10 px-4 py-2.5 text-xs font-bold text-danger uppercase tracking-wider transition-colors hover:bg-danger hover:text-white cursor-pointer shadow-glow"
+                 className="rounded-full border border-danger/30 bg-danger/10 px-4 h-9 flex items-center text-xs font-bold text-danger uppercase tracking-wider transition-colors hover:bg-danger hover:text-white cursor-pointer shadow-glow"
                >
                  Clear
                </button>
@@ -456,67 +454,74 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
             </div>
           )}
 
-          <div className="flex-1 overflow-y-auto bg-bg-primary/50 p-6 relative">
+          <div className="flex-1 overflow-y-auto bg-bg-primary/50 px-6 pt-6 pb-6 relative min-h-0">
              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_60%_60%_at_50%_-20%,rgba(79,168,196,0.05),transparent)] z-0" />
             
-             <div className="relative z-10 w-full max-w-3xl mx-auto flex flex-col min-h-full pb-8">
+             <div className="relative z-10 w-full max-w-3xl mx-auto flex flex-col h-full">
                 {!messages.length && !isStreaming && (
-                  <div className="flex flex-col items-center my-auto py-8 text-center gap-8 animate-fade-in">
-                    {safetyData ? (
-                      <div className="flex flex-col items-center gap-4">
-                        <div className="flex items-center gap-5 bg-white/5 border border-white/10 rounded-3xl p-6 shadow-glow">
-                          <div className="text-right">
-                            <div className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-mono">Live Snapshot</div>
-                            <h2 className="text-3xl font-bold text-white tracking-tight mt-1 font-mono">{safetyData.city}</h2>
-                          </div>
-                          <div className="h-14 w-px bg-white/10" />
-                          <div className="flex gap-5">
-                            <div className="text-center">
-                              <div className="text-3xl font-semibold text-white font-mono">{safetyData.aqi ?? '--'}</div>
-                              <div className="text-[10px] uppercase tracking-widest text-slate-500 font-mono">AQI</div>
+                  <div className="flex flex-col items-center m-auto text-center animate-fade-in w-full max-w-md pb-4">
+                    
+                    {/* Group 1: Snapshot and Badge */}
+                    <div className="flex flex-col items-center gap-3">
+                      {safetyData ? (
+                        <>
+                          <div className="flex items-center gap-5 bg-white/5 border border-white/10 rounded-3xl p-6 shadow-glow w-full">
+                            <div className="text-right flex-1">
+                              <div className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-mono">Live Snapshot</div>
+                              <h2 className="text-3xl font-bold text-white tracking-tight mt-1 font-mono">{safetyData.city}</h2>
                             </div>
-                            <div className="text-center">
-                              <div className="text-3xl font-semibold text-white font-mono">{safetyData.temperature !== undefined ? `${safetyData.temperature}°` : '--'}</div>
-                              <div className="text-[10px] uppercase tracking-widest text-slate-500 font-mono">Temp</div>
+                            <div className="h-14 w-px bg-white/10" />
+                            <div className="flex gap-5 flex-1">
+                              <div className="text-center">
+                                <div className="text-3xl font-semibold text-white font-mono">{safetyData.aqi ?? '--'}</div>
+                                <div className="text-[10px] uppercase tracking-widest text-slate-500 font-mono">AQI</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-3xl font-semibold text-white font-mono">{safetyData.temperature !== undefined ? `${safetyData.temperature}°` : '--'}</div>
+                                <div className="text-[10px] uppercase tracking-widest text-slate-500 font-mono">Temp</div>
+                              </div>
                             </div>
                           </div>
+                          <div className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-slate-300 shadow-sm">
+                            {safetyData.verdict || 'Unknown Risk'}
+                          </div>
+                        </>
+                      ) : (
+                        <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-glow-violet">
+                            <Bot size={40} className="text-accent-primary" />
                         </div>
-                        <div className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-slate-300 shadow-sm">
-                          {safetyData.verdict || 'Unknown Risk'}
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-glow-violet">
-                          <Bot size={40} className="text-accent-primary" />
-                      </div>
-                    )}
-
-                    <div className="mt-2">
-                        <p className="body-base max-w-md mx-auto text-slate-400">
-                          {safetyData ? `I'm analyzing the latest environmental patterns for ${safetyData.city}. How can I assist you?` : "Ask me about specific risks, air quality patterns, or tailored advice."}
-                        </p>
+                      )}
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4 w-full max-w-xl">
-                        {dynamicPrompts.map((prompt) => {
-                          const lower = prompt.toLowerCase();
-                          const isAir = lower.includes('air') || lower.includes('aqi');
-                          const isTemp = lower.includes('heat') || lower.includes('cold') || lower.includes('weather');
-                          const Icon = isAir ? Wind : isTemp ? Thermometer : Droplets;
-                          
-                          return (
-                            <button
-                                key={prompt}
-                                onClick={() => handleSendMessage(prompt)}
-                                className="flex items-center gap-3 bg-white/5 border border-white/10 p-3 rounded-xl text-xs text-slate-300 transition-all hover:border-accent-primary hover:bg-accent-primary/10 hover:text-white cursor-pointer shadow-sm text-left w-full group"
-                            >
-                                <div className="p-2 rounded-lg bg-black/20 text-accent-primary group-hover:scale-110 transition-transform">
-                                  <Icon size={16} />
-                                </div>
-                                <span className="flex-1">{prompt}</span>
-                            </button>
-                          );
-                        })}
+                    <div className="h-8" />
+
+                    {/* Group 2: Greeting & Suggestions */}
+                    <div className="flex flex-col items-center gap-2 w-full">
+                      <p className="body-base max-w-md mx-auto text-slate-400">
+                        {safetyData ? `I'm analyzing the latest environmental patterns for ${safetyData.city}. How can I assist you?` : "Ask me about specific risks, air quality patterns, or tailored advice."}
+                      </p>
+
+                      <div className="flex flex-col gap-3 mt-2 w-full">
+                          {dynamicPrompts.map((prompt) => {
+                            const lower = prompt.toLowerCase();
+                            const isAir = lower.includes('air') || lower.includes('aqi');
+                            const isTemp = lower.includes('heat') || lower.includes('cold') || lower.includes('weather');
+                            const Icon = isAir ? Wind : isTemp ? Thermometer : Droplets;
+                            
+                            return (
+                              <button
+                                  key={prompt}
+                                  onClick={() => handleSendMessage(prompt)}
+                                  className="flex items-center gap-3 bg-white/5 border border-white/10 p-3 rounded-xl text-xs text-slate-300 transition-all hover:border-accent-primary hover:bg-accent-primary/10 hover:text-white cursor-pointer shadow-sm text-left w-full group"
+                              >
+                                  <div className="p-2 rounded-lg bg-black/20 text-accent-primary group-hover:scale-110 transition-transform">
+                                    <Icon size={16} />
+                                  </div>
+                                  <span className="flex-1">{prompt}</span>
+                              </button>
+                            );
+                          })}
+                      </div>
                     </div>
                   </div>
                 )}
