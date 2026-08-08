@@ -57,9 +57,9 @@ export const WaterWave: React.FC<WaterWaveProps> = ({ percentage, isDrinkable, s
       </motion.div>
 
       {/* Foreground Value Overlay */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none mix-blend-difference pb-2">
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none pb-2 drop-shadow-md">
         <span className="text-3xl font-bold font-mono text-white tracking-widest">{Math.round(percentage)}%</span>
-        <span className="text-[10px] uppercase font-bold text-white/80 tracking-widest leading-none mt-1">Drinkable</span>
+        <span className="text-[10px] uppercase font-bold text-white/90 tracking-widest leading-none mt-1">Drinkable</span>
       </div>
     </div>
   );

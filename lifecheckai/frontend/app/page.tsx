@@ -10,13 +10,12 @@ import { Wind, ShieldAlert, Sparkles, Activity, Zap, BarChart3, CloudRain } from
 const popularCities = ["Mumbai", "Delhi", "Bangalore", "Chennai", "Hyderabad", "Kolkata"];
 
 const MarqueeContent = () => (
-  <div className="flex gap-16 font-mono text-sm tracking-widest text-text-muted px-8">
+  <div className="flex w-screen justify-around font-mono text-sm tracking-widest text-text-muted px-8 shrink-0">
+    <span>3.2M CHECKS</span>
+    <span className="text-text-muted">•</span>
     <span>14 CITIES MONITORED</span>
     <span className="text-text-muted">•</span>
     <span>99.2% UPTIME</span>
-    <span className="text-text-muted">•</span>
-    <span>3.2M CHECKS</span>
-    <span className="text-text-muted">•</span>
   </div>
 );
 
@@ -154,7 +153,7 @@ export default function HomePage() {
             className="h-full"
           >
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.08)" className="glass p-8 flex flex-col h-full interactive-base rounded-3xl">
-              <div className="w-12 h-12 rounded-xl bg-warning/10 flex items-center justify-center mb-6 text-white border border-warning/20">
+              <div className="w-12 h-12 rounded-xl bg-accent-primary/10 flex items-center justify-center mb-6 text-white border border-accent-primary/20">
                 <ShieldAlert size={24} />
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">Risk Analysis</h3>
@@ -181,7 +180,7 @@ export default function HomePage() {
             className="h-full"
           >
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.08)" className="glass p-8 flex flex-col h-full interactive-base rounded-3xl">
-              <div className="w-12 h-12 rounded-xl bg-purple-500/15 flex items-center justify-center mb-6 text-white border border-purple-500/20">
+              <div className="w-12 h-12 rounded-xl bg-accent-primary/10 flex items-center justify-center mb-6 text-white border border-accent-primary/20">
                 <Sparkles size={24} />
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">Gemini Intelligence</h3>

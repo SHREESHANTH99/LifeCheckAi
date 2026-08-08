@@ -461,7 +461,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
             
              <div className="relative z-10 w-full max-w-3xl mx-auto flex flex-col min-h-full pb-8">
                 {!messages.length && !isStreaming && (
-                  <div className="flex flex-col items-center justify-center mt-8 mb-8 text-center gap-8 animate-fade-in">
+                  <div className="flex flex-col items-center my-auto py-8 text-center gap-8 animate-fade-in">
                     {safetyData ? (
                       <div className="flex flex-col items-center gap-4">
                         <div className="flex items-center gap-5 bg-white/5 border border-white/10 rounded-3xl p-6 shadow-glow">

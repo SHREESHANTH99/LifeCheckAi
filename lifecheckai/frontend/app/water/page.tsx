@@ -802,9 +802,9 @@ export default function WaterPage() {
                         <Line
                           type="monotone"
                           dataKey="value"
-                          stroke={WATER_PARAMETER_META[activeParameter]?.accent || "#00D4FF"}
+                          stroke={WATER_PARAMETER_META[activeParameter]?.accent || "#4FA8C4"}
                           strokeWidth={3}
-                          dot={{ r: 4, fill: WATER_PARAMETER_META[activeParameter]?.accent || "#00D4FF" }}
+                          dot={{ r: 4, fill: WATER_PARAMETER_META[activeParameter]?.accent || "#4FA8C4" }}
                           activeDot={{ r: 6 }}
                           isAnimationActive={true}
                           animationDuration={800}

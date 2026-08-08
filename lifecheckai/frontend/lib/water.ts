@@ -23,7 +23,7 @@ export const WATER_PARAMETER_META: Record<
   nitrate: { label: "Nitrate", unit: "mg/L", accent: "#eab308" },
   fecal_coliform: { label: "Fecal Coliform", unit: "MPN/100mL", accent: "#ef4444" },
   total_coliform: { label: "Total Coliform", unit: "MPN/100mL", accent: "#ec4899" },
-  tds: { label: "TDS", unit: "mg/L", accent: "#06b6d4" },
+  tds: { label: "TDS", unit: "mg/L", accent: "#4FA8C4" },
   fluoride: { label: "Fluoride", unit: "mg/L", accent: "#8b5cf6" },
   arsenic: { label: "Arsenic", unit: "mg/L", accent: "#a855f7" },
 };

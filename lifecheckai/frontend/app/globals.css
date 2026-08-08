@@ -33,6 +33,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
+  border-top: 0 !important;
 }
 
 body {
@@ -42,6 +43,7 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  border-top: 0 !important;
 }
 
 body::after {
@@ -63,6 +65,18 @@ h1, h2, h3, .heading {
 
 .mono, code, .data-number {
   font-family: var(--font-family-mono);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ─── Glass Card & Interactions ─── */

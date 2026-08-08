@@ -1,6 +1,6 @@
 "use client";
 
-import { Shield } from "lucide-react";
+import { LogoMark } from "@/components/ui/LogoMark";
 
 export function Footer() {
   return (
@@ -9,8 +9,8 @@ export function Footer() {
         
         {/* Logo and Tagline */}
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-accent-primary flex items-center justify-center">
-            <Shield size={18} className="text-bg-primary" />
+          <div className="w-8 h-8 rounded-lg bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center">
+            <LogoMark size={18} className="text-accent-primary" />
           </div>
           <div className="flex flex-col">
             <span className="text-sm text-text-primary font-bold">LifeCheck AI</span>
