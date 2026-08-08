@@ -323,24 +323,7 @@ def resolve_state_name(place: str | None, formatted_address: str | None = None) 
     return None
 
 
-def _choose_station_name(group: pd.DataFrame) -> str:
-    candidates = group[["Year", "Monitoring_Location"]].dropna()
-    if candidates.empty:
-        return group.get("Station_Code", pd.Series(dtype=str)).astype(str).iloc[0]
-
-    ranked = (
-        candidates.assign(name=candidates["Monitoring_Location"].astype(str).str.strip())
-        .groupby("name")
-        .agg(latest_year=("Year", "max"), frequency=("Year", "count"))
-        .reset_index()
-    )
-    ranked["length"] = ranked["name"].str.len()
-    best = ranked.sort_values(
-        by=["latest_year", "frequency", "length", "name"],
-        ascending=[False, False, False, True],
-    ).iloc[0]
-    return str(best["name"]).strip()
-
+from collections import defaultdict
 
 @lru_cache(maxsize=1)
 def _station_catalog_by_state() -> dict[str, list[dict]]:
@@ -349,25 +332,61 @@ def _station_catalog_by_state() -> dict[str, list[dict]]:
         return {}
 
     catalog: dict[str, list[dict]] = {}
-    for state, state_frame in frame.groupby("State"):
-        items: list[dict] = []
-        for station_key, group in state_frame.groupby("station_key"):
-            years = sorted(int(year) for year in group["Year"].dropna().astype(int).unique().tolist())
-            station_code = next(
-                (value for value in group["Station_Code"].astype(str).tolist() if value and value != "nan"),
-                None,
-            )
-            items.append(
-                {
-                    "id": station_key,
-                    "code": station_code,
-                    "name": _choose_station_name(group),
-                    "sample_count": int(len(group)),
-                    "latest_year": max(years) if years else None,
-                    "years": years,
-                }
-            )
+    
+    # 1. Fast vectorized extraction of the best Monitoring_Location name per station_key
+    loc_stats = frame.dropna(subset=["Year", "Monitoring_Location"]).copy()
+    loc_stats["Monitoring_Location"] = loc_stats["Monitoring_Location"].astype(str).str.strip()
+    loc_stats = loc_stats.groupby(["State", "station_key", "Monitoring_Location"]).agg(
+        latest_year=("Year", "max"),
+        frequency=("Year", "count"),
+    ).reset_index()
+    
+    loc_stats["length"] = loc_stats["Monitoring_Location"].str.len()
+    loc_stats = loc_stats.sort_values(
+        by=["State", "station_key", "latest_year", "frequency", "length", "Monitoring_Location"],
+        ascending=[True, True, False, False, False, True]
+    )
+    
+    best_names = loc_stats.drop_duplicates(subset=["State", "station_key"], keep="first")
+    best_name_map = best_names.set_index(["State", "station_key"])["Monitoring_Location"].to_dict()
 
+    # 2. Fast iteration to collect years, samples, and codes
+    station_data = defaultdict(lambda: defaultdict(lambda: {
+        "years": set(),
+        "sample_count": 0,
+        "code": None
+    }))
+
+    for row in frame.itertuples(index=False):
+        st = row.State
+        key = row.station_key
+        d = station_data[st][key]
+        
+        if pd.notna(row.Year):
+            d["years"].add(int(row.Year))
+        d["sample_count"] += 1
+        
+        if d["code"] is None and pd.notna(row.Station_Code) and row.Station_Code != "" and row.Station_Code != "nan":
+            d["code"] = str(row.Station_Code)
+
+    # 3. Assemble catalog output
+    for state, stations in station_data.items():
+        items = []
+        for key, d in stations.items():
+            years = sorted(list(d["years"]))
+            name = best_name_map.get((state, key))
+            if not name:
+                name = d["code"] if d["code"] else "Unknown"
+            
+            items.append({
+                "id": key,
+                "code": d["code"],
+                "name": str(name).strip(),
+                "sample_count": d["sample_count"],
+                "latest_year": years[-1] if years else None,
+                "years": years
+            })
+        
         catalog[state] = sorted(items, key=lambda item: item["name"].lower())
 
     return catalog
