@@ -20,7 +20,7 @@ export function DashboardSkeleton() {
         {/* Bento Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Overall Score Skeleton */}
-          <Card className="flex flex-col items-center justify-center border-l-4 border-l-border-default animate-pulse min-h-[300px]">
+          <Card className="flex flex-col items-center justify-center border border-border-default animate-pulse min-h-[300px]">
             <div className="h-6 w-48 bg-white/10 rounded-full mb-8" />
             <div className="w-44 h-44 rounded-full border-8 border-white/5 bg-white/5" />
             <div className="h-8 w-32 bg-white/10 rounded-full mt-8" />

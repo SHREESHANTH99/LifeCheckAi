@@ -24,7 +24,7 @@ export const AlertCard: React.FC<AlertCardProps> = ({ alerts, city }) => {
   const colors = getSeverityColor(highestSeverity);
 
   return (
-    <div className={`my-3 border-l-4 ${colors.border} ${colors.bg} rounded-lg p-4 animate-slide-down`}>
+    <div className={`my-3 border ${colors.border} ${colors.bg} rounded-lg p-4 animate-slide-down`}>
       <div className="flex items-center gap-2 mb-3">
         <span className="text-lg">⚠️</span>
         <span className="font-semibold text-white">Active Alerts — {city}</span>

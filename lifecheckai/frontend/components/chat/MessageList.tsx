@@ -124,9 +124,9 @@ export const MessageList: React.FC<MessageListProps> = ({
       {isLoading && (
         <div className="flex justify-start my-3">
           <div className="flex gap-2 items-center p-3">
-            <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" />
-            <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-            <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
+            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: '0.1s' }} />
+            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
           </div>
         </div>
       )}

@@ -18,12 +18,12 @@ interface MetricCardProps {
 }
 
 const borderColors: Record<StatusType, string> = {
-  safe: "border-l-safe",
-  caution: "border-l-warning",
-  warning: "border-l-warning",
-  unsafe: "border-l-danger",
-  danger: "border-l-danger",
-  unknown: "border-l-border-default",
+  safe: "border-safe/50",
+  caution: "border-warning/50",
+  warning: "border-warning/50",
+  unsafe: "border-danger/50",
+  danger: "border-danger/50",
+  unknown: "border-border-default",
 };
 
 export function MetricCard({
@@ -41,7 +41,7 @@ export function MetricCard({
 
   return (
     <Card
-      className={`relative flex flex-col group ${className} border-l-4 ${borderColors[status]}`}
+      className={`relative flex flex-col group ${className} border ${borderColors[status]}`}
     >
       {isLive && (
         <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-safe/10 border border-safe/30 px-2 py-0.5 rounded-full z-10">

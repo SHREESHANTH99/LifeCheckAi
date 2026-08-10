@@ -59,7 +59,7 @@ export const PriorityAlertBanner: React.FC<PriorityAlertBannerProps> = ({
           <div className="flex items-start gap-3 flex-1">
             {/* Animated alert icon */}
             <div className="flex-shrink-0">
-              <AlertTriangle className="w-6 h-6 text-white animate-bounce" />
+              <AlertTriangle className="w-6 h-6 text-white animate-pulse" />
             </div>
 
             <div className="flex-1">

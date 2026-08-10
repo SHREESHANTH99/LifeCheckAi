@@ -84,7 +84,7 @@ export const HeroInstantDemo: React.FC<HeroDemoProps> = ({ onSearch, isLoading =
       {/* Results Card */}
       {demoResult && (
         <div
-          className={`border-l-4 ${colors.border} ${colors.bg} rounded-lg p-4 backdrop-blur-sm animate-slide-down`}
+          className={`border ${colors.border} ${colors.bg} rounded-lg p-4 backdrop-blur-sm animate-slide-down`}
           style={{ borderLeftColor: colors.dot }}
         >
           <div className="flex items-start justify-between">

@@ -30,7 +30,7 @@ export const AQICard: React.FC<AQICardProps> = ({ city, aqi, pm25, pm10, no2, ad
   const borderColor = getAQIBgColor(aqi);
 
   return (
-    <div className={`my-3 border-l-4 ${borderColor} ${colors.bg} border border-l-4 rounded-lg p-4 animate-slide-down`}>
+    <div className={`my-3 border ${borderColor} ${colors.bg} rounded-lg p-4 animate-slide-down`}>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <span className="text-xl">🌫️</span>

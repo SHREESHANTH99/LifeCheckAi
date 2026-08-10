@@ -23,7 +23,7 @@ export function PersonalRiskCard({ risk, profile, onChangeProfile }: PersonalRis
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`card border-l-4 ${color}`}
+      className={`card border ${color}`}
     >
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>

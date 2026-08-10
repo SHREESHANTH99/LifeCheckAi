@@ -62,7 +62,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
   if (message.type === 'error') {
     return (
       <div className="flex justify-start my-4 animate-fade-in">
-        <div className="max-w-lg bg-danger/10 border border-danger/30 rounded-2xl p-4 border-l-4 border-l-danger shadow-glow">
+        <div className="max-w-lg bg-danger/10 border border-danger/30 rounded-2xl p-4 shadow-glow">
           <div className="flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-danger flex-shrink-0 mt-1" />
             <div>
@@ -123,9 +123,9 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
           <div className="bg-white/5 border border-white/10 rounded-2xl rounded-tl-sm px-5 py-3.5 flex-1 shadow-sm text-sm text-text-primary leading-relaxed break-words">
             {isGenerating ? (
               <div className="flex gap-1 items-center h-5">
-                <div className="w-1.5 h-1.5 bg-accent-primary rounded-full animate-bounce" />
-                <div className="w-1.5 h-1.5 bg-accent-primary rounded-full animate-bounce" style={{ animationDelay: '0.15s' }} />
-                <div className="w-1.5 h-1.5 bg-accent-primary rounded-full animate-bounce" style={{ animationDelay: '0.3s' }} />
+                <div className="w-1.5 h-1.5 bg-accent-primary rounded-full animate-pulse" />
+                <div className="w-1.5 h-1.5 bg-accent-primary rounded-full animate-pulse" style={{ animationDelay: '0.15s' }} />
+                <div className="w-1.5 h-1.5 bg-accent-primary rounded-full animate-pulse" style={{ animationDelay: '0.3s' }} />
               </div>
             ) : (
               <StreamingText text={message.content} isStreaming={message.isStreaming || false} />
