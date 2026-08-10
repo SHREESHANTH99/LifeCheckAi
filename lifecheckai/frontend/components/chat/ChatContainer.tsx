@@ -459,7 +459,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
             
              <div className="relative z-10 w-full max-w-3xl mx-auto flex flex-col h-full">
                 {!messages.length && !isStreaming && (
-                  <div className="flex flex-col items-center m-auto text-center animate-fade-in w-full max-w-md pb-4">
+                  <div className="flex flex-col items-center mx-auto mt-8 mb-auto text-center animate-fade-in w-full max-w-md pb-4">
                     
                     {/* Group 1: Snapshot and Badge */}
                     <div className="flex flex-col items-center gap-3">

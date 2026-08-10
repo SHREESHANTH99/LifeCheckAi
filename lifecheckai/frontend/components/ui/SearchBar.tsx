@@ -250,7 +250,7 @@ export function SearchBar({
           suppressHydrationWarning
           onClick={handleSubmit}
           disabled={isLoading || !query.trim()}
-          className="flex items-center justify-center h-10 w-10 mr-2 rounded-full bg-accent-primary text-white hover:brightness-110 hover:scale-105 active:scale-95 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-md"
+          className="flex items-center justify-center h-10 w-10 shrink-0 mr-2 rounded-full bg-accent-primary text-white hover:brightness-110 hover:scale-105 active:scale-95 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-md"
           aria-label="Search"
         >
           {isLoading ? (
