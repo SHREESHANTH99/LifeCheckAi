@@ -62,7 +62,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
   if (message.type === 'error') {
     return (
       <div className="flex justify-start my-4 animate-fade-in">
-        <div className="max-w-lg bg-danger/10 border border-danger/30 rounded-2xl p-4 shadow-glow">
+        <div className="max-w-lg bg-danger/10 border border-danger/30 rounded-2xl p-4 shadow-glow-danger">
           <div className="flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-danger flex-shrink-0 mt-1" />
             <div>

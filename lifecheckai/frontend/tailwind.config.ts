@@ -31,8 +31,14 @@ const config: Config = {
         'danger': '#EF4444',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Outfit', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
+      },
+      boxShadow: {
+        'glow': '0 0 20px rgba(79, 168, 196, 0.15)',
+        'glow-sm': '0 0 10px rgba(79, 168, 196, 0.10)',
+        'glow-danger': '0 0 20px rgba(239, 68, 68, 0.15)',
+        'glow-warning': '0 0 20px rgba(245, 158, 11, 0.15)',
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',

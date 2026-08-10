@@ -377,7 +377,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
             <div className="fixed inset-0 z-30 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
             
             <div className="absolute left-0 lg:left-20 top-0 bottom-0 w-80 lg:w-[340px] bg-bg-card border border-border-default rounded-card shadow-2xl z-40 flex flex-col animate-slide-right overflow-hidden">
-               <div className="flex items-center justify-between p-4 border-b border-white/10 bg-bg-card/80 backdrop-blur-md">
+               <div className="flex items-center justify-between p-4 border-b border-white/5 bg-bg-card/80 backdrop-blur-md">
                   <span className="font-semibold text-white capitalize text-sm tracking-wide">{activeSidebarTab}</span>
                   <button onClick={() => setIsSidebarOpen(false)} className="text-slate-400 hover:text-white cursor-pointer transition-colors p-1">
                      <X size={18} />
@@ -465,7 +465,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
                     <div className="flex flex-col items-center gap-3">
                       {safetyData ? (
                         <>
-                          <div className="flex items-center gap-5 bg-white/5 border border-white/10 rounded-3xl p-6 shadow-glow w-full">
+                          <div className="flex items-center gap-5 bg-white/5 border border-white/5 rounded-3xl p-6 shadow-glow w-full">
                             <div className="text-right flex-1">
                               <div className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-mono">Live Snapshot</div>
                               <h2 className="text-3xl font-bold text-white tracking-tight mt-1 font-mono">{safetyData.city}</h2>
@@ -482,12 +482,12 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
                               </div>
                             </div>
                           </div>
-                          <div className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-slate-300 shadow-sm">
+                          <div className="rounded-full border border-white/5 bg-white/5 px-4 py-1.5 text-xs font-medium text-slate-300 shadow-sm">
                             {safetyData.verdict || 'Unknown Risk'}
                           </div>
                         </>
                       ) : (
-                        <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-glow-violet">
+                        <div className="w-20 h-20 rounded-full bg-white/5 border border-white/5 flex items-center justify-center shadow-glow-violet">
                             <Bot size={40} className="text-accent-primary" />
                         </div>
                       )}
@@ -512,7 +512,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
                               <button
                                   key={prompt}
                                   onClick={() => handleSendMessage(prompt)}
-                                  className="flex items-center gap-3 bg-white/5 border border-white/10 p-3 rounded-xl text-xs text-slate-300 transition-all hover:border-accent-primary hover:bg-accent-primary/10 hover:text-white cursor-pointer shadow-sm text-left w-full group"
+                                  className="flex items-center gap-3 bg-white/5 border border-white/5 p-3 rounded-xl text-xs text-slate-300 transition-all hover:border-accent-primary hover:bg-accent-primary/10 hover:text-white cursor-pointer shadow-sm text-left w-full group"
                               >
                                   <div className="p-2 rounded-lg bg-black/20 text-accent-primary group-hover:scale-110 transition-transform">
                                     <Icon size={16} />

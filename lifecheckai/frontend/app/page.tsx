@@ -31,7 +31,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* ─── Hero Section ─── */}
-      <section className="relative min-h-[70vh] flex flex-col items-center justify-center pt-32 px-4 pb-20">
+      <section className="relative min-h-[70vh] flex flex-col items-center justify-center pt-40 px-4 pb-32">
         {/* Static Directional Light Beam */}
         {/* Static Directional Light Beam */}
         <div 
@@ -45,7 +45,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, ease: "easeOut" }}
-            className="mb-6 px-4 py-1.5 rounded-full border border-slate-700/80 bg-white/5 text-white text-xs sm:text-sm font-semibold tracking-wide flex items-center justify-center gap-2 shadow-sm"
+            className="mb-6 px-4 py-1.5 rounded-full border border-slate-700/80 bg-white/5 text-white text-xs sm:text-sm font-semibold tracking-widest flex items-center justify-center gap-2 shadow-sm"
           >
             <div className="w-2 h-2 rounded-full bg-accent-primary shadow-[0_0_8px_rgba(79,168,196,0.8)]" />
             ENVIRONMENTAL INTELLIGENCE PLATFORM
@@ -55,7 +55,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.08, duration: 0.35, ease: "easeOut" }}
-            className="text-5xl sm:text-7xl font-extrabold text-slate-100 leading-tight mb-6 tracking-tight"
+            className="text-5xl sm:text-7xl font-extrabold text-slate-100 leading-[1.1] mb-8 tracking-tighter"
           >
             Know if it's safe to <br />
             go outside, <span className="text-accent-primary">right now.</span>

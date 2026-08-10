@@ -63,7 +63,7 @@ export function MetricCard({
       </div>
       
       <div className="flex items-baseline gap-1.5 mt-auto">
-        <span className="text-4xl font-bold font-family-mono text-white">
+        <span className="text-4xl font-bold font-family-mono tabular-nums text-white">
           {isNumeric ? <AnimatedNumber value={numValue} /> : value}
         </span>
         {unit && (
