@@ -468,7 +468,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
                           <div className="flex items-center gap-5 bg-white/5 border border-white/5 rounded-3xl p-6 shadow-glow w-full">
                             <div className="text-right flex-1">
                               <div className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-mono">Live Snapshot</div>
-                              <h2 className="text-3xl font-bold text-white tracking-tight mt-1 font-mono">{safetyData.city}</h2>
+                              <h2 className="text-3xl font-bold text-white tracking-tight mt-1 font-mono text-balance">{safetyData.city}</h2>
                             </div>
                             <div className="h-14 w-px bg-white/10" />
                             <div className="flex gap-5 flex-1">
@@ -512,7 +512,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({ initialCity = 'Del
                               <button
                                   key={prompt}
                                   onClick={() => handleSendMessage(prompt)}
-                                  className="flex items-center gap-3 bg-white/5 border border-white/5 p-3 rounded-xl text-xs text-slate-300 transition-all hover:border-accent-primary hover:bg-accent-primary/10 hover:text-white cursor-pointer shadow-sm text-left w-full group"
+                                  className="flex items-center gap-3 bg-white/5 border border-white/5 p-3 rounded-xl text-xs text-slate-300 transition-all hover:border-accent-primary hover:bg-accent-primary/10 hover:text-white cursor-pointer shadow-sm text-left w-full group focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:outline-none active:scale-[0.98]"
                               >
                                   <div className="p-2 rounded-lg bg-black/20 text-accent-primary group-hover:scale-110 transition-transform">
                                     <Icon size={16} />

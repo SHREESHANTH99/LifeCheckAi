@@ -28,7 +28,7 @@ export function SpotlightCard({
     <div
       ref={divRef}
       onMouseMove={handleMouseMove}
-      className={`relative overflow-hidden group ${className}`}
+      className={`relative overflow-hidden group shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] ${className}`}
     >
       <div
         className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"

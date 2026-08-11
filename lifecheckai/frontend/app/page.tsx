@@ -44,7 +44,7 @@ export default function HomePage() {
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
+            transition={{ type: "spring", stiffness: 120, damping: 24, mass: 0.8 }}
             className="mb-6 px-4 py-1.5 rounded-full border border-slate-700/80 bg-white/5 text-white text-xs sm:text-sm font-semibold tracking-widest flex items-center justify-center gap-2 shadow-sm"
           >
             <div className="w-2 h-2 rounded-full bg-accent-primary shadow-[0_0_8px_rgba(79,168,196,0.8)]" />
@@ -54,8 +54,8 @@ export default function HomePage() {
           <motion.h1
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.08, duration: 0.35, ease: "easeOut" }}
-            className="text-5xl sm:text-7xl font-extrabold text-slate-100 leading-[1.1] mb-8 tracking-tighter"
+            transition={{ delay: 0.08, type: "spring", stiffness: 120, damping: 24, mass: 0.8 }}
+            className="text-5xl sm:text-7xl font-extrabold text-slate-100 leading-[1.1] mb-8 tracking-tighter text-balance"
           >
             Know if it's safe to <br />
             go outside, <span className="text-accent-primary">right now.</span>
@@ -64,7 +64,7 @@ export default function HomePage() {
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.16, duration: 0.35, ease: "easeOut" }}
+            transition={{ delay: 0.16, type: "spring", stiffness: 120, damping: 24, mass: 0.8 }}
             className="text-lg text-text-secondary max-w-2xl mb-12"
           >
             Real-time air quality, weather anomalies, pollen levels, and localized safety scores for any Indian city.
@@ -73,7 +73,7 @@ export default function HomePage() {
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.24, duration: 0.35, ease: "easeOut" }}
+            transition={{ delay: 0.24, type: "spring", stiffness: 120, damping: 24, mass: 0.8 }}
             className="w-full max-w-2xl mb-16"
           >
             <div className="relative w-full rounded-2xl">
@@ -124,7 +124,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.35, ease: "easeOut", delay: 0 }}
+            transition={{ type: "spring", stiffness: 120, damping: 24, mass: 0.8, delay: 0 }}
             className="h-full"
           >
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.08)" className="glass p-8 flex flex-col h-full interactive-base rounded-3xl">
@@ -149,7 +149,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.35, ease: "easeOut", delay: 0.08 }}
+            transition={{ type: "spring", stiffness: 120, damping: 24, mass: 0.8, delay: 0.08 }}
             className="h-full"
           >
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.08)" className="glass p-8 flex flex-col h-full interactive-base rounded-3xl">
@@ -176,7 +176,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.35, ease: "easeOut", delay: 0.16 }}
+            transition={{ type: "spring", stiffness: 120, damping: 24, mass: 0.8, delay: 0.16 }}
             className="h-full"
           >
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.08)" className="glass p-8 flex flex-col h-full interactive-base rounded-3xl">

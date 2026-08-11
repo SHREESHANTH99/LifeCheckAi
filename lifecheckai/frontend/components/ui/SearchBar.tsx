@@ -240,7 +240,7 @@ export function SearchBar({
           <button
             suppressHydrationWarning
             onClick={() => setQuery("")}
-            className="flex items-center justify-center h-8 w-8 rounded-full text-text-muted hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer"
+            className="flex items-center justify-center h-8 w-8 rounded-full text-text-muted hover:text-text-primary hover:bg-white/5 transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:outline-none"
             aria-label="Clear search"
           >
             <X size={14} />
@@ -250,7 +250,7 @@ export function SearchBar({
           suppressHydrationWarning
           onClick={handleSubmit}
           disabled={isLoading || !query.trim()}
-          className="flex items-center justify-center h-10 w-10 shrink-0 mr-2 rounded-full bg-accent-primary text-white hover:brightness-110 hover:scale-105 active:scale-95 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-md"
+          className="flex items-center justify-center h-10 w-10 shrink-0 mr-2 rounded-full bg-accent-primary text-white hover:brightness-110 hover:scale-105 active:scale-95 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-md focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:outline-none focus-visible:ring-offset-2 focus-visible:ring-offset-bg-card"
           aria-label="Search"
         >
           {isLoading ? (
