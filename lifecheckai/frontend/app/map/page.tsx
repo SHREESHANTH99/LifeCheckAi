@@ -593,7 +593,7 @@ export default function MapPage() {
       <motion.div 
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
-        className="absolute top-20 left-4 lg:left-[170px] bottom-[4.5rem] z-[40] w-[min(92vw,22rem)] pointer-events-none"
+        className="absolute top-20 left-4 lg:left-6 bottom-[4.5rem] z-[40] w-[min(92vw,22rem)] pointer-events-none"
       >
         <Card className="bg-bg-card/90 backdrop-blur-md border-border-default shadow-2xl flex flex-col h-full pointer-events-auto">
           {/* Search Panel */}

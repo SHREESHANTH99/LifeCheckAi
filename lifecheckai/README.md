@@ -1,658 +1,346 @@
 # LifeCheck AI
 
-LifeCheck AI is a full-stack environmental intelligence platform focused on India-first safety decisions.
-It helps answer one practical question:
+**Real-time environmental safety intelligence for Indian cities** — combines air quality, weather, pollen, UV, and water safety data into a single composite safety verdict, delivered via a responsive web interface and a conversational AI assistant.
 
-Is this location safe right now, and what should I do next?
+---
 
-The platform combines live environment signals, AI guidance, map intelligence, alerts, water-quality ML, realtime shared state, and voice-first interaction.
+## Overview
 
-## 1) Product Scope
+Most air quality and weather apps surface raw numbers without answering the actual question: *is it safe for me to go outside right now?* LifeCheck AI addresses that gap by aggregating data from multiple environmental data providers, running it through a consistent safety-rules layer, and returning a structured verdict — safe, caution, or unsafe — with actionable guidance.
 
-LifeCheck AI is designed as a multi-surface system:
+The platform covers Indian cities specifically. Location resolution uses the Google Maps Geocoding API constrained to the IN region, water quality predictions draw from CPCB monitoring-station datasets, and pollen data is sourced from the Google Pollen API where available. The composite safety score is a weighted function of AQI, temperature, and water quality; it returns `null` rather than defaulting to a nominal value when insufficient data is available to score.
 
-- Fast safety checks for city-level decisions
-- Guided dashboard for daily monitoring
-- Spatial risk understanding on maps
-- Streaming AI assistant for actionable guidance
-- Alerting workflow with severity and unread state
-- Water-quality prediction and compliance diagnostics
-- Realtime shared awareness and watcher presence
-- Voice-assisted interaction and spoken summaries
+The product consists of a **Next.js 15 App Router frontend** (six core pages: Landing, Dashboard, Water, Risk Map, AI Chat, Alerts) and a **FastAPI backend** that exposes a versioned REST API. The backend maintains an in-process runtime state layer for fast city lookups, persists snapshots to MongoDB via SpaceTimeDB, and runs a background scheduler that pre-fetches data for a configured list of cities.
 
-## 2) Feature Tracks (Detailed)
+---
 
-This section describes each track and what is implemented.
+## Live Demo
 
-### Track A: Location Intelligence
+[life-check-ai.vercel.app](https://life-check-ai.vercel.app)
 
-- Search by city, district, state, and common India place names
-- Ranked suggestion endpoint for quick selection
-- Browser geolocation support for current-location checks
-- Reverse geocoding support in coordinate-based safety checks
-- Input normalization for stable city matching
-- Metadata indicating whether values are fresh, fallback, or cached
+---
 
-### Track B: Safety Snapshot and Risk Scoring
+## Screenshots
 
-- Unified safety snapshot for a location
-- Verdict-oriented output (safe/caution/unsafe style interpretation)
-- Composite interpretation from:
-  - Air quality signal
-  - Weather signal
-  - Pollen signal
-  - UV signal where available
-- Human-readable advisory text for immediate action
-- Null-safe backend assembly to avoid crashes on missing provider fields
-- Snapshot persistence support for history and timeline displays
+| Landing | Water Quality | Risk Map | Alerts |
+|---|---|---|---|
+| ![Landing page](screenshots/landing.png) | ![Water page](screenshots/water.png) | ![Risk Map page](screenshots/risk-map.png) | ![Alerts page](screenshots/alerts.png) |
 
-### Track C: AI Assistant (Chat)
 
-- Natural language environmental guidance
-- Query-to-location extraction path
-- Intent-aware prompt shaping for safety use-cases
-- Streaming response mode for faster perceived latency
-- Guardrails for unsafe or unsupported requests
-- Structured response sections (summary, risks, actions)
-- Provider strategy:
-  - Gemini preferred when available
-  - Groq fallback for operational continuity
-  - DeepSeek fallback path
-  - Template fallback if providers fail
+---
 
-### Track D: Dashboard Intelligence
+## Features
 
-- City search and monitored city workflow
-- Risk summary cards with core metrics
-- AQI and condition-focused visualization blocks
-- Personal risk profile support for interpretation context
-- Timeline-style view for trend awareness
-- Live refresh controls for monitored locations
-- Voice briefing entry points integrated into dashboard flow
+### Air Quality
+- AQI fetch and classification (Good → Hazardous) via Google Air Quality API
+- Dominant pollutant identification
+- PM2.5, PM10, CO, NO₂, Ozone breakdowns
+- 24-hour AQI trend chart with historical comparison
+- 48-hour forecast using a local linear regression model
 
-### Track E: Map and Spatial Risk
+### Weather Safety
+- Real-time temperature, humidity, UV index, wind speed
+- Safety scoring with heat-stress and cold-stress thresholds
+- Conditions-based advice (haze, smoke, thunderstorm, etc.)
 
-- Google Maps integration for location context
-- Marker and zone-style risk visualization
-- Monitored city visibility from map surface
-- User-activity and crowd-report style layer support
-- Sidebar/drawer interaction pattern for desktop/mobile parity
-- Zone visibility toggles for clutter control
+### Water Quality
+- Station-level predictions for 34+ CPCB monitoring locations across Indian states
+- Random Forest classifier trained on historical CPCB data (pH, BOD, TDS, nitrates, fecal/total coliform, fluoride, arsenic)
+- Confidence scores per prediction; low-confidence locations are flagged
+- Year-over-year trend analysis and station ranking
+- State-level aggregation with nearest-station matching by coordinates
 
-### Track F: Alerts and Notification Workflow
+### AI Chat Assistant
+- Natural-language questions about air quality, water safety, UV exposure, pollen, and weather for any city
+- Three-provider fallback chain: **Gemini** (1.5 Flash / 1.5 Pro) → **Groq** (Llama 3.1 8B Instant) → **DeepSeek Chat**
+- Per-provider error tracking; the active provider and any upstream errors are returned in every response
+- Intent detection (air quality, water, weather, general safety, off-topic)
+- Safety-rule guardrails aligned with the backend's `/api/safety-rules` endpoint — frontend and backend guardrail logic stay in sync from the same source
+- Streaming response support via `/api/ask/stream`
+- Structured response schema: intent, location, answer sections, confidence score, source citations, follow-up prompts, provider metadata
 
-- Live alert feed generation from safety context
-- Category-aware filtering (air/weather/pollen/UV/water)
-- Severity-based styling to prioritize critical items
-- Local unread tracking persistence
-- Read and mark-as-read interaction model
-- Summary strip for high-priority status
-
-### Track G: Water Quality ML Intelligence
-
-- State-first filtering with optional district/city refinement
-- Drinkability prediction endpoint
-- Confidence and class-probability output
-- BIS IS 10500:2012 compliance/violation interpretation
-- Parameter-level exposure (pH, TDS, nitrate, fluoride, arsenic, etc.)
-- Historical trend support by state/location
-- AI-generated contamination analysis and remediation suggestions
-- Model metrics endpoint for transparency
-
-### Track H: Realtime Shared State and Caching
-
-- SpaceTimeDB integration for shared city state patterns
-- Shared watcher-count behavior for selected city contexts
-- Shared alert board pattern for collaborative awareness
-- Realtime snapshot endpoint for current-state consumers
-- Polling support for continuously monitored cities
-- Scheduler warmup for important cities
-
-### Track I: Voice Assistant and Audio UX
-
-- Voice settings persisted in browser local storage
-- Default voice modes set to OFF for user control
-- Chat voice mode flow:
-  - Assistant intro prompt
-  - User speaks
-  - Assistant responds with voice
-  - Loop continues for conversational hands-free use
-- ElevenLabs TTS primary path
-- Browser speech-synthesis fallback when ElevenLabs is unavailable
-- Voice waveform feedback during active speech mode
-- Proactive spoken alert support
-
-## 3) User Journeys
-
-### Journey 1: Quick Safety Check
-
-1. User searches for a city.
-2. Backend aggregates signals and computes safety context.
-3. UI shows verdict, key metrics, and what to do now.
-
-### Journey 2: Ongoing Monitoring
-
-1. User adds city to monitored list.
-2. Scheduler and polling keep data fresh.
-3. Alerts surface elevated risk events.
-4. Timeline/history allows quick trend review.
-
-### Journey 3: Conversational Guidance
-
-1. User asks in chat: "Is it safe to run outside in Bangalore tonight?"
-2. Assistant infers location and context.
-3. Streamed answer gives risk + recommendation + precautions.
-4. Optional voice mode reads response and keeps the loop active.
-
-### Journey 4: Water Decision Support
-
-1. User selects state and location.
-2. Model predicts drinkability and confidence.
-3. BIS violations and contaminant clues are shown.
-4. AI explanation suggests mitigation actions.
-
-## 4) Frontend Pages
-
-- `/` Landing page for fast entry and project overview
-- `/dashboard` Main intelligence screen
-- `/map` Spatial risk and city context
-- `/chat` Streaming AI assistant with voice features
-- `/alerts` Alert feed and unread workflow
-- `/water` Water ML analysis and trends
-
-## 5) Backend API Surface
-
-### Safety and Location
-
-- `GET /api/check-safety?city=...`
-- `GET /api/check-safety-by-coordinates?lat=...&lon=...`
-- `GET /api/location-suggestions?q=...&limit=...`
-- `GET /api/cities/live`
-- `GET /api/history?cities=...&limit=...`
-- `GET /realtime/snapshot`
+### Risk Map
+- Google Maps base layer with city status markers (safe/caution/unsafe/unknown)
+- Live city data pulled from SpaceTimeDB runtime state
+- Search with location suggestions (geocoding-backed autocomplete)
+- Community crowd reports with upvote support
+- Shared user presence indicators (active viewers per city)
+- Layer toggles: AQI overlay, community markers, realtime presence
 
 ### Alerts
+- Shared community alert board (global feed)
+- Priority alert banner for critical conditions
+- Alert subscription management by city
+- Alert timeline with severity classification (info / warning / critical)
+- Voice briefing integration (optional ElevenLabs TTS)
 
-- `GET /api/alerts/live`
+### Background Scheduler
+- Configurable city list refreshed every N seconds (default: 300)
+- File-lock guard prevents multiple workers from running duplicate refresh cycles
+- ML model warm-up at startup to eliminate cold-start latency on first request
 
-### Chat
+---
 
-- `GET /api/ask?query=...`
-- `GET /api/ask/stream?query=...&city=...&profile=...&memory=...`
+## Architecture
 
-### Water
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│  Next.js 15 App Router (Frontend)                                      │
+│                                                                        │
+│  app/                                                                  │
+│    page.tsx          Landing + hero search                             │
+│    dashboard/        Composite score, AQI, weather, pollen             │
+│    water/            ML predictions, trends, state map                 │
+│    map/              Google Maps risk view + crowd reports             │
+│    chat/             AI assistant with streaming                       │
+│    alerts/           Alert feed + subscriptions                        │
+│                                                                        │
+│  components/         UI primitives (Card, SearchBar, StatusBadge…)    │
+│  hooks/              useRealtime, useCommandPalette, useSafetyData     │
+│  context/            SafetyContext, VoiceContext                       │
+└─────────────────────────────────┬──────────────────────────────────────┘
+                                  │ REST (HTTPS / CORS-controlled)
+┌─────────────────────────────────▼──────────────────────────────────────┐
+│  FastAPI Backend                                                        │
+│                                                                        │
+│  routes/                                                               │
+│    safety.py         /api/check-safety, /api/check-safety-by-coord    │
+│                      /api/cities/live, /api/location-suggestions       │
+│    chat.py           /api/ask, /api/ask/stream, /api/safety-rules     │
+│    water.py          /predict, /trends, /states, /stations, /analyze  │
+│    alerts.py         /alerts/live                                      │
+│    realtime.py       /presence, /crowd-report, /crowd-reports,        │
+│                      /activity, /snapshot                              │
+│    history.py        /history                                          │
+│                                                                        │
+│  services/                                                             │
+│    air_service.py    Google Air Quality API                            │
+│    weather_service.py  Open-Meteo + geocode                           │
+│    water_service.py  CPCB dataset queries + state resolution          │
+│    pollen_service.py Google Pollen API                                 │
+│    maps_service.py   Google Geocoding + Places (location resolve)     │
+│    gemini_service.py LLM fallback chain (Gemini → Groq → DeepSeek)   │
+│    ml_service.py     Random Forest water quality model (scikit-learn) │
+│    db_service.py     MongoDB/SpaceTimeDB read/write + score compute   │
+│    runtime_state.py  In-process city snapshot cache                   │
+│    scheduler.py      Background city refresh loop (file-lock guard)   │
+│                                                                        │
+│  utils/                                                                │
+│    rules.py          Safety classification thresholds (single source) │
+│    safety_guard.py   Off-topic/dangerous-advice guard                 │
+│    prompt_builder.py Structured prompt assembly for LLM calls         │
+│    confidence.py     Answer confidence scoring                         │
+│    intent.py         Query intent detection                            │
+└─────────────────────────────────┬──────────────────────────────────────┘
+                                  │
+             ┌────────────────────┴────────────────────┐
+             │                                         │
+     SpaceTimeDB (MongoDB)                 External Data APIs
+     City snapshots, alerts,              Google Air Quality
+     crowd reports, presence              Google Pollen
+                                          Google Geocoding / Places
+                                          Open-Meteo (weather)
+                                          CPCB water datasets
+                                          Groq API
+                                          DeepSeek API
+```
 
-- `GET /api/water/states`
-- `GET /api/water/predict?state=...&location=...`
-- `GET /api/water/trends?state=...&location=...`
-- `GET /api/water/model-metrics`
-- `GET /api/water/analyze?state=...`
+### Safety Rules Synchronization
 
-### Platform
+The `/api/safety-rules` endpoint returns the same thresholds and classification logic used internally by the backend. The frontend fetches this on load to ensure UI-level safety classifications (green/amber/red) remain consistent with backend verdicts — there is no duplicated hard-coded threshold table in the frontend.
 
-- `GET /`
-- `GET /health`
-- `GET /test`
+---
 
-## 6) Architecture Summary
+## Tech Stack
+
+### Frontend
+| Package | Version | Purpose |
+|---|---|---|
+| Next.js | 16.2.2 | App Router framework |
+| React | 19.2.4 | UI rendering |
+| Framer Motion | 12.x | Animation (critically-damped spring physics) |
+| Tailwind CSS | 3.4.x | Utility-first styling |
+| Recharts | 3.x | AQI / water trend charts |
+| Chart.js + react-chartjs-2 | 4.x / 5.x | Additional chart types |
+| Lucide React | 1.x | Icon set |
+| Zustand | 5.x | Local UI state |
+| spacetimedb (JS SDK) | 2.x | Real-time city presence |
 
 ### Backend
+| Package | Version | Purpose |
+|---|---|---|
+| FastAPI | 0.135.x | REST API framework |
+| Uvicorn | 0.42.x | ASGI server (dev) |
+| Gunicorn | 23.x | Process manager (production) |
+| Pydantic | 2.12.x | Request/response validation |
+| httpx | 0.28.x | Async HTTP client |
+| pymongo | 4.16.x | MongoDB driver |
+| python-dotenv | 1.2.x | Environment variable loading |
 
-- Framework: FastAPI + Uvicorn
-- Route modules: safety, alerts, history, realtime, chat, water, test
-- Service modules: weather/air/pollen/maps/geocode, AI providers, DB/cache, ML
-- Scheduler: optional startup task for periodic warmup updates
-- Data behavior: defensive merging and null-safe snapshot recording
+### AI & ML
+| Package / Service | Purpose |
+|---|---|
+| google-generativeai 0.8.x | Gemini 1.5 Flash / Pro (primary LLM) |
+| Groq API (llama-3.1-8b-instant) | LLM fallback 1 |
+| DeepSeek API (deepseek-chat) | LLM fallback 2 |
+| scikit-learn ≥ 1.5 | Random Forest water quality classifier |
+| pandas ≥ 2.2 | CPCB dataset loading and feature engineering |
+| numpy ≥ 1.26 | Numerical operations |
+| joblib ≥ 1.4 | Model serialization |
+
+### Data & Real-time
+| Service | Purpose |
+|---|---|
+| Google Air Quality API | AQI, pollutant breakdown |
+| Google Pollen API | Pollen type/level by location |
+| Google Geocoding / Places API | City coordinate resolution, autocomplete |
+| Open-Meteo | Weather data (temperature, UV, wind, humidity) |
+| SpaceTimeDB SDK 0.7 | Real-time city presence and crowd reports |
+| MongoDB (via pymongo) | Persistent city snapshots and alert history |
+| CPCB monitoring datasets | Water quality historical data (offline files) |
+
+### Infra
+- **Frontend**: Vercel (Next.js native deployment)
+- **Backend**: Any ASGI-compatible host (tested with Gunicorn + Uvicorn workers)
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js ≥ 20
+- Python 3.12
+- A MongoDB instance (local or Atlas) — optional; the backend falls back to in-memory state when SpaceTimeDB is unavailable
+- API keys (see [Environment Variables](#environment-variables) below)
+
+### Clone
+
+```bash
+git clone https://github.com/SHREESHANTH99/LifeCheckAi.git
+cd LifeCheckAi/lifecheckai
+```
 
 ### Frontend
 
-- Framework: Next.js App Router + React + TypeScript
-- Styling: Tailwind CSS
-- Motion and transitions: Framer Motion
-- Charts: Recharts + Chart.js
-- State: React hooks and Zustand where needed
-- Realtime integration: SpaceTimeDB client patterns + polling fallback
-- Voice: ElevenLabs API path + browser speech fallback
-
-### Realtime Server (Companion)
-
-- Rust cdylib service using SpaceTimeDB
-- Shared state support for collaborative city awareness patterns
-
-## 7) Technology Stack and Dependencies
-
-### Frontend (selected)
-
-- next 16.2.2
-- react 19.2.4
-- typescript 5
-- tailwindcss 3.4.x
-- framer-motion 12.x
-- chart.js 4.x
-- react-chartjs-2 5.x
-- recharts 3.x
-- zustand 5.x
-- spacetimedb 2.1.0
-
-### Backend (selected)
-
-- fastapi 0.135.x
-- uvicorn 0.42.x
-- httpx 0.28.x
-- pydantic 2.12.x
-- python-dotenv 1.2.x
-- requests 2.33.x
-- google-generativeai 0.8.x
-- spacetimedb-sdk 0.7.0
-- pandas 2.2+
-- scikit-learn 1.5+
-- joblib 1.4+
-- numpy 1.26+
-
-### Realtime Companion
-
-- Rust 2021 edition
-- spacetimedb crate 2.1.0
-
-## 8) Environment Configuration
-
-### Backend .env (`lifecheckai/backend/.env`)
-
-```env
-GOOGLE_API_KEY=YOUR_GOOGLE_API_KEY
-GEMINI_API_KEY=YOUR_GEMINI_API_KEY
-GEMINI_MODEL=gemini-1.5-flash
-GROQ_API_KEY=YOUR_GROQ_API_KEY
-GROQ_MODEL=llama-3.1-8b-instant
-DEEPSEEK_API_KEY=YOUR_DEEPSEEK_API_KEY
-DEEPSEEK_MODEL=deepseek-chat
-GEOCODING_COUNTRY=IN
-GEOCODING_REGION=in
-SPACETIMEDB_HOST=https://maincloud.spacetimedb.com
-SPACETIMEDB_DB_NAME=YOUR_DB_NAME
-ENABLE_SCHEDULER=true
-SCHEDULER_INTERVAL_SECONDS=300
-SCHEDULER_CITIES=Delhi,Mumbai,Bangalore,Chennai
-```
-
-### Frontend .env.local (`lifecheckai/frontend/.env.local`)
-
-```env
-NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
-NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
-NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=YOUR_BROWSER_MAPS_KEY
-NEXT_PUBLIC_ELEVENLABS_API_KEY=YOUR_ELEVENLABS_API_KEY
-NEXT_PUBLIC_ELEVENLABS_VOICE_ID=YOUR_ELEVENLABS_VOICE_ID
-```
-
-## 9) Local Setup
-
-### Backend
-
-```powershell
-cd lifecheckai/backend
-python -m venv venv
-./venv/Scripts/activate
-pip install -r requirements.txt
-```
-
-### Frontend
-
-```powershell
-cd ../frontend
+```bash
+cd frontend
 npm install
-```
-
-### Optional SpaceTimeDB publish
-
-```powershell
-cd ../../lifecheck-sbt/server
-spacetime login
-spacetime publish YOUR_DB_NAME -y
-```
-
-## 10) Run
-
-### Start backend
-
-```powershell
-./lifecheckai/backend/venv/Scripts/python.exe -m uvicorn lifecheckai.backend.app.main:app --reload
-```
-
-### Start frontend
-
-```powershell
-cd lifecheckai/frontend
 npm run dev
 ```
 
-### Open
+The dev server starts at `http://localhost:3000`.
 
-- Backend docs: http://127.0.0.1:8000/docs
-- Frontend app: http://localhost:3000
+### Backend
 
-## 11) Verification Commands
+```bash
+cd backend
+python -m venv venv
 
-```powershell
-curl http://127.0.0.1:8000/health
-curl "http://127.0.0.1:8000/api/check-safety?city=Delhi"
-curl "http://127.0.0.1:8000/api/location-suggestions?q=maha&limit=8"
-curl http://127.0.0.1:8000/api/cities/live
-curl "http://127.0.0.1:8000/api/ask?query=How%20safe%20is%20Delhi%20today"
-curl "http://127.0.0.1:8000/api/water/predict?state=Maharashtra"
+# Windows
+venv\Scripts\activate
+# macOS / Linux
+source venv/bin/activate
+
+pip install -r requirements.txt
 ```
 
-## 12) Repository Layout
+Run the development server:
 
-```text
-lifecheck-ai/
-  lifecheckai/
-    backend/
-      app/
-        main.py
-        config.py
-        routes/
-        services/
-        models/
-        utils/
-      requirements.txt
-    frontend/
-      app/
-      components/
-      hooks/
-      lib/
-      types/
-      package.json
-    data/
-    models/
-  lifecheck-sbt/
-    server/
-      Cargo.toml
-      src/lib.rs
+```bash
+uvicorn lifecheckai.backend.app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-## 13) Limitations and Operational Notes
+The FastAPI server starts at `http://localhost:8000`. Interactive API docs are available at `http://localhost:8000/docs`.
 
-- Full environmental coverage depends on valid third-party API keys.
-- Some providers may return sparse data for smaller regions.
-- Voice output quality and availability depend on browser/media permissions and API key validity.
-- If ElevenLabs key is missing or invalid, browser speech fallback is used.
-- Realtime shared-state features require SpaceTimeDB deployment and correct host/db configuration.
-- Never commit secrets to version control.
+> **Note**: The backend is structured as a Python package (`lifecheckai.backend`). Run `uvicorn` from the **repository root**, not from inside the `backend/` directory, otherwise the package imports will fail.
 
-## 14) Current Status
+### SpaceTimeDB (optional)
 
-This README reflects the implemented project scope and integration tracks as of April 2026.
+If you want real-time city presence and crowd reports, install and run a local SpaceTimeDB instance, then set `SPACETIMEDB_HOST` in your environment. If this variable is not set, the backend operates without real-time sync — all safety data features remain functional.
 
-## 15) Deployment Guide (Production-Safe)
+---
 
-This repository is a monorepo-style layout, so deployment commands must match folder structure.
+## Environment Variables
 
-### Recommended Hosting Split
+### Backend (`backend/.env`)
 
-- Frontend (Next.js): Vercel
-- Backend (FastAPI): Render
-- Realtime shared state: SpaceTimeDB Cloud
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `GEMINI_API_KEY` | Yes* | — | Google Gemini API key for the primary LLM |
+| `GOOGLE_API_KEY` | Yes* | — | Google API key (used for Geocoding, Air Quality, Pollen, and as a Gemini key fallback) |
+| `GROQ_API_KEY` | No | — | Groq API key; enables LLM fallback 1 |
+| `DEEPSEEK_API_KEY` | No | — | DeepSeek API key; enables LLM fallback 2 |
+| `GEMINI_MODEL` | No | `gemini-1.5-flash` | Override the default Gemini model |
+| `GROQ_MODEL` | No | `llama-3.1-8b-instant` | Override the Groq model |
+| `DEEPSEEK_MODEL` | No | `deepseek-chat` | Override the DeepSeek model |
+| `SPACETIMEDB_HOST` | No | — | SpaceTimeDB host URL; real-time features are disabled if unset |
+| `SPACETIMEDB_DB_NAME` | No | `lifecheck` | SpaceTimeDB database name |
+| `ENABLE_SCHEDULER` | No | `true` | Set to `false` to disable the background city refresh loop |
+| `SCHEDULER_INTERVAL_SECONDS` | No | `300` | How frequently (in seconds) the scheduler refreshes cities |
+| `SCHEDULER_CITIES` | No | `Delhi,Mumbai,Bangalore,Chennai` | Comma-separated list of cities to pre-fetch |
+| `ALLOWED_ORIGINS` | No | `http://localhost:3000,https://life-check-ai.vercel.app` | CORS-allowed origins |
+| `GEOCODING_COUNTRY` | No | `IN` | ISO country code for geocoding bias |
 
-### Render Backend (No-Build-Issue Setup)
+\* At least one of `GEMINI_API_KEY` or `GOOGLE_API_KEY` is required for the AI chat and environmental data features.
 
-Use these exact settings for the backend service:
+### Frontend (`frontend/.env.local`)
 
-- Root Directory: leave empty (repo root)
-- Build Command: `pip install -r requirements.txt`
-- Start Command: `gunicorn -k uvicorn.workers.UvicornWorker -b 0.0.0.0:$PORT lifecheckai.backend.app.main:app`
+| Variable | Required | Description |
+|---|---|---|
+| `NEXT_PUBLIC_API_BASE_URL` | No | Backend API base URL (defaults to `http://127.0.0.1:8000`) |
+| `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | No | Google Maps JavaScript API key; the Risk Map page requires this to render the map |
+| `NEXT_PUBLIC_ELEVENLABS_API_KEY` | No | ElevenLabs API key; voice briefing feature is hidden if unset |
 
-Why this works:
+---
 
-- Root-level `requirements.txt` forwards to backend requirements.
-- Backend imports use `lifecheckai.backend.app...`, which resolve when running from repo root.
+## API Reference
 
-### Render Python Version
+Interactive docs (Swagger UI) are available at `/docs` on any running backend instance.
 
-For better package compatibility and predictable startup behavior, pin Python to 3.11.x or 3.12.x.
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/check-safety` | Full safety snapshot for a city by name (`?city=`) |
+| `GET` | `/api/check-safety-by-coordinates` | Safety snapshot by lat/lon (`?lat=&lon=`) |
+| `GET` | `/api/cities/live` | Live snapshots for all cached cities |
+| `GET` | `/api/location-suggestions` | Geocoding-backed autocomplete (`?q=&limit=`) |
+| `GET` | `/api/ask` | AI chat response for a safety question (`?query=`) |
+| `GET` | `/api/ask/stream` | Streaming version of `/api/ask` |
+| `GET` | `/api/safety-rules` | Safety classification thresholds used by the backend |
+| `GET` | `/predict` | Water quality prediction for a state/station (`?state=&station=`) |
+| `GET` | `/trends` | Year-over-year trend data for a monitoring station |
+| `GET` | `/states` | Available Indian states in the water dataset |
+| `GET` | `/stations` | Monitoring stations for a given state |
+| `GET` | `/analyze` | Detailed water parameter analysis for a location |
+| `GET` | `/alerts/live` | Current shared alert feed |
+| `GET` | `/presence` | Active user presence data by city |
+| `GET` | `/crowd-reports` | Community-submitted environmental reports |
+| `GET` | `/history` | Historical safety snapshot log |
+| `GET` | `/health` | Backend health check |
 
-### Vercel Frontend
+---
 
-- Project root: `lifecheckai/frontend`
-- Build: `npm run build`
-- Start: default Vercel Next.js runtime
+## Known Limitations
 
-Required frontend environment variables:
+- **Water prediction confidence varies by location.** Some CPCB monitoring stations have limited historical records; predictions at these locations carry lower confidence scores and are flagged as such in the UI and API response. Treat them as indicative, not authoritative.
+- **Pollen data is unavailable for many cities.** The Google Pollen API has limited Indian city coverage. When pollen data is absent, pollen-related fields are omitted from the safety verdict rather than defaulting to a nominal value.
+- **Scheduler is single-worker only.** The background refresh loop uses a file-based lock to prevent duplicate runs, which works on a single host. It is not designed for multi-process or multi-host deployments (e.g., multiple Gunicorn workers on different machines). Disable the scheduler in that configuration and handle city pre-fetching externally.
+- **AQI forecasting is approximate.** The 48-hour AQI forecast uses a local linear regression model, not a trained meteorological model. It is useful for trend direction but should not be treated as a precise forecast.
+- **No user authentication.** The current version has no login system. Crowd reports and alert subscriptions are session-local; they are not tied to persistent user identities.
 
-- `NEXT_PUBLIC_API_URL`
-- `NEXT_PUBLIC_API_BASE_URL`
-- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`
-- `NEXT_PUBLIC_ELEVENLABS_API_KEY`
-- `NEXT_PUBLIC_ELEVENLABS_VOICE_ID`
-- `NEXT_PUBLIC_SPACETIMEDB_HOST`
-- `NEXT_PUBLIC_SPACETIMEDB_DB_NAME`
+---
 
-## 16) Common Deployment Errors and Exact Fixes
+## Contributing
 
-### Error: `Could not open requirements file: requirements.txt`
+1. Fork the repository: `https://github.com/SHREESHANTH99/LifeCheckAi`
+2. Create a feature branch: `git checkout -b feat/your-feature`
+3. Make your changes with clear, focused commits
+4. Open a pull request against `main` with a description of what changed and why
 
-Cause: Build command runs at repo root without a root requirements file path.
+There are no automated CI checks configured yet. Run `npm run lint` (frontend) before submitting. For backend changes, verify the FastAPI app starts cleanly with `uvicorn lifecheckai.backend.app.main:app --reload`.
 
-Fix:
+---
 
-- Keep `pip install -r requirements.txt` (root shim exists), or
-- Use `pip install -r lifecheckai/backend/requirements.txt`
+## License
 
-### Error: `gunicorn: command not found`
-
-Cause: Gunicorn missing from backend dependencies.
-
-Fix:
-
-- Ensure `gunicorn==23.0.0` exists in backend requirements.
-
-### Error: `ModuleNotFoundError: No module named 'lifecheckai'`
-
-Cause: Start command import path does not match Root Directory.
-
-Fix (recommended):
-
-- Root Directory empty
-- Start with `lifecheckai.backend.app.main:app`
-
-Alternative (if Root Directory is `lifecheckai/backend`):
-
-- Start with `app.main:app`
-
-### Error: `unicorn: command not found`
-
-Cause: Start command typo.
-
-Fix:
-
-- Use `gunicorn`, not `unicorn`.
-
-## 17) Water Module Performance Notes (Why Fetch Can Feel Slow)
-
-Water analysis can feel slower than safety/AQI checks because it does heavier data work per request.
-
-### Why it is slower
-
-- State and station filtering runs against large multi-year groundwater datasets.
-- Prediction and trends are requested together for each analysis action.
-- Station matching includes fuzzy/ranked comparisons.
-- "Use My Location" adds reverse geocoding and nearby-station mapping.
-- Some responses include richer payloads (statuses, recommendations, trend arrays).
-
-### Current mitigations in the codebase
-
-- Cached dataset/frame and derived catalogs (`@lru_cache`) in water services.
-- Station lists are state-scoped before client filtering.
-- Prediction + trends requests are executed in parallel from frontend.
-- Nearby selection limits candidate stations before deeper processing.
-
-### Practical speed tips for users/operators
-
-- Select state first, then choose a monitoring location before Analyze.
-- Avoid repeated "Use My Location" clicks unless location changed.
-- Keep backend service on a paid instance for lower cold-start latency.
-- Keep frontend and backend in nearby regions.
-
-## 18) Security and Ops Checklist
-
-- Never commit live API keys to git.
-- Rotate keys immediately if they were exposed in any committed `.env` file.
-- Restrict backend CORS to trusted frontend domains in production.
-- Keep SpaceTimeDB host/db values in secret env vars.
-- Add health checks (`/health`) and monitor deploy logs each release.
-
-## 19) SpaceTimeDB Dashboard Screenshots
-
-Use these paths for the three images you shared:
-
-- `lifecheckai/docs/images/tracks/spacetimedb-overview-1.png`
-- `lifecheckai/docs/images/tracks/spacetimedb-overview-2.png`
-- `lifecheckai/docs/images/tracks/spacetimedb-overview-3.png`
-
-After placing the files at those paths, this README will render them inline:
-
-![SpaceTimeDB Overview 1](docs/images/tracks/spacetimedb-overview-1.png)
-![SpaceTimeDB Overview 2](docs/images/tracks/spacetimedb-overview-2.png)
-![SpaceTimeDB Overview 3](docs/images/tracks/spacetimedb-overview-3.png)
-
-## 20) Track 1: SpaceTimeDB (Deep Dive)
-
-### Table-intro line
-
-"We use SpaceTimeDB as the multiplayer nervous system for live shared state, not as a generic database replacement."
-
-### Exactly what is implemented in this repository
-
-- Rust SpaceTimeDB module: `lifecheck-sbt/server/src/lib.rs`.
-- Deployed database: `lifecheckai06-56awo-own` on maincloud.
-- Current tables in module:
-  - `city_data` (latest cached city snapshot rows)
-  - `city_watcher` (session + city + joined timestamp)
-  - `shared_alert` (push alerts with severity/message/time)
-- Current reducers in module:
-  - `save_city_data`
-  - `join_city`
-  - `leave_city`
-  - `push_alert`
-
-### How those tables are used by frontend/backend
-
-- Frontend subscriptions are in `frontend/lib/spacetime-db.ts`.
-- Watcher presence is consumed in `frontend/hooks/useSharedCityState.ts` and shown on dashboard/alerts.
-- Backend writes to SpaceTimeDB in `backend/app/services/db_service.py`.
-- Alert fan-out path:
-  - safety scheduler/aggregation updates backend state
-  - backend calls `push_alert`
-  - subscribed clients can render new shared alerts immediately.
-
-### Crowd reports note (important architecture clarity)
-
-- Crowd reports are implemented today via FastAPI realtime routes (`backend/app/routes/realtime.py`) with in-memory stores + activity ring buffer.
-- Map components consume these APIs through `frontend/lib/spacetime.ts` and `frontend/hooks/useRealtime.ts`.
-- Upvote endpoint exists at `PUT /realtime/crowd-report/{report_id}/upvote`.
-- If needed for judging narrative, this can be presented as the next SpaceTimeDB migration target: move crowd reports + upvotes from in-memory route state into SpaceTimeDB reducers/tables.
-
-### Why SpaceTimeDB was chosen
-
-- Reducer-centric server logic in Rust avoids client-side rule drift.
-- Push subscriptions remove polling lag for shared state use-cases.
-- Strong schema and deterministic write path simplify multi-user consistency.
-- Fits the project need for live city watcher counts and shared alert propagation.
-
-### Demo script for judges
-
-1. Open dashboard for same city in two devices.
-2. Show watcher count increasing live without refresh.
-3. Trigger or simulate a shared alert write; show subscribed UI updating.
-4. Mention that crowd reports are currently realtime API based, with clear migration path already aligned with existing reducer pattern.
-
-## 21) Track 2: ArmorIQ (Deep Dive)
-
-### Table-intro line
-
-"ArmorIQ is implemented as both a backend safety gate and a visible trust panel in the UI."
-
-### User-visible implementation
-
-- The ArmorIQ rules panel is in chat sidebar Agent tab.
-- Wired component: `frontend/components/agent/AgentRulesPanel.tsx`.
-- Mounted from: `frontend/components/chat/ChatSidebar.tsx`.
-- It shows:
-  - Allowed capability list
-  - Blocked action list
-  - Live action log (allowed/blocked decisions)
-  - Confidence bar with high/moderate/low states.
-
-### Backend enforcement implementation
-
-- Chat endpoints run guard checks before model response is finalized.
-- Structured blocked responses include explicit safe fallback behavior.
-- Frontend renders blocked cases clearly (warning style bubble + safe redirection response).
-
-### Demo script for judges
-
-1. Ask safe query: "Is it safe to run in Delhi today?"
-2. Show ALLOWED action in log and confidence update.
-3. Ask blocked query around diagnosis/medication.
-4. Show BLOCKED state in log + safe fallback answer.
-5. Explain: guardrails are pre-response policy checks, not decorative UI.
-
-## 22) Track 3: Google Gemini (Deep Dive)
-
-### Table-intro line
-
-"Gemini is integrated in multiple feature paths, not a one-off chatbot add-on."
-
-### Meaningful integrations in this codebase
-
-- Chat reasoning + streaming responses with structured safety prompt strategy.
-- Water analysis narrative generation for contamination interpretation.
-- Forecast advisory language generation from computed trend arrays.
-- Intent/location extraction helpers for contextual answers.
-
-### Reliability architecture
-
-- Gemini is preferred model provider.
-- Fallback chain is configured so users still receive answers when provider failure occurs.
-- The product always returns actionable output, even under degraded AI availability.
-
-### Demo script for judges
-
-1. Start streaming chat request and show token flow.
-2. Open water page and show ML + narrative explanation behavior.
-3. Show forecast summary text generation.
-4. Explain fallback behavior and why it matters for safety products.
-
-## 23) Track 4: ElevenLabs (Deep Dive)
-
-### Table-intro line
-
-"Voice is a first-class interaction model here, not a decorative button."
-
-### Implemented voice surfaces
-
-- Dashboard spoken safety briefing.
-- Chat voice mode loop for hands-free interaction.
-- Proactive spoken alerts (opt-in behavior).
-- Browser speech fallback when ElevenLabs is unavailable.
-
-### Technical notes
-
-- Voice preferences persist in local storage.
-- Speech output strips markdown/noise before TTS.
-- Waveform/voice feedback is shown while playback is active.
-
-### Demo script for judges
-
-1. Trigger dashboard voice briefing.
-2. Enable chat voice mode and show speak-response cycle.
-3. Show fallback behavior when ElevenLabs key is absent.
-4. Emphasize usefulness for accessibility and low-attention contexts.
-
-## 24) Track Positioning Summary
-
-- SpaceTimeDB is load-bearing for shared watcher + shared alert state today.
-- ArmorIQ is both policy enforcement and transparent UI trust layer.
-- Gemini is used across chat, water, forecast, and intent workflows.
-- ElevenLabs powers practical voice-first interaction with graceful fallback.
-- Combined, these tracks produce a safety platform that is realtime, policy-safe, AI-assisted, and voice-usable.
+MIT License. See `LICENSE` for details.

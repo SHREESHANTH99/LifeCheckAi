@@ -330,7 +330,7 @@ def _build_snapshot(
     return payload
 
 
-def _compute_composite_score(snapshot: dict) -> int:
+def _compute_composite_score(snapshot: dict) -> int | None:
     air = snapshot.get("air") if isinstance(snapshot.get("air"), dict) else {}
     weather = snapshot.get("weather") if isinstance(snapshot.get("weather"), dict) else {}
     water = snapshot.get("water") if isinstance(snapshot.get("water"), dict) else {}
@@ -370,11 +370,11 @@ def _compute_composite_score(snapshot: dict) -> int:
     snapshot["data_incomplete"] = available_signals < 2
 
     if not scores:
-        return 100
+        return None
         
     total_weight = sum(weights)
     if total_weight == 0:
-        return 100
+        return None
         
     normalized = sum(s * (w / total_weight) for s, w in zip(scores, weights))
     return round(normalized)

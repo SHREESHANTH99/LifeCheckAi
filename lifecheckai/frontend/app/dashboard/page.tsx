@@ -158,7 +158,8 @@ function calculateUniversalSafetyScore(
   aqi: number | null | undefined, 
   temp: number | null | undefined, 
   pollenLevel: string | undefined
-): number {
+): number | null {
+  if (aqi == null && temp == null) return null;
   const safeAqi = aqi ?? 100;
   const safeTemp = temp ?? 28;
   const pLevel = (pollenLevel || "").toLowerCase();

@@ -239,34 +239,43 @@ def _normalize_snapshot(snapshot: dict, city_key: str) -> dict:
     return normalized
 
 
-def _compute_composite_score(snapshot: dict) -> int:
-    air = snapshot.get("air", {}) or {}
-    weather = snapshot.get("weather", {}) or {}
-    water = snapshot.get("water", {}) or {}
+def _compute_composite_score(snapshot: dict) -> int | None:
+    air = snapshot.get("air") if isinstance(snapshot.get("air"), dict) else {}
+    weather = snapshot.get("weather") if isinstance(snapshot.get("weather"), dict) else {}
+    water = snapshot.get("water") if isinstance(snapshot.get("water"), dict) else {}
 
-    air_score = 100
+    scores = []
+    weights = []
+
     aqi = air.get("aqi")
     if aqi is not None:
-        air_score = max(0, min(100, 100 - int(aqi * 0.4)))
+        scores.append(max(0, min(100, 100 - int(aqi * 0.4))))
+        weights.append(0.6)
 
-    weather_score = 100
     temp = weather.get("temp")
     if temp is not None:
-        if temp >= 45:
-            weather_score = 20
-        elif temp >= 40:
-            weather_score = 50
-        elif temp <= 5:
-            weather_score = 55
+        weather_score = 100
+        if temp >= 45: weather_score = 20
+        elif temp >= 40: weather_score = 50
+        elif temp <= 5: weather_score = 55
+        scores.append(weather_score)
+        weights.append(0.2)
 
-    water_score = 100
     latest_tds = water.get("latest_tds") or water.get("avg_tds")
     if latest_tds is not None:
-        if latest_tds > 3000:
-            water_score = 15
-        elif latest_tds > 2000:
-            water_score = 35
-        elif latest_tds > 500:
-            water_score = 70
+        water_score = 100
+        if latest_tds > 3000: water_score = 15
+        elif latest_tds > 2000: water_score = 35
+        elif latest_tds > 500: water_score = 70
+        scores.append(water_score)
+        weights.append(0.2)
 
-    return round((air_score * 0.6) + (weather_score * 0.2) + (water_score * 0.2))
+    if not scores:
+        return None
+        
+    total_weight = sum(weights)
+    if total_weight == 0:
+        return None
+        
+    normalized = sum(s * (w / total_weight) for s, w in zip(scores, weights))
+    return round(normalized)
