@@ -230,7 +230,7 @@ export default function AlertsPage() {
   return (
     <div className="min-h-screen px-4 sm:px-8 lg:px-16 py-8 relative">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.05),transparent_40%)] z-0" />
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_bottom_left,rgba(124,58,237,0.05),transparent_40%)] z-0" />
+
       
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Page Header */}
@@ -336,7 +336,7 @@ export default function AlertsPage() {
                     }}
                     className={`w-full text-left rounded-2xl glass p-4 transition-all hover:-translate-y-1 cursor-pointer ${
                       unread
-                        ? "border border-accent-primary/30 shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+                        ? "border border-accent-primary/50"
                         : "border border-white/5 opacity-80"
                     }`}
                   >
@@ -363,7 +363,7 @@ export default function AlertsPage() {
               onClick={() => setActiveFilter(cat.key)}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-300 cursor-pointer ${
                 activeFilter === cat.key
-                  ? "bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.2)] scale-105"
+                  ? "bg-white text-black"
                   : "border border-white/10 text-text-secondary hover:border-white/30 hover:text-white"
               }`}
             >
@@ -481,7 +481,7 @@ export default function AlertsPage() {
                   </div>
                   <button
                     onClick={() => setSelectedAlert(null)}
-                    className="w-8 h-8 rounded-full glass text-text-secondary hover:text-white transition-colors flex items-center justify-center cursor-pointer shadow-glow hover:scale-105"
+                    className="w-8 h-8 rounded-full glass text-text-secondary hover:text-white transition-colors flex items-center justify-center cursor-pointer"
                   >
                     <X size={16} />
                   </button>
@@ -507,7 +507,7 @@ export default function AlertsPage() {
 
                     <button
                        onClick={() => setSelectedAlert(null)}
-                       className="w-full text-center py-4 rounded-xl bg-white text-black font-bold uppercase tracking-wider text-sm hover:scale-[1.02] transition-transform cursor-pointer shadow-glow"
+                       className="w-full text-center py-4 rounded-xl bg-white text-black font-bold uppercase tracking-wider text-sm hover:brightness-105 transition-all cursor-pointer"
                     >
                        Acknowledge Protocol
                     </button>
