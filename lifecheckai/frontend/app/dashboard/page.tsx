@@ -347,7 +347,7 @@ function DashboardPageContent() {
       if (sortMode === "aqi") {
         return (b.aqi ?? -1) - (a.aqi ?? -1);
       }
-      return calculateUniversalSafetyScore(a.aqi, a.temp, a.pollenLevel) - calculateUniversalSafetyScore(b.aqi, b.temp, b.pollenLevel);
+      return (calculateUniversalSafetyScore(a.aqi, a.temp, a.pollenLevel) ?? -1) - (calculateUniversalSafetyScore(b.aqi, b.temp, b.pollenLevel) ?? -1);
     });
 
     return sorted;
